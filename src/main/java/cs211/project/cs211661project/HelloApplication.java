@@ -12,12 +12,32 @@ public class HelloApplication extends Application {
         configRoute();
 
         FXRouter.bind(this, stage, "CS211 661 Project");
-        FXRouter.goTo("hello");
+        FXRouter.goTo("login-page");
     }
 
     private static void configRoute() {
-        String resourcesPath = "cs211/project/views/";
-        FXRouter.when("hello", resourcesPath + "hello-view.fxml");
+        String viewPath = "cs211/project/views/";
+        FXRouter.when("hello", viewPath + "hello-view.fxml");
+        FXRouter.when("login-page", viewPath + "login-page.fxml");
+        FXRouter.when("profile-setting", viewPath + "profile-setting.fxml");
+        FXRouter.when("re-password", viewPath + "re-password.fxml");
+        FXRouter.when("register-page", viewPath + "register-page.fxml");
+        FXRouter.when("event-details", viewPath + "event-details.fxml");
+        FXRouter.when("event-schedule", viewPath + "event-schedule.fxml");
+        FXRouter.when("events-list", viewPath + "events-list.fxml");
+        FXRouter.when("joined-history", viewPath + "joined-history.fxml");
+        FXRouter.when("team-schedule", viewPath + "team-schedule.fxml");
+        FXRouter.when("participant-schedule", viewPath + "participant-schedule.fxml");
+        FXRouter.when("ban-team", viewPath+"ban-team.fxml");
+        FXRouter.when("comment-activity", viewPath+"comment-activity.fxml");
+        FXRouter.when("create-team", viewPath+"create-team.fxml");
+        FXRouter.when("create-schedule", viewPath+"create-schedule.fxml");
+        FXRouter.when("fix-team-schedule", viewPath+"fix-team-schedule.fxml");
+        FXRouter.when("create-event", viewPath+"create-event.fxml");
+        FXRouter.when("edit-event", viewPath+"edit-event.fxml");
+        FXRouter.when("event-history", viewPath+"event-history.fxml");
+        FXRouter.when("finish-activity", viewPath+"finish-activity.fxml");
+        FXRouter.when("home-page", viewPath+"home-page.fxml");
     }
 
 
