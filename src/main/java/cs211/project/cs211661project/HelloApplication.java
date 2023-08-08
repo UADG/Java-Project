@@ -12,12 +12,16 @@ public class HelloApplication extends Application {
         configRoute();
 
         FXRouter.bind(this, stage, "CS211 661 Project");
-        FXRouter.goTo("events-list");
+        FXRouter.goTo("login-page");
     }
 
     private static void configRoute() {
         String viewPath = "cs211/project/views/";
         FXRouter.when("hello", viewPath + "hello-view.fxml");
+        FXRouter.when("login-page", viewPath + "login-page.fxml");
+        FXRouter.when("profile-setting", viewPath + "profile-setting.fxml");
+        FXRouter.when("re-password", viewPath + "re-password.fxml");
+        FXRouter.when("register-page", viewPath + "register-page.fxml");
         FXRouter.when("event-details", viewPath + "event-details.fxml");
         FXRouter.when("event-schedule", viewPath + "event-schedule.fxml");
         FXRouter.when("events-list", viewPath + "events-list.fxml");
