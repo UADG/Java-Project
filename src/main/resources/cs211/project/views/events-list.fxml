@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollBar?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventsListController">
+   <children>
+      <Label layoutX="33.0" layoutY="61.0" text="Event List" />
+      <ImageView fitHeight="111.0" fitWidth="229.0" layoutX="279.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
+      <ListView layoutX="33.0" layoutY="78.0" prefHeight="277.0" prefWidth="185.0" />
+      <TextField alignment="TOP_LEFT" layoutX="137.0" layoutY="39.0" prefWidth="300.0" promptText="Search Here...">
+         <font>
+            <Font size="9.0" />
+         </font>
+      </TextField>
+      <Label layoutX="280.0" layoutY="200.0" text="Name: " />
+      <Label layoutX="280.0" layoutY="230.0" text="Ticket Price:" />
+      <Label layoutX="332.0" layoutY="200.0" text="nameLabel" />
+      <Label layoutX="363.0" layoutY="230.0" text="ticketPriceLabel" />
+      <Label layoutX="280.0" layoutY="260.0" text="Ticket Left:" />
+      <Label layoutX="358.0" layoutY="260.0" text="ticketLeftLabel" />
+      <Button layoutX="281.0" layoutY="290.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" text="Detail">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <ScrollBar layoutX="33.0" layoutY="355.0" prefHeight="14.0" prefWidth="185.0" />
+      <Button layoutX="281.0" layoutY="325.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" text="Book tickets">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button layoutX="387.0" layoutY="290.0" mnemonicParsing="false" prefWidth="119.0" text="apply for staff">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button layoutX="387.0" layoutY="325.0" mnemonicParsing="false" prefWidth="119.0" text="apply for participant">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+   </children>
+</AnchorPane>
