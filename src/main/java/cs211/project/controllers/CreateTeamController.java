@@ -7,7 +7,7 @@ import java.io.IOException;
 
 public class CreateTeamController {
     @FXML
-    protected void back(){
+    protected void onBackClick(){
         try {
             FXRouter.goTo("create-schedule");
         } catch (IOException e) {
@@ -16,7 +16,7 @@ public class CreateTeamController {
     }
 
     @FXML
-    protected void createTeam(){
+    protected void createTeamButton(){
         try {
             FXRouter.goTo("event-history");
         } catch (IOException e) {

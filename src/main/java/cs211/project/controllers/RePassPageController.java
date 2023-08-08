@@ -10,6 +10,6 @@ public class RePassPageController {
         FXRouter.goTo("profile-setting");
     }
     public void onConfirmClick(ActionEvent event) throws IOException {
-        FXRouter.goTo("login-page");
+        FXRouter.goTo("profile-setting");
     }
 }

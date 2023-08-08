@@ -9,9 +9,11 @@ public class JoinedHistoryController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("student-list");
+            FXRouter.goTo("home-page");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
+
+
 }

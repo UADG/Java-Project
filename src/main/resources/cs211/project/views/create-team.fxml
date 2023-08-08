@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateTeamController">
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateTeamController">
    <children>
       <ListView fx:id="eventListview" layoutX="36.0" layoutY="68.0" prefHeight="310.0" prefWidth="258.0" />
       <Label layoutX="36.0" layoutY="34.0" text="List of Event's Schedule">
@@ -16,7 +16,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="back" mnemonicParsing="false" prefHeight="25.0" prefWidth="41.0" text="back" />
+      <Button mnemonicParsing="false" onAction="#onBackClick" prefHeight="25.0" prefWidth="41.0" text="back" />
       <Label layoutX="308.0" layoutY="115.0" text="Activity's name :">
          <font>
             <Font size="14.0" />
@@ -54,7 +54,7 @@
          </font>
       </Label>
       <TextField fx:id="numberOfTeamMemberTextField" layoutX="430.0" layoutY="228.0" prefHeight="20.0" prefWidth="102.0" />
-      <Button fx:id="createTeamButton" layoutX="501.0" layoutY="353.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="90.0" text="Create team" />
+      <Button layoutX="501.0" layoutY="353.0" mnemonicParsing="false" onAction="#createTeamButton" prefHeight="25.0" prefWidth="90.0" text="Create team" />
       <Label layoutX="308.0" layoutY="168.0" text="Time Stop :">
          <font>
             <Font size="14.0" />

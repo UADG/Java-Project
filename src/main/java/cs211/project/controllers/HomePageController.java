@@ -17,7 +17,7 @@ public class HomePageController {
     @FXML
     protected void onJoinClick() {
         try {
-            FXRouter.goTo("event-list");
+            FXRouter.goTo("events-list");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
