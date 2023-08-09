@@ -25,7 +25,7 @@
       <Label layoutX="360.0" layoutY="279.0" text="AmountTicketsLabel" />
       <Button layoutX="112.0" layoutY="319.0" mnemonicParsing="false" onAction="#onEditDetailClick" text="EditDetail" />
       <Button layoutX="198.0" layoutY="319.0" mnemonicParsing="false" onAction="#onFinishActivityClick" text="Finish Activity" />
-      <Button layoutX="421.0" layoutY="319.0" mnemonicParsing="false" text="Ban Participnat" />
+      <Button layoutX="421.0" layoutY="319.0" mnemonicParsing="false" onAction="#onBanAllClick" text="Ban Participnat" />
       <Button layoutX="306.0" layoutY="319.0" mnemonicParsing="false" onAction="#onFixScheduleClick" text="EditSchedule" />
    </children>
 </AnchorPane>

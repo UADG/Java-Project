@@ -28,7 +28,7 @@ public class HelloApplication extends Application {
         FXRouter.when("joined-history", viewPath + "joined-history.fxml");
         FXRouter.when("team-schedule", viewPath + "team-schedule.fxml");
         FXRouter.when("participant-schedule", viewPath + "participant-schedule.fxml");
-        FXRouter.when("ban-team", viewPath+"ban-team.fxml");
+        FXRouter.when("ban-all", viewPath+"ban-all.fxml");
         FXRouter.when("comment-activity", viewPath+"comment-activity.fxml");
         FXRouter.when("create-team", viewPath+"create-team.fxml");
         FXRouter.when("create-schedule", viewPath+"create-schedule.fxml");

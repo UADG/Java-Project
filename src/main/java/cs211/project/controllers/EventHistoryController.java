@@ -17,7 +17,7 @@ public class EventHistoryController {
     @FXML
     protected void onEditDetailClick() {
         try {
-            FXRouter.goTo("create-event");
+            FXRouter.goTo("edit-event");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -35,6 +35,14 @@ public class EventHistoryController {
     protected void onFixScheduleClick() {
         try {
             FXRouter.goTo("fix-team-schedule");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @FXML
+    protected void onBanAllClick() {
+        try {
+            FXRouter.goTo("ban-all");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

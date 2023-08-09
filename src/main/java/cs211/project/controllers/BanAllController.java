@@ -5,7 +5,7 @@ import javafx.fxml.FXML;
 
 import java.io.IOException;
 
-public class BanTeamController {
+public class BanAllController {
     @FXML
     protected void backOnClick(){
         try {

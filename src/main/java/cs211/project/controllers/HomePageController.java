@@ -54,4 +54,12 @@ public class HomePageController {
             throw new RuntimeException(e);
         }
     }
+    @FXML
+    protected void onEventHistoryClick() {
+        try {
+            FXRouter.goTo("event-history");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
