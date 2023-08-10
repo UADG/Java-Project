@@ -21,5 +21,6 @@
       <Button layoutX="66.0" layoutY="138.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="History Participant" />
       <Button layoutX="66.0" layoutY="198.0" mnemonicParsing="false" onAction="#onEventHistoryClick" text="History Event" />
       <Button layoutX="66.0" layoutY="248.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="History Team" />
+      <Button layoutX="66.0" layoutY="292.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
    </children>
 </AnchorPane>

@@ -62,4 +62,13 @@ public class HomePageController {
             throw new RuntimeException(e);
         }
     }
+
+    @FXML
+    protected void onUserButtClick() {
+        try {
+            FXRouter.goTo("user-status");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
