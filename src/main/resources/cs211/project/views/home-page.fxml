@@ -17,10 +17,11 @@
          </font>
       </Button>
       <Button layoutX="726.0" layoutY="14.0" mnemonicParsing="false" onAction="#onProfileClick" prefHeight="29.0" prefWidth="60.0" text="Profile" />
-      <Button layoutX="45.0" layoutY="162.0" mnemonicParsing="false" onAction="#onJoinedHistoryClick" text="History Join" />
-      <Button layoutX="45.0" layoutY="224.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="History Participant" />
-      <Button layoutX="45.0" layoutY="284.0" mnemonicParsing="false" onAction="#onEventHistoryClick" text="History Event" />
-      <Button layoutX="45.0" layoutY="334.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="History Team" />
-      <Button layoutX="45.0" layoutY="388.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
+      <Button layoutX="46.0" layoutY="136.0" mnemonicParsing="false" onAction="#onJoinedHistoryClick" text="History Join" />
+      <Button layoutX="45.0" layoutY="246.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="Participant Schedule" />
+      <Button layoutX="46.0" layoutY="191.0" mnemonicParsing="false" onAction="#onEventHistoryClick" prefHeight="25.0" prefWidth="88.0" text="History Event" />
+      <Button layoutX="46.0" layoutY="301.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="Team Schedule" />
+      <Button layoutX="46.0" layoutY="417.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
+      <Button layoutX="45.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCommentClick" text="comment" />
    </children>
 </AnchorPane>

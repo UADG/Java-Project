@@ -75,7 +75,7 @@ public class EventHistoryController {
     @FXML
     protected void onEditDetailClick() {
         try {
-            FXRouter.goTo("edit-event");
+            FXRouter.goTo("edit-event", eventList);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

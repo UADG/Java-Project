@@ -4,36 +4,38 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentActivityController">
    <children>
-      <ListView fx:id="commentListView" layoutX="133.0" layoutY="123.0" prefHeight="250.0" prefWidth="498.0" />
-      <Label layoutX="133.0" layoutY="91.0" text="Comment in activity">
+      <ListView fx:id="commentListView" layoutX="138.0" layoutY="132.0" prefHeight="40.0" prefWidth="525.0" />
+      <Label layoutX="158.0" layoutY="91.0" text="Comment in activity">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
-      <Label layoutX="328.0" layoutY="93.0" text="Choose Date :">
+      <Label layoutX="353.0" layoutY="93.0" text="Choose Date :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseDate" layoutX="422.0" layoutY="91.0" prefHeight="20.0" prefWidth="50.0" promptText="Choose Date" />
-      <Label layoutX="133.0" layoutY="399.0" text="Comment - ">
+      <ComboBox fx:id="chooseDate" layoutX="447.0" layoutY="91.0" prefHeight="20.0" prefWidth="50.0" promptText="Choose Date" />
+      <Label layoutX="109.0" layoutY="553.0" text="Comment - ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="commentTextField" layoutX="210.0" layoutY="397.0" prefHeight="25.0" prefWidth="398.0" />
-      <Button fx:id="send" layoutX="626.0" layoutY="397.0" mnemonicParsing="false" text="send" />
-      <Label layoutX="480.0" layoutY="94.0" text="Choose Activity :">
+      <TextField fx:id="commentTextField" layoutX="184.0" layoutY="550.0" prefHeight="25.0" prefWidth="398.0" promptText="send a message to team..." />
+      <Button layoutX="603.0" layoutY="550.0" mnemonicParsing="false" onAction="#onSentAction" text="send" />
+      <Label layoutX="505.0" layoutY="94.0" text="Choose Activity :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
+      <TextArea fx:id="commentTextArea" layoutX="138.0" layoutY="177.0" prefHeight="336.0" prefWidth="525.0" />
    </children>
 </AnchorPane>

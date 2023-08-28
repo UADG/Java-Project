@@ -71,4 +71,14 @@ public class HomePageController {
             throw new RuntimeException(e);
         }
     }
+
+    @FXML
+    protected void onCommentClick() {
+        try {
+            FXRouter.goTo("comment-activity");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 }
