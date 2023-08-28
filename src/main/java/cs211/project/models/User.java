@@ -59,5 +59,6 @@ public class User {
     public boolean isPassword(String password) {
         return this.password.equals(password);
     }
+    public boolean isId(int id){return this.id == id;}
 
 }

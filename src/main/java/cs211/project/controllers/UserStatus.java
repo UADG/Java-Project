@@ -1,10 +1,7 @@
 package cs211.project.controllers;
 
-import cs211.project.models.Admin;
 import cs211.project.models.User;
-import cs211.project.models.UserList;
-import cs211.project.models.collections.AdminCollection;
-import cs211.project.services.AdminHardCode;
+import cs211.project.models.collections.UserList;
 import cs211.project.services.FXRouter;
 import cs211.project.services.UserHardCode;
 import javafx.beans.value.ChangeListener;

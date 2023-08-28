@@ -1,19 +1,18 @@
 package cs211.project.models;
-import java.util.Date;
 public class Event {
     private String eventName;
-    private Date startDate;
-    private Date endDate;
-    private Date startTime;
-    private Date endTime;
+    private String startDate;
+    private String endDate;
+    private String startTime;
+    private String endTime;
     private int ticket;
     private int participantNum;
     private String detail;
-    private Date timeTeam;
-    private Date timeParticipant;
+    private String timeTeam;
+    private String timeParticipant;
 
-    public Event(String eventName, Date startDate, Date endDate, Date startTime, Date endTime,
-                 int ticket, int participantNum, String detail, Date timeTeam, Date timeParticipant){
+    public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
+                 int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,16 +28,16 @@ public class Event {
     public String getEventName(){
         return eventName;
     }
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
-    public Date getStartTime() {
+    public String getStartTime() {
         return startTime;
     }
-    public Date getEndTime() {
+    public String getEndTime() {
         return endTime;
     }
     public int getTicket() {
@@ -50,25 +49,25 @@ public class Event {
     public String getDetail() {
         return detail;
     }
-    public Date getTimeTeam() {
+    public String getTimeTeam() {
         return timeTeam;
     }
-    public Date getTimeParticipant() {
+    public String getTimeParticipant() {
         return timeParticipant;
     }
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
-    public void setStartTime(Date startTime) {
+    public void setStartTime(String startTime) {
         this.startTime = startTime;
     }
-    public void setEndTime(Date endTime) {
+    public void setEndTime(String endTime) {
         this.endTime = endTime;
     }
     public void setTicket(int ticket) {
@@ -80,10 +79,10 @@ public class Event {
     public void setDetail(String detail) {
         this.detail = detail;
     }
-    public void setTimeTeam(Date timeTeam) {
+    public void setTimeTeam(String timeTeam) {
         this.timeTeam = timeTeam;
     }
-    public void setTimeParticipant(Date timeParticipant) {
+    public void setTimeParticipant(String timeParticipant) {
         this.timeParticipant = timeParticipant;
     }
     public void ticketBuy(){ticket -= 1;}

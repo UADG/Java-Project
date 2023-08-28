@@ -1,21 +1,32 @@
 package cs211.project.services;
 
-import cs211.project.models.EventList;
-import java.util.Date;
-import java.text.SimpleDateFormat;
+import cs211.project.models.collections.EventList;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EventHardCode {
     public EventList readData(){
         EventList eventList = new EventList();
 
-        Date startDate = new Date(1234567890000L);
-        Date endDate = new Date(1234567890000L);
-        Date startTime = new Date(1234567890000L);
-        Date endTime = new Date(1234567890000L);
-        Date timeTeam = new Date(1234567890000L);
-        Date timeParticipant = new Date(1234567890000L);
+        LocalDateTime startDate = LocalDateTime.of(2023, 5, 5, 0, 0);
+        LocalDateTime endDate = LocalDateTime.of(2023, 5, 5, 0, 0);
+        LocalDateTime startTime = LocalDateTime.of(2023, 5, 5, 10, 0);
+        LocalDateTime endTime = LocalDateTime.of(2023, 5, 5, 12, 0);
+        LocalDateTime timeTeam = LocalDateTime.of(2023, 5, 5, 9, 0);
+        LocalDateTime timeParticipant = LocalDateTime.of(2023, 5, 5, 9, 30);
 
-        eventList.addNewEvent("Fes", startDate, endDate, startTime, endTime, 20, 10, "abc", timeTeam, timeParticipant);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        String formattedStartDate = startDate.format(formatter);
+        String formattedEndDate = endDate.format(formatter);
+        String formattedStartTime = startTime.format(formatter);
+        String formattedEndTime = endTime.format(formatter);
+        String formattedTimeTeam = timeTeam.format(formatter);
+        String formattedTimeParticipant = timeParticipant.format(formatter);
+
+        eventList.addNewEvent("Fes", formattedStartDate, formattedEndDate, formattedStartTime,
+                formattedEndTime, 20, 10, "abc", formattedTimeTeam, formattedTimeParticipant);
 
         return eventList;
     }

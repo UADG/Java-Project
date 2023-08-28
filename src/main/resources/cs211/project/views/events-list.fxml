@@ -13,7 +13,7 @@
    <children>
       <Label layoutX="163.0" layoutY="117.0" text="Event List" />
       <ImageView fitHeight="111.0" fitWidth="229.0" layoutX="409.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView fx:id="eventListView" layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
+      <ListView layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
       <TextField alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
          <font>
             <Font size="9.0" />
@@ -21,10 +21,10 @@
       </TextField>
       <Label layoutX="410.0" layoutY="269.0" text="Name: " />
       <Label layoutX="410.0" layoutY="299.0" text="Ticket Left:" />
-      <Label fx:id="eventName" layoutX="462.0" layoutY="269.0" text="nameLabel" />
-      <Label fx:id="ticketLeft" layoutX="491.0" layoutY="299.0" text="ticketLeftLabel" />
+      <Label layoutX="462.0" layoutY="269.0" text="nameLabel" />
+      <Label layoutX="491.0" layoutY="299.0" text="ticketLeftLabel" />
       <Label layoutX="410.0" layoutY="329.0" text="Participant Left:" />
-      <Label fx:id="participantLeft" layoutX="517.0" layoutY="329.0" text="participantLeftLabel" />
+      <Label layoutX="517.0" layoutY="329.0" text="participantLeftLabel" />
       <Button layoutX="411.0" layoutY="359.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" text="Detail">
          <font>
             <Font size="11.0" />

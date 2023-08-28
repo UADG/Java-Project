@@ -1,4 +1,6 @@
-package cs211.project.models;
+package cs211.project.models.collections;
+
+import cs211.project.models.Event;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -8,8 +10,8 @@ public class EventList {
     public EventList() {
         events = new ArrayList<>();
     }
-    public void addNewEvent(String eventName, Date startDate, Date endDate, Date startTime, Date endTime,
-                            int ticket, int participantNum, String detail, Date timeTeam, Date timeParticipant) {
+    public void addNewEvent(String eventName, String startDate, String endDate, String startTime, String endTime,
+                            int ticket, int participantNum, String detail, String timeTeam, String timeParticipant) {
         eventName = eventName.trim();
         detail = detail.trim();
         if (!eventName.equals("")) {
