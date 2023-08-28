@@ -6,21 +6,20 @@
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
    <children>
-      <Button layoutX="33.0" layoutY="29.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Button layoutX="305.0" layoutY="249.0" mnemonicParsing="false" text="Finish Schedule" />
-      <ListView layoutX="55.0" layoutY="81.0" prefHeight="254.0" prefWidth="200.0" />
-      <ComboBox layoutX="300.0" layoutY="55.0" prefWidth="150.0" />
-      <Label layoutX="300.0" layoutY="102.0" text="Schedule :" />
-      <Label layoutX="322.0" layoutY="139.0" text="Date :" />
-      <Label layoutX="291.0" layoutY="176.0" text="Time Start :" />
-      <Label layoutX="119.0" layoutY="55.0" text="EventName : " />
-      <Label layoutX="300.0" layoutY="213.0" text="Time End :" />
-      <Label layoutX="363.0" layoutY="102.0" text="ScheduleName" />
-      <Label layoutX="363.0" layoutY="139.0" text="Date" />
-      <Label layoutX="363.0" layoutY="176.0" text="TimeStart" />
-      <Label layoutX="363.0" layoutY="213.0" text="TimeEnd" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+      <Button layoutX="457.0" layoutY="366.0" mnemonicParsing="false" text="Finish Schedule" />
+      <ListView layoutX="161.0" layoutY="154.0" prefHeight="254.0" prefWidth="200.0" />
+      <ComboBox layoutX="452.0" layoutY="172.0" prefWidth="150.0" />
+      <Label layoutX="452.0" layoutY="219.0" text="Schedule :" />
+      <Label layoutX="474.0" layoutY="256.0" text="Date :" />
+      <Label layoutX="443.0" layoutY="293.0" text="Time Start :" />
+      <Label layoutX="225.0" layoutY="128.0" text="EventName : " />
+      <Label layoutX="452.0" layoutY="330.0" text="Time End :" />
+      <Label layoutX="515.0" layoutY="219.0" text="ScheduleName" />
+      <Label layoutX="515.0" layoutY="256.0" text="Date" />
+      <Label layoutX="515.0" layoutY="293.0" text="TimeStart" />
+      <Label layoutX="515.0" layoutY="330.0" text="TimeEnd" />
    </children>
 </AnchorPane>

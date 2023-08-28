@@ -6,10 +6,10 @@ public class UserHardCode {
 
     public UserList readData() {
         UserList list = new UserList();
-        list.addNewUser("best", "Bestto","Bestttt");
-        list.addNewUser("win", "WinnieThepooh","winwin");
-        list.addNewUser("ai", "AiAye","12345678");
-        list.addNewUser("jim", "JimZaKung","JimZa007");
+        list.addNewUser(0, "best", "Bestttt", "Bestto");
+        list.addNewUser(0, "win", "winwin", "WinnieThepooh");
+        list.addNewUser(0, "ai", "12345678", "AiAye");
+        list.addNewUser(0, "jim", "JimZa007", "JimZaKung");
 
         return list;
     }

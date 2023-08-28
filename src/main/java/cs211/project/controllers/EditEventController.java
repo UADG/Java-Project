@@ -9,7 +9,16 @@ public class EditEventController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("home-page");
+            FXRouter.goTo("event-history");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @FXML
+    protected void onFinishClick() {
+        try {
+            FXRouter.goTo("event-history");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -5,7 +5,7 @@ public class UserList{
     public UserList() {
         users = new ArrayList<>();
     }
-    public void addNewUser(String username, String name, String password) {
+    public void addNewUser(int id, String username, String password, String name) {
         username = username.trim();
         name = name.trim();
         password = password.trim();

@@ -6,7 +6,7 @@ public class User {
     private String username;
     private String name;
     private String password;
-    private static int idUser = 0;
+    private static int idUser = 1_000_000;
     private int id;
     private Date time;
     private String pictureURL;
@@ -19,7 +19,7 @@ public class User {
         time = null;
         pictureURL = null;
     }
-    public String getUserName(){
+    public String getUsername(){
         return username;
     }
     public String getName(){

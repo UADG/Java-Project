@@ -6,36 +6,41 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
    <children>
-      <Label layoutX="35.0" layoutY="152.0" text="EventName : " />
-      <Label layoutX="34.0" layoutY="184.0" text="DateStart :" />
-      <TextField layoutX="110.0" layoutY="147.0" />
-      <Label layoutX="33.0" layoutY="221.0" text="TimeStartEvent :" />
-      <TextField layoutX="204.0" layoutY="218.0" prefHeight="26.0" prefWidth="52.0" />
-      <TextField layoutX="135.0" layoutY="218.0" prefHeight="26.0" prefWidth="52.0" />
-      <Label layoutX="278.0" layoutY="222.0" text="TimeEndEvent :" />
-      <TextField layoutX="442.0" layoutY="218.0" prefHeight="26.0" prefWidth="52.0" />
-      <TextField layoutX="372.0" layoutY="218.0" prefHeight="26.0" prefWidth="52.0" />
-      <Label layoutX="34.0" layoutY="257.0" text="AmountTickets :" />
-      <TextField layoutX="126.0" layoutY="252.0" prefHeight="26.0" prefWidth="97.0" />
-      <Label layoutX="35.0" layoutY="291.0" text="Deatail :" />
-      <TextField layoutX="89.0" layoutY="287.0" prefHeight="91.0" prefWidth="143.0" />
-      <DatePicker layoutX="108.0" layoutY="179.0" prefHeight="26.0" prefWidth="136.0" />
-      <Label layoutX="264.0" layoutY="184.0" text="DateEnd :" />
-      <DatePicker layoutX="334.0" layoutY="179.0" prefHeight="26.0" prefWidth="136.0" />
-      <ImageView fitHeight="112.0" fitWidth="160.0" layoutX="107.0" layoutY="29.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="260.0" layoutY="257.0" text="AmountPaticipant :" />
-      <TextField layoutX="369.0" layoutY="253.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="276.0" layoutY="292.0" text="TimeEndTeam :" />
-      <TextField layoutX="439.0" layoutY="287.0" prefHeight="26.0" prefWidth="52.0" />
-      <TextField layoutX="370.0" layoutY="287.0" prefHeight="26.0" prefWidth="52.0" />
-      <Label layoutX="249.0" layoutY="326.0" text="TimeEndParticipant :" />
-      <TextField layoutX="439.0" layoutY="321.0" prefHeight="26.0" prefWidth="52.0" />
-      <TextField layoutX="370.0" layoutY="321.0" prefHeight="26.0" prefWidth="52.0" />
       <Button layoutX="11.0" layoutY="16.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Button layoutX="536.0" layoutY="343.0" mnemonicParsing="false" onAction="#onBackClick" text="Finish" />
+      <Label layoutX="132.0" layoutY="273.0" text="EventName : " />
+      <Label layoutX="131.0" layoutY="305.0" text="DateStart :" />
+      <TextField layoutX="207.0" layoutY="268.0" />
+      <Label layoutX="130.0" layoutY="342.0" text="TimeStartEvent :" />
+      <TextField layoutX="301.0" layoutY="339.0" prefHeight="26.0" prefWidth="52.0" />
+      <TextField layoutX="232.0" layoutY="339.0" prefHeight="26.0" prefWidth="52.0" />
+      <Label layoutX="375.0" layoutY="343.0" text="TimeEndEvent :" />
+      <TextField layoutX="539.0" layoutY="339.0" prefHeight="26.0" prefWidth="52.0" />
+      <TextField layoutX="469.0" layoutY="339.0" prefHeight="26.0" prefWidth="52.0" />
+      <Label layoutX="131.0" layoutY="378.0" text="AmountTickets :" />
+      <TextField layoutX="223.0" layoutY="373.0" prefHeight="26.0" prefWidth="97.0" />
+      <Label layoutX="132.0" layoutY="412.0" text="Deatail :" />
+      <TextField layoutX="186.0" layoutY="408.0" prefHeight="91.0" prefWidth="143.0" />
+      <DatePicker layoutX="205.0" layoutY="300.0" prefHeight="26.0" prefWidth="136.0" />
+      <Label layoutX="361.0" layoutY="305.0" text="DateEnd :" />
+      <DatePicker layoutX="431.0" layoutY="300.0" prefHeight="26.0" prefWidth="136.0" />
+      <Button layoutX="650.0" layoutY="486.0" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
+      <ImageView fitHeight="112.0" fitWidth="279.0" layoutX="261.0" layoutY="134.0" pickOnBounds="true" preserveRatio="true" />
+      <Label layoutX="357.0" layoutY="378.0" text="AmountPaticipant :" />
+      <TextField layoutX="466.0" layoutY="374.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="373.0" layoutY="413.0" text="TimeEndTeam :" />
+      <TextField layoutX="536.0" layoutY="408.0" prefHeight="26.0" prefWidth="52.0" />
+      <TextField layoutX="467.0" layoutY="408.0" prefHeight="26.0" prefWidth="52.0" />
+      <Label layoutX="346.0" layoutY="447.0" text="TimeEndParticipant :" />
+      <TextField layoutX="536.0" layoutY="442.0" prefHeight="26.0" prefWidth="52.0" />
+      <TextField layoutX="467.0" layoutY="442.0" prefHeight="26.0" prefWidth="52.0" />
+      <Label layoutX="353.0" layoutY="89.0" text="Edit Event">
+         <font>
+            <Font name="System Bold" size="20.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>

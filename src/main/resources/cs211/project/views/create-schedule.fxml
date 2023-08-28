@@ -9,94 +9,94 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
    <children>
-      <Button fx:id="back" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
-      <Label layoutX="41.0" layoutY="38.0" text="List of Schedules">
+      <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
+      <Label layoutX="106.0" layoutY="124.0" text="List of Schedules">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ListView fx:id="eventScheduleListView" layoutX="41.0" layoutY="65.0" prefHeight="313.0" prefWidth="301.0" />
-      <Label layoutX="352.0" layoutY="65.0" text="Schedule's name :">
+      <ListView fx:id="eventScheduleListView" layoutX="106.0" layoutY="151.0" prefHeight="313.0" prefWidth="301.0" />
+      <Label layoutX="417.0" layoutY="151.0" text="Schedule's name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="355.0" layoutY="133.0" text="Time Start :">
+      <Label layoutX="420.0" layoutY="219.0" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseHourTimeStart" layoutX="430.0" layoutY="131.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
-      <Label layoutX="512.0" layoutY="130.0" text="/">
+      <ComboBox fx:id="chooseHourTimeStart" layoutX="495.0" layoutY="217.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
+      <Label layoutX="577.0" layoutY="216.0" text="/">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseMinTimeStart" layoutX="525.0" layoutY="131.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <TextField fx:id="newScheduleTextField" layoutX="468.0" layoutY="63.0" prefHeight="25.0" prefWidth="115.0" promptText="write new schedule" />
-      <Button fx:id="create" layoutX="414.0" layoutY="209.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Create Schedule" />
-      <Line endX="140.0" layoutX="460.0" layoutY="240.0" startX="-100.0" />
-      <Label layoutX="356.0" layoutY="249.0" text="Schedule :">
+      <ComboBox fx:id="chooseMinTimeStart" layoutX="590.0" layoutY="217.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
+      <TextField fx:id="newScheduleTextField" layoutX="533.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new schedule" />
+      <Button fx:id="create" layoutX="479.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Create Schedule" />
+      <Line endX="140.0" layoutX="525.0" layoutY="326.0" startX="-100.0" />
+      <Label layoutX="421.0" layoutY="335.0" text="Schedule :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="eventScheduleNameLabel" layoutX="428.0" layoutY="246.0" prefHeight="27.0" prefWidth="189.0" text="Name">
+      <Label fx:id="eventScheduleNameLabel" layoutX="493.0" layoutY="332.0" prefHeight="27.0" prefWidth="189.0" text="Name">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="delete" layoutX="414.0" layoutY="366.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Delete" />
-      <Label layoutX="355.0" layoutY="301.0" text="Time Start :">
+      <Button fx:id="delete" layoutX="479.0" layoutY="452.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Delete" />
+      <Label layoutX="420.0" layoutY="387.0" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="timeStartLabel" layoutX="431.0" layoutY="298.0" prefHeight="27.0" prefWidth="198.0" text="Time Start">
+      <Label fx:id="timeStartLabel" layoutX="496.0" layoutY="384.0" prefHeight="27.0" prefWidth="198.0" text="Time Start">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="353.0" layoutY="97.0" text="Date :">
+      <Label layoutX="418.0" layoutY="183.0" text="Date :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseDate" layoutX="391.0" layoutY="95.0" prefHeight="25.0" prefWidth="115.0" promptText="choose date" />
-      <Label layoutX="355.0" layoutY="274.0" text="Date :">
+      <ComboBox fx:id="chooseDate" layoutX="456.0" layoutY="181.0" prefHeight="25.0" prefWidth="115.0" promptText="choose date" />
+      <Label layoutX="420.0" layoutY="360.0" text="Date :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="dateLabel" layoutX="399.0" layoutY="272.0" prefHeight="25.0" prefWidth="231.0" text="Date">
+      <Label fx:id="dateLabel" layoutX="464.0" layoutY="358.0" prefHeight="25.0" prefWidth="231.0" text="Date">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="355.0" layoutY="328.0" text="Time Stop :">
+      <Label layoutX="420.0" layoutY="414.0" text="Time Stop :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="timeStopLabel" layoutX="429.0" layoutY="326.0" prefHeight="25.0" prefWidth="189.0" text="Time Stop">
+      <Label fx:id="timeStopLabel" layoutX="494.0" layoutY="412.0" prefHeight="25.0" prefWidth="189.0" text="Time Stop">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="354.0" layoutY="167.0" text="Time Stop :">
+      <Label layoutX="419.0" layoutY="253.0" text="Time Stop :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseHourTimeStop" layoutX="427.0" layoutY="165.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
-      <Label layoutX="509.0" layoutY="164.0" text="/">
+      <ComboBox fx:id="chooseHourTimeStop" layoutX="492.0" layoutY="251.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
+      <Label layoutX="574.0" layoutY="250.0" text="/">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseMinTimeStop" layoutX="522.0" layoutY="165.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <Button fx:id="next" layoutX="581.0" layoutY="366.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
+      <ComboBox fx:id="chooseMinTimeStop" layoutX="587.0" layoutY="251.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
+      <Button fx:id="next" layoutX="646.0" layoutY="452.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
    </children>
 </AnchorPane>
