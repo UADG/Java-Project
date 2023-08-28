@@ -10,6 +10,8 @@ public class Event {
     private String detail;
     private String timeTeam;
     private String timeParticipant;
+    private int ticketBuy;
+    private int participantJoin;
 
     public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
                  int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
@@ -23,6 +25,8 @@ public class Event {
         this.detail = detail;
         this.timeTeam = timeTeam;
         this.timeParticipant = timeParticipant;
+        ticketBuy = 0;
+        participantJoin = 0;
     }
 
     public String getEventName(){
@@ -85,8 +89,8 @@ public class Event {
     public void setTimeParticipant(String timeParticipant) {
         this.timeParticipant = timeParticipant;
     }
-    public void ticketBuy(){ticket -= 1;}
-    public void participantJoin(){participantNum -= 1;}
+    public void ticketBuy(){ticketBuy += 1;}
+    public void participantJoin(){participantJoin += 1;}
     @Override
     public String toString(){
         return "Name: " + eventName;}
