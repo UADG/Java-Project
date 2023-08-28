@@ -13,18 +13,18 @@
    <children>
       <Label layoutX="33.0" layoutY="61.0" text="Event List" />
       <ImageView fitHeight="111.0" fitWidth="229.0" layoutX="279.0" layoutY="78.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView layoutX="33.0" layoutY="78.0" prefHeight="277.0" prefWidth="185.0" />
+      <ListView fx:id="eventListView" layoutX="33.0" layoutY="78.0" prefHeight="277.0" prefWidth="185.0" />
       <TextField alignment="TOP_LEFT" layoutX="137.0" layoutY="39.0" prefWidth="300.0" promptText="Search Here...">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
       <Label layoutX="280.0" layoutY="200.0" text="Name: " />
-      <Label layoutX="280.0" layoutY="230.0" text="Ticket Price:" />
-      <Label layoutX="332.0" layoutY="200.0" text="nameLabel" />
-      <Label layoutX="363.0" layoutY="230.0" text="ticketPriceLabel" />
-      <Label layoutX="280.0" layoutY="260.0" text="Ticket Left:" />
-      <Label layoutX="358.0" layoutY="260.0" text="ticketLeftLabel" />
+      <Label layoutX="280.0" layoutY="230.0" text="Ticket Left:" />
+      <Label fx:id="eventName" layoutX="332.0" layoutY="200.0" text="nameLabel" />
+      <Label fx:id="ticketLeft" layoutX="361.0" layoutY="230.0" text="ticketLeftLabel" />
+      <Label layoutX="280.0" layoutY="260.0" text="Participant Left:" />
+      <Label fx:id="participantLeft" layoutX="387.0" layoutY="260.0" text="participantLeftLabel" />
       <Button layoutX="281.0" layoutY="290.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" text="Detail">
          <font>
             <Font size="11.0" />
