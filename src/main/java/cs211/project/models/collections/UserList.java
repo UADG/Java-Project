@@ -7,14 +7,15 @@ public class UserList{
     public UserList() {
         users = new ArrayList<>();
     }
-    public void addNewUser(int id, String username, String password, String name) {
+    public void addNewUser(String username, String password, String name, String time) {
         username = username.trim();
         name = name.trim();
         password = password.trim();
-        if (!username.equals("")) {
+        time = time.trim();
+        if (!username.equals("")&&!name.equals("")) {
             User exist = findUserByUsername(username);
             if (exist == null) {
-                users.add(new User(username.trim(), name.trim(), password.trim()));
+                users.add(new User(username.trim(), name.trim(), password.trim(), time.trim()));
             }
         }
     }

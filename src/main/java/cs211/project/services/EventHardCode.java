@@ -16,14 +16,15 @@ public class EventHardCode {
         LocalDateTime timeTeam = LocalDateTime.of(2023, 5, 5, 9, 0);
         LocalDateTime timeParticipant = LocalDateTime.of(2023, 5, 5, 9, 30);
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 
-        String formattedStartDate = startDate.format(formatter);
-        String formattedEndDate = endDate.format(formatter);
-        String formattedStartTime = startTime.format(formatter);
-        String formattedEndTime = endTime.format(formatter);
-        String formattedTimeTeam = timeTeam.format(formatter);
-        String formattedTimeParticipant = timeParticipant.format(formatter);
+        String formattedStartDate = startDate.format(dateFormatter);
+        String formattedEndDate = endDate.format(dateFormatter);
+        String formattedStartTime = startTime.format(timeFormatter);
+        String formattedEndTime = endTime.format(timeFormatter);
+        String formattedTimeTeam = timeTeam.format(timeFormatter);
+        String formattedTimeParticipant = timeParticipant.format(timeFormatter);
 
         eventList.addNewEvent("Fes", formattedStartDate, formattedEndDate, formattedStartTime,
                 formattedEndTime, 20, 10, "abc", formattedTimeTeam, formattedTimeParticipant);

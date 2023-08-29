@@ -7,18 +7,33 @@ public class User {
     private String name;
     private String password;
     private static int idUser = 1_000_000;
-    private int id;
-    private Date time;
+    private final int id;
+    private String time;
     private String pictureURL;
 
+    public User(String username, String name, String password, String time){
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.time = time;
+        id = idUser++;
+        pictureURL = null;
+    }
     public User(String username, String name, String password){
         this.username = username;
         this.name = name;
         this.password = password;
         id = idUser++;
-        time = null;
         pictureURL = null;
-    }
+    }//เอาออกหลังแก้ model admin
+    public User(int id, String username, String name, String password){
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.id = id;
+        pictureURL = null;
+    }//สำหรับโรลแอดมิน
+
     public String getUsername(){
         return username;
     }
@@ -28,7 +43,7 @@ public class User {
     public String getPassword() {
         return password;
     }
-    public Date getTime(){
+    public String getTime(){
         return time;
     }
     public String getPictureURL(){
@@ -42,7 +57,7 @@ public class User {
     public void setPassword(String password){
         this.password = password;
     }
-    public void setTime(Date time){
+    public void setTime(String time){
         this.time = time;
     }
     public void setPictureURL(String pictureURL) {
@@ -60,5 +75,12 @@ public class User {
         return this.password.equals(password);
     }
     public boolean isId(int id){return this.id == id;}
+    public String checkRole(int id){
+        if(id > 10){
+            return "user";
+        }else {
+            return "admin";
+        }
+    }
 
 }
