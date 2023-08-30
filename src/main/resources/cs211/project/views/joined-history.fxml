@@ -9,16 +9,16 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.JoinedHistoryController">
    <children>
-      <ListView layoutX="56.0" layoutY="120.0" prefHeight="173.0" prefWidth="282.0" />
+      <ListView fx:id="eventListView" layoutX="56.0" layoutY="120.0" prefHeight="173.0" prefWidth="282.0" />
       <Label layoutX="56.0" layoutY="318.0" text="Event Completed" />
       <Label layoutX="55.0" layoutY="103.0" text="Event Being Organized" />
       <ImageView fitHeight="112.0" fitWidth="229.0" layoutX="436.0" layoutY="183.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="436.0" AnchorPane.rightAnchor="135.0" />
       <Label layoutX="485.0" layoutY="306.0" text="Name: " />
       <Label layoutX="485.0" layoutY="366.0" text="Status:" />
-      <Label layoutX="536.0" layoutY="306.0" text="nameLabel" />
+      <Label fx:id="eventNameLabel" layoutX="536.0" layoutY="306.0" text="nameLabel" />
       <Label layoutX="536.0" layoutY="366.0" text="statusLabel" />
       <Label layoutX="485.0" layoutY="336.0" text="Date: " />
-      <Label layoutX="536.0" layoutY="336.0" text="dateLabel" />
+      <Label fx:id="dayLabel" layoutX="536.0" layoutY="336.0" text="dateLabel" />
       <Button layoutX="504.0" layoutY="398.0" mnemonicParsing="false" text="Cancel Event">
          <font>
             <Font size="11.0" />
