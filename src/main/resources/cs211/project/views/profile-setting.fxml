@@ -29,18 +29,17 @@
       </Label>
       <Button layoutX="411.0" layoutY="305.0" mnemonicParsing="false" onAction="#onChooseButtonClick" text="choose" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Label layoutX="411.0" layoutY="235.0" text="username">
+      <Label fx:id="usernameLabel" layoutX="411.0" layoutY="235.0" text="username">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="411.0" layoutY="271.0" text="name">
+      <Label fx:id="nameLabel" layoutX="411.0" layoutY="271.0" text="name">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Button layoutX="420.0" layoutY="354.0" mnemonicParsing="false" onAction="#rePassButt" text="Change Password" />
-      <Button layoutX="537.0" layoutY="354.0" mnemonicParsing="false" onAction="#onSaveClick" text="Save" />
+      <Button layoutX="356.0" layoutY="351.0" mnemonicParsing="false" onAction="#rePassButt" text="Change Password" />
       <Rectangle fx:id="myRectangle" arcHeight="5.0" arcWidth="5.0" fill="#29a624" height="42.0" layoutY="558.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
       <Label fx:id="myText" layoutX="669.0" layoutY="571.0" text="Your profile is set. ✓" textFill="WHITE" />
       <ImageView fx:id="imageView" fitHeight="124.0" fitWidth="110.0" layoutX="345.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />

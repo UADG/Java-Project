@@ -12,10 +12,10 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 
 public class LoginPageController {
-    @FXML TextField usernameText;
-    @FXML PasswordField passwordText;
-    @FXML Label invalidLabel;
-    @FXML Label wrongPassLabel;
+    @FXML private TextField usernameText;
+    @FXML private PasswordField passwordText;
+    @FXML private Label invalidLabel;
+    @FXML private Label wrongPassLabel;
     private AccountList accountList;
     @FXML
     public void initialize() {
@@ -32,7 +32,7 @@ public class LoginPageController {
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
             if(account.isPassword(password)){
-                FXRouter.goTo("home-page", account.getUsername());
+                FXRouter.goTo("home-page", account);
             }else{
                 wrongPassLabel.setVisible(true);
                 new java.util.Timer().schedule(
@@ -58,6 +58,7 @@ public class LoginPageController {
         );
         }
     }
+    @FXML
     public void registerLink(ActionEvent event) throws IOException {
         FXRouter.goTo("register-page");
     }
