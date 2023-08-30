@@ -19,6 +19,8 @@ public class UserStatus {
     @FXML
     private Label nameLabel;
     @FXML
+    private Label timeLabel;
+    @FXML
     private ListView<User> userListView;
     private UserList userList;
     private User selectedUser;
@@ -53,7 +55,7 @@ public class UserStatus {
     public void showInfo(User user) {
         usernameLabel.setText(user.getUsername());
         nameLabel.setText(user.getName());
-
+        timeLabel.setText(user.getTime());
     }
 
     public void showList(UserList userList) {
@@ -65,6 +67,7 @@ public class UserStatus {
     public void clearDataInfo () {
         usernameLabel.setText("");
         nameLabel.setText("");
+        timeLabel.setText("");
     }
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("home-page");

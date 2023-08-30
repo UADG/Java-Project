@@ -35,7 +35,7 @@ public class CommentActivityController {
     @FXML
     protected void backOnClick(){
         try {
-            FXRouter.goTo("team-schedule");
+            FXRouter.goTo("home-page");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

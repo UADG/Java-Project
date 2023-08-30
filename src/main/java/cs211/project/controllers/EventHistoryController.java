@@ -6,6 +6,7 @@ import javafx.beans.value.ObservableValue;
 import cs211.project.models.Event;
 import cs211.project.models.collections.EventList;
 import cs211.project.services.EventHardCode;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
@@ -74,10 +75,14 @@ public class EventHistoryController {
     }
     @FXML
     protected void onEditDetailClick() {
-        try {
-            FXRouter.goTo("edit-event", eventList);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("edit-event", selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
 
@@ -104,5 +109,13 @@ public class EventHistoryController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }
