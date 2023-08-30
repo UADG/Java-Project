@@ -1,7 +1,7 @@
 package cs211.project.models;
 public class Event {
     private String eventName;
-    private String startDate;
+    private String startDate ;
     private String endDate;
     private String startTime;
     private String endTime;
@@ -89,7 +89,10 @@ public class Event {
     public void setTimeParticipant(String timeParticipant) {
         this.timeParticipant = timeParticipant;
     }
-    public void ticketBuy(){ticketBuy += 1;}
+    public void ticketBuy(){ticketBuy += 1;
+    }
+    public int getTicketLeft(){return ticket - ticketBuy;}
+    public int getParticipantLeft(){return participantNum-participantJoin;}
     public void participantJoin(){participantJoin += 1;}
     @Override
     public String toString(){

@@ -13,39 +13,46 @@
    <children>
       <Label layoutX="163.0" layoutY="117.0" text="Event List" />
       <ImageView fitHeight="111.0" fitWidth="229.0" layoutX="409.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
-      <ListView layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
-      <TextField alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
+      <ListView fx:id="eventListView" layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
+      <TextField fx:id="searchTextField" alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
          <font>
             <Font size="9.0" />
          </font>
       </TextField>
       <Label layoutX="410.0" layoutY="269.0" text="Name: " />
       <Label layoutX="410.0" layoutY="299.0" text="Ticket Left:" />
-      <Label layoutX="462.0" layoutY="269.0" text="nameLabel" />
-      <Label layoutX="491.0" layoutY="299.0" text="ticketLeftLabel" />
+      <Label fx:id="eventNameLabel" layoutX="462.0" layoutY="269.0" text="eventNameLabel" />
+      <Label fx:id="ticketLeftLabel" layoutX="491.0" layoutY="299.0" text="ticketLeftLabel" />
       <Label layoutX="410.0" layoutY="329.0" text="Participant Left:" />
-      <Label layoutX="517.0" layoutY="329.0" text="participantLeftLabel" />
+      <Label fx:id="participantLeftLabel" layoutX="517.0" layoutY="329.0" text="participantLeftLabel" />
       <Button layoutX="411.0" layoutY="359.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" text="Detail">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
       <ScrollBar layoutX="163.0" layoutY="424.0" prefHeight="14.0" prefWidth="185.0" />
-      <Button layoutX="411.0" layoutY="394.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" text="Book tickets">
+      <Button layoutX="411.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" text="Book tickets">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="359.0" mnemonicParsing="false" prefWidth="119.0" text="apply for staff">
+      <Button layoutX="517.0" layoutY="359.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" text="apply for staff">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="394.0" mnemonicParsing="false" prefWidth="119.0" text="apply for participant">
+      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" text="apply for participant">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+      <Label fx:id="errorLabelBook" layoutX="412.0" layoutY="450.0" text="errorLabel" textFill="#f20000" />
+      <Button layoutX="572.0" layoutY="62.0" mnemonicParsing="false" onAction="#onSearchEventButton" prefHeight="24.0" prefWidth="96.0" text="Search">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Label fx:id="errorLabelApplyToParticipants" layoutX="549.0" layoutY="450.0" prefHeight="0.0" prefWidth="56.0" text="errorLabel" textFill="#f20000" />
    </children>
 </AnchorPane>

@@ -3,10 +3,10 @@ package cs211.project.models.collections;
 import cs211.project.models.Event;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 public class EventList {
     private ArrayList<Event> events;
+    private ArrayList<Event> search;
     public EventList() {
         events = new ArrayList<>();
     }
@@ -32,4 +32,19 @@ public class EventList {
     public ArrayList<Event> getEvents(){
         return events;
     }
+
+    public void searchEvent(String searchText){
+        search = new ArrayList<>();
+        searchText = searchText.toLowerCase();
+        for (Event event : events) {
+            if (event.getEventName().toLowerCase().contains(searchText)) {
+                search.add(event);
+            }
+        }
+    }
+    public ArrayList<Event> getSearch(){
+        return search;
+    }
+
+
 }
