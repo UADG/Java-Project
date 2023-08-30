@@ -8,34 +8,34 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
    <children>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
-      <Label layoutX="93.0" layoutY="103.0" text="List of participants">
+      <Label layoutX="55.0" layoutY="63.0" text="List of participants">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <ListView fx:id="eventMemberListView" layoutX="93.0" layoutY="138.0" prefHeight="297.0" prefWidth="259.0" />
-      <Label layoutX="384.0" layoutY="152.0" text="Role :">
+      <ListView fx:id="eventMemberListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
+      <Label layoutX="474.0" layoutY="138.0" text="Role :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <RadioButton fx:id="chooseRoleTeam" layoutX="437.0" layoutY="152.0" mnemonicParsing="false" text="Event organizer team" />
-      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="437.0" layoutY="174.0" mnemonicParsing="false" text="singlely participants" />
-      <Label layoutX="384.0" layoutY="219.0" text="team :">
+      <RadioButton fx:id="chooseRoleTeam" layoutX="531.0" layoutY="167.0" mnemonicParsing="false" onAction="#selectedTeam" text="Event organizer team" />
+      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" text="singlely participants" />
+      <Label fx:id="constantTeamLabel" layoutX="474.0" layoutY="205.0" text="team :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseTeamName" layoutX="437.0" layoutY="216.0" prefHeight="25.0" prefWidth="182.0" promptText="choose team" />
-      <Label fx:id="constantNameLabelForTeam" layoutX="382.0" layoutY="266.0" text="Name :">
+      <ComboBox fx:id="chooseTeam" layoutX="527.0" layoutY="202.0" onAction="#chooseWhichTeam" prefHeight="25.0" prefWidth="182.0" promptText="choose team" />
+      <Label fx:id="constantNameLabelForTeam" layoutX="472.0" layoutY="252.0" text="Name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" layoutX="438.0" layoutY="266.0" text="Name">
+      <Label fx:id="nameLabel" layoutX="528.0" layoutY="252.0" text="Name">
          <font>
             <Font size="14.0" />
          </font>
@@ -50,7 +50,7 @@
             <Font size="18.0" />
          </font>
       </Label>
-      <Button fx:id="ban" layoutX="438.0" layoutY="348.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="124.0" text="Ban">
+      <Button fx:id="ban" layoutX="528.0" layoutY="334.0" mnemonicParsing="false" onAction="#banTarget" prefHeight="50.0" prefWidth="124.0" text="Ban">
          <font>
             <Font size="18.0" />
          </font>

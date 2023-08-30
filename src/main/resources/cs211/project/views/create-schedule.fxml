@@ -9,16 +9,16 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
    <children>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
-      <Label layoutX="106.0" layoutY="124.0" text="List of Schedules">
+      <Label layoutX="106.0" layoutY="124.0" text="List of Activitys">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <ListView fx:id="eventScheduleListView" layoutX="106.0" layoutY="151.0" prefHeight="313.0" prefWidth="301.0" />
-      <Label layoutX="417.0" layoutY="151.0" text="Schedule's name :">
+      <Label layoutX="417.0" layoutY="151.0" text="Activity's name :">
          <font>
             <Font size="14.0" />
          </font>
@@ -35,15 +35,15 @@
          </font>
       </Label>
       <ComboBox fx:id="chooseMinTimeStart" layoutX="590.0" layoutY="217.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <TextField fx:id="newScheduleTextField" layoutX="533.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new schedule" />
-      <Button fx:id="create" layoutX="479.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Create Schedule" />
+      <TextField fx:id="newScheduleTextField" layoutX="533.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new Activity" />
+      <Button fx:id="create" layoutX="479.0" layoutY="295.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Create Activity" />
       <Line endX="140.0" layoutX="525.0" layoutY="326.0" startX="-100.0" />
-      <Label layoutX="421.0" layoutY="335.0" text="Schedule :">
+      <Label layoutX="421.0" layoutY="335.0" text="Activity :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="eventScheduleNameLabel" layoutX="493.0" layoutY="332.0" prefHeight="27.0" prefWidth="189.0" text="Name">
+      <Label fx:id="activityNameLabel" layoutX="493.0" layoutY="332.0" prefHeight="27.0" prefWidth="189.0" text="Name">
          <font>
             <Font size="14.0" />
          </font>
@@ -97,6 +97,6 @@
          </font>
       </Label>
       <ComboBox fx:id="chooseMinTimeStop" layoutX="587.0" layoutY="251.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <Button fx:id="next" layoutX="646.0" layoutY="452.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
+      <Button fx:id="next" layoutX="745.0" layoutY="561.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
    </children>
 </AnchorPane>
