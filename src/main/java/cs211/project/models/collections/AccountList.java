@@ -25,13 +25,6 @@ public class AccountList{
         }
         return null;
     }
-    public String checkRole(int id){
-        if(id > 10){
-            return "user";
-        }else {
-            return "admin";
-        }
-    }
 
     public ArrayList<Account> getAccount(){
         return accounts;
