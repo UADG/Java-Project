@@ -1,11 +1,28 @@
 package cs211.project.controllers;
 
+import cs211.project.services.AccountHardCode;
+import cs211.project.models.Account;
+import cs211.project.models.collections.AccountList;
+
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 
 import java.io.IOException;
 
 public class HomePageController {
+    @FXML Button adminButton;
+    private AccountList accountList;
+    public void initialize() {
+        adminButton.setVisible(false);
+        AccountHardCode data = new AccountHardCode();
+        accountList = data.readData();
+        String user = (String) FXRouter.getData();
+        Account account = accountList.findAccountByUsername(user);
+        if(account.checkRole(account.getId()).equals("admin")){
+            adminButton.setVisible(true);
+        }
+    }
     @FXML
     protected void onCreateClick() {
         try {

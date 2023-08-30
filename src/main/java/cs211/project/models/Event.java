@@ -1,4 +1,8 @@
 package cs211.project.models;
+
+import java.util.ArrayList;
+import cs211.project.services.ActivityHardCode;
+
 public class Event {
     private String eventName;
     private String startDate;
@@ -12,6 +16,7 @@ public class Event {
     private String timeParticipant;
     private int ticketBuy;
     private int participantJoin;
+    private ArrayList<ArrayList<String >> arr ;
 
     public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
                  int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
@@ -27,6 +32,8 @@ public class Event {
         this.timeParticipant = timeParticipant;
         ticketBuy = 0;
         participantJoin = 0;
+        ActivityHardCode datasource = new ActivityHardCode();
+        arr = datasource.readData();
     }
 
     public String getEventName(){
@@ -91,6 +98,9 @@ public class Event {
     }
     public void ticketBuy(){ticketBuy += 1;}
     public void participantJoin(){participantJoin += 1;}
+    public ArrayList<ArrayList<String >> getActivity(){
+        return arr;
+    }
     @Override
     public String toString(){
         return "Name: " + eventName;}

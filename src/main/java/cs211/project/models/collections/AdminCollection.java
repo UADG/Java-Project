@@ -17,7 +17,7 @@ public class AdminCollection {
         if (!username.equals("")) {
             Admin exist = findAdminById(id);
             if (exist == null) {
-                admins.add(new Admin(username, name, password));
+                admins.add(new Admin(id, username, name, password));
             }
         }
     }

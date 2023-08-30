@@ -6,8 +6,8 @@ public class Admin extends User{
     private String password;
     private String name;
 
-    public Admin(String username, String password, String name) {
-        super(username, name, password);
+    public Admin(int id, String username, String password, String name) {
+        super(id, username, name, password);
     }
 
     public void changePassword(String password) {

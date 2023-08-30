@@ -27,6 +27,21 @@ public class UserList{
         }
         return null;
     }
+    public boolean findUserPassword(String password) {
+        for (User user : users) {
+            if (user.isPassword(password)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    public String checkRole(int id){
+        if(id > 10){
+            return "user";
+        }else {
+            return "admin";
+        }
+    }
     public ArrayList<User> getUsers(){
         return users;
     }

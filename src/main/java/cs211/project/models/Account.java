@@ -1,31 +1,21 @@
 package cs211.project.models;
 
-import java.util.Date;
-
-public class User{
+public class Account {
+    private int id;
     private String username;
-    private String name;
     private String password;
-    private static int idUser = 1_000_000;
-    private final int id;
+    private String name;
     private String time;
     private String pictureURL;
 
-    public User(String username, String name, String password, String time){
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.time = time;
-        id = idUser++;
-        pictureURL = null;
-    }
-    public User(int id, String username, String name, String password){
-        this.username = username;
-        this.name = name;
-        this.password = password;
+
+    public Account(int id, String username, String password, String name, String time) {
         this.id = id;
-        pictureURL = null;
-    }//สำหรับโรลแอดมิน
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.time = time;
+    }
 
     public String getUsername(){
         return username;
@@ -56,10 +46,6 @@ public class User{
     public void setPictureURL(String pictureURL) {
         this.pictureURL = pictureURL;
     }
-    @Override
-    public String toString(){
-        return "ID: " + id + " Username: " + username + " Last Online: " + time;
-    }
 
     public boolean isUsername(String username) {
         return this.username.equals(username);
@@ -68,5 +54,12 @@ public class User{
         return this.password.equals(password);
     }
     public boolean isId(int id){return this.id == id;}
-
+    public String checkRole(int id){
+        if(id > 10){return "user";}
+        else {return "admin";}
+    }
+    @Override
+    public String toString(){
+        return "ID: " + id + " Username: " + username + " Last Online: " + time;
+    }
 }

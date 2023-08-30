@@ -21,7 +21,7 @@
       <Button layoutX="45.0" layoutY="246.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="Participant Schedule" />
       <Button layoutX="46.0" layoutY="191.0" mnemonicParsing="false" onAction="#onEventHistoryClick" prefHeight="25.0" prefWidth="88.0" text="History Event" />
       <Button layoutX="46.0" layoutY="301.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="Team Schedule" />
-      <Button layoutX="46.0" layoutY="417.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
+      <Button fx:id="adminButton" layoutX="46.0" layoutY="417.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
       <Button layoutX="45.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCommentClick" text="comment" />
    </children>
 </AnchorPane>

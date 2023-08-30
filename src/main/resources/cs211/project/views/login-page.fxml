@@ -23,11 +23,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="339.0" layoutY="292.0" prefHeight="26.0" prefWidth="200.0" />
+      <TextField fx:id="usernameText" layoutX="339.0" layoutY="292.0" prefHeight="26.0" prefWidth="200.0" />
       <TextField layoutX="340.0" layoutY="326.0" prefHeight="26.0" prefWidth="200.0" />
-      <PasswordField layoutX="339.0" layoutY="327.0" prefHeight="26.0" prefWidth="200.0" />
+      <PasswordField fx:id="passwordText" layoutX="339.0" layoutY="327.0" prefHeight="26.0" prefWidth="200.0" />
       <Button layoutX="326.0" layoutY="400.0" mnemonicParsing="false" onAction="#loginButt" prefHeight="26.0" prefWidth="114.0" text="Login" />
       <Hyperlink layoutX="357.0" layoutY="433.0" onAction="#registerLink" text="Register" />
-      <Label layoutX="340.0" layoutY="353.0" text="Invalid username or password." textFill="#e40a0a" />
+      <Label fx:id="invalidLabel" layoutX="340.0" layoutY="353.0" text="Invalid username or password." textFill="#e40a0a" />
+      <Label fx:id="wrongPassLabel" layoutX="340.0" layoutY="353.0" text="Incorrect password" textFill="#e40a0a" />
    </children>
 </AnchorPane>

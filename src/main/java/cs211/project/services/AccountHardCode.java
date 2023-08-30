@@ -3,15 +3,13 @@ package cs211.project.services;
 import cs211.project.models.collections.AdminCollection;
 import cs211.project.models.collections.UserList;
 import cs211.project.models.collections.AccountList;
-import java.util.ArrayList;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class UserHardCode {
+public class AccountHardCode {
 
-    public UserList readData() {
-        UserList list = new UserList();
+    public AccountList readData() {
 
         LocalDateTime time1 = LocalDateTime.of(2023, 5, 5, 0, 0);
         LocalDateTime time2 = LocalDateTime.of(2023, 5, 5, 0, 0);
@@ -26,13 +24,13 @@ public class UserHardCode {
         String formatted3 = time3.format(formatter);
         String formatted4 = time4.format(formatter);
 
-        list.addNewUser("best", "Bestttt", "Bestto", formatted1);
-        list.addNewUser("win", "winwin", "WinnieThePooh", formatted2);
-        list.addNewUser("ai", "12345678", "AiAye", formatted3);
-        list.addNewUser("jim", "JimZa007", "JimZaKung", formatted4);
-        AdminCollection list2 = new AdminCollection();
-        list2.addNewAdmin(0, "Admin", "admin1234", "Ad");
-        list2.addNewAdmin(1,"admin", "123", "a");
-        return list;
+        AccountList accountList = new AccountList();
+        accountList.addNewAccount(11,"best", "Bestttt", "Bestto", formatted1);
+        accountList.addNewAccount(12,"win", "winwin", "WinnieThePooh", formatted2);
+        accountList.addNewAccount(13,"ai", "12345678", "AiAye", formatted3);
+        accountList.addNewAccount(14,"jim", "JimZa007", "JimZaKung", formatted4);
+        accountList.addNewAccount(0, "Admin", "admin1234", "Ad", formatted4);
+        accountList.addNewAccount(1,"admin", "123", "a", formatted4);
+        return accountList;
     }
 }
