@@ -10,7 +10,7 @@ public class Account {
     protected String pictureURL;
 
 
-    public Account(int id, String username, String password) {
+    public Account(int id, String username, String password, String name, String time) {
         this.id = id;
         this.username = username;
         this.name = name;

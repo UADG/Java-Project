@@ -21,7 +21,6 @@
       <Label layoutX="181.0" layoutY="363.0" text="Amount Tickets:" />
       <TextField fx:id="amountTicketTextField" layoutX="273.0" layoutY="358.0" prefHeight="26.0" prefWidth="70.0" />
       <Label layoutX="182.0" layoutY="397.0" text="Detail:" />
-      <TextField fx:id="detailTextField" layoutX="236.0" layoutY="393.0" prefHeight="91.0" prefWidth="143.0" />
       <DatePicker fx:id="eventDatePickerStart" layoutX="257.0" layoutY="286.0" prefHeight="26.0" prefWidth="123.0" />
       <Label layoutX="442.0" layoutY="292.0" text="Date End:" />
       <DatePicker fx:id="eventDatePickerEnd" layoutX="498.0" layoutY="287.0" prefHeight="26.0" prefWidth="123.0" />
@@ -38,5 +37,6 @@
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <TextField fx:id="detailTextField" layoutX="225.0" layoutY="393.0" prefHeight="100.0" />
    </children>
 </AnchorPane>

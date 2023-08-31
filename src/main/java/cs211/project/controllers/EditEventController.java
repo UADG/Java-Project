@@ -65,11 +65,12 @@ public class EditEventController {
             changeDateStart(data, eventDateStart);
             changeDateEnd(data, eventDateEnd);
             changeTimeStartEvent(data, timeStartEvent);
-            changeTimeEndEvent(data, timeStartEvent);
+            changeTimeEndEvent(data, timeEndEvent);
             changeAmountTicket(data, amountTicket);
             changeAmountParticipant(data, amountParticipant);
             changeTimeEndTeam(data, timeEndTeam);
             changeTimeEndParticipant(data, timeEndParticipant);
+            changeDetail(data, detail);
             clearInfo();
 
         } else {
@@ -211,6 +212,14 @@ public class EditEventController {
             data.setTimeParticipant(time);
         } catch (DateTimeParseException e) {
             showErrorAlert("Invalid time format. Please use HH:mm format.");
+        }
+    }
+
+    private void changeDetail(Event data, String detail) {
+        try {
+            data.setDetail(detail);
+        } catch (Exception e) {
+            showErrorAlert("Invalid name");
         }
     }
 

@@ -11,7 +11,7 @@
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
       <ListView fx:id="userListView" layoutX="107.0" layoutY="154.0" prefHeight="321.0" prefWidth="250.0" />
-      <ImageView fitHeight="150.0" fitWidth="207.0" layoutX="428.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageUserView" fitHeight="150.0" fitWidth="207.0" layoutX="428.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="438.0" layoutY="335.0" text="Username:">
          <font>
             <Font size="14.0" />
