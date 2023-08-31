@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
 import javafx.scene.shape.Rectangle;
 
 import java.io.IOException;
@@ -21,9 +23,12 @@ public class RePassPageController {
     @FXML private Rectangle myRectangle;
     @FXML private Label errorLabel;
     @FXML private Label errorLabel1;
+    @FXML private ImageView imageView;
     private Account account = (Account) FXRouter.getData();
     @FXML
     public void initialize(){
+        Image image = new Image(getClass().getResource("/images/default-profile.png").toExternalForm());
+        imageView.setImage(image);
         usernameLabel.setText(account.getUsername());
         myText.setVisible(false);
         myRectangle.setVisible(false);

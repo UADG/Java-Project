@@ -13,7 +13,7 @@ public class AccountList{
         if (!username.equals("")&&!name.equals("")) {
             Account exist = findAccountByUsername(username);
             if (exist == null) {
-                accounts.add(new Account(id, username.trim(), password.trim(), name.trim(), time.trim()));
+                accounts.add(new Account(id, username.trim(), password.trim()));
             }
         }
     }

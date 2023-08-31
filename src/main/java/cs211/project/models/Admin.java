@@ -1,6 +1,6 @@
 package cs211.project.models;
 
-public class Admin extends User{
+public class Admin extends Account{
     private int id;
     private String username;
     private String password;

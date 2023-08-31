@@ -1,20 +1,41 @@
 package cs211.project.models;
 
 public class Account {
-    private int id;
-    private String username;
-    private String password;
-    private String name;
-    private String time;
-    private String pictureURL;
+    protected String username;
+    protected String name;
+    protected String password;
+    protected static int idUser = 1_000_000;
+    protected final int id;
+    protected String time;
+    protected String pictureURL;
 
 
-    public Account(int id, String username, String password, String name, String time) {
+    public Account(int id, String username, String password) {
         this.id = id;
         this.username = username;
-        this.password = password;
         this.name = name;
+        this.password = password;
         this.time = time;
+        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
+        System.out.println(pictureURL);
+    }
+    public Account(String username, String name, String password, String time){
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.time = time;
+        this.id = idUser++;
+        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
+        System.out.println(pictureURL);
+    }
+    public Account(int id, String username, String name, String password){
+        this.id = id;
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.time ="";
+        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
+        System.out.println(pictureURL);
     }
 
     public String getUsername(){
