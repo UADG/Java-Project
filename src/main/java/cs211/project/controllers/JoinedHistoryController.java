@@ -18,7 +18,7 @@ public class JoinedHistoryController {
     @FXML
     private Label eventNameLabel;
     @FXML
-    private Label dayLabel;
+    private Label dateLabel;
     @FXML
     private ListView<Event> eventListView;
     private EventList eventList;
@@ -51,12 +51,12 @@ public class JoinedHistoryController {
 
     private void showEventInfo(Event event) {
         eventNameLabel.setText(event.getEventName());
-        dayLabel.setText(String.format("%d - %d",event.getStartDate(), event.getEndDate()));
+        dateLabel.setText(String.format("%s - %s",event.getStartDate(), event.getEndDate()));
     }
 
     private void clearEventInfo() {
         eventNameLabel.setText("");
-        dayLabel.setText("");
+        dateLabel.setText("");
     }
 
     @FXML

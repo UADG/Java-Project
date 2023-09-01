@@ -70,7 +70,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="dayLabel" layoutX="464.0" layoutY="358.0" prefHeight="25.0" prefWidth="231.0" text="Date">
+      <Label fx:id="dateLabel" layoutX="464.0" layoutY="358.0" prefHeight="25.0" prefWidth="231.0" text="Date">
          <font>
             <Font size="14.0" />
          </font>
@@ -90,13 +90,13 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseHourTimeStop" layoutX="492.0" layoutY="251.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
-      <Label layoutX="574.0" layoutY="250.0" text="/">
+      <ComboBox fx:id="chooseHourTimeStop" layoutX="496.0" layoutY="251.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
+      <Label layoutX="578.0" layoutY="250.0" text="/">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseMinTimeStop" layoutX="587.0" layoutY="251.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
+      <ComboBox fx:id="chooseMinTimeStop" layoutX="591.0" layoutY="251.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <Button fx:id="next" layoutX="646.0" layoutY="452.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
    </children>
 </AnchorPane>

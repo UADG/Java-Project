@@ -16,6 +16,11 @@ public class Event {
     private String timeParticipant;
     private int ticketBuy;
     private int participantJoin;
+    private ArrayList<String> arrayStartTimeActivity;
+    private ArrayList<String> arrayEndTimeActivity;
+    private ArrayList<String> arrayDateActivity;
+
+
     private ArrayList<ArrayList<String >> arr ;
 
     public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
@@ -101,6 +106,24 @@ public class Event {
     public int getTicketLeft(){return ticket - ticketBuy;}
     public int getParticipantLeft(){return participantNum-participantJoin;}
     public void participantJoin(){participantJoin += 1;}
+    public ArrayList<String> getArrayStartTimeActivity(){
+        for(int i = Integer.parseInt(startTime); i < Integer.parseInt(endTime); i++){
+            arrayStartTimeActivity.add(String.valueOf(i));
+        }
+        return arrayStartTimeActivity;
+    }
+    public ArrayList<String> getArrayEndTimeActivity(){
+        for(int i = Integer.parseInt(endTime); i < Integer.parseInt(endTime); i++){
+            arrayEndTimeActivity.add(String.valueOf(i));
+        }
+        return arrayEndTimeActivity;
+    }
+    public ArrayList<String> getArrayDate(){
+        for(int i = Integer.parseInt(startDate); i < Integer.parseInt(endDate); i++){
+            arrayDateActivity.add(String.valueOf(i));
+        }
+        return arrayDateActivity;
+    }
     public ArrayList<ArrayList<String >> getActivity(){
         return arr;
     }
