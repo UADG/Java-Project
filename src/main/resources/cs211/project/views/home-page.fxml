@@ -4,22 +4,24 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.HomePageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.HomePageController">
    <children>
-      <Button layoutX="270.0" layoutY="88.0" mnemonicParsing="false" onAction="#onCreateClick" prefHeight="126.0" prefWidth="284.0" text="Create">
+      <Button layoutX="416.0" layoutY="136.0" mnemonicParsing="false" onAction="#onCreateClick" prefHeight="126.0" prefWidth="284.0" text="Create">
          <font>
             <Font size="64.0" />
          </font>
       </Button>
-      <Button layoutX="270.0" layoutY="224.0" mnemonicParsing="false" onAction="#onJoinClick" prefHeight="122.0" prefWidth="284.0" text="Join">
+      <Button layoutX="416.0" layoutY="313.0" mnemonicParsing="false" onAction="#onJoinClick" prefHeight="122.0" prefWidth="284.0" text="Join">
          <font>
             <Font size="64.0" />
          </font>
       </Button>
-      <Button layoutX="502.0" layoutY="36.0" mnemonicParsing="false" onAction="#onProfileClick" prefHeight="29.0" prefWidth="60.0" text="Profile" />
-      <Button layoutX="66.0" layoutY="76.0" mnemonicParsing="false" onAction="#onJoinedHistoryClick" text="History Join" />
-      <Button layoutX="66.0" layoutY="138.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="History Participant" />
-      <Button layoutX="66.0" layoutY="198.0" mnemonicParsing="false" onAction="#onEventHistoryClick" text="History Event" />
-      <Button layoutX="66.0" layoutY="248.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="History Team" />
+      <Button layoutX="726.0" layoutY="14.0" mnemonicParsing="false" onAction="#onProfileClick" prefHeight="29.0" prefWidth="60.0" text="Profile" />
+      <Button layoutX="46.0" layoutY="136.0" mnemonicParsing="false" onAction="#onJoinedHistoryClick" text="History Join" />
+      <Button layoutX="45.0" layoutY="246.0" mnemonicParsing="false" onAction="#onParticipantScheduleClick" text="Participant Schedule" />
+      <Button layoutX="46.0" layoutY="191.0" mnemonicParsing="false" onAction="#onEventHistoryClick" prefHeight="25.0" prefWidth="88.0" text="History Event" />
+      <Button layoutX="46.0" layoutY="301.0" mnemonicParsing="false" onAction="#onTeamScheduleClick" text="Team Schedule" />
+      <Button fx:id="adminButton" layoutX="46.0" layoutY="417.0" mnemonicParsing="false" onAction="#onUserButtClick" text="User" />
+      <Button layoutX="45.0" layoutY="356.0" mnemonicParsing="false" onAction="#onCommentClick" text="comment" />
    </children>
 </AnchorPane>
