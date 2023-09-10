@@ -1,5 +1,6 @@
 package cs211.project.models;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import cs211.project.services.ActivityHardCode;
 
@@ -17,13 +18,11 @@ public class Event {
     private int ticketBuy;
     private int participantJoin;
     private ArrayList<String> arrayStartTimeActivity;
-    private ArrayList<String> arrayEndTimeActivity;
+    private ArrayList<String> arrayMinute;
     private ArrayList<String> arrayDateActivity;
-
-
     private ArrayList<ArrayList<String >> arr ;
 
-    public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
+public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
                  int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
         this.eventName = eventName;
         this.startDate = startDate;
@@ -106,22 +105,31 @@ public class Event {
     public int getTicketLeft(){return ticket - ticketBuy;}
     public int getParticipantLeft(){return participantNum-participantJoin;}
     public void participantJoin(){participantJoin += 1;}
-    public ArrayList<String> getArrayStartTimeActivity(){
-        for(int i = Integer.parseInt(startTime); i < Integer.parseInt(endTime); i++){
+    public ArrayList<String> getArrayHour(){
+        ArrayList<String> arrayStartTimeActivity = new ArrayList<>();
+        int startHour = Integer.parseInt(startTime.split(":")[0]);
+        int endHour = Integer.parseInt(endTime.split(":")[0]);
+
+        for (int i = startHour; i <= endHour; i++) {
             arrayStartTimeActivity.add(String.valueOf(i));
         }
         return arrayStartTimeActivity;
     }
-    public ArrayList<String> getArrayEndTimeActivity(){
-        for(int i = Integer.parseInt(endTime); i < Integer.parseInt(endTime); i++){
-            arrayEndTimeActivity.add(String.valueOf(i));
+    public ArrayList<String> getArrayMinute(){
+        ArrayList<String> arrayMinute = new ArrayList<>();
+        for(int i = 0; i < 60; i++){
+            arrayMinute.add(String.valueOf(i));
         }
-        return arrayEndTimeActivity;
+        return arrayMinute;
     }
-    public ArrayList<String> getArrayDate(){
-        for(int i = Integer.parseInt(startDate); i < Integer.parseInt(endDate); i++){
-            arrayDateActivity.add(String.valueOf(i));
-        }
+    public ArrayList<String> getArrayDate() {
+        ArrayList<String> arrayDateActivity = new ArrayList<>();
+            int startDay = Integer.parseInt(startDate.split("-")[2]);
+            int endDay = Integer.parseInt(endDate.split("-")[2]);
+
+            for (int i = startDay; i <= endDay; i++) {
+                arrayDateActivity.add(String.valueOf(i));
+            }
         return arrayDateActivity;
     }
     public ArrayList<ArrayList<String >> getActivity(){
