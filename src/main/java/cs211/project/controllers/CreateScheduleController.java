@@ -130,10 +130,14 @@ public class CreateScheduleController {
 
             LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
             LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
-            activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity,null,null,"0", eventName);
-            list.addActivity(activityName, date, startTimeActivity, endTimeActivity,null,null,"0", eventName);
-            datasource.writeData(list);
-            showTable(activityList);
+            if (activityList.checkActivity(activityName, date, startTimeActivity, endTimeActivity)) {
+                activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, null, "0", eventName);
+                list.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, null, "0", eventName);
+                datasource.writeData(list);
+                showTable(activityList);
+            } else {
+                errorActivityNameLabel.setText("This activity conflicts with an existing activity.");
+            }
         }
         else if(activityName.isEmpty()){
             errorActivityNameLabel.setText("Please fill the name");
@@ -157,7 +161,7 @@ public class CreateScheduleController {
     @FXML
     protected void nextOnClick(){
         try {
-            FXRouter.goTo("create-team");
+            FXRouter.goTo("create-team", activityList);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
