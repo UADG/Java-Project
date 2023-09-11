@@ -13,16 +13,14 @@ public class ActivityList {
     }
     public void addActivity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName){
         activityName = activityName.trim();
-        if(checkActivity(activityName, date, startTimeActivity, endTimeActivity)) {
-            activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
-        }
+        activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
     }
     public void addActivity(Activity activity){
             activities.add(activity);
     }
     public void addActivity(ActivityList activityList, ActivityList list, String eventName){
         for(Activity activity: list.getActivities()){
-            if(eventName.equals(activity.getEventName())){
+            if(activity.isActivity(eventName)){
                 activityList.addActivity(activity);
             }
         }
@@ -32,7 +30,7 @@ public class ActivityList {
             if(activity.isActivity(activityName)){
                 return false;
             }
-            else if(activity.checkTimeActivity(startTimeActivity,endTimeActivity)){
+            else if(activity.checkTimeActivity(startTimeActivity,endTimeActivity,date)){
                 return false;
             }
         }

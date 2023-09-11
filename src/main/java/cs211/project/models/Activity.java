@@ -63,16 +63,19 @@ public class Activity {
         return eventName;
     }
 
-    public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity){
-        if(this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)){
-            return true;
+    public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
+        if(this.date.equals(date)){
+            if (endTimeActivity.isBefore(startTimeActivity)) {
+                return true;
+            } else if (this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)) {
+                return true;
+            } else if (this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)) {
+                return true;
+            } else if (endTimeActivity.equals(startTimeActivity)) {
+                return true;
+            }
+            return false;
         }
-        else if(this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)){
-            return true;
-        } else if (endTimeActivity.equals(startTimeActivity)) {
-            return true;
-        }
-
         return false;
     }
 }
