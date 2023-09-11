@@ -1,7 +1,6 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Activity;
-import cs211.project.models.Event;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
 import cs211.project.services.ActivityListFileDatasource;
@@ -17,8 +16,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class CreateScheduleController {
     @FXML TextField activityTextField;
@@ -31,8 +28,11 @@ public class CreateScheduleController {
     @FXML private Label dateLabel;
     @FXML private Label timeStartLabel;
     @FXML private Label timeStopLabel;
+    @FXML private Label errorActivityNameLabel;
     @FXML private TableView<Activity> activityTableView;
+    private String eventName;
     private ActivityList activityList;
+    private ActivityList list;
     private Activity selectedActivity;
     private EventList eventList;
     private Datasource<ActivityList> datasource;
@@ -41,18 +41,20 @@ public class CreateScheduleController {
     @FXML
     public void initialize() {
         clearActivityInfo();
+        errorActivityNameLabel.setText("");
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        activityList = datasource.readData();
+        list = datasource.readData();
+        activityList = new ActivityList();
         EventHardCode datasource = new EventHardCode();
         eventList = datasource.readData();
+        eventName = eventList.findEventByEventName("Fes").getEventName();
         chooseDate.getItems().addAll(eventList.findEventByEventName("Fes").getArrayDate());
         chooseHourTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
         chooseHourTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
+        activityList.addActivity(activityList, list, eventName);
         showTable(activityList);
-        activityTableView.setItems(FXCollections.observableArrayList(activityList.getActivities()));
-
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
@@ -72,6 +74,8 @@ public class CreateScheduleController {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
+        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
         // กำหนด column ให้มี title ว่า Name และใช้ค่าจาก attribute name ของ object Student
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
@@ -84,6 +88,7 @@ public class CreateScheduleController {
         // ล้าง column เดิมทั้งหมดที่มีอยู่ใน table แล้วเพิ่ม column ใหม่
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
+        activityTableView.getColumns().add(dateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
 
@@ -125,18 +130,20 @@ public class CreateScheduleController {
 
             LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
             LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
-
-            activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity,null,null,"0");
-            datasource.writeData(activityList);
+            activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity,null,null,"0", eventName);
+            list.addActivity(activityName, date, startTimeActivity, endTimeActivity,null,null,"0", eventName);
+            datasource.writeData(list);
             showTable(activityList);
-        }}
+        }
+        else if(activityName.isEmpty()){
+            errorActivityNameLabel.setText("Please fill the name");
+        }
+        }
         catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
 
     }
-
-
 
     @FXML
     protected void backOnClick(){

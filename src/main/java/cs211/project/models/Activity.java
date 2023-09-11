@@ -14,9 +14,10 @@ public class Activity {
     private String teamName;
     private String participantName;
     private String status;
+    private String eventName;
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status) {
+    public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
         this.activityName = activityName;
         this.date = date;
         this.startTimeActivity = startTimeActivity;
@@ -24,6 +25,7 @@ public class Activity {
         this.teamName = teamName;
         this.participantName = participantName;
         this.status = status;
+        this.eventName = eventName;
     }
 
     public String getActivityName() {
@@ -56,13 +58,21 @@ public class Activity {
     public boolean isActivity(String activityName) {
         return this.activityName.equals(activityName);
     }
+
+    public String getEventName() {
+        return eventName;
+    }
+
     public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity){
         if(this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)){
-            return false;
+            return true;
         }
         else if(this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)){
-            return false;
+            return true;
+        } else if (endTimeActivity.equals(startTimeActivity)) {
+            return true;
         }
+
         return false;
     }
 }
