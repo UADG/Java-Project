@@ -11,10 +11,20 @@ public class ActivityList {
     public ActivityList(){
         activities =new ArrayList<>();
     }
-    public void addActivity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status){
+    public void addActivity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName){
         activityName = activityName.trim();
         if(checkActivity(activityName, date, startTimeActivity, endTimeActivity)) {
-            activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status));
+            activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
+        }
+    }
+    public void addActivity(Activity activity){
+            activities.add(activity);
+    }
+    public void addActivity(ActivityList activityList, ActivityList list, String eventName){
+        for(Activity activity: list.getActivities()){
+            if(eventName.equals(activity.getEventName())){
+                activityList.addActivity(activity);
+            }
         }
     }
     public boolean checkActivity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity){
@@ -28,6 +38,7 @@ public class ActivityList {
         }
         return true;
     }
+
     public ArrayList<Activity> getActivities(){
         return activities;
     }

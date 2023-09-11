@@ -12,7 +12,7 @@ public class HelloApplication extends Application {
         configRoute();
 
         FXRouter.bind(this, stage, "CS211 661 Project");
-        FXRouter.goTo("login-page");
+        FXRouter.goTo("create-schedule");
     }
 
     private static void configRoute() {

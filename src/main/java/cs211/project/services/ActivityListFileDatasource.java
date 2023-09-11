@@ -6,8 +6,6 @@ import cs211.project.models.collections.ActivityList;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
-
 public class ActivityListFileDatasource implements Datasource<ActivityList>{
     private String directoryName;
     private String fileName;
@@ -74,8 +72,9 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String teamName = data[4].trim();
                 String participantName = data[5].trim();
                 String status = data[6].trim();
+                String eventName = data[7].trim();
                 // เพิ่มข้อมูลลงใน list
-                activities.addActivity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status);
+                activities.addActivity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -107,7 +106,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         try {
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (Activity activity : data.getActivities()) {
-                String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity()+","+activity.getEndTimeActivity()+","+activity.getTeamName()+","+activity.getParticipantName()+","+activity.getStatus();
+                String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity()+","+activity.getEndTimeActivity()+","+activity.getTeamName()+","+activity.getParticipantName()+","+activity.getStatus()+","+activity.getEventName();
                 buffer.append(line);
                 buffer.append("\n");
             }
