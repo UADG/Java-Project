@@ -1,6 +1,7 @@
 package cs211.project.models;
 
 import cs211.project.models.collections.ActivityList;
+import cs211.project.services.ActivityListFileDatasource;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
@@ -15,6 +16,7 @@ public class Activity {
     private String participantName;
     private String status;
     private String eventName;
+    private Team team;
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
@@ -61,6 +63,7 @@ public class Activity {
     public String getEventName() {
         return eventName;
     }
+    public Team getTeam(){return team;}
 
     public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
         if(this.date.equals(date)){
@@ -76,5 +79,11 @@ public class Activity {
             return false;
         }
         return false;
+    }
+
+    public void addTeamInActivity(Team team){
+        this.team = team;
+        ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
+        // wait for code naja
     }
 }
