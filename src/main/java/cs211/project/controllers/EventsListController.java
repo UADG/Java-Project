@@ -123,6 +123,13 @@ public class EventsListController {
     @FXML
     protected void onApplyToStaffClick() {
         try {
+            FXRouter.goTo("event-schedule");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }@FXML
+    protected void onApplyToParticipantClick() {
+        try {
             if(selectedEvent.getParticipantLeft() > 0) {
                 selectedEvent.participantJoin();
                 FXRouter.goTo("event-schedule");

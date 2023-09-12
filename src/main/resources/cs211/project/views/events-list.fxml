@@ -41,7 +41,7 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" text="apply for participant">
+      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="119.0" text="apply for participant">
          <font>
             <Font size="11.0" />
          </font>
