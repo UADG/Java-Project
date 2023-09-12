@@ -10,12 +10,10 @@ public class UserList{
     public void addNewUser(String username, String password, String name, String time) {
         username = username.trim();
         name = name.trim();
-        password = password.trim();
-        time = time.trim();
         if (!username.equals("")&&!name.equals("")) {
             User exist = findUserByUsername(username);
             if (exist == null) {
-                users.add(new User(username.trim(), name.trim(), password.trim(), time.trim()));
+                users.add(new User(username, name, password.trim(), time.trim()));
             }
         }
     }
