@@ -7,6 +7,7 @@ import javafx.event.ActionEvent;
 import java.io.IOException;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,12 +16,10 @@ public class LoginPageController {
     @FXML private TextField usernameText;
     @FXML private PasswordField passwordText;
     @FXML private Label invalidLabel;
-    @FXML private Label wrongPassLabel;
     private AccountList accountList;
     @FXML
     public void initialize() {
         invalidLabel.setVisible(false);
-        wrongPassLabel.setVisible(false);
         AccountHardCode data = new AccountHardCode();
         accountList = data.readData();
     }
@@ -31,19 +30,24 @@ public class LoginPageController {
         Account account = accountList.findAccountByUsername(username);
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
-            if(account.isPassword(password)){
-                FXRouter.goTo("home-page", account);
-            }else{
-                wrongPassLabel.setVisible(true);
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                wrongPassLabel.setVisible(false);
-                            }
-                        },
-                        1000 // 1 sec
-                );
+            if(account.isUnban(account.getUserStatus())) {
+                if (account.isPassword(password)) {
+                    FXRouter.goTo("home-page", account);
+                } else {
+                    invalidLabel.setText("Wrong password.");
+                    invalidLabel.setVisible(true);
+                    new java.util.Timer().schedule(
+                            new java.util.TimerTask() {
+                                @Override
+                                public void run() {
+                                    invalidLabel.setVisible(false);
+                                }
+                            },
+                            1000 // 1 sec
+                    );
+                }
+            }else {
+                showAlert("Your account got banned.");
             }
         }else{
             invalidLabel.setVisible(true);
@@ -65,5 +69,12 @@ public class LoginPageController {
     public void clearData(){
         usernameText.setText("");
         passwordText.setText("");
+    }
+    private void showAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Banned");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

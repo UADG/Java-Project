@@ -2,8 +2,8 @@ package cs211.project.models;
 
 public class Admin extends Account {
 
-    public Admin(int id, String username, String password, String name) {
-        super(id, username, name, password);
+    public Admin(String username, String password, String name, String time) {
+        super("admin", username, password, name, time);
     }
 
     public void changePassword(String password) {
@@ -14,7 +14,7 @@ public class Admin extends Account {
 
     @Override
     public String toString() {
-        return  "ID: '" + id + "', " +
+        return  "Role: '" + role + "', " +
                 "Username: '" + username + "', " +
                 "Name: '" + name + "'";
     }
