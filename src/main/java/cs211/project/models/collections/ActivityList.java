@@ -20,17 +20,26 @@ public class ActivityList {
     }
     public void addActivity(ActivityList activityList, ActivityList list, String eventName){
         for(Activity activity: list.getActivities()){
-            if(activity.isActivity(eventName)){
+            if(activity.getEventName().equals((eventName))){
                 activityList.addActivity(activity);
             }
         }
+
     }
     public boolean checkActivity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity){
-        for(Activity activity: activities){
-            if(activity.isActivity(activityName)){
+        if(!activities.isEmpty()) {
+            for (Activity activity : activities) {
+                if (activity.isActivity(activityName)) {
+                    return false;
+                } else if (activity.checkTimeActivity(startTimeActivity, endTimeActivity, date)) {
+                    return false;
+                }
+            }
+        } else {
+            if (endTimeActivity.isBefore(startTimeActivity)) {
                 return false;
             }
-            else if(activity.checkTimeActivity(startTimeActivity,endTimeActivity,date)){
+            else if (endTimeActivity.equals(startTimeActivity)) {
                 return false;
             }
         }

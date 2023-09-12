@@ -58,7 +58,6 @@ public class Activity {
     public boolean isActivity(String activityName) {
         return this.activityName.equals(activityName);
     }
-
     public String getEventName() {
         return eventName;
     }
