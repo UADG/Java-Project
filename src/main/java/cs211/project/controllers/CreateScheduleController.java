@@ -47,13 +47,14 @@ public class CreateScheduleController {
         activityList = new ActivityList();
         EventHardCode datasource = new EventHardCode();
         eventList = datasource.readData();
-        eventName = eventList.findEventByEventName("Fes").getEventName();
+        eventName = eventList.findEventByEventName("Fes").getEventName().trim();
         chooseDate.getItems().addAll(eventList.findEventByEventName("Fes").getArrayDate());
         chooseHourTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
         chooseHourTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
         activityList.addActivity(activityList, list, eventName);
+        for(Activity activity: activityList.getActivities()) System.out.println(activity.getActivityName());
         showTable(activityList);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
