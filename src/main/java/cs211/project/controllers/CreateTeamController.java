@@ -4,6 +4,8 @@ import cs211.project.models.Activity;
 import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.services.FXRouter;
+import cs211.project.services.TeamListFileDatasource;
+import cs211.project.services.TeamListHardCode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -91,22 +93,27 @@ public class CreateTeamController {
     }
 
     public void createTeam(){
-        String teamName = teamNameTextField.getText();
-        String numberStr = numberOfTeamMemberTextField.getText();
-        if(!teamName.equals("")&&!numberStr.equals("")){
-            try {
-                int number = Integer.parseInt(numberStr);
-                Team team = new Team(teamName, number);
-                selectedActivity.addTeamInActivity(team);
-                showTable(list);
-                teamNameTextField.clear();
-                numberOfTeamMemberTextField.clear();
-            }catch (NumberFormatException e){
-                errorLabel.setText("Number of people must be number");
+        if(selectedActivity != null){
+            String teamName = teamNameTextField.getText();
+            String numberStr = numberOfTeamMemberTextField.getText();
+            if(!teamName.equals("")&&!numberStr.equals("")){
+                try {
+                    int number = Integer.parseInt(numberStr);
+                    Team team = new Team(teamName, number);
+                    selectedActivity.addTeamInActivity(team);
+                    showTable(list);
+                    teamNameTextField.clear();
+                    numberOfTeamMemberTextField.clear();
+                }catch (NumberFormatException e){
+                    errorLabel.setText("Number of people must be number");
+                }
+            }else{
+                errorLabel.setText("Must fill all information before create team");
             }
         }else{
-            errorLabel.setText("Must fill all information before create team");
+            errorLabel.setText("please select some activity before create team");
         }
+
     }
 
     @FXML

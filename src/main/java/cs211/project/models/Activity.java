@@ -84,6 +84,6 @@ public class Activity {
     public void addTeamInActivity(Team team){
         this.team = team;
         ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
-        // wait for code naja
+        datasource.updateTeamInActivity(activityName,team);
     }
 }

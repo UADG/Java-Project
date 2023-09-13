@@ -126,8 +126,8 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         }
     }
 
-    public void updateTeamInActivity(Activity activity,Team team){
-        ArrayList<String[]> listInfo = new ArrayList<>();
+    public void updateTeamInActivity(String activityName,Team team){
+        ArrayList<String[]> allInfo = new ArrayList<>();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -155,56 +155,62 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
 
                 // แยกสตริงด้วย ,
                 String[] data = line.split(",");
-                if(data[0].equals(activity.getActivityName())){
+                System.out.println("000000000");
+                System.out.println(activityName);
+
+                if(data[0].equals(activityName)){
+                    System.out.println("111111");
+                    System.out.println(activityName);
                     data[4] = team.getTeamName();
                 }
-                listInfo.add(data);
 
+                allInfo.add(data);
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-//        filePath = directoryName + File.separator + fileName;
-//        file = new File(filePath);
-//
-//        // เตรียม object ที่ใช้ในการเขียนไฟล์
-//        FileOutputStream fileOutputStream = null;
-//
-//        try {
-//            fileOutputStream = new FileOutputStream(file);
-//        } catch (FileNotFoundException e) {
-//            throw new RuntimeException(e);
-//        }
-//
-//        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
-//                fileOutputStream,
-//                StandardCharsets.UTF_8
-//        );
-//        BufferedWriter bufferWriter = new BufferedWriter(outputStreamWriter);
-//
-//        try {
-//            // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
-//            for (Activity activity : data.getActivities()) {
-//                String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity()+","+activity.getEndTimeActivity()+","+activity.getTeamName()+","+activity.getParticipantName()+","+activity.getStatus()+","+activity.getEventName();
-//                buffer.append(line);
-//                buffer.append("\n");
-//                bufferWriter.
-//            }
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } finally {
-//            try {
-//                buffer.flush();
-//                buffer.close();
-//            }
-//            catch (IOException e){
-//                throw new RuntimeException(e);
-//            }
-//        }
-//
+
+        // เตรียม object ที่ใช้ในการเขียนไฟล์
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                fileOutputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+
+
+
+
+        try {
+            bufferedWriter.write("");
+            for(int i = 0;i<allInfo.size();i++){
+                String[] newLine = allInfo.get(i);
+                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7];
+                bufferedWriter.append(writeLine);
+                bufferedWriter.append("\n");
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+
     }
-//
-//
 
 }

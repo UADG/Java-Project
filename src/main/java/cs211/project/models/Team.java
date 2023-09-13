@@ -8,7 +8,8 @@ import java.util.HashMap;
 public class Team {
     protected String teamName;
     protected int numberOfStaff;
-   protected StaffList staffs;
+   protected int numberOfStaffLeft;
+    protected StaffList staffs;
     protected ArrayList<String> bannedStaff;
     protected ScheduleTeam schedule;
 
@@ -16,8 +17,15 @@ public class Team {
     public Team(String teamName, int numberOfStaff){
         this.teamName = teamName;
         this.numberOfStaff = numberOfStaff;
+        numberOfStaffLeft = numberOfStaff;
         staffs = new StaffList();
         bannedStaff = new ArrayList<>();
+        createTeamInCSV();
+    }
+
+    public Team(String teamName, int numberOfStaff, int numberOfStaffLeft){
+        this(teamName,numberOfStaff);
+        this.numberOfStaffLeft = numberOfStaffLeft;
     }
 
     public void addStaffInTeam(Staff staff){
@@ -26,6 +34,10 @@ public class Team {
 
     public void addStaffInTeam(String id, String name){
         staffs.addStaff(id, name);
+    }
+
+    public void addStaffInTeam(String id){
+        staffs.addStaff(id,"TestFileWriterDummy");
     }
 
     public void deleteStaff(String id){
@@ -60,8 +72,8 @@ public class Team {
         return left;
     }
 
-    public int checkStaffExist(String staffID){
-        return 0;
+    public void createTeamInCSV(){
+
     }
 
     public String getTeamName(){
@@ -80,6 +92,8 @@ public class Team {
         return bannedStaff;
     }
 
+    public int getNumberOfStaff(){return numberOfStaff;}
+    public int getNumberOfStaffLeft(){return numberOfStaffLeft;}
 
     @Override
     public String toString() {
