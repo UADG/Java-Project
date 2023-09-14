@@ -5,6 +5,7 @@ import cs211.project.models.Team;
 import cs211.project.models.collections.StaffList;
 import cs211.project.models.collections.TeamList;
 import cs211.project.services.FXRouter;
+import cs211.project.services.TeamListFileDatasource;
 import cs211.project.services.TeamListHardCode;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -20,24 +21,20 @@ public class BanAllController {
     @FXML RadioButton chooseRoleTeam;
     @FXML RadioButton chooseRoleSingleParticipant;
     @FXML ListView eventMemberListView;
-    private String name;
     private Team team;
     private Staff selectedStaff;
-    private StaffList forShowInListView;
-    private TeamListHardCode data;
     private TeamList list;
     private boolean notFirst;
+    private TeamListFileDatasource data;
     @FXML
     public void initialize(){
         clearInfo();
+        updateData();
         notFirst = false;
-        data = new TeamListHardCode();
         list = data.readData();
         chooseRoleSingleParticipant.setSelected(true);
+        chooseTeam.getItems().addAll(data.readData().getTeams());
         setChooseTeamVisible(false);
-        chooseTeam.getItems().addAll(list.getTeams());
-
-
 }
 
     @FXML
@@ -64,6 +61,10 @@ public class BanAllController {
             showParticipant();
 
         }
+    }
+
+    public void updateData(){
+        data = new TeamListFileDatasource("data","team.csv");
     }
 
     public void setChooseTeamVisible(boolean bool){
@@ -107,7 +108,9 @@ public class BanAllController {
 
     public void banTarget(){
         if (team != null && selectedStaff != null) {
+            updateData();
             team.banStaffInTeam(selectedStaff.getId());
+            data.updateStaffInTeam(team.getTeamName(),selectedStaff,"-");
             showStaff();
         }
     }

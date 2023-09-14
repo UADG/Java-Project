@@ -64,7 +64,7 @@
             <Font size="11.0" />
          </font>
       </Label>
-      <Button layoutX="704.0" layoutY="429.0" mnemonicParsing="false" onAction="#createTeamButton" prefHeight="25.0" prefWidth="41.0" text="Next" />
+      <Button layoutX="704.0" layoutY="429.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="25.0" prefWidth="41.0" text="Next" />
       <TableView fx:id="activityTableView" layoutX="55.0" layoutY="134.0" prefHeight="375.0" prefWidth="377.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />

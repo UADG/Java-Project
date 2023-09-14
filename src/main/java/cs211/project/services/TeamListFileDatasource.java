@@ -72,7 +72,7 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
                 Team newTeam = new Team(teamName, numberAll,numberLeft);
 
                 for(int i = 3;i<data.length;i++){
-                    newTeam.addStaffInTeam(data[3]);
+                    newTeam.addStaffInTeam(data[i]);
                 }
 
                 teams.addTeam(newTeam);
@@ -107,7 +107,7 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
         try {
             for(Team team:data.getTeams()){
                 String line = team.getTeamName()+","+team.getNumberOfStaff()+","+team.getNumberOfStaffLeft();
-                for(Staff staff:team.getStaffsInTeam().getStaffList()){
+                for(Staff staff:team.getStaffThatNotBan().getStaffList()){
                     line += ","+staff.getId();
                 }
                 buffer.append(line);
@@ -125,5 +125,52 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
             }
         }
 
+    }
+
+    public void writeData(Team team) {
+        TeamList list = readData();
+        list.addTeam(team);
+        writeData(list);
+    }
+
+    public void updateStaffInTeam(String teamName, Staff staff, String op){
+        TeamList list = this.readData();
+        String filePath = directoryName + File.separator + fileName;
+        File file = new File(filePath);
+
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                fileOutputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
+
+        try {
+            buffer.write("");
+            for(Team team : list.getTeams()){
+                if(team.getTeamName().equals(teamName)){
+                    if(op.equals("+")) team.addStaffInTeam(staff);
+                    else if(op.equals("-")) team.banStaffInTeam(staff.getId());
+                }
+            }
+            writeData(list);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                buffer.flush();
+                buffer.close();
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
     }
 }

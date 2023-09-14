@@ -1,10 +1,9 @@
 package cs211.project.models;
 
 import cs211.project.models.collections.StaffList;
+import cs211.project.services.TeamListFileDatasource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Team {
     protected String teamName;
     protected int numberOfStaff;
@@ -20,7 +19,6 @@ public class Team {
         numberOfStaffLeft = numberOfStaff;
         staffs = new StaffList();
         bannedStaff = new ArrayList<>();
-        createTeamInCSV();
     }
 
     public Team(String teamName, int numberOfStaff, int numberOfStaffLeft){
@@ -30,10 +28,12 @@ public class Team {
 
     public void addStaffInTeam(Staff staff){
         staffs.addStaff(staff);
+        numberOfStaffLeft--;
     }
 
     public void addStaffInTeam(String id, String name){
         staffs.addStaff(id, name);
+        numberOfStaffLeft--;
     }
 
     public void addStaffInTeam(String id){
@@ -42,11 +42,19 @@ public class Team {
 
     public void deleteStaff(String id){
         staffs.deleteStaff(id);
+        numberOfStaffLeft++;
     }
+
+    public void deleteStaff(Staff staff){
+        deleteStaff(staff.getId());
+        numberOfStaffLeft++;
+    }
+
     public void banStaffInTeam(String id){
         Staff exist = staffs.checkStaffInList(id);
         if(exist!=null){
             bannedStaff.add(exist.getId());
+            numberOfStaffLeft++;
         }
     }
 
@@ -65,15 +73,12 @@ public class Team {
                 left.addStaff(staff);
             }
         }
-//        return left;
-        for(Staff staff: left.getStaffList()){
-            System.out.println(staff);
-        }
         return left;
     }
 
     public void createTeamInCSV(){
-
+        TeamListFileDatasource data = new TeamListFileDatasource("data","team.csv");
+        data.writeData(this);
     }
 
     public String getTeamName(){
@@ -97,7 +102,6 @@ public class Team {
 
     @Override
     public String toString() {
-        if(numberOfStaff > 1)return teamName+" "+"have "+numberOfStaff+" peoples";
-        else return teamName+" "+"has "+numberOfStaff+" people";
+        return teamName;
     }
 }

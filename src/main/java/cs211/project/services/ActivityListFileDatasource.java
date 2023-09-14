@@ -150,17 +150,10 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         try {
             // ใช้ while loop เพื่ออ่านข้อมูลรอบละบรรทัด
             while ( (line = buffer.readLine()) != null ){
-                // ถ้าเป็นบรรทัดว่าง ให้ข้าม
                 if (line.equals("")) continue;
-
-                // แยกสตริงด้วย ,
                 String[] data = line.split(",");
-                System.out.println("000000000");
-                System.out.println(activityName);
 
                 if(data[0].equals(activityName)){
-                    System.out.println("111111");
-                    System.out.println(activityName);
                     data[4] = team.getTeamName();
                 }
 
@@ -172,7 +165,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         }
 
 
-        // เตรียม object ที่ใช้ในการเขียนไฟล์
         FileOutputStream fileOutputStream = null;
 
         try {
@@ -186,8 +178,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 StandardCharsets.UTF_8
         );
         BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
-
-
 
 
         try {

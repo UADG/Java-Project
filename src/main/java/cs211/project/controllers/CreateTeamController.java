@@ -1,6 +1,7 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Activity;
+import cs211.project.models.Staff;
 import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.services.FXRouter;
@@ -60,22 +61,21 @@ public class CreateTeamController {
     }
 
     public void showTable(ActivityList list){
-        // กำหนด column ให้มี title ว่า ID และใช้ค่าจาก attribute id ของ object Student
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
         TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
         dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        // กำหนด column ให้มี title ว่า Name และใช้ค่าจาก attribute name ของ object Student
+
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-        // กำหนด column ให้มี title ว่า Score และใช้ค่าจาก attribute score ของ object Student
+
         TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
 
-        // ล้าง column เดิมทั้งหมดที่มีอยู่ใน table แล้วเพิ่ม column ใหม่
+
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
         activityTableView.getColumns().add(dateActivityColumn);
@@ -84,7 +84,7 @@ public class CreateTeamController {
 
         activityTableView.getItems().clear();
 
-        // ใส่ข้อมูล Student ทั้งหมดจาก studentList ไปแสดงใน TableView
+
         for (Activity activity: list.getActivities()) {
             if(activity.getTeam() == null){
                 activityTableView.getItems().add(activity);
@@ -100,6 +100,7 @@ public class CreateTeamController {
                 try {
                     int number = Integer.parseInt(numberStr);
                     Team team = new Team(teamName, number);
+                    team.createTeamInCSV();
                     selectedActivity.addTeamInActivity(team);
                     showTable(list);
                     teamNameTextField.clear();
@@ -126,7 +127,7 @@ public class CreateTeamController {
     }
 
     @FXML
-    protected void createTeamButton(){
+    protected void onNextClick(){
         try {
             FXRouter.goTo("event-history");
         } catch (IOException e) {
