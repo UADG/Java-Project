@@ -32,7 +32,6 @@ public class CreateScheduleController {
     @FXML private TableView<Activity> activityTableView;
     private String eventName;
     private ActivityList activityList;
-    private ActivityList list;
     private Activity selectedActivity;
     private EventList eventList;
     private Datasource<ActivityList> datasource;
@@ -43,8 +42,7 @@ public class CreateScheduleController {
         clearActivityInfo();
         errorActivityNameLabel.setText("");
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        list = datasource.readData();
-        activityList = new ActivityList();
+        activityList = datasource.readData();
         EventHardCode datasource = new EventHardCode();
         eventList = datasource.readData();
         eventName = eventList.findEventByEventName("Fes").getEventName().trim();
@@ -53,8 +51,7 @@ public class CreateScheduleController {
         chooseMinTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
         chooseHourTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
-        activityList.addActivity(activityList, list, eventName);
-        for(Activity activity: activityList.getActivities()) System.out.println(activity.getActivityName());
+        activityList.addActivityInEvent(eventName);
         showTable(activityList);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
@@ -132,11 +129,15 @@ public class CreateScheduleController {
             LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
             LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
             if (activityList.checkActivity(activityName, date, startTimeActivity, endTimeActivity)) {
-                activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, null, "0", eventName);
-                list.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, null, "0", eventName);
-                datasource.writeData(list);
+                activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, "", "0", eventName);
+                datasource.writeData(activityList);
+                if(activityList.getActivities().isEmpty()){
+                        activityList.addActivityInEvent(eventName);
+                }
                 showTable(activityList);
-            } else {
+            }
+
+            else {
                 errorActivityNameLabel.setText("This activity conflicts with an existing activity.");
             }
         }

@@ -1,7 +1,11 @@
 package cs211.project.controllers;
 
+import cs211.project.models.Activity;
 import cs211.project.models.Event;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
+import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.EventHardCode;
 import cs211.project.services.FXRouter;
 import javafx.beans.value.ChangeListener;
@@ -31,6 +35,8 @@ public class EventsListController {
 
     @FXML private TextField searchTextField;
     private Event selectedEvent;
+    private ActivityList activityList;
+    private Datasource<ActivityList> datasource;
 
     @FXML
     public void initialize() {
@@ -132,6 +138,11 @@ public class EventsListController {
         try {
             if(selectedEvent.getParticipantLeft() > 0) {
                 selectedEvent.participantJoin();
+                datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                activityList = datasource.readData();
+                activityList.addActivityInEvent(selectedEvent.getEventName());
+                activityList.addParticipant("UADG");
+                datasource.writeData(activityList);
                 FXRouter.goTo("event-schedule");
             }
             else {

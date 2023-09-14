@@ -86,4 +86,7 @@ public class Activity {
         ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
         datasource.updateTeamInActivity(activityName,team);
     }
+    public void setParticipantName(String participantName){
+        this.participantName = participantName;
+    }
 }
