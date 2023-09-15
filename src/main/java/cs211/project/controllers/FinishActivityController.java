@@ -26,15 +26,14 @@ public class FinishActivityController {
     private ActivityListFileDatasource data;
     private ActivityList list;
     private String eventName;
+    private Event selectedEvent;
 
     @FXML
     public void initialize(){
         clearInfo();
         updateData();
-        eventName = ((Event)FXRouter.getData()).getEventName();
-        list = data.readData();
-        list.findActivityInEvent(eventName);
-        showTable(list);
+        selectedEvent = (Event)FXRouter.getData();
+        showTable(selectedEvent.loadActivityInEvent());
 
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override

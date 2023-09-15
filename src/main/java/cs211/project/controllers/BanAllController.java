@@ -1,9 +1,13 @@
 package cs211.project.controllers;
 
+import cs211.project.models.Activity;
+import cs211.project.models.Event;
 import cs211.project.models.Staff;
 import cs211.project.models.Team;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.StaffList;
 import cs211.project.models.collections.TeamList;
+import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.FXRouter;
 import cs211.project.services.TeamListFileDatasource;
 import cs211.project.services.TeamListHardCode;
@@ -25,18 +29,19 @@ public class BanAllController {
     private Staff selectedStaff;
     private TeamList list;
     private boolean notFirst;
+    private Event selectedEvent;
     private TeamListFileDatasource data;
     @FXML
     public void initialize(){
+        selectedEvent = (Event) FXRouter.getData();
         clearInfo();
         updateData();
+        list = selectedEvent.loadTeamInEvent();
         notFirst = false;
-        list = data.readData();
         chooseRoleSingleParticipant.setSelected(true);
-        chooseTeam.getItems().addAll(data.readData().getTeams());
+        chooseTeam.getItems().addAll(list.getTeams());
         setChooseTeamVisible(false);
 }
-
     @FXML
     public void clearInfo(){
         nameLabel.setText("");
