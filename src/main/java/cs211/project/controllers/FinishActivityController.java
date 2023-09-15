@@ -77,7 +77,8 @@ public class FinishActivityController {
 
 
         for (Activity activity: list.getActivities()) {
-            activityTableView.getItems().add(activity);
+            System.out.println(activity.getActivityName());
+            if(activity.getStatus().equals("0")) activityTableView.getItems().add(activity);
         }
     }
 
@@ -97,6 +98,17 @@ public class FinishActivityController {
 
     public void updateData(){
         data = new ActivityListFileDatasource("data", "activity-list.csv");
+    }
+
+    public void finishActivity(){
+        ActivityList list = data.readData();
+        list.findActivityInEvent(selectedActivity.getEventName());
+        list.setActivityStatus(selectedActivity.getActivityName(),"1");
+        data.writeData(list);
+        updateData();
+        list = data.readData();
+        list.findActivityInEvent(eventName);
+        showTable(list);
     }
 
 
