@@ -1,58 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Button layoutX="414.0" layoutY="295.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="137.0" text="Finish Activity" />
-      <ListView fx:id="activityListView" layoutX="70.0" layoutY="101.0" prefHeight="440.0" prefWidth="291.0" />
-      <ComboBox layoutX="409.0" layoutY="101.0" prefWidth="150.0" promptText="choose activity" />
-      <Label layoutX="413.0" layoutY="145.0" text="Activity :">
+      <Button layoutX="523.0" layoutY="308.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="137.0" text="Finish Activity" />
+      <Label layoutX="519.0" layoutY="144.0" text="Activity :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="414.0" layoutY="185.0" text="Date :">
+      <Label layoutX="520.0" layoutY="184.0" text="Date :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="412.0" layoutY="222.0" text="Time Start :">
+      <Label layoutX="518.0" layoutY="221.0" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="70.0" layoutY="66.0" text="EventName : ">
+      <Label layoutX="70.0" layoutY="66.0" prefHeight="27.0" prefWidth="130.0" text="Finish Activity">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="412.0" layoutY="257.0" text="Time End :">
+      <Label layoutX="518.0" layoutY="256.0" text="Time End :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="activityLabel" layoutX="476.0" layoutY="145.0" text="ActivityName">
+      <Label fx:id="nameLabel" layoutX="582.0" layoutY="144.0" text="ActivityName">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="dateLabel" layoutX="455.0" layoutY="185.0" text="Date">
+      <Label fx:id="dateLabel" layoutX="561.0" layoutY="184.0" text="Date">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="timeStartLabel" layoutX="484.0" layoutY="222.0" text="TimeStart">
+      <Label fx:id="timeStartLabel" layoutX="590.0" layoutY="221.0" text="TimeStart">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="timeStopLabel" layoutX="475.0" layoutY="257.0" text="TimeEnd">
+      <Label fx:id="timeStopLabel" layoutX="581.0" layoutY="256.0" text="TimeEnd">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="eventNameLabel" layoutX="175.0" layoutY="66.0" prefHeight="27.0" prefWidth="185.0" text="Label">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
+      <TableView fx:id="activityTableView" layoutX="70.0" layoutY="106.0" prefHeight="430.0" prefWidth="414.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>

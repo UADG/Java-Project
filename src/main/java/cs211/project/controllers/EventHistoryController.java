@@ -89,7 +89,7 @@ public class EventHistoryController {
     @FXML
     protected void onFinishActivityClick() {
         try {
-            FXRouter.goTo("finish-activity");
+            FXRouter.goTo("finish-activity",selectedEvent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
