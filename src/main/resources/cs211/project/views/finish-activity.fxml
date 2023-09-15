@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Button layoutX="523.0" layoutY="308.0" mnemonicParsing="false" prefHeight="27.0" prefWidth="137.0" text="Finish Activity" />
+      <Button layoutX="523.0" layoutY="308.0" mnemonicParsing="false" onAction="#finishActivity" prefHeight="27.0" prefWidth="137.0" text="Finish Activity" />
       <Label layoutX="519.0" layoutY="144.0" text="Activity :">
          <font>
             <Font size="14.0" />

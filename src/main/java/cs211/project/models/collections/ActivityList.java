@@ -21,6 +21,12 @@ public class ActivityList {
             activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
         }
     }
+
+    public void addActivity(Activity activity){
+        allActivities.add(activity);
+        findActivityInEvent(activity.getEventName());
+    }
+
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){
             if(activity.getEventName().equals((eventName))){
@@ -62,6 +68,24 @@ public class ActivityList {
                 if(activity.getEventName().equals(activity2.getEventName()) && activity.getActivityName().equals(activity2.getActivityName())){
                     if(!activity.getParticipantName().equals(activity2.getParticipantName())){
                         activity.setParticipantName(activity2.getParticipantName());
+                        break;
+                    }
+                }
+            }
+        }
+    }
+    public void setActivityStatus(String activityName, String status) {
+        for(Activity activity : activities){
+            if(activity.getActivityName().equals(activityName)){
+                activity.setActivityStatus(status);
+                break;
+            }
+        }
+        for (Activity activity : allActivities) {
+            for (Activity activity2 : activities) {
+                if(activity.getEventName().equals(activity2.getEventName()) && activity.getActivityName().equals(activity2.getActivityName())){
+                    if(!activity.getActivityName().equals(activity2.getActivityName())){
+                        activity.setActivityStatus(activity2.getStatus());
                         break;
                     }
                 }

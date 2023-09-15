@@ -81,6 +81,10 @@ public class Activity {
         return false;
     }
 
+    public void setActivityStatus(String status){
+        this.status = status;
+    }
+
     public void addTeamInActivity(Team team){
         this.team = team;
         ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
