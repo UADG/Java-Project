@@ -140,7 +140,7 @@ public class EventsListController {
                 selectedEvent.participantJoin();
                 datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                 activityList = datasource.readData();
-                activityList.addActivityInEvent(selectedEvent.getEventName());
+                activityList.findActivityInEvent(selectedEvent.getEventName());
                 activityList.addParticipant("UADG");
                 datasource.writeData(activityList);
                 FXRouter.goTo("event-schedule");

@@ -21,7 +21,7 @@ public class ActivityList {
             activities.add(new Activity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
         }
     }
-    public void addActivityInEvent(String eventName){
+    public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){
             if(activity.getEventName().equals((eventName))){
                 activities.add(activity);

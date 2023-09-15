@@ -51,7 +51,7 @@ public class CreateScheduleController {
         chooseMinTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
         chooseHourTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
         chooseMinTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
-        activityList.addActivityInEvent(eventName);
+        activityList.findActivityInEvent(eventName);
         showTable(activityList);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
@@ -132,7 +132,7 @@ public class CreateScheduleController {
                 activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, "", "0", eventName);
                 datasource.writeData(activityList);
                 if(activityList.getActivities().isEmpty()){
-                        activityList.addActivityInEvent(eventName);
+                        activityList.findActivityInEvent(eventName);
                 }
                 showTable(activityList);
             }
