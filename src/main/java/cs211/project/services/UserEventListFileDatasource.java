@@ -64,11 +64,11 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
                 if (line.equals("")) continue;
 
                 String[] data = line.split(",");
-                int id = Integer.parseInt(data[0]);
+                String username = data[0].trim();
 
                 for (int i = 0; i < data.length; i++) {
                     String eventName = data[1].trim();
-                    users.addEvent(id,eventName);
+                    users.addEvent(username,eventName);
                 }
             }
         } catch (IOException e) {
@@ -101,9 +101,6 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
         try {
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (User user : data.getUsers()) {
-                String line = String.valueOf(user.getId()) + ",";
-                
-                buffer.append(line);
                 buffer.append("\n");
             }
         } catch (IOException e) {

@@ -88,26 +88,40 @@ public class EventHistoryController {
 
     @FXML
     protected void onFinishActivityClick() {
-        try {
-            FXRouter.goTo("finish-activity");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("finish-activity",selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
     @FXML
     protected void onFixScheduleClick() {
-        try {
-            FXRouter.goTo("fix-team-schedule");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("fix-team-schedule",selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
+
+
     @FXML
     protected void onBanAllClick() {
-        try {
-            FXRouter.goTo("ban-all");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("ban-all",selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
 

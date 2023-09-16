@@ -16,7 +16,7 @@
       <ListView fx:id="eventListView" layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
       <TextField fx:id="searchTextField" alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
          <font>
-            <Font size="9.0" />
+            <Font name="Krub Regular" size="9.0" />
          </font>
       </TextField>
       <Label layoutX="410.0" layoutY="269.0" text="Name: " />
@@ -41,7 +41,7 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" text="apply for participant">
+      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="119.0" text="apply for participant">
          <font>
             <Font size="11.0" />
          </font>
@@ -53,6 +53,6 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <Label fx:id="errorLabelApplyToParticipants" layoutX="549.0" layoutY="450.0" prefHeight="0.0" prefWidth="56.0" text="errorLabel" textFill="#f20000" />
+      <Label fx:id="errorLabelApplyToParticipants" layoutX="521.0" layoutY="450.0" prefHeight="17.0" prefWidth="186.0" text="errorLabel" textFill="#f20000" />
    </children>
 </AnchorPane>

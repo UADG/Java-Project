@@ -1,6 +1,7 @@
 package cs211.project.models.collections;
 
 import cs211.project.models.Admin;
+import cs211.project.models.User;
 
 import java.util.ArrayList;
 
@@ -9,21 +10,22 @@ public class AdminCollection {
     public AdminCollection() {
         admins = new ArrayList<>();
     }
-    public void addNewAdmin(int id, String username, String password, String name) {
+    public void addNewAdmin(String username, String password, String name, String time) {
         username = username.trim();
         name = name.trim();
         password = password.trim();
 
         if (!username.equals("")) {
-            Admin exist = findAdminById(id);
+            Admin exist = findAdminByUsername(username);
             if (exist == null) {
-                admins.add(new Admin(id, username, name, password));
+                admins.add(new Admin(username, password, name.trim(), time.trim()));
             }
         }
     }
-    public Admin findAdminById(int id) {
+
+    public Admin findAdminByUsername(String username) {
         for (Admin admin : admins) {
-            if (admin.isId(id)) {
+            if (admin.isUsername(username)) {
                 return admin;
             }
         }

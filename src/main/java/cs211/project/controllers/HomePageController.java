@@ -18,7 +18,7 @@ public class HomePageController {
         adminButton.setVisible(false);
         AccountHardCode data = new AccountHardCode();
         accountList = data.readData();
-        if(account.checkRole(account.getId()).equals("admin")){
+        if(account.isAdmin(account.getRole())){
             adminButton.setVisible(true);
         }
     }

@@ -10,35 +10,25 @@ public class UserList{
     public void addNewUser(String username, String password, String name, String time) {
         username = username.trim();
         name = name.trim();
-        password = password.trim();
-        time = time.trim();
         if (!username.equals("")&&!name.equals("")) {
             User exist = findUserByUsername(username);
             if (exist == null) {
-                users.add(new User(username.trim(), name.trim(), password.trim(), time.trim()));
+                users.add(new User(username, name, password.trim(), time.trim()));
             }
         }
     }
 
-    public void addEvent(int id, String eventName) {
-        id = id;
+    public void addEvent(String username, String eventName) {
+        username = username.trim();
         eventName = eventName.trim();
-        if (id != 0 && eventName.equals("")) {
-            User exist = findUserById(id);
+        if (username.equals("") && eventName.equals("")) {
+            User exist = findUserByUsername(username);
             if (exist == null) {
 
             }
         }
     }
 
-    public User findUserById(int id) {
-        for (User user : users) {
-            if (user.isId(id)) {
-                return user;
-            }
-        }
-        return null;
-    }
 
     public User findUserByUsername(String username) {
         for (User user : users) {

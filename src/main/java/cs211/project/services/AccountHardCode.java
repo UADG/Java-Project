@@ -22,12 +22,12 @@ public class AccountHardCode {
         String formatted4 = time4.format(formatter);
 
         AccountList accountList = new AccountList();
-        accountList.addNewAccount(11,"best", "Bestttt", "Bestto", formatted1);
-        accountList.addNewAccount(12,"win", "winwin", "WinnieThePooh", formatted2);
-        accountList.addNewAccount(13,"ai", "12345678", "AiAye", formatted3);
-        accountList.addNewAccount(14,"jim", "JimZa007", "JimZaKung", formatted4);
-        accountList.addNewAccount(0, "Admin", "admin1234", "Ad", "");
-        accountList.addNewAccount(1,"admin", "123", "a", "");
+        accountList.addNewAccount("user","best", "Bestttt", "Bestto", formatted1);
+        accountList.addNewAccount("user","win", "winwin", "WinnieThePooh", formatted2);
+        accountList.addNewAccount("user","ai", "12345678", "AiAye", formatted3);
+        accountList.addNewAccount("user","jim", "JimZa007", "JimZaKung", formatted4);
+        accountList.addNewAccount("admin", "Admin", "admin1234", "Ad", "");
+        accountList.addNewAccount("admin","admin", "123", "a", "");
         return accountList;
     }
 }

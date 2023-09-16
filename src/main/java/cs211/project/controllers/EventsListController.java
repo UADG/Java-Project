@@ -2,8 +2,10 @@ package cs211.project.controllers;
 
 import cs211.project.models.Event;
 import cs211.project.models.User;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
-import cs211.project.models.collections.UserList;
+import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.EventHardCode;
 import cs211.project.services.FXRouter;
 import javafx.beans.value.ChangeListener;
@@ -33,6 +35,8 @@ public class EventsListController {
 
     @FXML private TextField searchTextField;
     private Event selectedEvent;
+    private ActivityList activityList;
+    private Datasource<ActivityList> datasource;
 
     @FXML
     public void initialize() {
@@ -126,9 +130,26 @@ public class EventsListController {
     @FXML
     protected void onApplyToStaffClick() {
         try {
-            if(selectedEvent.getParticipantLeft() > 0) {
-                selectedEvent.participantJoin();
-                FXRouter.goTo("event-schedule");
+            FXRouter.goTo("event-schedule");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }@FXML
+    protected void onApplyToParticipantClick() {
+        try {
+            if(selectedEvent.getParticipantLeft() > 0 ) {
+                datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                activityList = datasource.readData();
+                activityList.findActivityInEvent(selectedEvent.getEventName());
+                if(activityList.userIsParticipant("UADG")) {
+                    activityList.addParticipant("UADG");
+                    selectedEvent.participantJoin();
+                    datasource.writeData(activityList);
+                    FXRouter.goTo("participant-schedule");
+                }
+                else{
+                    errorLabelApplyToParticipants.setText("Sorry you're participant in this event");
+                }
             }
             else {
                 errorLabelApplyToParticipants.setText("Sorry participant is full");

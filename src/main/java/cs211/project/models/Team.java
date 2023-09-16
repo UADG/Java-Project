@@ -1,14 +1,14 @@
 package cs211.project.models;
 
 import cs211.project.models.collections.StaffList;
+import cs211.project.services.TeamListFileDatasource;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-
 public class Team {
     protected String teamName;
     protected int numberOfStaff;
-   protected StaffList staffs;
+   protected int numberOfStaffLeft;
+    protected StaffList staffs;
     protected ArrayList<String> bannedStaff;
     protected ScheduleTeam schedule;
 
@@ -16,25 +16,45 @@ public class Team {
     public Team(String teamName, int numberOfStaff){
         this.teamName = teamName;
         this.numberOfStaff = numberOfStaff;
+        numberOfStaffLeft = numberOfStaff;
         staffs = new StaffList();
         bannedStaff = new ArrayList<>();
     }
 
+    public Team(String teamName, int numberOfStaff, int numberOfStaffLeft){
+        this(teamName,numberOfStaff);
+        this.numberOfStaffLeft = numberOfStaffLeft;
+    }
+
     public void addStaffInTeam(Staff staff){
         staffs.addStaff(staff);
+        numberOfStaffLeft--;
     }
 
     public void addStaffInTeam(String id, String name){
         staffs.addStaff(id, name);
+        numberOfStaffLeft--;
+    }
+
+    public void addStaffInTeam(String id){
+        staffs.addStaff(id,"TestFileWriterDummy");
     }
 
     public void deleteStaff(String id){
         staffs.deleteStaff(id);
+        numberOfStaffLeft++;
     }
+
+    public void deleteStaff(Staff staff){
+        deleteStaff(staff.getId());
+        numberOfStaffLeft++;
+    }
+
     public void banStaffInTeam(String id){
         Staff exist = staffs.checkStaffInList(id);
         if(exist!=null){
             bannedStaff.add(exist.getId());
+            numberOfStaffLeft++;
         }
     }
 
@@ -53,15 +73,12 @@ public class Team {
                 left.addStaff(staff);
             }
         }
-//        return left;
-        for(Staff staff: left.getStaffList()){
-            System.out.println(staff);
-        }
         return left;
     }
 
-    public int checkStaffExist(String staffID){
-        return 0;
+    public void createTeamInCSV(){
+        TeamListFileDatasource data = new TeamListFileDatasource("data","team.csv");
+        data.writeData(this);
     }
 
     public String getTeamName(){
@@ -80,10 +97,11 @@ public class Team {
         return bannedStaff;
     }
 
+    public int getNumberOfStaff(){return numberOfStaff;}
+    public int getNumberOfStaffLeft(){return numberOfStaffLeft;}
 
     @Override
     public String toString() {
-        if(numberOfStaff > 1)return teamName+" "+"have "+numberOfStaff+" peoples";
-        else return teamName+" "+"has "+numberOfStaff+" people";
+        return teamName;
     }
 }

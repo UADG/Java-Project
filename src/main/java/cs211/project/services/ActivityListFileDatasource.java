@@ -1,11 +1,14 @@
 package cs211.project.services;
 
 import cs211.project.models.Activity;
+import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalTime;
+import java.util.ArrayList;
+
 public class ActivityListFileDatasource implements Datasource<ActivityList>{
     private String directoryName;
     private String fileName;
@@ -105,10 +108,12 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
 
         try {
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
-            for (Activity activity : data.getActivities()) {
-                String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity()+","+activity.getEndTimeActivity()+","+activity.getTeamName()+","+activity.getParticipantName()+","+activity.getStatus()+","+activity.getEventName();
-                buffer.append(line);
-                buffer.append("\n");
+            for (Activity activity : data.getAllActivities()) {
+                if(!activity.getActivityName().equals("")) {
+                    String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName();
+                    buffer.append(line);
+                    buffer.append("\n");
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -121,6 +126,83 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    public void updateTeamInActivity(String activityName,Team team){
+        ArrayList<String[]> allInfo = new ArrayList<>();
+        String filePath = directoryName + File.separator + fileName;
+        File file = new File(filePath);
+
+        // เตรียม object ที่ใช้ในการอ่านไฟล์
+        FileInputStream fileInputStream = null;
+
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        InputStreamReader inputStreamReader = new InputStreamReader(
+                fileInputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedReader buffer = new BufferedReader(inputStreamReader);
+
+        String line = "";
+        try {
+            // ใช้ while loop เพื่ออ่านข้อมูลรอบละบรรทัด
+            while ( (line = buffer.readLine()) != null ){
+                if (line.equals("")) continue;
+                String[] data = line.split(",");
+
+                if(data[0].equals(activityName)){
+                    data[4] = team.getTeamName();
+                }
+
+                allInfo.add(data);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
+        FileOutputStream fileOutputStream = null;
+
+        try {
+            fileOutputStream = new FileOutputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+
+        OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
+                fileOutputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedWriter bufferedWriter = new BufferedWriter(outputStreamWriter);
+
+
+        try {
+            bufferedWriter.write("");
+            for(int i = 0;i<allInfo.size();i++){
+                String[] newLine = allInfo.get(i);
+                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7];
+                bufferedWriter.append(writeLine);
+                bufferedWriter.append("\n");
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            try {
+                bufferedWriter.flush();
+                bufferedWriter.close();
+            }
+            catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+
     }
 
 }

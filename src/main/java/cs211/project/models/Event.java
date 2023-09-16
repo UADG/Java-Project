@@ -2,7 +2,12 @@ package cs211.project.models;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
+
+import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.ActivityHardCode;
+import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.TeamListFileDatasource;
 
 public class Event {
     private String eventName;
@@ -21,6 +26,8 @@ public class Event {
     private ArrayList<String> arrayMinute;
     private ArrayList<String> arrayDateActivity;
     private ArrayList<ArrayList<String >> arr ;
+    private ActivityList activitys;
+    private TeamList teams;
 
 public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
                  int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
@@ -140,5 +147,36 @@ public Event(String eventName, String startDate, String endDate, String startTim
         return "Name: " + eventName;}
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
+    }
+
+    public ActivityList loadActivityInEvent(){
+        ActivityListFileDatasource data = new ActivityListFileDatasource("data","activity-list.csv");
+        activitys = data.readData();
+        activitys.findActivityInEvent(eventName);
+
+        return activitys;
+    }
+
+    public TeamList loadTeamInEvent(){
+        TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
+        TeamList list = data.readData();
+        ArrayList<String> nameTeamInEvent = new ArrayList<>();
+        teams = new TeamList();
+        loadActivityInEvent();
+        for(Activity activity:activitys.getActivities()){
+            nameTeamInEvent.add(activity.getTeamName());
+            System.out.println(activity.getTeamName());
+        }
+
+        for(String name: nameTeamInEvent){
+            for(Team team : list.getTeams()){
+                if(team.getTeamName().equals(name)){
+                    teams.addTeam(team);
+                }
+            }
+        }
+
+
+        return  teams;
     }
 }

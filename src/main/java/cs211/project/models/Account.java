@@ -4,40 +4,24 @@ public class Account {
     protected String username;
     protected String name;
     protected String password;
-    protected static int idUser = 1_000_000;
-    protected final int id;
+    protected String role;
     protected String time;
     protected String pictureURL;
+    protected String userStatus;
 
 
-    public Account(int id, String username, String password, String name, String time) {
-        this.id = id;
+    public Account(String role, String username, String password, String name, String time) {
+        this.role = role;
         this.username = username;
         this.name = name;
         this.password = password;
         this.time = time;
         this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
         System.out.println(pictureURL);
-    }
-    public Account(String username, String name, String password, String time){
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.time = time;
-        this.id = idUser++;
-        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
-        System.out.println(pictureURL);
-    }
-    public Account(int id, String username, String name, String password){
-        this.id = id;
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.time ="";
-        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
-        System.out.println(pictureURL);
+        this.userStatus = "unban";
     }
 
+    public String getRole(){return role;}
     public String getUsername(){
         return username;
     }
@@ -53,11 +37,11 @@ public class Account {
     public String getPictureURL(){
         return pictureURL;
     }
+    public String getUserStatus(){return userStatus;}
 
-    public int getId() {
-        return id;
+    public void setUserStatus(String userStatus) {
+        this.userStatus = userStatus;
     }
-
     public void setPassword(String password){
         this.password = password;
     }
@@ -74,13 +58,16 @@ public class Account {
     public boolean isPassword(String password) {
         return this.password.equals(password);
     }
-    public boolean isId(int id){return this.id == id;}
-    public String checkRole(int id){
-        if(id > 10){return "user";}
-        else {return "admin";}
+    public boolean isAdmin(String role){
+        if(role == "admin"){return true;}
+        return false;
+    }
+    public boolean isUnban(String userStatus){
+        if(userStatus == "unban"){return true;}
+        return false;
     }
     @Override
     public String toString(){
-        return "ID: " + id + " Username: " + username + " Last Online: " + time;
+        return "Role: " + role + " Username: " + username + " Last Online: " + time + " Status: " + userStatus;
     }
 }
