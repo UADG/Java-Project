@@ -19,6 +19,27 @@ public class UserList{
             }
         }
     }
+
+    public void addEvent(int id, String eventName) {
+        id = id;
+        eventName = eventName.trim();
+        if (id != 0 && eventName.equals("")) {
+            User exist = findUserById(id);
+            if (exist == null) {
+
+            }
+        }
+    }
+
+    public User findUserById(int id) {
+        for (User user : users) {
+            if (user.isId(id)) {
+                return user;
+            }
+        }
+        return null;
+    }
+
     public User findUserByUsername(String username) {
         for (User user : users) {
             if (user.isUsername(username)) {

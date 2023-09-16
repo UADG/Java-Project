@@ -1,7 +1,9 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Event;
+import cs211.project.models.User;
 import cs211.project.models.collections.EventList;
+import cs211.project.models.collections.UserList;
 import cs211.project.services.EventHardCode;
 import cs211.project.services.FXRouter;
 import javafx.beans.value.ChangeListener;
@@ -108,6 +110,7 @@ public class EventsListController {
 
     @FXML
     protected void onBookTicketsClick() {
+        User data = (User) FXRouter.getData();
         try {
             if(selectedEvent.getTicketLeft() > 0) {
                 selectedEvent.ticketBuy();

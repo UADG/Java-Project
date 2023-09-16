@@ -1,8 +1,21 @@
 package cs211.project.models;
 
-public class User extends Account{
+import java.util.ArrayList;
 
-    public User(String username, String name, String password, String time){
+public class User extends Account {
+    ArrayList<String> eventName;
+
+    public User(String username, String name, String password, String time) {
         super(username, name, password, time);
+        eventName = new ArrayList<>();
     }
+
+    public void addEventName(String name) {
+        eventName.add(name);
+    }
+
+    public void deleteEventName(String name) {
+        eventName.add(name);
+    }
+
 }
