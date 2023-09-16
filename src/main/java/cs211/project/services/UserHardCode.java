@@ -25,11 +25,11 @@ public class UserHardCode {
         String formatted2 = time2.format(formatter);
         String formatted3 = time3.format(formatter);
         String formatted4 = time4.format(formatter);
-
-        list.addNewUser("best", "Bestttt", "Bestto", formatted1);
-        list.addNewUser("win", "winwin", "WinnieThePooh", formatted2);
-        list.addNewUser("ai", "12345678", "AiAye", formatted3);
-        list.addNewUser("jim", "jimza007", "JimZaKung", formatted4);
+//
+//        list.addNewUser("best", "Bestttt", "Bestto", formatted1);
+//        list.addNewUser("win", "winwin", "WinnieThePooh", formatted2);
+//        list.addNewUser("ai", "12345678", "AiAye", formatted3);
+//        list.addNewUser("jim", "jimza007", "JimZaKung", formatted4);
 
         return list;
     }

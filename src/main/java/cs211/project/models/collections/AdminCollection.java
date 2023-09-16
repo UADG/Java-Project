@@ -10,7 +10,7 @@ public class AdminCollection {
     public AdminCollection() {
         admins = new ArrayList<>();
     }
-    public void addNewAdmin(String username, String password, String name, String time) {
+    public void addNewAdmin(String username, String password, String name, String time, String picURL) {
         username = username.trim();
         name = name.trim();
         password = password.trim();
@@ -18,7 +18,7 @@ public class AdminCollection {
         if (!username.equals("")) {
             Admin exist = findAdminByUsername(username);
             if (exist == null) {
-                admins.add(new Admin(username, password, name.trim(), time.trim()));
+                admins.add(new Admin(username, password, name.trim(), time.trim(), picURL.trim()));
             }
         }
     }

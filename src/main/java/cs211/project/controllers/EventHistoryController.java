@@ -1,11 +1,11 @@
 package cs211.project.controllers;
 
-import cs211.project.services.FXRouter;
+import cs211.project.models.collections.AccountList;
+import cs211.project.services.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import cs211.project.models.Event;
 import cs211.project.models.collections.EventList;
-import cs211.project.services.EventHardCode;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -26,8 +26,8 @@ public class EventHistoryController {
     private Event selectedEvent;
     @FXML
     public void initialize() {
-        EventHardCode datasource = new EventHardCode();
-        eventList = datasource.readData();
+        Datasource<EventList> eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        this.eventList = eventListDatasource.readData();
         showList(eventList);
         clearEventInfo();
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
