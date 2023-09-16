@@ -6,6 +6,7 @@ public class User extends Account{
     ArrayList<String> eventName;
     public User(String username, String password, String name, String time){
         super("user", username, password, name, time);
+        eventName = new ArrayList<>();
     }
 
     public void addEventName(String name) {

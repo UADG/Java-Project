@@ -66,7 +66,7 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
                 String[] data = line.split(",");
                 String username = data[0].trim();
 
-                for (int i = 0; i < data.length; i++) {
+                for (int i = 1; i < data.length; i++) {
                     String eventName = data[1].trim();
                     users.addEvent(username,eventName);
                 }
