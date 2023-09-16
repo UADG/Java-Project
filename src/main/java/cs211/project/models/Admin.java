@@ -2,8 +2,8 @@ package cs211.project.models;
 
 public class Admin extends Account {
 
-    public Admin(String username, String password, String name, String time) {
-        super("admin", username, password, name, time);
+    public Admin(String username, String password, String name, String time, String picURL) {
+        super("admin", username, password, name, time, picURL);
     }
 
     public void changePassword(String password) {

@@ -4,6 +4,8 @@ import cs211.project.services.AccountHardCode;
 import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
 
+import cs211.project.services.AccountListDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -16,8 +18,8 @@ public class HomePageController {
     private Account account = (Account) FXRouter.getData();
     public void initialize() {
         adminButton.setVisible(false);
-        AccountHardCode data = new AccountHardCode();
-        accountList = data.readData();
+        Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
+        this.accountList = accountListDataSource.readData();
         if(account.isAdmin(account.getRole())){
             adminButton.setVisible(true);
         }

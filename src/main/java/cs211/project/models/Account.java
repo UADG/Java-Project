@@ -10,7 +10,7 @@ public class Account {
     protected String userStatus;
 
 
-    public Account(String role, String username, String password, String name, String time) {
+    public Account(String role, String username, String password, String name, String time, String pictureURL) {
         this.role = role;
         this.username = username;
         this.name = name;
@@ -59,12 +59,10 @@ public class Account {
         return this.password.equals(password);
     }
     public boolean isAdmin(String role){
-        if(role == "admin"){return true;}
-        return false;
+        return "admin".equals(role);
     }
     public boolean isUnban(String userStatus){
-        if(userStatus == "unban"){return true;}
-        return false;
+        return "unban".equals(userStatus);
     }
     @Override
     public String toString(){
