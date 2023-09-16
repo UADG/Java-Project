@@ -109,9 +109,11 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         try {
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (Activity activity : data.getAllActivities()) {
-                String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity()+","+activity.getEndTimeActivity()+","+activity.getTeamName()+","+activity.getParticipantName()+","+activity.getStatus()+","+activity.getEventName();
-                buffer.append(line);
-                buffer.append("\n");
+                if(!activity.getActivityName().equals("")) {
+                    String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName();
+                    buffer.append(line);
+                    buffer.append("\n");
+                }
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

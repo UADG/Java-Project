@@ -48,7 +48,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="delete" layoutX="479.0" layoutY="452.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="115.0" text="Delete" />
+      <Button fx:id="delete" layoutX="479.0" layoutY="452.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" text="Delete" />
       <Label layoutX="420.0" layoutY="387.0" text="Time Start :">
          <font>
             <Font size="14.0" />
@@ -105,7 +105,17 @@
             <TableColumn prefWidth="129.0" text="C3" />
         </columns>
       </TableView>
-      <Label fx:id="errorActivityNameLabel" layoutX="648.0" layoutY="153.0" text="errorActivityName" textFill="#eb0202">
+      <Label fx:id="errorActivityNameLabel" layoutX="538.0" layoutY="128.0" text="errorActivityName" textFill="#eb0202">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorDateLabel" layoutX="577.0" layoutY="185.0" text="errorDate" textFill="#eb0202">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="errorTimeLabel" layoutX="602.0" layoutY="299.0" text="errorTime" textFill="#eb0202">
          <font>
             <Font size="14.0" />
          </font>
