@@ -143,7 +143,7 @@ public class EventsListController {
                     activityList.addParticipant("UADG");
                     selectedEvent.participantJoin();
                     datasource.writeData(activityList);
-                    FXRouter.goTo("participant-schedule", activityList);
+                    FXRouter.goTo("participant-schedule");
                 }
                 else{
                     errorLabelApplyToParticipants.setText("Sorry you're participant in this event");

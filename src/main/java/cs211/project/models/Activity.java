@@ -84,7 +84,9 @@ public class Activity {
     public void setActivityStatus(String status){
         this.status = status;
     }
-
+    public boolean userIsParticipant(String id){
+        return this.participantName.equals(id);
+    }
     public void addTeamInActivity(Team team){
         this.team = team;
         ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");

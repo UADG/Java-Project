@@ -2,8 +2,11 @@ package cs211.project.controllers;
 
 import cs211.project.models.Activity;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
+import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -13,12 +16,22 @@ import java.time.LocalTime;
 
 public class ParticipantScheduleController {
     @FXML private TableView<Activity> activityTableView;
+    @FXML private ComboBox chooseEvent;
     private ActivityList activityList;
-
+    private ActivityList list;
+    private Datasource<ActivityList> datasource;
+    private String eventName;
     @FXML
     public void initialize() {
-        activityList = (ActivityList) FXRouter.getData();
-        showTable(activityList);
+        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        activityList = datasource.readData();
+        String userId = "UADG";
+        for(Activity activity:activityList.getAllActivities()){
+            if(activity.userIsParticipant(userId)){
+                System.out.println(activity.getEventName());
+                chooseEvent.getItems().add(activity.getEventName());
+            }
+        }
 
     }
     private void showTable(ActivityList activityList) {
@@ -53,6 +66,16 @@ public class ParticipantScheduleController {
     }
 
 
+    @FXML
+    protected void onSearchClick() {
+        eventName = (String) chooseEvent.getValue();
+        updateSchedule();
+        showTable(activityList);
+    }
+    private void updateSchedule(){
+        activityList = datasource.readData();
+        activityList.findActivityInEvent(eventName);
+    }
 
     @FXML
     protected void onBackClick() {
