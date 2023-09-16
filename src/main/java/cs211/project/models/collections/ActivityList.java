@@ -22,10 +22,6 @@ public class ActivityList {
         }
     }
 
-    public void addActivity(Activity activity){
-        allActivities.add(activity);
-        findActivityInEvent(activity.getEventName());
-    }
 
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){
@@ -56,21 +52,9 @@ public class ActivityList {
     }
     public void addParticipant(String id) {
         for(Activity activity : activities){
-            System.out.println(activity.getParticipantName());
             if(activity.getParticipantName().isEmpty()){
-                System.out.println(activity.getParticipantName());
                 activity.setParticipantName(id);
                 break;
-            }
-        }
-        for (Activity activity : allActivities) {
-            for (Activity activity2 : activities) {
-                if(activity.getEventName().equals(activity2.getEventName()) && activity.getActivityName().equals(activity2.getActivityName())){
-                    if(!activity.getParticipantName().equals(activity2.getParticipantName())){
-                        activity.setParticipantName(activity2.getParticipantName());
-                        break;
-                    }
-                }
             }
         }
     }
@@ -91,6 +75,14 @@ public class ActivityList {
                 }
             }
         }
+    }
+    public boolean userIsParticipant(String id) {
+        for (Activity activity : activities) {
+            if(activity.getParticipantName().equals(id)){
+                return false;
+            }
+        }
+        return true;
     }
     public ArrayList<Activity> getAllActivities(){
         return allActivities;

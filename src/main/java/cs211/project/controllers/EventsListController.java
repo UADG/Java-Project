@@ -1,6 +1,5 @@
 package cs211.project.controllers;
 
-import cs211.project.models.Activity;
 import cs211.project.models.Event;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
@@ -136,14 +135,19 @@ public class EventsListController {
     }@FXML
     protected void onApplyToParticipantClick() {
         try {
-            if(selectedEvent.getParticipantLeft() > 0) {
-                selectedEvent.participantJoin();
+            if(selectedEvent.getParticipantLeft() > 0 ) {
                 datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                 activityList = datasource.readData();
                 activityList.findActivityInEvent(selectedEvent.getEventName());
-                activityList.addParticipant("UADG");
-                datasource.writeData(activityList);
-                FXRouter.goTo("event-schedule");
+                if(activityList.userIsParticipant("UADG")) {
+                    activityList.addParticipant("UADG");
+                    selectedEvent.participantJoin();
+                    datasource.writeData(activityList);
+                    FXRouter.goTo("participant-schedule", activityList);
+                }
+                else{
+                    errorLabelApplyToParticipants.setText("Sorry you're participant in this event");
+                }
             }
             else {
                 errorLabelApplyToParticipants.setText("Sorry participant is full");

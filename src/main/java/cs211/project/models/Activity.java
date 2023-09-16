@@ -93,4 +93,7 @@ public class Activity {
     public void setParticipantName(String participantName){
         this.participantName = participantName;
     }
+    public void deleteActivity(){
+        this.activityName = "";
+    }
 }
