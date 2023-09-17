@@ -7,10 +7,7 @@ import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.StaffList;
 import cs211.project.models.collections.TeamList;
-import cs211.project.services.ActivityListFileDatasource;
-import cs211.project.services.FXRouter;
-import cs211.project.services.TeamListFileDatasource;
-import cs211.project.services.TeamListHardCode;
+import cs211.project.services.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -31,6 +28,7 @@ public class BanAllController {
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
+    private BanListFileDatasource banPath;
     @FXML
     public void initialize(){
         selectedEvent = (Event) FXRouter.getData();
@@ -70,6 +68,7 @@ public class BanAllController {
 
     public void updateData(){
         data = new TeamListFileDatasource("data","team.csv");
+        banPath = new BanListFileDatasource("data", "ban-staff-list.csv");
     }
 
     public void setChooseTeamVisible(boolean bool){
@@ -116,6 +115,8 @@ public class BanAllController {
             updateData();
             team.banStaffInTeam(selectedStaff.getId());
             data.updateStaffInTeam(team.getTeamName(),selectedStaff,"-");
+            banPath.writeData(selectedStaff);
+            banPath.updateEventToId(selectedStaff.getId(),selectedStaff.getName(),"+");
             showStaff();
         }
     }
@@ -126,7 +127,6 @@ public class BanAllController {
         chooseRoleTeam.setSelected(false);
         chooseRole();
     }
-
 
     @FXML
     protected void backOnClick(){
