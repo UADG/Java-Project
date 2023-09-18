@@ -17,8 +17,8 @@ import java.io.File;
 import java.io.IOException;
 
 public class RegisterPageController {
-    Datasource<UserList> userListDatasource = new UserListFileDatasource("data","user-info.csv");
-    UserList userList = userListDatasource.readData();
+    Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
+    AccountList accountList = accountListDatasource.readData();
     @FXML TextField nameText;
     @FXML TextField usernameText;
     @FXML TextField passText;
@@ -31,15 +31,15 @@ public class RegisterPageController {
         String name = nameText.getText();
         String pass = passText.getText();
         String confirmPass = confirmText.getText();
-        User user = userList.findUserByUsername(username);
-        if(user==null){
+        Account account = accountList.findAccountByUsername(username);
+        if(account==null){
             if(!username.equals("")&&!name.equals("")&&!pass.equals("")){
                 if(pass.equals(confirmPass)){
-                    userList.addNewUser(username,pass,name, "time", "PIC");
-                    Datasource<UserList> dataSource = new UserListFileDatasource("data","user-info.csv");
-                    dataSource.writeData(userList);
+                    accountList.addNewAccount("user",username,pass,name, "time", "PIC","unban");
+                    Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+                    dataSource.writeData(accountList);
                     FXRouter.goTo("login-page");
-                }{
+                }else {
                     showErrorAlert("Confirm password wrong. Please try again.");
                 }
             }else {

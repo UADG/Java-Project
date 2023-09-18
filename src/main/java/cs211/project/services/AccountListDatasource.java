@@ -99,7 +99,7 @@ public class AccountListDatasource implements Datasource<AccountList>{
         try {
             for(Account account:data.getAccount()){
                 String line = account.getRole()+","+account.getUsername()+","+account.getPassword()+
-                        ","+account.getUserStatus()+","+account.getTime()+","+account.getPictureURL();
+                        ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+","+account.getUserStatus();
                 buffer.append(line);
                 buffer.append("\n");
             }
