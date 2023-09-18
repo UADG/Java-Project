@@ -36,7 +36,7 @@ public class JoinedHistoryController {
     public void initialize() {
         clearEventInfo();
 
-        datasource = new UserEventListFileDatasource("data","user-history.csv");
+        datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         account = (Account) FXRouter.getData();
 
