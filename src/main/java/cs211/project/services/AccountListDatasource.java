@@ -55,14 +55,15 @@ public class AccountListDatasource implements Datasource<AccountList>{
             while ( (line = buffer.readLine()) != null ){
                 if (line.isEmpty()) continue;
                 String[] data = line.split(",");
-                String role = data[0].trim();
+                int id = Integer.parseInt(data[0].trim());
                 String username = data[1].trim();
                 String password = data[2].trim();
                 String name = data[3].trim();
                 String time = data[4].trim();
                 String picURL = data[5].trim();
                 String userStatus = data[6].trim();
-                accountList.addNewAccount( role, username, password, name, time, picURL, userStatus);
+                String role = data[7].trim();
+                accountList.addNewAccount( id, username, password, name, time, picURL, userStatus, role);
             }
 
         } catch (FileNotFoundException e) {
@@ -98,8 +99,9 @@ public class AccountListDatasource implements Datasource<AccountList>{
 
         try {
             for(Account account:data.getAccount()){
-                String line = account.getRole()+","+account.getUsername()+","+account.getPassword()+
-                        ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+","+account.getUserStatus();
+                String line = account.getId()+","+account.getUsername()+","+account.getPassword()+
+                        ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+","+
+                        account.getUserStatus()+","+account.getRole();
                 buffer.append(line);
                 buffer.append("\n");
             }

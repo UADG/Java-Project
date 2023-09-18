@@ -13,8 +13,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class RegisterPageController {
     Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
@@ -32,10 +32,43 @@ public class RegisterPageController {
         String pass = passText.getText();
         String confirmPass = confirmText.getText();
         Account account = accountList.findAccountByUsername(username);
+        int id = 0;
+        File file = new File("data","user-info.csv");
+        FileInputStream fileInputStream = null;
+        try {
+            fileInputStream = new FileInputStream(file);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        }
+        InputStreamReader inputStreamReader = new InputStreamReader(
+                fileInputStream,
+                StandardCharsets.UTF_8
+        );
+        BufferedReader buffer = new BufferedReader(inputStreamReader);
+        String line = "";
+        try {
+            while ( (line = buffer.readLine()) != null ){
+                if (line.isEmpty()) continue;
+                String[] data = line.split(",");
+                if(id <= Integer.parseInt(data[0]))
+                id = Integer.parseInt(data[0])+1;
+                }
+
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }finally {
+            try {
+                buffer.close();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
         if(account==null){
             if(!username.equals("")&&!name.equals("")&&!pass.equals("")){
                 if(pass.equals(confirmPass)){
-                    accountList.addNewAccount("user",username,pass,name, "time", "PIC","unban");
+                    accountList.addNewAccount(id,username,pass,name, "time", "file:/C:/Users/ketsaranee/Desktop/Project/cs211-661-project-java-best-win-ai-jim/target/classes/images/default-profile.png","unban", "user");
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
                     FXRouter.goTo("login-page");

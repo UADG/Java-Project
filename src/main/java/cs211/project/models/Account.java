@@ -12,14 +12,17 @@ public class Account {
     protected String userStatus;
     protected ArrayList<String> allEventUser;
 
-    public Account(String role, String username, String password, String name, String time, String pictureURL, String userStatus) {
+    protected final int id;
+
+    public Account(int id, String username, String password, String name, String time, String pictureURL, String userStatus, String role) {
+        this.id = id;
         this.role = role;
         this.username = username;
         this.name = name;
         this.password = password;
         this.time = time;
-        this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
-        this.userStatus = "unban";
+        this.pictureURL = pictureURL;
+        this.userStatus = userStatus;
         allEventUser = new ArrayList<>();
     }
 
@@ -72,7 +75,7 @@ public class Account {
         return pictureURL;
     }
     public String getUserStatus() { return userStatus; }
-
+    public int getId(){return id;}
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
