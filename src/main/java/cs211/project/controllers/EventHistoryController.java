@@ -1,5 +1,6 @@
 package cs211.project.controllers;
 
+import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
 import cs211.project.services.*;
 import javafx.beans.value.ChangeListener;
@@ -12,7 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
 public class EventHistoryController {
@@ -24,12 +24,12 @@ public class EventHistoryController {
     @FXML private Label amountTicket;
     @FXML
     ListView<Event> eventListView;
-    EventList eventList;
     private Event selectedEvent;
+    private Account accounts = (Account) FXRouter.getData();
+    Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
+    EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
-        Datasource<EventList> eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-        this.eventList = eventListDatasource.readData();
         showList(eventList);
         clearEventInfo();
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
@@ -44,7 +44,6 @@ public class EventHistoryController {
                 }
             }
         });
-
     }
     private void showEventInfo(Event event){
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -61,7 +60,16 @@ public class EventHistoryController {
     private void showList(EventList eventList) {
         eventListView.getItems().clear();
         eventListView.getItems().addAll(eventList.getEvents());
+        for (Event event : eventList.getEvents()) {
+            if (!event.getEventManager().equals(accounts.getUsername())) {
+                removeEvent(event);
+            }
+        }
     }
+    public void removeEvent(Event event) {
+        eventListView.getItems().remove(event);
+    }
+
     public void clearEventInfo(){
         eventName.setText("");
         dateStart.setText("");
