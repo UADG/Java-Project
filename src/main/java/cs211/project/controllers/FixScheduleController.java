@@ -2,12 +2,9 @@ package cs211.project.controllers;
 
 import cs211.project.models.Activity;
 import cs211.project.models.Event;
-import cs211.project.models.Staff;
 import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
-import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.TeamListFileDatasource;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -16,9 +13,8 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
 import java.time.LocalTime;
-import java.util.ArrayList;
 
-public class FixTeamScheduleController {
+public class FixScheduleController {
     @FXML Label constantTeamLabel;
     @FXML Label nameLabel;
     @FXML Label timeStartLabel;
