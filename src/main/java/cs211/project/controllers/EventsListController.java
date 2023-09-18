@@ -152,7 +152,8 @@ public class EventsListController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }@FXML
+    }
+    @FXML
     protected void onApplyToParticipantClick() {
         try {
             if(selectedEvent.getParticipantLeft() > 0 ) {
