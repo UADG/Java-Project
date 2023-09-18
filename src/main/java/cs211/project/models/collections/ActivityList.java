@@ -26,6 +26,29 @@ public class ActivityList {
         activities.add(activity);
     }
 
+    public void addCommentInActivity(String activityName, String comment) {
+        activityName = activityName.trim();
+        comment = comment.trim();
+        System.out.println(activityName + comment);
+        if (!activityName.equals("") && !comment.equals("")) {
+            Activity exist = findActivityByName(activityName);
+            System.out.println(exist);
+            if (exist != null) {
+                exist.addComment(comment);
+                System.out.println(exist.getComment());
+            }
+        }
+
+    }
+
+    public Activity findActivityByName(String name) {
+        for(Activity activity: allActivities){
+            if(activity.getActivityName().equals(name)){
+                return activity;
+            }
+        }
+        return null;
+    }
 
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){

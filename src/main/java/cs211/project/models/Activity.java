@@ -1,11 +1,9 @@
 package cs211.project.models;
 
-import cs211.project.models.collections.ActivityList;
 import cs211.project.services.ActivityListFileDatasource;
 
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class Activity {
     private String activityName;
@@ -17,6 +15,8 @@ public class Activity {
     private String status;
     private String eventName;
     private Team team;
+    private String comment;
+    private String firstComment;
 
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
@@ -28,6 +28,8 @@ public class Activity {
         this.participantName = participantName;
         this.status = status;
         this.eventName = eventName;
+        comment = "";
+        firstComment = "";
     }
 
     public String getActivityName() {
@@ -65,6 +67,21 @@ public class Activity {
     }
     public Team getTeam(){return team;}
 
+    public String getComment() {
+        return comment;
+    }
+
+    public void addComment(String comment) {
+        this.comment += comment;
+    }
+
+    public boolean checkFirstComment(String comment) {
+        if (firstComment.equals(comment)) {
+            return true;
+        }
+        firstComment = comment;
+        return false;
+    }
     public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
         if(this.date.equals(date)){
             if (endTimeActivity.isBefore(startTimeActivity)) {

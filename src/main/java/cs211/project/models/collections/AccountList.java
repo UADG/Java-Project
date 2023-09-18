@@ -31,20 +31,6 @@ public class AccountList{
         }
     }
 
-    public void deleteEvent(String username, String eventName) {
-        username = username.trim();
-        eventName = eventName.trim();
-        if (!username.equals("") && !eventName.equals("")) {
-            Account exist = findAccountByUsername(username);
-            if (exist != null) {
-                String event = findEventByEventName(exist, eventName);
-                if (event == null) {
-                    exist.deleteUserEventName(eventName);
-                }
-            }
-        }
-    }
-
     public String findEventByEventName(Account exist, String eventName) {
         if (exist.isEventName(eventName)) {
             return eventName;
