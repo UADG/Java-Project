@@ -43,8 +43,6 @@ public class JoinedHistoryController {
         accountList = datasource.readData();
         eventList = eventListDatasource.readData();
 
-
-        System.out.println(eventList.getEvents());
         showOrganizeList(account);
 
         eventOrganizeListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {

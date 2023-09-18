@@ -34,7 +34,6 @@ public class UserStatus {
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         AccountList accountList = accountListDatasource.readData();
         showList(accountList);
-
         accountListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 clearDataInfo();

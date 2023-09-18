@@ -19,7 +19,6 @@ public class Account {
         this.password = password;
         this.time = time;
         this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
-        System.out.println(pictureURL);
         this.userStatus = "unban";
         allEventUser = new ArrayList<>();
     }
@@ -56,20 +55,20 @@ public class Account {
         return false;
     }
 
-    public String getRole(){return role;}
-    public String getUsername(){
+    public String getRole() { return role; }
+    public String getUsername() {
         return username;
     }
-    public String getName(){
+    public String getName() {
         return name;
     }
     public String getPassword() {
         return password;
     }
-    public String getTime(){
+    public String getTime() {
         return time;
     }
-    public String getPictureURL(){
+    public String getPictureURL() {
         return pictureURL;
     }
     public String getUserStatus() { return userStatus; }

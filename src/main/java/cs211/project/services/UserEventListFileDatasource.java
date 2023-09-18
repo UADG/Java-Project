@@ -101,7 +101,6 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
                     line += "," + event;
                 }
                 buffer.append(line);
-                System.out.println(line);
                 buffer.append("\n");
             }
 
