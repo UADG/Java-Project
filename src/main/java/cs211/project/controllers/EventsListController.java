@@ -49,7 +49,7 @@ public class EventsListController {
         clearEventInfo();
 
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-        accountListDatasource = new UserEventListFileDatasource("data", "user-history.csv");
+        accountListDatasource = new UserEventListFileDatasource("data","user-history.csv");
 
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
