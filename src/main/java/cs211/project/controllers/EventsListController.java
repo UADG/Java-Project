@@ -1,5 +1,6 @@
 package cs211.project.controllers;
 
+import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.User;
 import cs211.project.models.collections.ActivityList;
@@ -11,6 +12,7 @@ import cs211.project.services.FXRouter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -114,17 +116,21 @@ public class EventsListController {
 
     @FXML
     protected void onBookTicketsClick() {
-        User data = (User) FXRouter.getData();
-        try {
-            if(selectedEvent.getTicketLeft() > 0) {
-                selectedEvent.ticketBuy();
-                FXRouter.goTo("event-schedule");
+        Account data = (Account) FXRouter.getData();
+        if (selectedEvent != null) {
+            try {
+                if(selectedEvent.getTicketLeft() > 0) {
+                    selectedEvent.ticketBuy();
+                    FXRouter.goTo("event-schedule", data);
+                }
+                else {
+                    errorLabelBook.setText("Sorry tickets sold out");
+                }
+            } catch (IOException e) {
+                throw new RuntimeException(e);
             }
-            else {
-                errorLabelBook.setText("Sorry tickets sold out");
-            }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
     @FXML
@@ -157,5 +163,13 @@ public class EventsListController {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

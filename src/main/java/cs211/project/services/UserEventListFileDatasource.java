@@ -1,17 +1,13 @@
 package cs211.project.services;
 
-import cs211.project.models.Activity;
-import cs211.project.models.Event;
+import cs211.project.models.Account;
 import cs211.project.models.User;
-import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.EventList;
-import cs211.project.models.collections.UserList;
+import cs211.project.models.collections.AccountList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalTime;
 
-public class UserEventListFileDatasource implements Datasource<UserList> {
+public class UserEventListFileDatasource implements Datasource<AccountList> {
     private String directoryName;
     private String fileName;
 
@@ -39,8 +35,8 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
     }
 
     @Override
-    public UserList readData() {
-        UserList users = new UserList();
+    public AccountList readData() {
+        AccountList users = new AccountList();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -67,8 +63,9 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
                 String username = data[0].trim();
 
                 for (int i = 1; i < data.length; i++) {
-                    String eventName = data[1].trim();
-                    users.addEvent(username,eventName);
+                    String eventName = data[i].trim();
+                    System.out.println("event " + eventName);
+                    users.addUserEvent(username,eventName);
                 }
             }
         } catch (IOException e) {
@@ -79,11 +76,10 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
     }
 
     @Override
-    public void writeData(UserList data) {
+    public void writeData(AccountList data) {
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
-        // เตรียม object ที่ใช้ในการเขียนไฟล์
         FileOutputStream fileOutputStream = null;
 
         try {
@@ -99,10 +95,16 @@ public class UserEventListFileDatasource implements Datasource<UserList> {
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
-            for (User user : data.getUsers()) {
+            for (Account user : data.getAccount()) {
+                String line = user.getUsername();
+                for (String event : user.getEventName()) {
+                    line += "," + event;
+                }
+                buffer.append(line);
+                System.out.println(line);
                 buffer.append("\n");
             }
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
