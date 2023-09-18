@@ -156,7 +156,8 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String[] data = line.split(",");
 
                 if(data[0].equals(activityName)){
-                    data[4] = team.getTeamName();
+                    if(team != null) data[4] = team.getTeamName();
+                    else data[4] = "null";
                 }
 
                 allInfo.add(data);

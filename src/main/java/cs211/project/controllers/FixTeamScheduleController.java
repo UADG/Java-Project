@@ -11,12 +11,12 @@ import cs211.project.services.TeamListFileDatasource;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class FixTeamScheduleController {
     @FXML Label constantTeamLabel;
@@ -27,24 +27,27 @@ public class FixTeamScheduleController {
     @FXML RadioButton chooseRoleTeam;
     @FXML RadioButton chooseRoleSingleParticipant;
     @FXML TableView activityTableView;
+    @FXML ComboBox chooseOperator;
     private Event selectedEvent;
     private Team team;
     private boolean notFirst;
     private ActivityList list;
     private Activity selectedActivity;
+    private String operator;
 
 
     @FXML
     public void initialize(){
         clearInfo();
         selectedEvent = (Event) FXRouter.getData();
+        String[] op = {"add activity","delete activity"};
         notFirst = false;
         list = selectedEvent.loadActivityInEvent();
         chooseRoleSingleParticipant.setSelected(true);
         chooseTeam.getItems().addAll(selectedEvent.loadTeamInEvent().getTeams());
+        chooseOperator.getItems().addAll(op);
         setChooseTeamVisible(false);
     }
-
 
     @FXML
     public void clearInfo(){
@@ -80,14 +83,69 @@ public class FixTeamScheduleController {
     }
 
     public void chooseWhichTeam(){
-        team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
-        notFirst = true;
-        showActivity();
+        if(team == null && operator == null){
+            team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
+            notFirst = true;
+        }else{
+            team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
+            notFirst = true;
+            showActivity();
+        }
+
+    }
+
+    public void chooseWhichOperator(){
+        operator = (String) chooseOperator.getSelectionModel().getSelectedItem();
+        if(team != null) showActivity();
     }
 
     public void showActivity(){
+
+        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
+        activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
+
+        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+
+        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
+
+
+        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
+
+
+        activityTableView.getColumns().clear();
+        activityTableView.getColumns().add(activityNameColumn);
+        activityTableView.getColumns().add(dateActivityColumn);
+        activityTableView.getColumns().add(startTimeActivityColumn);
+        activityTableView.getColumns().add(endTimeActivityColumn);
+
         activityTableView.getItems().clear();
-        activityTableView.getItems().addAll(list.getActivities());
+
+
+        if(operator.equals("add activity")) {
+            for(Activity activity: list.getActivities()){
+                if(activity.getTeamName().equals("null"))activityTableView.getItems().add(activity);
+            }
+        }else if(operator.equals("delete activity")){
+            for(Activity activity: list.getActivities()){
+                if(activity.getTeamName().equals(team.getTeamName()))activityTableView.getItems().add(activity);
+            }
+        }
+    }
+
+    public void updateDataToTarget(){
+        if(selectedActivity != null) {
+            if(operator.equals("add activity")){
+                selectedActivity.updateTeamInActivity(team);
+            }else if(operator.equals("delete activity")){
+                selectedActivity.updateTeamInActivity(null);
+            }
+            list = selectedEvent.loadActivityInEvent();
+            showActivity();
+        }
     }
 
     public void showParticipant(){
