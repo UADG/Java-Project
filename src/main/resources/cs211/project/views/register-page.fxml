@@ -33,15 +33,13 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField layoutX="275.0" layoutY="210.0" prefHeight="26.0" prefWidth="157.0" />
-      <TextField layoutX="440.0" layoutY="210.0" />
-      <TextField layoutX="275.0" layoutY="246.0" prefHeight="26.0" prefWidth="315.0" />
+      <TextField fx:id="nameText" layoutX="275.0" layoutY="210.0" prefHeight="26.0" prefWidth="315.0" />
+      <TextField fx:id="usernameText" layoutX="275.0" layoutY="246.0" prefHeight="26.0" prefWidth="315.0" />
       <TextField layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" />
-      <PasswordField layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" />
+      <PasswordField fx:id="passText" layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" />
       <TextField layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" />
-      <PasswordField layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" />
+      <PasswordField fx:id="confirmText" layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" />
       <Button layoutX="530.0" layoutY="398.0" mnemonicParsing="false" onAction="#onConfirmClick" text="Confirm" />
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Label layoutX="275.0" layoutY="347.0" text="Incorrect password" textFill="#e40a0a" />
    </children>
 </AnchorPane>

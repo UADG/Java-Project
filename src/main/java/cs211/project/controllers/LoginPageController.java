@@ -2,12 +2,10 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
-import cs211.project.services.AccountHardCode;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import javafx.event.ActionEvent;
 
-import java.io.File;
 import java.io.IOException;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
@@ -28,7 +26,7 @@ public class LoginPageController {
         this.accountList = accountListDataSource.readData();
     }
     @FXML
-    public void loginButt(ActionEvent event) throws IOException {
+    public void loginButt() throws IOException {
         String username = usernameText.getText().trim();
         String password = passwordText.getText().trim();
         Account account = accountList.findAccountByUsername(username);

@@ -12,15 +12,14 @@ public class Account {
     protected String userStatus;
     protected ArrayList<String> eventName;
 
-    public Account(String role, String username, String password, String name, String time, String pictureURL) {
+    public Account(String role, String username, String password, String name, String time, String pictureURL, String userStatus) {
         this.role = role;
         this.username = username;
         this.name = name;
         this.password = password;
         this.time = time;
         this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
-        System.out.println(pictureURL);
-        this.userStatus = "unban";
+        this.userStatus = userStatus;
         eventName = new ArrayList<>();
     }
 

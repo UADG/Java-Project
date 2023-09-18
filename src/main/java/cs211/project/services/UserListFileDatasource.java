@@ -1,15 +1,15 @@
 package cs211.project.services;
 
-import cs211.project.models.Account;
-import cs211.project.models.collections.AccountList;
+import cs211.project.models.User;
+import cs211.project.models.collections.UserList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class AccountListDatasource implements Datasource<AccountList>{
+public class UserListFileDatasource implements Datasource<UserList>{
     private String directoryName;
     private String fileName;
-    public AccountListDatasource(String directoryName, String fileName){
+    public UserListFileDatasource(String directoryName, String fileName){
         this.directoryName = directoryName;
         this.fileName = fileName;
         checkFileIsExisted();
@@ -32,8 +32,8 @@ public class AccountListDatasource implements Datasource<AccountList>{
     }
 
     @Override
-    public AccountList readData() {
-        AccountList accountList = new AccountList();
+    public UserList readData() {
+        UserList userList = new UserList();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -55,14 +55,12 @@ public class AccountListDatasource implements Datasource<AccountList>{
             while ( (line = buffer.readLine()) != null ){
                 if (line.isEmpty()) continue;
                 String[] data = line.split(",");
-                String role = data[0].trim();
                 String username = data[1].trim();
                 String password = data[2].trim();
                 String name = data[3].trim();
                 String time = data[4].trim();
                 String picURL = data[5].trim();
-                String userStatus = data[6].trim();
-                accountList.addNewAccount( role, username, password, name, time, picURL, userStatus);
+                userList.addNewUser( username, password, name, time, picURL);
             }
 
         } catch (FileNotFoundException e) {
@@ -76,11 +74,11 @@ public class AccountListDatasource implements Datasource<AccountList>{
                 throw new RuntimeException(e);
             }
         }
-        return accountList;
+        return userList;
     }
 
     @Override
-    public void writeData(AccountList data) {
+    public void writeData(UserList data) {
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
         FileOutputStream fileOutputStream = null;
@@ -97,9 +95,9 @@ public class AccountListDatasource implements Datasource<AccountList>{
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            for(Account account:data.getAccount()){
-                String line = account.getRole()+","+account.getUsername()+","+account.getPassword()+
-                        ","+account.getUserStatus()+","+account.getTime()+","+account.getPictureURL();
+            for(User user:data.getUsers()){
+                String line = user.getRole()+","+user.getUsername()+","+user.getPassword()+
+                        ","+user.getUserStatus()+","+user.getTime()+","+user.getPictureURL();
                 buffer.append(line);
                 buffer.append("\n");
             }

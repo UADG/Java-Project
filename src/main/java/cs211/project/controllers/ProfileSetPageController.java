@@ -1,10 +1,12 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Account;
+import cs211.project.models.collections.AccountList;
+import cs211.project.services.AccountListDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,14 +15,12 @@ import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.FileSystems;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.StandardCopyOption;
-import java.time.LocalDate;
 
 public class ProfileSetPageController {
-    private Account account = (Account) FXRouter.getData();
+    private Account accounts = (Account) FXRouter.getData();
+    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
+    AccountList accountList = accountListDataSource.readData();
+    private Account account = accountList.findAccountByUsername(accounts.getUsername());
     @FXML Label usernameLabel;
     @FXML Label nameLabel;
     @FXML private Label myText;
@@ -31,8 +31,7 @@ public class ProfileSetPageController {
         nameLabel.setText(account.getName());
         myText.setVisible(false);
         myRectangle.setVisible(false);
-        Image image = new Image(getClass().getResource("/images/default-profile.png").toExternalForm());
-        //ต้องมี csv
+        Image image = new Image(account.getPictureURL());
         imageView.setImage(image);
     }
 
@@ -48,8 +47,8 @@ public class ProfileSetPageController {
             Image image = new Image(selectedFile.toURI().toString());
             account.setPictureURL(selectedFile.toURI().toString());
             imageView.setImage(image);
+            accountListDataSource.writeData(accountList);
         }
-
         myText.setVisible(true);
         myRectangle.setVisible(true);
         new java.util.Timer().schedule(

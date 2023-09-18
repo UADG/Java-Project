@@ -1,6 +1,5 @@
 package cs211.project.controllers;
 
-import cs211.project.services.AccountHardCode;
 import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
 
@@ -14,12 +13,12 @@ import java.io.IOException;
 
 public class HomePageController {
     @FXML private Button adminButton;
-    private AccountList accountList;
-    private Account account = (Account) FXRouter.getData();
+    private Account accounts = (Account) FXRouter.getData();
+    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
+    AccountList accountList = accountListDataSource.readData();
+    private Account account = accountList.findAccountByUsername(accounts.getUsername());
     public void initialize() {
         adminButton.setVisible(false);
-        Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
-        this.accountList = accountListDataSource.readData();
         if(account.isAdmin(account.getRole())){
             adminButton.setVisible(true);
         }

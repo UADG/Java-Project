@@ -3,7 +3,7 @@ package cs211.project.models;
 public class Admin extends Account {
 
     public Admin(String username, String password, String name, String time, String picURL) {
-        super("admin", username, password, name, time, picURL);
+        super("admin", username, password, name, time, picURL, "unban");
     }
 
     public void changePassword(String password) {
