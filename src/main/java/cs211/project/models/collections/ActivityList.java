@@ -22,6 +22,10 @@ public class ActivityList {
         }
     }
 
+    public void addActivity(Activity activity){
+        activities.add(activity);
+    }
+
 
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){

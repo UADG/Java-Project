@@ -143,8 +143,10 @@ public Event(String eventName, String startDate, String endDate, String startTim
         return arr;
     }
     @Override
-    public String toString(){
-        return "Name: " + eventName;}
+    public String toString() {
+        return "Name: " + eventName;
+    }
+
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
     }

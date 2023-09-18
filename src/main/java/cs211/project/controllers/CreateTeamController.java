@@ -101,7 +101,7 @@ public class CreateTeamController {
                     int number = Integer.parseInt(numberStr);
                     Team team = new Team(teamName, number);
                     team.createTeamInCSV();
-                    selectedActivity.addTeamInActivity(team);
+                    selectedActivity.updateTeamInActivity(team);
                     showTable(list);
                     teamNameTextField.clear();
                     numberOfTeamMemberTextField.clear();

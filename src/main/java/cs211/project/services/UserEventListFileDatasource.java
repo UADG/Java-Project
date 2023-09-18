@@ -36,7 +36,8 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
 
     @Override
     public AccountList readData() {
-        AccountList users = new AccountList();
+        Datasource<AccountList> accountList = new AccountListDatasource("data", "user-info.csv");
+        AccountList users = accountList.readData();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -64,7 +65,6 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
 
                 for (int i = 1; i < data.length; i++) {
                     String eventName = data[i].trim();
-                    System.out.println("event " + eventName);
                     users.addUserEvent(username,eventName);
                 }
             }
@@ -97,11 +97,10 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
         try {
             for (Account user : data.getAccount()) {
                 String line = user.getUsername();
-                for (String event : user.getEventName()) {
+                for (String event : user.getAllEventUser()) {
                     line += "," + event;
                 }
                 buffer.append(line);
-                System.out.println(line);
                 buffer.append("\n");
             }
 

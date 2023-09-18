@@ -4,17 +4,13 @@ import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.EventList;
-import cs211.project.services.AccountListDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.FXRouter;
-import cs211.project.services.UserEventListFileDatasource;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
+import cs211.project.services.*;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import java.io.IOException;
-import java.util.ArrayList;
 
 public class JoinedHistoryController {
 
@@ -26,65 +22,54 @@ public class JoinedHistoryController {
     private Label eventNameLabel;
     @FXML
     private Label dateLabel;
+    @FXML
+    private Label statusLabel;
 
+    private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
-    private Datasource<AccountList> accountListDataSource;
+    Account account;
     private AccountList accountList;
-    private AccountList userInfo;
     private EventList eventList;
-    private Event selectedEvent;
+    private String selectedEvent;
 
     @FXML
     public void initialize() {
         clearEventInfo();
-        accountListDataSource = new AccountListDatasource("data", "user-info.csv");
-        datasource = new UserEventListFileDatasource("data", "user-history.csv");
-        userInfo = accountListDataSource.readData();
+
+        datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
+        eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        account = (Account) FXRouter.getData();
+
         accountList = datasource.readData();
-        System.out.println(userInfo.getAccount());
-        System.out.println(accountList.getAccount());
-        showList();
-        eventOrganizeListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
-                if (newValue == null) {
-                    clearEventInfo();
-                    selectedEvent = null;
-                } else {
-                    showEventInfo(newValue);
-                    displayUserJoinedEvents(newValue);
-                }
+        eventList = eventListDatasource.readData();
+
+        showOrganizeList(account);
+
+        eventOrganizeListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue == null) {
+                clearEventInfo();
+                selectedEvent = null;
+            } else {
+                clearEventInfo();
+                showEventOrganizeInfo(displayUserJoinedEvents(newValue));
+                selectedEvent = newValue;
             }
         });
+
     }
 
-    private void displayUserJoinedEvents(String username) {
-        System.out.println("Displaying events for user: " + username);
-
-        Account user = accountList.findAccountByUsername(username);
-        if (user != null) {
-            System.out.println("User found: " + user.getUsername());
-
-            ArrayList<String> joinedEvents = user.getEventName();
-            System.out.println("Joined events: " + joinedEvents);
-
-            eventCompleteListView.getItems().clear();
-
-            eventCompleteListView.getItems().addAll(joinedEvents);
-            System.out.println("Added events to eventCompleteListView");
-        } else {
-            System.out.println("User not found: " + username);
-        }
+    private Event displayUserJoinedEvents(String eventName) {
+        return eventList.findEventByEventName(eventName);
     }
 
-    private void showList() {
-        Account account = (Account) FXRouter.getData();
-        eventOrganizeListView.getItems().addAll(account.getEventName());
+    private void showOrganizeList(Account account) {
+        eventOrganizeListView.getItems().addAll(accountList.findAccountByUsername(account.getUsername()).getAllEventUser());
     }
 
-    private void showEventInfo(String event) {
-        eventNameLabel.setText(event);
-        dateLabel.setText(eventList.findEventByEventName(event).getEndTime());
+    private void showEventOrganizeInfo(Event event) {
+        eventNameLabel.setText(event.getEventName());
+        dateLabel.setText(event.getEndTime());
+        statusLabel.setText("still being organized.");
     }
 
     private void clearEventInfo() {
@@ -100,4 +85,42 @@ public class JoinedHistoryController {
             throw new RuntimeException(e);
         }
     }
+
+    private void updateEventInfo() {
+        clearEventInfo();
+        eventOrganizeListView.getItems().clear();
+        showOrganizeList(account);
+    }
+
+    @FXML
+    public void onCancelEventClick() {
+        if (selectedEvent != null) {
+            Account account = (Account) FXRouter.getData();
+            Account user = accountList.findAccountByUsername(account.getUsername());
+
+            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog.setTitle("Confirmation");
+            confirmationDialog.setHeaderText("Delete Event");
+            confirmationDialog.setContentText("Are you sure you want to delete this event: " + selectedEvent + "?");
+
+            confirmationDialog.showAndWait().ifPresent(response -> {
+                if (response == ButtonType.OK) {
+                    user.deleteUserEventName(selectedEvent);
+                    datasource.writeData(accountList);
+                    updateEventInfo();
+                }
+            });
+        } else {
+            showErrorAlert("Must selected at least 1 event");
+        }
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
 }

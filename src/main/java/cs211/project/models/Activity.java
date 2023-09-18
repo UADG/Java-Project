@@ -87,7 +87,7 @@ public class Activity {
     public boolean userIsParticipant(String id){
         return this.participantName.equals(id);
     }
-    public void addTeamInActivity(Team team){
+    public void updateTeamInActivity(Team team){
         this.team = team;
         ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
         datasource.updateTeamInActivity(activityName,team);

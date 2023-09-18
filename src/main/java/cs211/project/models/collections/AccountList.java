@@ -22,7 +22,6 @@ public class AccountList{
         eventName = eventName.trim();
         if (!username.equals("") && !eventName.equals("")) {
             Account exist = findAccountByUsername(username);
-            System.out.println(exist);
             if (exist != null) {
                 String event = findEventByEventName(exist, eventName);
                 if (event == null) {
@@ -54,14 +53,11 @@ public class AccountList{
     }
 
     public Account findAccountByUsername(String username) {
-        System.out.println(accounts);
         for (Account account : accounts) {
-            System.out.println("Comparing: " + username + " with " + account.getUsername());
             if (account.isUsername(username)) {
                 return account;
             }
         }
-        System.out.println("Account not found for username: " + username);
         return null;
     }
 

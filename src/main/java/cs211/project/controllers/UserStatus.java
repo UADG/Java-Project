@@ -1,9 +1,10 @@
 package cs211.project.controllers;
 
-import cs211.project.models.User;
-import cs211.project.models.collections.UserList;
+import cs211.project.models.Account;
+import cs211.project.models.collections.AccountList;
+import cs211.project.services.AccountListDatasource;
+import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.UserHardCode;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
@@ -20,28 +21,26 @@ public class UserStatus {
     @FXML
     private Label timeLabel;
     @FXML
-    private ListView<User> userListView;
+    private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
-    private User selectedUser;
+    private Account selectedAccount;
 
 
 
     @FXML
     private void initialize() {
         clearDataInfo();
-        UserHardCode dataOfUser = new UserHardCode();
-
-        UserList userList = dataOfUser.readData();
-        showList(userList);
-
-        userListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        AccountList accountList = accountListDatasource.readData();
+        showList(accountList);
+        accountListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 clearDataInfo();
-                selectedUser = null;
+                selectedAccount = null;
             } else {
                 showInfo(newValue);
-                selectedUser = newValue;
+                selectedAccount = newValue;
             }
         });
     }
@@ -49,17 +48,27 @@ public class UserStatus {
 
 
 
-    public void showInfo(User user) {
-        usernameLabel.setText(user.getUsername());
-        nameLabel.setText(user.getName());
-        timeLabel.setText(user.getTime());
-        Image image = new Image(user.getPictureURL());
+    public void showInfo(Account account) {
+        usernameLabel.setText(account.getUsername());
+        nameLabel.setText(account.getName());
+        timeLabel.setText(account.getTime());
+        Image image = new Image(account.getPictureURL());
         imageUserView.setImage(image);
     }
 
-    public void showList(UserList userList) {
-        userListView.getItems().clear();
-        userListView.getItems().addAll(userList.getUsers());
+    public void showList(AccountList accountList) {
+        accountListView.getItems().clear();
+        accountListView.getItems().addAll(accountList.getAccount());
+        for (Account account : accountList.getAccount()) {
+            if (account.isAdmin(account.getRole())) {
+                removeAccount(account);
+            }
+        }
+
+    }
+
+    public void removeAccount(Account accountToRemove) {
+        accountListView.getItems().remove(accountToRemove);
     }
 
     public void clearDataInfo () {

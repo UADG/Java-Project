@@ -7,6 +7,7 @@ import cs211.project.models.collections.TeamList;
 import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.TeamListFileDatasource;
+import cs211.project.services.UserEventListFileDatasource;
 
 import java.util.ArrayList;
 
@@ -20,6 +21,12 @@ public class Staff{
     public Staff(String id, String name){
         this.id = id;
         this.name = name;
+        bannedEvent = new ArrayList<>();
+    }
+
+    public Staff(String id){
+        this.id = id;
+//        name =  loadNameFromId();
         bannedEvent = new ArrayList<>();
     }
 
@@ -42,6 +49,14 @@ public class Staff{
     public void removeEventThatGetBanned(String eventName){
         bannedEvent.remove(eventName);
     }
+
+
+//    public String loadNameFromId(){
+//        UserEventListFileDatasource userAll = new UserEventListFileDatasource("data","user-info.csv");
+//        for(Account account : userAll.readData().getAccount()){
+//            if()
+//        }
+//    }
 
     public Team loadTeam(){
         TeamListFileDatasource dataList = new TeamListFileDatasource("data","team.csv");
