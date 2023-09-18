@@ -46,6 +46,7 @@ public class ProfileSetPageController {
         if (selectedFile != null) {
             Image image = new Image(selectedFile.toURI().toString());
             account.setPictureURL(selectedFile.toURI().toString());
+            System.out.println(account.getPictureURL());
             imageView.setImage(image);
             accountListDataSource.writeData(accountList);
         }

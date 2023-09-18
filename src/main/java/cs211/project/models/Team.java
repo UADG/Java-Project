@@ -10,7 +10,8 @@ public class Team {
    protected int numberOfStaffLeft;
     protected StaffList staffs;
     protected ArrayList<String> bannedStaff;
-    protected ScheduleTeam schedule;
+    protected Event event;
+    protected String eventName;
 
 
     public Team(String teamName, int numberOfStaff){
@@ -26,6 +27,18 @@ public class Team {
         this.numberOfStaffLeft = numberOfStaffLeft;
     }
 
+    public Team(String teamName, int numberOfStaff, String eventName){
+        this(teamName,numberOfStaff);
+        event = new Event(eventName);
+        event.loadEventInfo();
+    }
+
+    public Team(String teamName, int numberOfStaff, int numberOfStaffLeft, String eventName){
+        this(teamName,numberOfStaff,numberOfStaffLeft);
+        event = new Event(eventName);
+        event.loadEventInfo();
+    }
+
     public void addStaffInTeam(Staff staff){
         staffs.addStaff(staff);
         numberOfStaffLeft--;
@@ -37,7 +50,7 @@ public class Team {
     }
 
     public void addStaffInTeam(String id){
-        staffs.addStaff(id,"TestFileWriterDummy");
+        staffs.addStaff(id,"ThisIsFromTeam");
     }
 
     public void deleteStaff(String id){
@@ -99,6 +112,17 @@ public class Team {
 
     public int getNumberOfStaff(){return numberOfStaff;}
     public int getNumberOfStaffLeft(){return numberOfStaffLeft;}
+    public Event getEvent(){return  event;}
+
+    public void setEvent(Event event){
+        this.event = event;
+    }
+
+    public void setEvent(String eventName){
+        event.setEventName(eventName);
+        event.loadEventInfo();
+    }
+
 
     @Override
     public String toString() {

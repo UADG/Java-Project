@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class AccountList{
     private ArrayList<Account> accounts;
     public AccountList() {accounts = new ArrayList<>();}
-    public void addNewAccount(String role, String username, String password, String name, String time, String picURL, String userStatus) {
+    public void addNewAccount(int id, String username, String password, String name, String time, String picURL, String userStatus, String role) {
         username = username.trim();
         name = name.trim();
         password = password.trim();
         if (!username.equals("")&&!name.equals("")) {
             Account exist = findAccountByUsername(username);
             if (exist == null) {
-                accounts.add(new Account(role.trim(), username, password, name, time.trim(), picURL.trim(), userStatus.trim()));
+                accounts.add(new Account(id, username, password, name, time.trim(), picURL.trim(), userStatus.trim(), role.trim()));
             }
         }
     }

@@ -26,6 +26,7 @@ public class Staff{
 
     public Staff(String id){
         this.id = id;
+        this.name = "thisIsFromStaff";
 //        name =  loadNameFromId();
         bannedEvent = new ArrayList<>();
     }

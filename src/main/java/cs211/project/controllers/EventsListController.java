@@ -2,9 +2,12 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Event;
+import cs211.project.models.Staff;
+import cs211.project.models.Team;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -93,6 +96,8 @@ public class EventsListController {
         participantLeftLabel.setText("");
     }
 
+
+
     @FXML
     protected void onBackClick() {
         try {
@@ -147,11 +152,19 @@ public class EventsListController {
     }
     @FXML
     protected void onApplyToStaffClick() {
-        try {
-            FXRouter.goTo("event-schedule");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if(selectedEvent != null){
+            try {
+                TeamList list = selectedEvent.loadTeamInEvent();
+                TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
+                data.updateStaffInTeam(selectedEvent.getEventName(), list.findLowestStaffTeam().getTeamName(),new Staff("ThisIsFromEventListController"),"+");
+                FXRouter.goTo("event-schedule");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }else{
+            showErrorAlert("please select some event ");
         }
+
     }
     @FXML
     protected void onApplyToParticipantClick() {

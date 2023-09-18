@@ -1,5 +1,6 @@
 package cs211.project.models;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -7,12 +8,13 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.TeamList;
 import cs211.project.services.ActivityHardCode;
 import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.TeamListFileDatasource;
 
 public class Event {
     private String eventName;
-    private String startDate ;
-    private String endDate;
+    private LocalDate startDate ;
+    private LocalDate endDate;
     private String startTime;
     private String endTime;
     private int ticket;
@@ -22,6 +24,7 @@ public class Event {
     private String timeParticipant;
     private int ticketBuy;
     private int participantJoin;
+    private String eventManager;
     private ArrayList<String> arrayStartTimeActivity;
     private ArrayList<String> arrayMinute;
     private ArrayList<String> arrayDateActivity;
@@ -29,8 +32,9 @@ public class Event {
     private ActivityList activitys;
     private TeamList teams;
 
-public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
-                 int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
+public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
+             int ticket, int participantNum, String detail, String timeTeam,
+             String timeParticipant, String eventManager){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -43,17 +47,23 @@ public Event(String eventName, String startDate, String endDate, String startTim
         this.timeParticipant = timeParticipant;
         ticketBuy = 0;
         participantJoin = 0;
+        this.eventManager = eventManager;
         ActivityHardCode datasource = new ActivityHardCode();
         arr = datasource.readData();
+    }
+
+    public Event(String eventName){
+        this.eventName = eventName;
+        loadEventInfo();
     }
 
     public String getEventName(){
         return eventName;
     }
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
     public String getStartTime() {
@@ -77,13 +87,14 @@ public Event(String eventName, String startDate, String endDate, String startTim
     public String getTimeParticipant() {
         return timeParticipant;
     }
+    public String getEventManager(){return eventManager;}
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
     public void setStartTime(String startTime) {
@@ -131,14 +142,29 @@ public Event(String eventName, String startDate, String endDate, String startTim
     }
     public ArrayList<String> getArrayDate() {
         ArrayList<String> arrayDateActivity = new ArrayList<>();
-            int startDay = Integer.parseInt(startDate.split("-")[2]);
-            int endDay = Integer.parseInt(endDate.split("-")[2]);
 
-            for (int i = startDay; i <= endDay; i++) {
-                arrayDateActivity.add(String.valueOf(i));
-            }
+        String startDateString = startDate.toString();
+        String endDateString = endDate.toString();
+
+        int startDay = Integer.parseInt(startDateString.split("-")[2]);
+        int endDay = Integer.parseInt(endDateString.split("-")[2]);
+
+        for (int i = startDay; i <= endDay; i++) {
+            arrayDateActivity.add(String.valueOf(i));
+        }
+
         return arrayDateActivity;
     }
+    //    public ArrayList<String> getArrayDate() {
+//        ArrayList<String> arrayDateActivity = new ArrayList<>();
+//            int startDay = Integer.parseInt(startDate.split("-")[2]);
+//            int endDay = Integer.parseInt(endDate.split("-")[2]);
+//
+//            for (int i = startDay; i <= endDay; i++) {
+//                arrayDateActivity.add(String.valueOf(i));
+//            }
+//        return arrayDateActivity;
+//    }
     public ArrayList<ArrayList<String >> getActivity(){
         return arr;
     }
@@ -149,6 +175,27 @@ public Event(String eventName, String startDate, String endDate, String startTim
 
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
+    }
+
+    public Event loadEventInfo(){
+        EventListFileDatasource list = new EventListFileDatasource("data", "event-list.csv");
+        for(Event event : list.readData().getEvents()){
+            if(event.getEventName().equals(eventName)){
+                this.eventName = event.getEventName();
+                this.startDate = event.getStartDate();
+                this.endDate = event.getEndDate();
+                this.startTime = event.getStartTime();
+                this.endTime = event.getEndTime();
+                this.ticket = event.getTicket();
+                this.participantNum = event.getParticipantNum();
+                this.participantJoin = event.getParticipantLeft();
+                this.detail = event.getDetail();
+                this.timeTeam = event.getTimeTeam();
+                this.timeParticipant = event.getTimeParticipant();
+                ticketBuy = event.getTicketLeft();
+            }
+        }
+        return this;
     }
 
     public ActivityList loadActivityInEvent(){
@@ -167,12 +214,11 @@ public Event(String eventName, String startDate, String endDate, String startTim
         loadActivityInEvent();
         for(Activity activity:activitys.getActivities()){
             nameTeamInEvent.add(activity.getTeamName());
-            System.out.println(activity.getTeamName());
         }
 
         for(String name: nameTeamInEvent){
             for(Team team : list.getTeams()){
-                if(team.getTeamName().equals(name)){
+                if(team.getTeamName().equals(name) && team.getEvent().getEventName().equals(eventName)){
                     teams.addTeam(team);
                 }
             }

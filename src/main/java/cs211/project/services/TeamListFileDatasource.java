@@ -65,13 +65,14 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
                 String[] data = line.split(",");
 
                 StaffList list =new StaffList();
-                String teamName = data[0].trim();
-                int numberAll = Integer.parseInt(data[1].trim());
-                int numberLeft = Integer.parseInt(data[2].trim());
+                String eventName = data[0].trim();
+                String teamName = data[1].trim();
+                int numberAll = Integer.parseInt(data[2].trim());
+                int numberLeft = Integer.parseInt(data[3].trim());
 
-                Team newTeam = new Team(teamName, numberAll,numberLeft);
+                Team newTeam = new Team(teamName, numberAll,numberLeft,eventName);
 
-                for(int i = 3;i<data.length;i++){
+                for(int i = 4;i<data.length;i++){
                     newTeam.addStaffInTeam(data[i]);
                 }
 
@@ -106,7 +107,7 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
 
         try {
             for(Team team:data.getTeams()){
-                String line = team.getTeamName()+","+team.getNumberOfStaff()+","+team.getNumberOfStaffLeft();
+                String line = team.getEvent().getEventName()+","+team.getTeamName()+","+team.getNumberOfStaff()+","+team.getNumberOfStaffLeft();
                 for(Staff staff:team.getStaffThatNotBan().getStaffList()){
                     line += ","+staff.getId();
                 }
@@ -133,7 +134,7 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
         writeData(list);
     }
 
-    public void updateStaffInTeam(String teamName, Staff staff, String op){
+    public void updateStaffInTeam(String eventName, String teamName, Staff staff, String op){
         TeamList list = this.readData();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
@@ -155,7 +156,7 @@ public class TeamListFileDatasource implements Datasource<TeamList>{
         try {
             buffer.write("");
             for(Team team : list.getTeams()){
-                if(team.getTeamName().equals(teamName)){
+                if(team.getTeamName().equals(teamName) && team.getEvent().getEventName().equals(eventName)){
                     if(op.equals("+")) team.addStaffInTeam(staff);
                     else if(op.equals("-")) team.banStaffInTeam(staff.getId());
                 }
