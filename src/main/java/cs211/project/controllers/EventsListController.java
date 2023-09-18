@@ -2,13 +2,10 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Event;
-import cs211.project.models.User;
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
-import cs211.project.services.ActivityListFileDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.EventHardCode;
-import cs211.project.services.FXRouter;
+import cs211.project.services.*;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -29,24 +26,34 @@ public class EventsListController {
     private Label participantLeftLabel;
     @FXML
     private ListView<Event> eventListView;
+    @FXML
+    private Label errorLabelBook;
+    @FXML
+    private Label errorLabelApplyToParticipants;
+    @FXML
+    private TextField searchTextField;
+
+    private Datasource<EventList> eventListDatasource;
+    private Datasource<ActivityList> datasource;
+    private Datasource<AccountList> accountListDatasource;
     private EventList eventList;
+    private AccountList accountList;
     private String textSearch = "";
-
-    @FXML private Label errorLabelBook;
-    @FXML private Label errorLabelApplyToParticipants;
-
-    @FXML private TextField searchTextField;
     private Event selectedEvent;
     private ActivityList activityList;
-    private Datasource<ActivityList> datasource;
 
     @FXML
     public void initialize() {
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
         clearEventInfo();
-        EventHardCode datasource = new EventHardCode();
-        eventList = datasource.readData();
+
+        eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
+
+        eventList = eventListDatasource.readData();
+        accountList = accountListDatasource.readData();
+
         showList(eventList);
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
             @Override
@@ -117,14 +124,19 @@ public class EventsListController {
     @FXML
     protected void onBookTicketsClick() {
         Account data = (Account) FXRouter.getData();
+        Account account  = accountList.findAccountByUsername(data.getUsername());
         if (selectedEvent != null) {
             try {
-                if(selectedEvent.getTicketLeft() > 0) {
+                if(account.isEventName(selectedEvent.getEventName())) {
+                    showErrorAlert("You have already booked a ticket for this event.");
+                } else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
+                    account.addUserEventName(selectedEvent.getEventName());
+                    accountListDatasource.writeData(accountList);
                     FXRouter.goTo("event-schedule", data);
                 }
                 else {
-                    errorLabelBook.setText("Sorry tickets sold out");
+                    errorLabelBook.setText("Sorry, tickets for this event are sold out.");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);

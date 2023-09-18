@@ -29,7 +29,7 @@ public class UserList {
         return null;
     }
 
-    public boolean findUserPassword (String password){
+    public boolean findUserPassword(String password) {
         for (User user : users) {
             if (user.isPassword(password)) {
                 return true;
@@ -38,7 +38,7 @@ public class UserList {
         return false;
     }
 
-    public String checkRole ( int id){
+    public String checkRole(int id) {
         if (id > 10) {
             return "user";
         } else {
