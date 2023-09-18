@@ -1,13 +1,10 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Account;
-import cs211.project.models.User;
 import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.UserList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.UserListFileDatasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;

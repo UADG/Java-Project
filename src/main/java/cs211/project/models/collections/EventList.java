@@ -2,6 +2,7 @@ package cs211.project.models.collections;
 
 import cs211.project.models.Event;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 public class EventList {
@@ -11,14 +12,15 @@ public class EventList {
     public EventList() {
         events = new ArrayList<>();
     }
-    public void addNewEvent(String eventName, String startDate, String endDate, String startTime, String endTime,
-                            int ticket, int participantNum, String detail, String timeTeam, String timeParticipant) {
+    public void addNewEvent(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
+                            int ticket, int participantNum, String detail, String timeTeam,
+                            String timeParticipant, String eventManager) {
         eventName = eventName.trim();
         detail = detail.trim();
         if (!eventName.equals("")) {
             Event exist = findEventByEventName(eventName);
             if (exist == null) {
-                events.add(new Event(eventName.trim(), startDate, endDate, startTime, endTime, ticket, participantNum, detail.trim(), timeTeam, timeParticipant));
+                events.add(new Event(eventName, startDate, endDate, startTime.trim(), endTime.trim(), ticket, participantNum, detail.trim(), timeTeam.trim(), timeParticipant.trim(), eventManager.trim()));
             }
         }
     }

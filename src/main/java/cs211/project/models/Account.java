@@ -1,5 +1,7 @@
 package cs211.project.models;
 
+//import at.favre.lib.crypto.bcrypt.BCrypt;
+
 import java.util.ArrayList;
 
 public class Account {
@@ -101,6 +103,10 @@ public class Account {
     public boolean isUnban(String userStatus) {
         return "unban".equals(userStatus);
     }
+//    public boolean validatePassword(String password) {
+//        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), this.password);
+//        return result.verified;
+//    }
     @Override
     public String toString() {
         return "Role: " + role + " Username: " + username + " Last Online: " + time + " Status: " + userStatus;

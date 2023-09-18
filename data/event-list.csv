@@ -1,3 +1,5 @@
-Fes,StartDate,EndDate,StartTime,EndTime,20,10,abc,TimeTeam,TimeParticipant
-A,StartDate,EndDate,StartTime,EndTime,100,10,abc,TimeTeam,TimeParticipant
-B,StartDate,EndDate,StartTime,EndTime,400,5,abc,TimeTeam,TimeParticipant
+Fes,2023-09-01,2023-09-01,StartTime,EndTime,20,10,abc,TimeTeam,TimeParticipant,admin
+A,2023-09-01,2023-09-01,StartTime,EndTime,100,10,abc,TimeTeam,TimeParticipant,admin
+B,2023-09-01,2023-09-01,StartTime,EndTime,400,5,abc,TimeTeam,TimeParticipant,admin
+EventName,2023-09-01,2023-09-02,12:01,12:02,12,50,xcxzcxz,12:01,12:01,ai
+JimZaKungEvent,2023-09-09,2023-10-09,09:09,09:09,99,99,999,09:09,09:09,jim

@@ -5,6 +5,8 @@ import cs211.project.models.collections.EventList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EventListFileDatasource implements Datasource<EventList>{
     private String directoryName;
@@ -55,9 +57,10 @@ public class EventListFileDatasource implements Datasource<EventList>{
             while ( (line = buffer.readLine()) != null ){
                 if (line.isEmpty()) continue;
                 String[] data = line.split(",");
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
                 String eventName = data[0].trim();
-                String startDate = data[1].trim();
-                String endDate = data[2].trim();
+                LocalDate startDate = LocalDate.parse(data[1], formatter);
+                LocalDate endDate = LocalDate.parse(data[2], formatter);
                 String startTime = data[3].trim();
                 String endTime = data[4].trim();
                 int ticket = Integer.parseInt(data[5].trim());
@@ -65,8 +68,9 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 String detail = data[7].trim();
                 String timeTeam = data[8].trim();
                 String timeParticipant = data[9].trim();
+                String eventManager = data[10].trim();
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, ticket,
-                        participantNum, detail, timeTeam, timeParticipant);
+                        participantNum, detail, timeTeam, timeParticipant, eventManager);
             }
 
         } catch (FileNotFoundException e) {
@@ -105,7 +109,7 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 String line = event.getEventName()+","+event.getStartDate()+","+event.getEndDate()+
                         ","+event.getStartTime()+","+event.getEndTime()+","+event.getTicket()
                         +","+event.getParticipantNum()+","+event.getDetail()+","+event.getTimeTeam()
-                        +","+event.getTimeParticipant();
+                        +","+event.getTimeParticipant()+","+event.getEventManager();
                 buffer.append(line);
                 buffer.append("\n");
             }

@@ -100,7 +100,7 @@ public class EditEventController {
             return;
         }
         try {
-            data.setStartDate(String.valueOf(date));
+            data.setStartDate(date);
         } catch (Exception e) {
             showErrorAlert("Invalid Date");
         }
@@ -111,7 +111,7 @@ public class EditEventController {
             return;
         }
         try {
-            data.setEndDate(String.valueOf(date));
+            data.setEndDate(date);
         } catch (Exception e) {
             showErrorAlert("Invalid Date");
         }

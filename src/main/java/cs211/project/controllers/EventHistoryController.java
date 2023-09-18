@@ -12,6 +12,8 @@ import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 public class EventHistoryController {
     @FXML private Label eventName;
@@ -45,9 +47,12 @@ public class EventHistoryController {
 
     }
     private void showEventInfo(Event event){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        String startDate = event.getStartDate().format(formatter);
+        String endDate = event.getEndDate().format(formatter);
         eventName.setText(event.getEventName());
-        dateStart.setText(event.getStartDate());
-        dateEnd.setText(event.getEndDate());
+        dateStart.setText(startDate);
+        dateEnd.setText(endDate);
         timeStart.setText(event.getStartTime());
         timeEnd.setText(event.getEndTime());
         amountTicket.setText(String.format("%d",event.getTicket()));
