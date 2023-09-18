@@ -1,20 +1,15 @@
 package cs211.project.services;
 
 import cs211.project.models.Event;
-import cs211.project.models.Staff;
-import cs211.project.models.Team;
-import cs211.project.models.collections.StaffList;
-import cs211.project.models.collections.TeamList;
-import javafx.fxml.FXML;
+import cs211.project.models.collections.EventList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-public class BanListFileDatasource implements Datasource<StaffList>{
+public class EventListFileDatasource implements Datasource<EventList>{
     private String directoryName;
     private String fileName;
-    public BanListFileDatasource(String directoryName, String fileName){
+    public EventListFileDatasource(String directoryName, String fileName){
         this.directoryName = directoryName;
         this.fileName = fileName;
         checkFileIsExisted();
@@ -37,14 +32,12 @@ public class BanListFileDatasource implements Datasource<StaffList>{
     }
 
     @Override
-    public StaffList readData() {
-        StaffList list = new StaffList();
+    public EventList readData() {
+        EventList eventList = new EventList();
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
-
         FileInputStream fileInputStream = null;
-
         try {
             fileInputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
@@ -60,26 +53,40 @@ public class BanListFileDatasource implements Datasource<StaffList>{
         String line = "";
         try {
             while ( (line = buffer.readLine()) != null ){
-                if (line.equals("")) continue;
+                if (line.isEmpty()) continue;
                 String[] data = line.split(",");
-                Staff staff = new Staff(data[0],"notnullja");
-                for(int i = 1;i< data.length;i++){
-                    staff.addEventThatGetBanned(data[i]);
-                }
-                list.addStaff(staff);
+                String eventName = data[0].trim();
+                String startDate = data[1].trim();
+                String endDate = data[2].trim();
+                String startTime = data[3].trim();
+                String endTime = data[4].trim();
+                int ticket = Integer.parseInt(data[5].trim());
+                int participantNum = Integer.parseInt(data[6].trim());
+                String detail = data[7].trim();
+                String timeTeam = data[8].trim();
+                String timeParticipant = data[9].trim();
+                eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, ticket,
+                        participantNum, detail, timeTeam, timeParticipant);
             }
 
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
+        }finally {
+            try {
+                buffer.close();
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
         }
-        return list;
+        return eventList;
     }
 
     @Override
-    public void writeData(StaffList data) {
+    public void writeData(EventList data) {
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
-
         FileOutputStream fileOutputStream = null;
 
         try {
@@ -87,7 +94,6 @@ public class BanListFileDatasource implements Datasource<StaffList>{
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-
         OutputStreamWriter outputStreamWriter = new OutputStreamWriter(
                 fileOutputStream,
                 StandardCharsets.UTF_8
@@ -95,11 +101,11 @@ public class BanListFileDatasource implements Datasource<StaffList>{
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            for(Staff staff : data.getStaffList()){
-                String line = staff.getId();
-                for(String name : staff.getBannedEvent()){
-                    line += ","+name;
-                }
+            for(Event event:data.getEvents()){
+                String line = event.getEventName()+","+event.getStartDate()+","+event.getEndDate()+
+                        ","+event.getStartTime()+","+event.getEndTime()+","+event.getTicket()
+                        +","+event.getParticipantNum()+","+event.getDetail()+","+event.getTimeTeam()
+                        +","+event.getTimeParticipant();
                 buffer.append(line);
                 buffer.append("\n");
             }
@@ -114,24 +120,5 @@ public class BanListFileDatasource implements Datasource<StaffList>{
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    public void writeData(Staff staff){
-        StaffList list = readData();
-        list.addStaff(staff);
-        writeData(list);
-    }
-
-
-    public void updateEventToId(String id, String eventName, String op){
-        StaffList list = readData();
-        for(Staff staff : list.getStaffList()){
-            if(staff.isId(id)){
-                if(op.equals("+")) staff.addEventThatGetBanned(eventName);
-                else if(op.equals("-")) staff.removeEventThatGetBanned(eventName);
-            }
-            list.addStaff(staff);
-        }
-        writeData(list);
     }
 }
