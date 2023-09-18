@@ -10,7 +10,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.UserStatus">
    <children>
       <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <ListView fx:id="userListView" layoutX="107.0" layoutY="154.0" prefHeight="321.0" prefWidth="250.0" />
+      <ListView fx:id="accountListView" layoutX="107.0" layoutY="154.0" prefHeight="321.0" prefWidth="250.0" />
       <ImageView fx:id="imageUserView" fitHeight="150.0" fitWidth="207.0" layoutX="428.0" layoutY="151.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="438.0" layoutY="335.0" text="Username:">
          <font>

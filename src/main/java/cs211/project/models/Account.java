@@ -10,7 +10,7 @@ public class Account {
     protected String time;
     protected String pictureURL;
     protected String userStatus;
-    protected ArrayList<String> eventName;
+    protected ArrayList<String> allEventUser;
 
     public Account(String role, String username, String password, String name, String time, String pictureURL) {
         this.role = role;
@@ -21,27 +21,34 @@ public class Account {
         this.pictureURL = getClass().getResource("/images/default-profile.png").toExternalForm();
         System.out.println(pictureURL);
         this.userStatus = "unban";
-        eventName = new ArrayList<>();
+        allEventUser = new ArrayList<>();
     }
 
     public void addUserEventName(String name) {
-        System.out.println(eventName + " name");
-        eventName.add(name);
+        allEventUser.add(name);
     }
 
     public void deleteUserEventName(String name) {
-        if (eventName.contains(name)) {
-            eventName.remove(name);
+        if (allEventUser.contains(name)) {
+            allEventUser.remove(name);
         }
     }
 
-    public ArrayList<String> getEventName() {
-        System.out.println(eventName + " event");
-        return eventName;
+    public String getEventName(String name) {
+        for (String event : allEventUser) {
+            if (event.equals(name)) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+    public ArrayList<String> getAllEventUser() {
+        return allEventUser;
     }
 
     public boolean isEventName(String eventName) {
-        for (String event : this.eventName) {
+        for (String event : this.allEventUser) {
             if (event.equals(eventName)) {
                 return true;
             }
@@ -65,15 +72,15 @@ public class Account {
     public String getPictureURL(){
         return pictureURL;
     }
-    public String getUserStatus(){return userStatus;}
+    public String getUserStatus() { return userStatus; }
 
     public void setUserStatus(String userStatus) {
         this.userStatus = userStatus;
     }
-    public void setPassword(String password){
+    public void setPassword(String password) {
         this.password = password;
     }
-    public void setTime(String time){
+    public void setTime(String time) {
         this.time = time;
     }
     public void setPictureURL(String pictureURL) {
@@ -81,20 +88,19 @@ public class Account {
     }
 
     public boolean isUsername(String username) {
-        System.out.println(this.username + username);
         return this.username.equals(username);
     }
     public boolean isPassword(String password) {
         return this.password.equals(password);
     }
-    public boolean isAdmin(String role){
+    public boolean isAdmin(String role) {
         return "admin".equals(role);
     }
-    public boolean isUnban(String userStatus){
+    public boolean isUnban(String userStatus) {
         return "unban".equals(userStatus);
     }
     @Override
-    public String toString(){
+    public String toString() {
         return "Role: " + role + " Username: " + username + " Last Online: " + time + " Status: " + userStatus;
     }
 }
