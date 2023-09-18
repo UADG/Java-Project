@@ -7,6 +7,7 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.TeamList;
 import cs211.project.services.ActivityHardCode;
 import cs211.project.services.ActivityListFileDatasource;
+import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.TeamListFileDatasource;
 
 public class Event {
@@ -47,6 +48,11 @@ public Event(String eventName, String startDate, String endDate, String startTim
         arr = datasource.readData();
     }
 
+    public Event(String eventName){
+        this.eventName = eventName;
+        loadEventInfo();
+    }
+
     public String getEventName(){
         return eventName;
     }
@@ -77,7 +83,8 @@ public Event(String eventName, String startDate, String endDate, String startTim
     public String getTimeParticipant() {
         return timeParticipant;
     }
-    public void setEventName(String eventName) {
+    public void
+    setEventName(String eventName) {
         this.eventName = eventName;
     }
     public void setStartDate(String startDate) {
@@ -151,6 +158,27 @@ public Event(String eventName, String startDate, String endDate, String startTim
         return this.eventName.equals(eventName);
     }
 
+    public Event loadEventInfo(){
+        EventListFileDatasource list = new EventListFileDatasource("data", "event-list.csv");
+        for(Event event : list.readData().getEvents()){
+            if(event.getEventName().equals(eventName)){
+                this.eventName = event.getEventName();
+                this.startDate = event.getStartDate();
+                this.endDate = event.getEndDate();
+                this.startTime = event.getStartTime();
+                this.endTime = event.getEndTime();
+                this.ticket = event.getTicket();
+                this.participantNum = event.getParticipantNum();
+                this.participantJoin = event.getParticipantLeft();
+                this.detail = event.getDetail();
+                this.timeTeam = event.getTimeTeam();
+                this.timeParticipant = event.getTimeParticipant();
+                ticketBuy = event.getTicketLeft();
+            }
+        }
+        return this;
+    }
+
     public ActivityList loadActivityInEvent(){
         ActivityListFileDatasource data = new ActivityListFileDatasource("data","activity-list.csv");
         activitys = data.readData();
@@ -167,12 +195,11 @@ public Event(String eventName, String startDate, String endDate, String startTim
         loadActivityInEvent();
         for(Activity activity:activitys.getActivities()){
             nameTeamInEvent.add(activity.getTeamName());
-            System.out.println(activity.getTeamName());
         }
 
         for(String name: nameTeamInEvent){
             for(Team team : list.getTeams()){
-                if(team.getTeamName().equals(name)){
+                if(team.getTeamName().equals(name) && team.getEvent().getEventName().equals(eventName)){
                     teams.addTeam(team);
                 }
             }

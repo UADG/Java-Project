@@ -41,6 +41,22 @@ public class TeamList {
         return null;
     }
 
+    public Team findLowestStaffTeam(){
+        int min = teams.get(0).getNumberOfStaff() - teams.get(0).getNumberOfStaffLeft();
+        System.out.println(min);
+        Team lowestStaff = teams.get(0);
+        for(Team team : teams){
+            int result = team.getNumberOfStaff() - team.getNumberOfStaffLeft();
+            if(result<min){
+                min = result;
+                lowestStaff = team;
+                System.out.println(lowestStaff.getTeamName());
+            }
+        }
+
+        return lowestStaff;
+    }
+
     public ArrayList<Team> getTeams(){
         return teams;
     }

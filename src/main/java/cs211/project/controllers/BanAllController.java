@@ -114,7 +114,7 @@ public class BanAllController {
         if (team != null && selectedStaff != null) {
             updateData();
             team.banStaffInTeam(selectedStaff.getId());
-            data.updateStaffInTeam(team.getTeamName(),selectedStaff,"-");
+            data.updateStaffInTeam(selectedEvent.getEventName(),team.getTeamName(),selectedStaff,"-");
             banPath.writeData(selectedStaff);
             banPath.updateEventToId(selectedStaff.getId(),selectedStaff.getName(),"+");
             showStaff();

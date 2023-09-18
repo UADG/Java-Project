@@ -28,11 +28,13 @@ public class CreateTeamController {
     @FXML public TextField numberOfTeamMemberTextField;
     @FXML public Label errorLabel;
     public ActivityList list;
+    public String eventName;
     public Activity selectedActivity;
     public void initialize(){
         errorLabel.setText("");
         clearInfo();
         list = (ActivityList) FXRouter.getData();
+        eventName = list.getAllActivities().get(0).getEventName();
         showTable(list);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
@@ -99,7 +101,7 @@ public class CreateTeamController {
             if(!teamName.equals("")&&!numberStr.equals("")){
                 try {
                     int number = Integer.parseInt(numberStr);
-                    Team team = new Team(teamName, number);
+                    Team team = new Team(teamName, number, eventName);
                     team.createTeamInCSV();
                     selectedActivity.updateTeamInActivity(team);
                     showTable(list);
