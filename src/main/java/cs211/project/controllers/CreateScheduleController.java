@@ -176,7 +176,7 @@ public class CreateScheduleController {
     @FXML
     protected void backOnClick(){
         try {
-            FXRouter.goTo("create-event");
+            FXRouter.goTo("event-history");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

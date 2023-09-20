@@ -37,7 +37,7 @@
       </Label>
       <ComboBox fx:id="chooseMinTimeStart" layoutX="663.0" layoutY="223.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <TextField fx:id="activityTextField" layoutX="606.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new activity" />
-      <Button layoutX="551.0" layoutY="342.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" text="Add Activity" />
+      <Button layoutX="567.0" layoutY="342.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" text="Add Activity" />
       <Line endX="140.0" layoutX="597.0" layoutY="373.0" startX="-100.0" />
       <Label layoutX="493.0" layoutY="382.0" text="Activity :">
          <font>
@@ -49,7 +49,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="delete" layoutX="551.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" text="Delete" />
+      <Button fx:id="delete" layoutX="567.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" text="Delete" />
       <Label layoutX="492.0" layoutY="434.0" text="Time Start :">
          <font>
             <Font size="14.0" />
@@ -93,7 +93,7 @@
       </Label>
       <ComboBox fx:id="chooseMinTimeStop" layoutX="663.0" layoutY="298.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <Button fx:id="next" layoutX="718.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" text="next" />
-      <TableView fx:id="activityTableView" layoutX="17.0" layoutY="151.0" prefHeight="386.0" prefWidth="468.0">
+      <TableView fx:id="activityTableView" layoutX="17.0" layoutY="151.0" prefHeight="386.0" prefWidth="422.0">
         <columns>
           <TableColumn prefWidth="133.0" text="C1" />
           <TableColumn prefWidth="68.0" text="C2" />
@@ -105,7 +105,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="errorTimeLabel" layoutX="674.0" layoutY="346.0" text="errorTime" textFill="#eb0202">
+      <Label fx:id="errorTimeLabel" layoutX="687.0" layoutY="346.0" text="errorTime" textFill="#eb0202">
          <font>
             <Font size="14.0" />
          </font>

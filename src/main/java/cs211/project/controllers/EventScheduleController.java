@@ -31,8 +31,11 @@ public class EventScheduleController {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        TableColumn<Activity, String> startDateActivityColumn = new TableColumn<>("start-date");
+        startDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+
+        TableColumn<Activity, String> endDateActivityColumn = new TableColumn<>("end-date");
+        endDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
@@ -45,7 +48,8 @@ public class EventScheduleController {
 
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
-        activityTableView.getColumns().add(dateActivityColumn);
+        activityTableView.getColumns().add(startDateActivityColumn);
+        activityTableView.getColumns().add(endDateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
         activityTableView.getColumns().add(participantColumn);

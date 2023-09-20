@@ -123,7 +123,7 @@ public class JoinedHistoryController {
     public void onOpenSchedule() {
         if(selectedEvent!=null){
             try{
-                FXRouter.goTo("event-schedule", eventList.findEventByEventName(selectedEvent));
+                FXRouter.goTo("event-schedule",eventList.findEventByEventName(selectedEvent));
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
