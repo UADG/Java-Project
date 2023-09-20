@@ -6,6 +6,7 @@ import cs211.project.models.collections.ActivityList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -69,15 +70,16 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
 
                 // อ่านข้อมูลตาม index แล้วจัดการประเภทของข้อมูลให้เหมาะสม
                 String activityName = data[0].trim();
-                String date = data[1].trim();
-                LocalTime startTimeActivity = LocalTime.parse(data[2].trim());
-                LocalTime endTimeActivity = LocalTime.parse(data[3].trim());
-                String teamName = data[4].trim();
-                String participantName = data[5].trim();
-                String status = data[6].trim();
-                String eventName = data[7].trim();
+                LocalDate startDate = LocalDate.parse(data[1].trim());
+                LocalDate endDate = LocalDate.parse(data[2].trim());
+                LocalTime startTimeActivity = LocalTime.parse(data[3].trim());
+                LocalTime endTimeActivity = LocalTime.parse(data[4].trim());
+                String teamName = data[5].trim();
+                String participantName = data[6].trim();
+                String status = data[7].trim();
+                String eventName = data[8].trim();
                 // เพิ่มข้อมูลลงใน list
-                activities.addActivity(activityName, date, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName);
+                activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -110,7 +112,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (Activity activity : data.getAllActivities()) {
                 if(!activity.getActivityName().equals("")) {
-                    String line = activity.getActivityName() + "," + activity.getDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName();
+                    String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName();
                     buffer.append(line);
                     buffer.append("\n");
                 }

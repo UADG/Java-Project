@@ -114,6 +114,16 @@ public class JoinedHistoryController {
             showErrorAlert("Must selected at least 1 event");
         }
     }
+    @FXML
+    public void onOpenSchedule() {
+        if(selectedEvent!=null){
+            try{
+                FXRouter.goTo("event-schedule", selectedEvent);
+            }catch (IOException e){
+                throw new RuntimeException(e);
+            }
+        }
+    }
 
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);

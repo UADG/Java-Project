@@ -1,7 +1,6 @@
 package cs211.project.services;
 
 import cs211.project.models.Account;
-import cs211.project.models.User;
 import cs211.project.models.collections.AccountList;
 
 import java.io.*;

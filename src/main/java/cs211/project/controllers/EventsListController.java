@@ -178,11 +178,11 @@ public class EventsListController {
                 datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                 activityList = datasource.readData();
                 activityList.findActivityInEvent(selectedEvent.getEventName());
-                if(activityList.userIsParticipant("UADG")) {
-                    activityList.addParticipant("UADG");
+                if(activityList.userIsParticipant(account.getUsername())) {
+                    activityList.addParticipant(account.getUsername());
                     selectedEvent.participantJoin();
                     datasource.writeData(activityList);
-                    FXRouter.goTo("participant-schedule");
+                    FXRouter.goTo("participant-schedule",account);
                 }
                 else{
                     errorLabelApplyToParticipants.setText("Sorry you're participant in this event");

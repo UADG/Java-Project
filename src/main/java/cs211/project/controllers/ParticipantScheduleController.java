@@ -1,5 +1,6 @@
 package cs211.project.controllers;
 
+import cs211.project.models.Account;
 import cs211.project.models.Activity;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.services.ActivityListFileDatasource;
@@ -17,17 +18,17 @@ import java.time.LocalTime;
 public class ParticipantScheduleController {
     @FXML private TableView<Activity> activityTableView;
     @FXML private ComboBox chooseEvent;
+    private Account account = (Account) FXRouter.getData();
+
     private ActivityList activityList;
-    private ActivityList list;
     private Datasource<ActivityList> datasource;
     private String eventName;
     @FXML
     public void initialize() {
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
-        String userId = "UADG";
         for(Activity activity:activityList.getAllActivities()){
-            if(activity.userIsParticipant(userId)){
+            if(activity.userIsParticipant(account.getUsername())){
                 System.out.println(activity.getEventName());
                 chooseEvent.getItems().add(activity.getEventName());
             }
@@ -59,7 +60,6 @@ public class ParticipantScheduleController {
 
         activityTableView.getItems().clear();
 
-        // ใส่ข้อมูล Student ทั้งหมดจาก studentList ไปแสดงใน TableView
         for (Activity activity: activityList.getActivities()) {
             activityTableView.getItems().add(activity);
         }
@@ -80,7 +80,7 @@ public class ParticipantScheduleController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("home-page");
+            FXRouter.goTo("home-page",account);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
