@@ -176,6 +176,9 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
     }
+    public boolean isEventManager(String username) {
+        return this.eventManager.equals(username);
+    }
 
     public Event loadEventInfo(){
         EventListFileDatasource list = new EventListFileDatasource("data", "event-list.csv");
