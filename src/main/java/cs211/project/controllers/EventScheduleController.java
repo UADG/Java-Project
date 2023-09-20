@@ -3,6 +3,9 @@ package cs211.project.controllers;
 import cs211.project.models.Activity;
 import cs211.project.models.Event;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.EventList;
+import cs211.project.services.Datasource;
+import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -18,14 +21,21 @@ public class EventScheduleController {
     @FXML
     public void initialize() {
         selectedEvent = (Event) FXRouter.getData();
+        Datasource<EventList> eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        EventList eventList = eventListDatasource.readData();
+        selectedEvent = eventList.findEventByEventName(selectedEvent.getEventName());
+        System.out.println(selectedEvent);
         showTable(selectedEvent.loadActivityInEvent());
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        TableColumn<Activity, String> startDateActivityColumn = new TableColumn<>("start-date");
+        startDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+
+        TableColumn<Activity, String> endDateActivityColumn = new TableColumn<>("end-date");
+        endDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
@@ -38,7 +48,8 @@ public class EventScheduleController {
 
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
-        activityTableView.getColumns().add(dateActivityColumn);
+        activityTableView.getColumns().add(startDateActivityColumn);
+        activityTableView.getColumns().add(endDateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
         activityTableView.getColumns().add(participantColumn);
@@ -55,7 +66,7 @@ public class EventScheduleController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("event-history");
+            FXRouter.goTo("home-page");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

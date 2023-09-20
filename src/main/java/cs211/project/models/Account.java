@@ -60,6 +60,10 @@ public class Account {
         return false;
     }
 
+    public boolean isId(int id) {
+        return this.id == id;
+    }
+
     public String getRole() { return role; }
     public String getUsername() {
         return username;

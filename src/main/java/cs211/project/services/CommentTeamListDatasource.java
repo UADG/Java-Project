@@ -1,17 +1,15 @@
 package cs211.project.services;
-
-import cs211.project.models.Account;
-import cs211.project.models.collections.AccountList;
+import cs211.project.models.Team;
+import cs211.project.models.collections.TeamList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 
-public class UserEventListFileDatasource implements Datasource<AccountList> {
+public class CommentTeamListDatasource implements Datasource<TeamList> {
     private String directoryName;
     private String fileName;
 
-
-    public UserEventListFileDatasource(String directoryName, String fileName) {
+    public CommentTeamListDatasource(String directoryName, String fileName) {
         this.directoryName = directoryName;
         this.fileName = fileName;
         checkFileIsExisted();
@@ -34,9 +32,10 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
     }
 
     @Override
-    public AccountList readData() {
-        Datasource<AccountList> accountList = new AccountListDatasource("data", "user-info.csv");
-        AccountList users = accountList.readData();
+    public TeamList readData() {
+        Datasource<TeamList> teamListDatasource = new TeamListFileDatasource("data", "team.csv");
+        TeamList teamList = teamListDatasource.readData();
+
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -60,22 +59,20 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
                 if (line.equals("")) continue;
 
                 String[] data = line.split(",");
-                int id = Integer.parseInt(data[0]);
 
-                for (int i = 1; i < data.length; i++) {
-                    String eventName = data[i].trim();
-                    users.addUserEvent(id,eventName);
-                }
+                String teamName = data[0].trim();
+                String comment = data[1].trim();
+                teamList.addCommentInTeam(teamName,comment);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return users;
+        return teamList;
     }
 
     @Override
-    public void writeData(AccountList data) {
+    public void writeData(TeamList data) {
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -94,15 +91,13 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            for (Account user : data.getAccount()) {
-                String line = String.valueOf(user.getId());
-                for (String event : user.getAllEventUser()) {
-                    line += "," + event;
+            for (Team team : data.getTeams()) {
+                if(!team.getTeamName().equals("")) {
+                    String line = team.getTeamName() + "," + team.getComment();
+                    buffer.append(line);
+                    buffer.append("\n");
                 }
-                buffer.append(line);
-                buffer.append("\n");
             }
-
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {

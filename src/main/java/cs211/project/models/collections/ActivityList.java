@@ -27,7 +27,6 @@ public class ActivityList {
         activities.add(activity);
     }
 
-
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){
             if(activity.getEventName().equals((eventName))){

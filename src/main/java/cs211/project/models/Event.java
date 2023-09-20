@@ -59,7 +59,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         loadEventInfo();
     }
 
-    public String getEventName(){
+    public String getEventName() {
         return eventName;
     }
     public LocalDate getStartDate() {
@@ -131,19 +131,26 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public void setTimeParticipant(String timeParticipant) {
         this.timeParticipant = timeParticipant;
     }
-    public void ticketBuy(){ticketBuy += 1;
+    public void ticketBuy() {
+        ticketBuy += 1;
     }
-    public int getTicketLeft(){return ticket - ticketBuy;}
-    public int getParticipantLeft(){return participantNum-participantJoin;}
-    public void participantJoin(){participantJoin += 1;}
-    public ArrayList<String> getArrayHour(){
+    public int getTicketLeft() {
+        return ticket - ticketBuy;
+    }
+    public int getParticipantLeft() {
+        return participantNum-participantJoin;
+    }
+    public void participantJoin() {
+        participantJoin += 1;
+    }
+    public ArrayList<String> getArrayHour() {
         ArrayList<String> arrayStartTimeActivity = new ArrayList<>();
         for (int i = 0; i < 24; i++) {
             arrayStartTimeActivity.add(String.valueOf(i));
         }
         return arrayStartTimeActivity;
     }
-    public ArrayList<String> getArrayMinute(){
+    public ArrayList<String> getArrayMinute() {
         ArrayList<String> arrayMinute = new ArrayList<>();
         for(int i = 0; i < 60; i++){
             arrayMinute.add(String.valueOf(i));
@@ -155,7 +162,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     }
     @Override
     public String toString() {
-        return "Name: " + eventName;
+        return eventName;
     }
 
     public boolean isEvent(String eventName) {
@@ -165,7 +172,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         return this.eventManager.equals(username);
     }
 
-    public Event loadEventInfo(){
+    public Event loadEventInfo() {
         EventListFileDatasource list = new EventListFileDatasource("data", "event-list.csv");
         for(Event event : list.readData().getEvents()){
             if(event.getEventName().equals(eventName)){
@@ -186,7 +193,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         return this;
     }
 
-    public ActivityList loadActivityInEvent(){
+    public ActivityList loadActivityInEvent() {
         ActivityListFileDatasource data = new ActivityListFileDatasource("data","activity-list.csv");
         activitys = data.readData();
         activitys.findActivityInEvent(eventName);
@@ -194,7 +201,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         return activitys;
     }
 
-    public TeamList loadTeamInEvent(){
+    public TeamList loadTeamInEvent() {
         TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
         TeamList list = data.readData();
         ArrayList<String> nameTeamInEvent = new ArrayList<>();

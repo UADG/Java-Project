@@ -12,6 +12,9 @@ public class Team {
     protected ArrayList<String> bannedStaff;
     protected Event event;
     protected String eventName;
+    private String comment;
+    private String firstComment;
+
 
 
     public Team(String teamName, int numberOfStaff){
@@ -20,6 +23,8 @@ public class Team {
         numberOfStaffLeft = numberOfStaff;
         staffs = new StaffList();
         bannedStaff = new ArrayList<>();
+        comment = "";
+        firstComment = "";
     }
 
     public Team(String teamName, int numberOfStaff, int numberOfStaffLeft){
@@ -121,6 +126,22 @@ public class Team {
     public void setEvent(String eventName){
         event.setEventName(eventName);
         event.loadEventInfo();
+    }
+
+    public String getComment() {
+        return comment;
+    }
+
+    public void addComment(String comment) {
+        this.comment += comment;
+    }
+
+    public boolean checkFirstComment(String comment) {
+        if (firstComment.equals(comment)) {
+            return true;
+        }
+        firstComment = comment;
+        return false;
     }
 
 

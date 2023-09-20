@@ -11,32 +11,32 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
    <children>
       <Button layoutX="11.0" layoutY="16.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
-      <Label layoutX="181.0" layoutY="257.0" text="Event Name: " />
-      <Label layoutX="181.0" layoutY="290.0" text="Date Start:" />
-      <TextField fx:id="eventNameTextField" layoutX="257.0" layoutY="253.0" prefWidth="123.0" />
-      <Label layoutX="180.0" layoutY="327.0" text="Time Start Event:" />
-      <TextField fx:id="timeStartEventTextField" layoutX="273.0" layoutY="324.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="442.0" layoutY="330.0" text="Time End Event:" />
-      <TextField fx:id="timeEndEventTextField" layoutX="551.0" layoutY="326.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="181.0" layoutY="363.0" text="Amount Tickets:" />
-      <TextField fx:id="amountTicketTextField" layoutX="273.0" layoutY="358.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="182.0" layoutY="397.0" text="Detail:" />
-      <DatePicker fx:id="eventDatePickerStart" layoutX="257.0" layoutY="286.0" prefHeight="26.0" prefWidth="123.0" />
-      <Label layoutX="442.0" layoutY="292.0" text="Date End:" />
-      <DatePicker fx:id="eventDatePickerEnd" layoutX="498.0" layoutY="287.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label layoutX="157.0" layoutY="252.0" text="Event Name: " />
+      <Label layoutX="168.0" layoutY="287.0" text="Start Date:" />
+      <TextField fx:id="eventNameTextField" layoutX="238.0" layoutY="248.0" prefWidth="123.0" />
+      <Label layoutX="138.0" layoutY="322.0" text="Time Event Start:" />
+      <TextField fx:id="timeStartEventTextField" layoutX="238.0" layoutY="319.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="426.0" layoutY="322.0" text="Time Event End:" />
+      <TextField fx:id="timeEndEventTextField" layoutX="517.0" layoutY="318.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="139.0" layoutY="357.0" text="Tickets Amount:" />
+      <TextField fx:id="amountTicketTextField" layoutX="238.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="192.0" layoutY="392.0" text="Detail:" />
+      <DatePicker fx:id="eventDatePickerStart" layoutX="238.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label layoutX="460.0" layoutY="287.0" text="End Date:" />
+      <DatePicker fx:id="eventDatePickerEnd" layoutX="517.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" />
       <Button layoutX="652.0" layoutY="514.0" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
       <ImageView fitHeight="151.0" fitWidth="373.0" layoutX="214.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="443.0" layoutY="367.0" text="Amount Paticipant:" />
-      <TextField fx:id="amountParticipantTextField" layoutX="551.0" layoutY="362.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="440.0" layoutY="400.0" text="TimeEndTeam:" />
-      <TextField fx:id="timeEndTeamTextField" layoutX="551.0" layoutY="396.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="441.0" layoutY="434.0" text="TimeEndParticipant:" />
-      <TextField fx:id="timeEndParticipantTextField" layoutX="551.0" layoutY="430.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="400.0" layoutY="357.0" text="Participants Amount:" />
+      <TextField fx:id="amountParticipantTextField" layoutX="517.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="426.0" layoutY="392.0" text="Time Team End:" />
+      <TextField fx:id="timeEndTeamTextField" layoutX="517.0" layoutY="388.0" prefHeight="26.0" prefWidth="70.0" />
+      <Label layoutX="399.0" layoutY="427.0" text="Time Participant End:" />
+      <TextField fx:id="timeEndParticipantTextField" layoutX="517.0" layoutY="425.0" prefHeight="26.0" prefWidth="70.0" />
       <Label layoutX="353.0" layoutY="51.0" text="Edit Event">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="detailTextField" layoutX="225.0" layoutY="393.0" prefHeight="100.0" />
+      <TextField fx:id="detailTextField" alignment="TOP_LEFT" layoutX="238.0" layoutY="393.0" prefHeight="100.0" />
    </children>
 </AnchorPane>

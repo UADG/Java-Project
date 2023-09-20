@@ -18,7 +18,6 @@ public class Activity {
     private String eventName;
     private Team team;
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
         this.activityName = activityName;
@@ -83,7 +82,9 @@ public class Activity {
                 return true;
             }
         }
-        return false;
+        else{
+            return true;
+        }
     }
 
     public void setActivityStatus(String status){

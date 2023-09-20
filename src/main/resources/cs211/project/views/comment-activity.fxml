@@ -5,6 +5,8 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -12,7 +14,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentActivityController">
    <children>
-      <ScrollPane layoutX="138.0" layoutY="122.0" prefHeight="410.0" prefWidth="525.0">
+      <ScrollPane layoutX="138.0" layoutY="202.0" prefHeight="330.0" prefWidth="525.0">
          <content>
             <TextFlow fx:id="commentTextFlow" lineSpacing="1.0" nodeOrientation="LEFT_TO_RIGHT">
                <opaqueInsets>
@@ -21,7 +23,7 @@
             </TextFlow>
          </content>
       </ScrollPane>
-      <Label layoutX="158.0" layoutY="94.0" text="Comment in activity: ">
+      <Label layoutX="138.0" layoutY="30.0" text="Comment in activity: ">
          <font>
             <Font size="14.0" />
          </font>
@@ -29,11 +31,27 @@
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="Back" />
       <TextField fx:id="commentTextField" layoutX="184.0" layoutY="550.0" prefHeight="25.0" prefWidth="398.0" promptText="send a message to team..." />
       <Button layoutX="603.0" layoutY="550.0" mnemonicParsing="false" onAction="#onSentAction" text="send" />
-      <Label layoutX="410.0" layoutY="94.0" text="Choose Activity:">
+      <Label layoutX="410.0" layoutY="30.0" text="Choose Activity:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox layoutX="513.0" layoutY="91.0" prefWidth="150.0" />
+      <ComboBox fx:id="chooseActivity" layoutX="513.0" layoutY="27.0" prefWidth="150.0" />
+      <Label fx:id="teamLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="366.0" layoutY="71.0" text="teamLabel" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label fx:id="activityLabel" layoutX="278.0" layoutY="30.0" text="activityLabel">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <TableView fx:id="activityListTableView" layoutX="138.0" layoutY="92.0" prefHeight="102.0" prefWidth="525.0">
+        <columns>
+          <TableColumn prefWidth="75.0" text="C1" />
+          <TableColumn prefWidth="75.0" text="C2" />
+        </columns>
+      </TableView>
    </children>
 </AnchorPane>
