@@ -10,6 +10,8 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.image.ImageView;
+
 import java.io.IOException;
 
 public class JoinedHistoryController {
@@ -24,6 +26,8 @@ public class JoinedHistoryController {
     private Label dateLabel;
     @FXML
     private Label statusLabel;
+    @FXML
+    private ImageView imageUserView;
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
@@ -68,13 +72,14 @@ public class JoinedHistoryController {
 
     private void showEventOrganizeInfo(Event event) {
         eventNameLabel.setText(event.getEventName());
-        dateLabel.setText(event.getEndTime());
+        dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         statusLabel.setText("still being organized.");
     }
 
     private void clearEventInfo() {
         eventNameLabel.setText("");
         dateLabel.setText("");
+        imageUserView.setImage(null);
     }
 
     @FXML
@@ -118,7 +123,7 @@ public class JoinedHistoryController {
     public void onOpenSchedule() {
         if(selectedEvent!=null){
             try{
-                FXRouter.goTo("event-schedule", selectedEvent);
+                FXRouter.goTo("event-schedule", eventList.findEventByEventName(selectedEvent));
             }catch (IOException e){
                 throw new RuntimeException(e);
             }

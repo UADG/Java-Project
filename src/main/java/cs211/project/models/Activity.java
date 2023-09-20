@@ -82,7 +82,9 @@ public class Activity {
                 return true;
             }
         }
-        return false;
+        else{
+            return true;
+        }
     }
 
     public void setActivityStatus(String status){

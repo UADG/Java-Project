@@ -17,11 +17,10 @@ public class AccountList{
         }
     }
 
-    public void addUserEvent(String username, String eventName) {
-        username = username.trim();
+    public void addUserEvent(int id, String eventName) {
         eventName = eventName.trim();
-        if (!username.equals("") && !eventName.equals("")) {
-            Account exist = findAccountByUsername(username);
+        if (!eventName.equals("")) {
+            Account exist = findAccountById(id);
             if (exist != null) {
                 String event = findEventByEventName(exist, eventName);
                 if (event == null) {
@@ -34,6 +33,15 @@ public class AccountList{
     public String findEventByEventName(Account exist, String eventName) {
         if (exist.isEventName(eventName)) {
             return eventName;
+        }
+        return null;
+    }
+
+    public Account findAccountById(int id) {
+        for (Account account : accounts) {
+            if (account.isId(id)) {
+                return account;
+            }
         }
         return null;
     }

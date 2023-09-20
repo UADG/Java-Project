@@ -3,6 +3,9 @@ package cs211.project.controllers;
 import cs211.project.models.Activity;
 import cs211.project.models.Event;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.EventList;
+import cs211.project.services.Datasource;
+import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
@@ -18,6 +21,10 @@ public class EventScheduleController {
     @FXML
     public void initialize() {
         selectedEvent = (Event) FXRouter.getData();
+        Datasource<EventList> eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        EventList eventList = eventListDatasource.readData();
+        selectedEvent = eventList.findEventByEventName(selectedEvent.getEventName());
+        System.out.println(selectedEvent);
         showTable(selectedEvent.loadActivityInEvent());
     }
     private void showTable(ActivityList activityList) {
@@ -55,7 +62,7 @@ public class EventScheduleController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("event-history");
+            FXRouter.goTo("home-page");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
