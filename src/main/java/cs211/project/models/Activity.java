@@ -67,7 +67,7 @@ public class Activity {
     public Team getTeam(){return team;}
 
     public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
-        if(this.date.equals(date)){
+        if(this.date.equals(date)) {
             if (endTimeActivity.isBefore(startTimeActivity)) {
                 return true;
             } else if (this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)) {
@@ -79,7 +79,9 @@ public class Activity {
             }
             return false;
         }
-        return false;
+        else{
+            return true;
+        }
     }
 
     public void setActivityStatus(String status){
