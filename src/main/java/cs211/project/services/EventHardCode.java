@@ -18,7 +18,7 @@ public class EventHardCode {
         LocalDate localDate1 = LocalDate.parse(formattedEndDate, formatter);
 
         eventList.addNewEvent("Fes", localDate, localDate1, "00:00",
-                "00:00", 20, 10, "abc", "00:00", "00:00", "ai");
+                "00:00", 20, 10, "abc", "00:00", "00:00", 5,5,"a","ai");
 
         return eventList;
     }

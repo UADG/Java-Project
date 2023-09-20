@@ -22,9 +22,10 @@ public class Event {
     private String detail;
     private String timeTeam;
     private String timeParticipant;
-    private int ticketBuy;
-    private int participantJoin;
+    private int ticketBuy = 0;
+    private int participantJoin = 0;
     private String eventManager;
+    private String picURL;
     private ArrayList<String> arrayStartTimeActivity;
     private ArrayList<String> arrayMinute;
     private ArrayList<String> arrayDateActivity;
@@ -34,7 +35,7 @@ public class Event {
 
 public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
              int ticket, int participantNum, String detail, String timeTeam,
-             String timeParticipant, String eventManager){
+             String timeParticipant,int ticketBuy, int participantJoin, String picURL, String eventManager){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -45,9 +46,10 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         this.detail = detail;
         this.timeTeam = timeTeam;
         this.timeParticipant = timeParticipant;
-        ticketBuy = 0;
-        participantJoin = 0;
+        this.ticketBuy = ticketBuy;
+        this.participantJoin = participantJoin;
         this.eventManager = eventManager;
+        this.picURL = picURL;
         ActivityHardCode datasource = new ActivityHardCode();
         arr = datasource.readData();
     }
@@ -87,7 +89,18 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public String getTimeParticipant() {
         return timeParticipant;
     }
+    public int getTicketBuy() {
+        return ticketBuy;
+    }
+    public int getParticipantJoin() {
+        return participantJoin;
+    }
     public String getEventManager(){return eventManager;}
+
+    public String getPicURL() {
+        return picURL;
+    }
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }

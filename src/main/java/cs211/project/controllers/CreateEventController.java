@@ -58,11 +58,11 @@ public class CreateEventController {
                         int ticketNumber = Integer.parseInt(tickets);
                         int partiNumber = Integer.parseInt(participants);
                         eventList.addNewEvent(eventName,startDate,endDate,startTime, endTime,ticketNumber,
-                                partiNumber, detail, teamTime, partiTime, accounts.getUsername());
+                                partiNumber, detail, teamTime, partiTime,0,0,"/images/default-profile.png", accounts.getUsername());
                         Datasource<EventList> dataSource = new EventListFileDatasource("data","event-list.csv");
                         dataSource.writeData(eventList);
                         try {
-                            FXRouter.goTo("create-schedule", eventName);
+                            FXRouter.goTo("event-history", eventName);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }

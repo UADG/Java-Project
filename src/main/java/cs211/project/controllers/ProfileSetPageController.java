@@ -30,7 +30,7 @@ public class ProfileSetPageController {
         nameLabel.setText(account.getName());
         myText.setVisible(false);
         myRectangle.setVisible(false);
-        Image image = new Image(account.getPictureURL());
+        Image image = new Image(getClass().getResource(account.getPictureURL()).toString());
         imageView.setImage(image);
     }
 

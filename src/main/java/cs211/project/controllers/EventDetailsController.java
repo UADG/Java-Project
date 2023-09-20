@@ -27,7 +27,7 @@ public class EventDetailsController {
         nameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         timeLabel.setText(event.getStartTime() + " - " + event.getEndTime());
-        ticketLabel.setText(event.getTicket() + "/" + event.getTicketLeft());
+        ticketLabel.setText(event.getTicketLeft() + "/" + event.getTicket());
         descriptionLabel.setText(event.getDetail());
     }
     @FXML

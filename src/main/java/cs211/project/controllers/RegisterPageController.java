@@ -65,7 +65,7 @@ public class RegisterPageController {
         if(account==null){
             if(!username.equals("")&&!name.equals("")&&!pass.equals("")){
                 if(pass.equals(confirmPass)){
-                    accountList.addNewAccount(id,username,pass,name, "time", "file:/C:/Users/ketsaranee/Desktop/Project/cs211-661-project-java-best-win-ai-jim/target/classes/images/default-profile.png","unban", "user");
+                    accountList.addNewAccount(id,username,pass,name, "time", "/images/default-profile.png","unban", "user");
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
                     FXRouter.goTo("login-page");

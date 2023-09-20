@@ -14,13 +14,15 @@ public class EventList {
     }
     public void addNewEvent(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
                             int ticket, int participantNum, String detail, String timeTeam,
-                            String timeParticipant, String eventManager) {
+                            String timeParticipant, int ticketBuy, int participantJoin, String picURL, String eventManager) {
         eventName = eventName.trim();
         detail = detail.trim();
         if (!eventName.equals("")) {
             Event exist = findEventByEventName(eventName);
             if (exist == null) {
-                events.add(new Event(eventName, startDate, endDate, startTime.trim(), endTime.trim(), ticket, participantNum, detail.trim(), timeTeam.trim(), timeParticipant.trim(), eventManager.trim()));
+                events.add(new Event(eventName, startDate, endDate, startTime.trim(), endTime.trim(), ticket,
+                        participantNum, detail.trim(), timeTeam.trim(), timeParticipant.trim(), ticketBuy, participantJoin,
+                        picURL.trim(),eventManager.trim()));
             }
         }
     }

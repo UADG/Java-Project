@@ -67,10 +67,13 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 int participantNum = Integer.parseInt(data[6].trim());
                 String detail = data[7].trim();
                 String timeTeam = data[8].trim();
-                String timeParticipant = data[9].trim();
-                String eventManager = data[10].trim();
+                String timeParticipant = data[9].trim(); //int ticketBuy, int participantJoin, String picURL,
+                int ticketBuy = Integer.parseInt(data[10].trim());
+                int participantJoin = Integer.parseInt(data[11].trim());
+                String picURL = data[12].trim();
+                String eventManager = data[13].trim();
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, ticket,
-                        participantNum, detail, timeTeam, timeParticipant, eventManager);
+                        participantNum, detail, timeTeam, timeParticipant, ticketBuy, participantJoin, picURL,eventManager);
             }
 
         } catch (FileNotFoundException e) {
@@ -109,7 +112,8 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 String line = event.getEventName()+","+event.getStartDate()+","+event.getEndDate()+
                         ","+event.getStartTime()+","+event.getEndTime()+","+event.getTicket()
                         +","+event.getParticipantNum()+","+event.getDetail()+","+event.getTimeTeam()
-                        +","+event.getTimeParticipant()+","+event.getEventManager();
+                        +","+event.getTimeParticipant()+","+event.getTicketBuy()+","+event.getParticipantJoin()
+                        +","+event.getPicURL()+","+event.getEventManager();
                 buffer.append(line);
                 buffer.append("\n");
             }
