@@ -20,6 +20,8 @@ import javafx.scene.control.TextField;
 import java.io.IOException;
 
 public class EventsListController {
+    private Account account = (Account) FXRouter.getData();
+    private AccountList accountList;
 
     @FXML
     private Label eventNameLabel;
@@ -40,7 +42,6 @@ public class EventsListController {
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
     private EventList eventList;
-    private AccountList accountList;
     private String textSearch = "";
     private Event selectedEvent;
     private ActivityList activityList;
@@ -119,10 +120,14 @@ public class EventsListController {
     }
     @FXML
     protected void onDetailClick() {
-        try {
-            FXRouter.goTo("event-details");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("event-details", selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
         }
     }
 
@@ -173,11 +178,11 @@ public class EventsListController {
                 datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                 activityList = datasource.readData();
                 activityList.findActivityInEvent(selectedEvent.getEventName());
-                if(activityList.userIsParticipant("UADG")) {
-                    activityList.addParticipant("UADG");
+                if(activityList.userIsParticipant(account.getUsername())) {
+                    activityList.addParticipant(account.getUsername());
                     selectedEvent.participantJoin();
                     datasource.writeData(activityList);
-                    FXRouter.goTo("participant-schedule");
+                    FXRouter.goTo("participant-schedule",account);
                 }
                 else{
                     errorLabelApplyToParticipants.setText("Sorry you're participant in this event");

@@ -1,10 +1,6 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Account;
-import cs211.project.models.collections.AccountList;
-
-import cs211.project.services.AccountListDatasource;
-import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -13,10 +9,7 @@ import java.io.IOException;
 
 public class HomePageController {
     @FXML private Button adminButton;
-    private Account accounts = (Account) FXRouter.getData();
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
-    private Account account = accountList.findAccountByUsername(accounts.getUsername());
+    private Account account = (Account) FXRouter.getData();
     public void initialize() {
         adminButton.setVisible(false);
         if(account.isAdmin(account.getRole())){

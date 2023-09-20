@@ -2,12 +2,14 @@ package cs211.project.models;
 
 import cs211.project.services.ActivityListFileDatasource;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class Activity {
     private String activityName;
-    private String date;
+    private LocalDate startDate;
+    private LocalDate endDate;
     private LocalTime startTimeActivity;
     private LocalTime endTimeActivity;
     private String teamName;
@@ -15,31 +17,26 @@ public class Activity {
     private String status;
     private String eventName;
     private Team team;
-    private String comment;
-    private String firstComment;
-
+    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
+    public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
         this.activityName = activityName;
-        this.date = date;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.startTimeActivity = startTimeActivity;
         this.endTimeActivity = endTimeActivity;
         this.teamName = teamName;
         this.participantName = participantName;
         this.status = status;
         this.eventName = eventName;
-        comment = "";
-        firstComment = "";
     }
 
     public String getActivityName() {
         return activityName;
     }
-
-    public String getDate() {
-        return date;
-    }
-
+    public String getStartDate(){return startDate.format(dateFormatter);}
+    public String getEndDate(){return endDate.format(dateFormatter);}
+    public String getDate(){return startDate.format(dateFormatter)+endDate.format(dateFormatter);}
     public String getStartTimeActivity() {
         return startTimeActivity.format(timeFormatter);
     }
@@ -67,33 +64,23 @@ public class Activity {
     }
     public Team getTeam(){return team;}
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void addComment(String comment) {
-        this.comment += comment;
-    }
-
-    public boolean checkFirstComment(String comment) {
-        if (firstComment.equals(comment)) {
-            return true;
-        }
-        firstComment = comment;
-        return false;
-    }
-    public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
-        if(this.date.equals(date)){
-            if (endTimeActivity.isBefore(startTimeActivity)) {
-                return true;
-            } else if (this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)) {
-                return true;
-            } else if (this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)) {
-                return true;
-            } else if (endTimeActivity.equals(startTimeActivity)) {
+    public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, LocalDate startDate,LocalDate endDate){
+        if(this.startDate.equals(startDate) && this.endDate.equals(endDate)){
+            if(startDate.equals(endDate)) {
+                if (endTimeActivity.isBefore(startTimeActivity)) {
+                    return true;
+                } else if (this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)) {
+                    return true;
+                } else if (this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)) {
+                    return true;
+                } else if (endTimeActivity.equals(startTimeActivity)) {
+                    return true;
+                }
+                return false;
+            }
+            else{
                 return true;
             }
-            return false;
         }
         return false;
     }
@@ -101,8 +88,8 @@ public class Activity {
     public void setActivityStatus(String status){
         this.status = status;
     }
-    public boolean userIsParticipant(String id){
-        return this.participantName.equals(id);
+    public boolean userIsParticipant(String participantName){
+        return this.participantName.equals(participantName);
     }
     public void updateTeamInActivity(Team team){
         this.team = team;

@@ -125,10 +125,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public void participantJoin(){participantJoin += 1;}
     public ArrayList<String> getArrayHour(){
         ArrayList<String> arrayStartTimeActivity = new ArrayList<>();
-        int startHour = Integer.parseInt(startTime.split(":")[0]);
-        int endHour = Integer.parseInt(endTime.split(":")[0]);
-
-        for (int i = startHour; i <= endHour; i++) {
+        for (int i = 0; i < 24; i++) {
             arrayStartTimeActivity.add(String.valueOf(i));
         }
         return arrayStartTimeActivity;
@@ -140,31 +137,6 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         }
         return arrayMinute;
     }
-    public ArrayList<String> getArrayDate() {
-        ArrayList<String> arrayDateActivity = new ArrayList<>();
-
-        String startDateString = startDate.toString();
-        String endDateString = endDate.toString();
-
-        int startDay = Integer.parseInt(startDateString.split("-")[2]);
-        int endDay = Integer.parseInt(endDateString.split("-")[2]);
-
-        for (int i = startDay; i <= endDay; i++) {
-            arrayDateActivity.add(String.valueOf(i));
-        }
-
-        return arrayDateActivity;
-    }
-    //    public ArrayList<String> getArrayDate() {
-//        ArrayList<String> arrayDateActivity = new ArrayList<>();
-//            int startDay = Integer.parseInt(startDate.split("-")[2]);
-//            int endDay = Integer.parseInt(endDate.split("-")[2]);
-//
-//            for (int i = startDay; i <= endDay; i++) {
-//                arrayDateActivity.add(String.valueOf(i));
-//            }
-//        return arrayDateActivity;
-//    }
     public ArrayList<ArrayList<String >> getActivity(){
         return arr;
     }
@@ -175,6 +147,9 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
 
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
+    }
+    public boolean isEventManager(String username) {
+        return this.eventManager.equals(username);
     }
 
     public Event loadEventInfo(){

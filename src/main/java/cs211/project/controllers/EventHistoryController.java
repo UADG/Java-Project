@@ -145,4 +145,16 @@ public class EventHistoryController {
         alert.setContentText(message);
         alert.showAndWait();
     }
+    @FXML
+    protected void onEditActivity(){
+        if (selectedEvent != null) {
+            try {
+                FXRouter.goTo("create-schedule", selectedEvent);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            showErrorAlert("Must selected at least 1 event");
+        }
+    }
 }

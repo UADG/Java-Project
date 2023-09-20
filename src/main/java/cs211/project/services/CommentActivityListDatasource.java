@@ -64,7 +64,6 @@ public class CommentActivityListDatasource implements Datasource<ActivityList> {
 
                 String activityName = data[0].trim();
                 String comment = data[1].trim();
-                activities.addCommentInActivity(activityName,comment);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -95,8 +94,6 @@ public class CommentActivityListDatasource implements Datasource<ActivityList> {
         try {
             for (Activity activity : data.getAllActivities()) {
                 if(!activity.getActivityName().equals("")) {
-                    String line = activity.getActivityName() + "," + activity.getComment();
-                    buffer.append(line);
                     buffer.append("\n");
                 }
             }

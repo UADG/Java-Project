@@ -1,29 +1,29 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Activity;
+import cs211.project.models.Event;
 import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.EventList;
 import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.Datasource;
-import cs211.project.services.EventHardCode;
 import cs211.project.services.FXRouter;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class CreateScheduleController {
     @FXML TextField activityTextField;
-    @FXML ComboBox chooseDate;
     @FXML ComboBox chooseHourTimeStart;
     @FXML ComboBox chooseMinTimeStart;
     @FXML ComboBox chooseHourTimeStop;
     @FXML ComboBox chooseMinTimeStop;
+    @FXML DatePicker startDate;
+    @FXML DatePicker endDate;
     @FXML private Label activityNameLabel;
     @FXML private Label dateLabel;
     @FXML private Label timeStartLabel;
@@ -33,7 +33,7 @@ public class CreateScheduleController {
     private String eventName;
     private ActivityList activityList;
     private Activity selectedActivity;
-    private EventList eventList;
+    private Event event;
     private Datasource<ActivityList> datasource;
 
 
@@ -41,12 +41,12 @@ public class CreateScheduleController {
     public void initialize() {
         clearActivityInfo();
         errorActivityNameLabel.setText("");
-        EventHardCode data = new EventHardCode();
-        eventList = data.readData();
-        eventName = eventList.findEventByEventName("Fes").getEventName().trim();
+        event = (Event) FXRouter.getData();
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        eventName = event.getEventName();
         updateSchedule();
-        addComboBox(eventList);
+
+        addComboBox(event);
         showTable(activityList);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
@@ -67,8 +67,11 @@ public class CreateScheduleController {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        TableColumn<Activity, LocalDate> startDateActivityColumn = new TableColumn<>("startDate");
+        startDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
+
+        TableColumn<Activity, LocalDate> endDateActivityColumn = new TableColumn<>("endDate");
+        endDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
         // กำหนด column ให้มี title ว่า Name และใช้ค่าจาก attribute name ของ object Student
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
@@ -81,7 +84,8 @@ public class CreateScheduleController {
         // ล้าง column เดิมทั้งหมดที่มีอยู่ใน table แล้วเพิ่ม column ใหม่
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
-        activityTableView.getColumns().add(dateActivityColumn);
+        activityTableView.getColumns().add(startDateActivityColumn);
+        activityTableView.getColumns().add(endDateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
 
@@ -92,22 +96,16 @@ public class CreateScheduleController {
             activityTableView.getItems().add(activity);
         }
     }
-    private void addComboBox(EventList eventList){
-        chooseDate.getItems().removeAll();
-        chooseHourTimeStart.getItems().removeAll();
-        chooseMinTimeStart.getItems().removeAll();
-        chooseHourTimeStop.getItems().removeAll();
-        chooseMinTimeStop.getItems().removeAll();
-        chooseDate.getItems().addAll(eventList.findEventByEventName("Fes").getArrayDate());
-        chooseHourTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
-        chooseMinTimeStart.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
-        chooseHourTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayHour());
-        chooseMinTimeStop.getItems().addAll(eventList.findEventByEventName("Fes").getArrayMinute());
+    private void addComboBox(Event event){
+        chooseHourTimeStart.getItems().addAll(event.getArrayHour());
+        chooseMinTimeStart.getItems().addAll(event.getArrayMinute());
+        chooseHourTimeStop.getItems().addAll(event.getArrayHour());
+        chooseMinTimeStop.getItems().addAll(event.getArrayMinute());
     }
     private void showActivityInfo(Activity activity) {
 
         activityNameLabel.setText(activity.getActivityName());
-        dateLabel.setText(activity.getDate());
+        dateLabel.setText(activity.getStartDate()+"     "+activity.getEndDate());
         timeStartLabel.setText(activity.getStartTimeActivity());
         timeStopLabel.setText(activity.getEndTimeActivity());
     }
@@ -126,12 +124,13 @@ public class CreateScheduleController {
     protected void addActivityOnClick(){
         try {
             String activityName = activityTextField.getText();
-            String date = (String) chooseDate.getValue();
             String hourStartStr = (String) chooseHourTimeStart.getValue();
             String minStartStr = (String) chooseMinTimeStart.getValue();
+            LocalDate selectedStartDate =  startDate.getValue();
+            LocalDate selectedEndDate = endDate.getValue();
             String hourEndStr = (String) chooseHourTimeStop.getValue();
             String minEndStr = (String) chooseMinTimeStop.getValue();
-        if (!activityName.isEmpty() && date != null && hourStartStr != null && minStartStr != null && hourEndStr != null && minEndStr != null) {
+        if (!activityName.isEmpty() && selectedStartDate != null && selectedEndDate != null&& hourStartStr != null && minStartStr != null && hourEndStr != null && minEndStr != null) {
             int hourStart = Integer.parseInt(hourStartStr);
             int minStart = Integer.parseInt(minStartStr);
             int hourEnd = Integer.parseInt(hourEndStr);
@@ -139,8 +138,8 @@ public class CreateScheduleController {
 
             LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
             LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
-            if (activityList.checkActivity(activityName, date, startTimeActivity, endTimeActivity)) {
-                activityList.addActivity(activityName, date, startTimeActivity, endTimeActivity, null, "", "0", eventName);
+            if (activityList.checkActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity)) {
+                activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, null, "", "0", eventName);
                 datasource.writeData(activityList);
                 if(activityList.getActivities().isEmpty()){
                         activityList.findActivityInEvent(eventName);

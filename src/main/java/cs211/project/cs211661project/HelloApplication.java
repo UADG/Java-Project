@@ -17,7 +17,6 @@ public class HelloApplication extends Application {
 
     private static void configRoute() {
         String viewPath = "cs211/project/views/";
-        FXRouter.when("hello", viewPath + "hello-view.fxml");
         FXRouter.when("login-page", viewPath + "login-page.fxml");
         FXRouter.when("profile-setting", viewPath + "profile-setting.fxml");
         FXRouter.when("re-password", viewPath + "re-password.fxml");

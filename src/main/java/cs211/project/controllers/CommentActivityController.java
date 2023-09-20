@@ -54,27 +54,13 @@ public class CommentActivityController {
             if (newValue != null) {
                 String selectedName = newValue;
                 selectedActivity = newValue;
-                displayTextFlow(selectedName);
             }
         });
     }
 
-    private void displayTextFlow(String name) {
-        Activity activity = ActivityList.findActivityByName(name);
-
-        if (activity != null) {
-            String comment = activity.getComment();
-
-            commentTextFlow.getChildren().clear();
-
-            Text commentText = new Text(comment);
-            commentTextFlow.getChildren().add(commentText);
-        }
-    }
 
     @FXML
     private void onSentAction() {
-        Activity activity = ActivityList.findActivityByName(selectedActivity);
         Account account = (Account) FXRouter.getData();
 
         String commentText = commentTextField.getText();
@@ -86,21 +72,7 @@ public class CommentActivityController {
         Text commentTextElement = new Text(indentation + commentText + "\n" + "\n");
 
         commentTextFlow.getChildren().addAll(boldNameText, commentTextElement);
-        updateComment(selectedActivity, commentText);
         clearCommentInfo();
-    }
-
-    private void updateComment(String activityName, String comment) {
-        Activity activity = ActivityList.findActivityByName(activityName);
-
-        if (activity != null) {
-            if (!activity.checkFirstComment(activity.getActivityName())) {
-                activity.addComment(comment);
-            } else {
-                activity.addComment(activityName + "\n" + comment);
-            }
-            commentDatasource.writeData(ActivityList);
-        }
     }
 
     public void clearCommentInfo(){
