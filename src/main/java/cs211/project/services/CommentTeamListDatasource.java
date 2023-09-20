@@ -1,16 +1,15 @@
 package cs211.project.services;
-import cs211.project.models.Activity;
-import cs211.project.models.collections.ActivityList;
+import cs211.project.models.Team;
+import cs211.project.models.collections.TeamList;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
-public class CommentActivityListDatasource implements Datasource<ActivityList> {
+public class CommentTeamListDatasource implements Datasource<TeamList> {
     private String directoryName;
     private String fileName;
 
-    public CommentActivityListDatasource(String directoryName, String fileName) {
+    public CommentTeamListDatasource(String directoryName, String fileName) {
         this.directoryName = directoryName;
         this.fileName = fileName;
         checkFileIsExisted();
@@ -33,10 +32,9 @@ public class CommentActivityListDatasource implements Datasource<ActivityList> {
     }
 
     @Override
-    public ActivityList readData() {
-        Datasource<ActivityList> activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        ActivityList activities = activityListDatasource.readData();
-        ArrayList<Activity> activityList = activities.getAllActivities();
+    public TeamList readData() {
+        Datasource<TeamList> teamListDatasource = new TeamListFileDatasource("data", "team.csv");
+        TeamList teamList = teamListDatasource.readData();
 
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
@@ -62,19 +60,19 @@ public class CommentActivityListDatasource implements Datasource<ActivityList> {
 
                 String[] data = line.split(",");
 
-                String activityName = data[0].trim();
+                String teamName = data[0].trim();
                 String comment = data[1].trim();
-                activities.addCommentInActivity(activityName,comment);
+                teamList.addCommentInTeam(teamName,comment);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return activities;
+        return teamList;
     }
 
     @Override
-    public void writeData(ActivityList data) {
+    public void writeData(TeamList data) {
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
@@ -93,9 +91,9 @@ public class CommentActivityListDatasource implements Datasource<ActivityList> {
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            for (Activity activity : data.getAllActivities()) {
-                if(!activity.getActivityName().equals("")) {
-                    String line = activity.getActivityName() + "," + activity.getComment();
+            for (Team team : data.getTeams()) {
+                if(!team.getTeamName().equals("")) {
+                    String line = team.getTeamName() + "," + team.getComment();
                     buffer.append(line);
                     buffer.append("\n");
                 }

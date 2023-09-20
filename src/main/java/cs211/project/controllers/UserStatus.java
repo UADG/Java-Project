@@ -25,6 +25,8 @@ public class UserStatus {
     @FXML
     private ImageView imageUserView;
     private Account selectedAccount;
+    private AccountList accountList;
+
 
 
 
@@ -32,7 +34,7 @@ public class UserStatus {
     private void initialize() {
         clearDataInfo();
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
+        accountList = accountListDatasource.readData();
         showList(accountList);
         accountListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
@@ -49,10 +51,11 @@ public class UserStatus {
 
 
     public void showInfo(Account account) {
-        usernameLabel.setText(account.getUsername());
-        nameLabel.setText(account.getName());
-        timeLabel.setText(account.getTime());
-        Image image = new Image(account.getPictureURL());
+        Account user = accountList.findAccountByUsername(account.getUsername());
+        usernameLabel.setText(user.getUsername());
+        nameLabel.setText(user.getName());
+        timeLabel.setText(user.getTime());
+        Image image = new Image(getClass().getResource(user.getPictureURL()).toString());
         imageUserView.setImage(image);
     }
 

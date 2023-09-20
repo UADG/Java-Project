@@ -2,9 +2,10 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Activity;
+import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.TeamList;
-import cs211.project.services.CommentActivityListDatasource;
+import cs211.project.services.CommentTeamListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.collections.FXCollections;
@@ -35,20 +36,20 @@ public class CommentActivityController {
     @FXML
     private TextFlow commentTextFlow;
 
-    private Datasource<ActivityList> commentDatasource;
-    private ActivityList ActivityList;
+    private Datasource<TeamList> commentDatasource;
+    private TeamList teamList;
     private String selectedActivity;
 
 
     @FXML
     private void initialize() {
-        commentDatasource = new CommentActivityListDatasource("data", "team-comment.csv");
-        ActivityList = commentDatasource.readData();
+        commentDatasource = new CommentTeamListDatasource("data", "team-comment.csv");
+        teamList = commentDatasource.readData();
 
-        ArrayList<Activity> activities = ActivityList.getAllActivities();
-        ObservableList<String> activityNames = FXCollections.observableArrayList();
-        activities.forEach(activity -> activityNames.add(activity.getActivityName()));
-        chooseActivity.setItems(activityNames);
+        ArrayList<Team> teams = teamList.getTeams();
+        ObservableList<String> teamNames = FXCollections.observableArrayList();
+        teams.forEach(team -> teamNames.add(team.getTeamName()));
+        chooseActivity.setItems(teamNames);
 
         chooseActivity.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue != null) {
@@ -60,10 +61,10 @@ public class CommentActivityController {
     }
 
     private void displayTextFlow(String name) {
-        Activity activity = ActivityList.findActivityByName(name);
+        Team team = teamList.checkTeamExist(name);
 
-        if (activity != null) {
-            String comment = activity.getComment();
+        if (team != null) {
+            String comment = team.getComment();
 
             commentTextFlow.getChildren().clear();
 
@@ -74,7 +75,7 @@ public class CommentActivityController {
 
     @FXML
     private void onSentAction() {
-        Activity activity = ActivityList.findActivityByName(selectedActivity);
+        Team team = teamList.checkTeamExist(selectedActivity);
         Account account = (Account) FXRouter.getData();
 
         String commentText = commentTextField.getText();
@@ -90,16 +91,16 @@ public class CommentActivityController {
         clearCommentInfo();
     }
 
-    private void updateComment(String activityName, String comment) {
-        Activity activity = ActivityList.findActivityByName(activityName);
+    private void updateComment(String teamName, String comment) {
+        Team team = teamList.checkTeamExist(teamName);
 
-        if (activity != null) {
-            if (!activity.checkFirstComment(activity.getActivityName())) {
-                activity.addComment(comment);
+        if (team != null) {
+            if (!team.checkFirstComment(team.getTeamName())) {
+                team.addComment(comment);
             } else {
-                activity.addComment(activityName + "\n" + comment);
+                team.addComment(teamName + "\n" + comment);
             }
-            commentDatasource.writeData(ActivityList);
+            commentDatasource.writeData(teamList);
         }
     }
 

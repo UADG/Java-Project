@@ -57,6 +57,21 @@ public class TeamList {
         return lowestStaff;
     }
 
+    public void addCommentInTeam(String teamName, String comment) {
+        teamName = teamName.trim();
+        comment = comment.trim();
+        System.out.println(teamName + comment);
+        if (!teamName.equals("") && !comment.equals("")) {
+            Team exist = checkTeamExist(teamName);
+            System.out.println(exist);
+            if (exist != null) {
+                exist.addComment(comment);
+                System.out.println(exist.getComment());
+            }
+        }
+
+    }
+
     public ArrayList<Team> getTeams(){
         return teams;
     }

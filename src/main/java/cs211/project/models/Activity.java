@@ -17,7 +17,6 @@ public class Activity {
     private Team team;
     private String comment;
     private String firstComment;
-
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
     public Activity(String activityName, String date, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
         this.activityName = activityName;
@@ -67,21 +66,6 @@ public class Activity {
     }
     public Team getTeam(){return team;}
 
-    public String getComment() {
-        return comment;
-    }
-
-    public void addComment(String comment) {
-        this.comment += comment;
-    }
-
-    public boolean checkFirstComment(String comment) {
-        if (firstComment.equals(comment)) {
-            return true;
-        }
-        firstComment = comment;
-        return false;
-    }
     public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, String date){
         if(this.date.equals(date)){
             if (endTimeActivity.isBefore(startTimeActivity)) {

@@ -9,7 +9,7 @@ public class EventScheduleController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("events-list");
+            FXRouter.goTo("home-page");
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

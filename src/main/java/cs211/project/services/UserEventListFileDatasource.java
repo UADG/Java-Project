@@ -61,11 +61,11 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
                 if (line.equals("")) continue;
 
                 String[] data = line.split(",");
-                String username = data[0].trim();
+                int id = Integer.parseInt(data[0]);
 
                 for (int i = 1; i < data.length; i++) {
                     String eventName = data[i].trim();
-                    users.addUserEvent(username,eventName);
+                    users.addUserEvent(id,eventName);
                 }
             }
         } catch (IOException e) {
@@ -96,7 +96,7 @@ public class UserEventListFileDatasource implements Datasource<AccountList> {
 
         try {
             for (Account user : data.getAccount()) {
-                String line = user.getUsername();
+                String line = String.valueOf(user.getId());
                 for (String event : user.getAllEventUser()) {
                     line += "," + event;
                 }
