@@ -1,6 +1,6 @@
 package cs211.project.models;
 
-public class Admin extends Account {
+public clasAdmin extends Account {
 
     public Admin(String username, String password, String name, String time, String picURL) {
         super(0,"admin", username, password, name, time, picURL, "unban");
