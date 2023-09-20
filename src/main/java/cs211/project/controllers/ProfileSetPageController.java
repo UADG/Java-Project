@@ -17,10 +17,9 @@ import java.io.File;
 import java.io.IOException;
 
 public class ProfileSetPageController {
-    private Account accounts = (Account) FXRouter.getData();
+    private Account account = (Account) FXRouter.getData();
     Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDataSource.readData();
-    private Account account = accountList.findAccountByUsername(accounts.getUsername());
     @FXML Label usernameLabel;
     @FXML Label nameLabel;
     @FXML private Label myText;
