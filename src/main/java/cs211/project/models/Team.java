@@ -1,6 +1,8 @@
 package cs211.project.models;
 
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.StaffList;
+import cs211.project.services.AccountListDatasource;
 import cs211.project.services.TeamListFileDatasource;
 
 import java.util.ArrayList;
@@ -55,7 +57,11 @@ public class Team {
     }
 
     public void addStaffInTeam(String id){
-        staffs.addStaff(id,"ThisIsFromTeam");
+        AccountListDatasource data = new AccountListDatasource("data","user-info.csv");
+        AccountList list = data.readData();
+        for(Account account : list.getAccount()){
+            if(account.isId(Integer.parseInt(id))) staffs.addStaff(new Staff(account));
+        }
     }
 
     public void deleteStaff(String id){

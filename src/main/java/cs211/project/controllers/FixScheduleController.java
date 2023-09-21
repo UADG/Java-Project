@@ -156,9 +156,9 @@ public class FixScheduleController {
     }
 
     public void showInfo(Activity activity){
-        nameLabel.setText(activity.getDate());
-        timeStartLabel.setText(activity.getStartTimeActivity());
-        timeStopLabel.setText(activity.getEndTimeActivity());
+        nameLabel.setText(activity.getActivityName());
+        timeStartLabel.setText(activity.getStartDate()+" "+activity.getStartTimeActivity());
+        timeStopLabel.setText(activity.getEndDate()+" "+activity.getEndTimeActivity());
     }
 
     public void selectedTeam(){

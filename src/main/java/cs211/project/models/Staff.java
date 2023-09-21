@@ -24,10 +24,9 @@ public class Staff{
         bannedEvent = new ArrayList<>();
     }
 
-    public Staff(String id){
-        this.id = id;
-        this.name = "thisIsFromStaff";
-//        name =  loadNameFromId();
+    public Staff(Account account){
+        this.id = Integer.toString(account.getId());
+        this.name = account.getName();
         bannedEvent = new ArrayList<>();
     }
 
