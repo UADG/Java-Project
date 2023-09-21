@@ -4,12 +4,10 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.TeamList;
-import cs211.project.services.ActivityHardCode;
-import cs211.project.services.ActivityListFileDatasource;
-import cs211.project.services.EventListFileDatasource;
-import cs211.project.services.TeamListFileDatasource;
+import cs211.project.services.*;
 
 public class Event {
     private String eventName;
@@ -219,7 +217,21 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
             }
         }
 
-
         return  teams;
     }
+    public AccountList loadUserInEvent(){
+        UserEventListFileDatasource data = new UserEventListFileDatasource("data","user-joined-event.csv");
+        AccountList accounts = data.readData();
+        AccountList accountsInEvent = new AccountList();
+        for(Account account: accounts.getAccount()) {
+            for(String eventName: accounts.findAccountByUsername(account.getUsername()).getAllEventUser()){
+                if(this.eventName.equals(eventName)){
+                    accountsInEvent.addNewAccount(account);
+                    break;
+                }
+            }
+        }
+        return accountsInEvent;
+    }
+
 }

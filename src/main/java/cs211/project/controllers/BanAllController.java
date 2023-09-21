@@ -1,9 +1,7 @@
 package cs211.project.controllers;
 
-import cs211.project.models.Activity;
-import cs211.project.models.Event;
-import cs211.project.models.Staff;
-import cs211.project.models.Team;
+import cs211.project.models.*;
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.StaffList;
 import cs211.project.models.collections.TeamList;
@@ -24,7 +22,9 @@ public class BanAllController {
     @FXML ListView eventMemberListView;
     private Team team;
     private Staff selectedStaff;
+    private Account selectedUser;
     private TeamList list;
+    private AccountList users;
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
@@ -35,6 +35,8 @@ public class BanAllController {
         clearInfo();
         updateData();
         list = selectedEvent.loadTeamInEvent();
+        users = selectedEvent.loadUserInEvent();
+        showParticipant();
         notFirst = false;
         chooseRoleSingleParticipant.setSelected(true);
         chooseTeam.getItems().addAll(list.getTeams());
@@ -89,7 +91,7 @@ public class BanAllController {
 
     public void showParticipant(){
         eventMemberListView.getItems().clear();
-        eventMemberListView.getItems().addAll();
+        eventMemberListView.getItems().addAll(users.getAccount());
     }
 
     public void selectedTeam(){
@@ -110,6 +112,23 @@ public class BanAllController {
         });
     }
 
+    public void selectedParticipant(){
+        chooseRoleSingleParticipant.setSelected(true);
+        chooseRoleTeam.setSelected(false);
+        chooseRole();
+        eventMemberListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Account>() {
+            @Override
+            public void changed(ObservableValue<? extends Account> observable, Account oldValue, Account newValue) {
+                if (newValue == null) {
+                    clearInfo();
+                    selectedUser = null;
+                } else {
+                    nameLabel.setText(newValue.getName());
+                    selectedUser =  newValue;
+                }
+            }
+        });
+    }
     public void banTarget(){
         if (team != null && selectedStaff != null) {
             updateData();
@@ -118,15 +137,12 @@ public class BanAllController {
             banPath.writeData(selectedStaff);
             banPath.updateEventToId(selectedStaff.getId(),selectedStaff.getName(),"+");
             showStaff();
+        } else if (selectedUser != null) {
+            selectedUser.deleteUserEventName(selectedEvent.getEventName());
+            showParticipant();
         }
     }
 
-
-    public void selectedParticipant(){
-        chooseRoleSingleParticipant.setSelected(true);
-        chooseRoleTeam.setSelected(false);
-        chooseRole();
-    }
 
     @FXML
     protected void backOnClick(){

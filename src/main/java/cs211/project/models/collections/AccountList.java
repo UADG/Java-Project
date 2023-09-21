@@ -16,7 +16,9 @@ public class AccountList{
             }
         }
     }
-
+    public void addNewAccount(Account account){
+        accounts.add(account);
+    }
     public void addUserEvent(int id, String eventName) {
         eventName = eventName.trim();
         if (!eventName.equals("")) {
