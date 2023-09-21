@@ -158,8 +158,8 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String[] data = line.split(",");
 
                 if(data[0].equals(activityName)){
-                    if(team != null) data[4] = team.getTeamName();
-                    else data[4] = "null";
+                    if(team != null) data[5] = team.getTeamName();
+                    else data[5] = "";
                 }
 
                 allInfo.add(data);
@@ -189,7 +189,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             bufferedWriter.write("");
             for(int i = 0;i<allInfo.size();i++){
                 String[] newLine = allInfo.get(i);
-                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7];
+                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7]+","+newLine[8];
                 bufferedWriter.append(writeLine);
                 bufferedWriter.append("\n");
             }

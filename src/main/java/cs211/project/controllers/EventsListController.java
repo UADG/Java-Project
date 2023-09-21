@@ -158,13 +158,34 @@ public class EventsListController {
     @FXML
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
-            try {
-                TeamList list = selectedEvent.loadTeamInEvent();
-                TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
-                data.updateStaffInTeam(selectedEvent.getEventName(), list.findLowestStaffTeam().getTeamName(),new Staff("ThisIsFromEventListController"),"+");
-                FXRouter.goTo("event-schedule");
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+            TeamList teams = selectedEvent.loadTeamInEvent();
+            boolean found = false;
+            for(Team team : teams.getTeams()){
+                for(Staff staff: team.getStaffs().getStaffList()){
+                    if(staff.getId().equals(Integer.toString(account.getId()))){
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if(!found){
+                try {
+                    TeamList list = selectedEvent.loadTeamInEvent();
+                    TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
+                    try{
+                        String teamName = list.findLowestStaffTeam().getTeamName();
+                        data.updateStaffInTeam(selectedEvent.getEventName(),teamName , new Staff(account), "+");
+                        showInfoPopup("You are in "+teamName+" team");
+                    }catch (NullPointerException e){
+                        showErrorAlert("Sorry, there are no available seats at the moment.");
+                    }
+                    FXRouter.goTo("event-schedule",selectedEvent);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }else{
+                showErrorAlert("You are have team in this event already");
             }
         }else{
             showErrorAlert("please select some event ");
@@ -199,6 +220,14 @@ public class EventsListController {
     private void showErrorAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
+
+    private void showInfoPopup(String message) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
