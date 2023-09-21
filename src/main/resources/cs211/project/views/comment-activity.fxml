@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -12,37 +11,28 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentActivityController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentTeamController">
    <children>
-      <ScrollPane layoutX="138.0" layoutY="202.0" prefHeight="330.0" prefWidth="525.0">
+      <ScrollPane fx:id="commentScrollPane" layoutX="138.0" layoutY="202.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="330.0" prefWidth="525.0" vvalue="1.0">
          <content>
-            <TextFlow fx:id="commentTextFlow" lineSpacing="1.0" nodeOrientation="LEFT_TO_RIGHT">
-               <opaqueInsets>
-                  <Insets />
-               </opaqueInsets>
-            </TextFlow>
+            <TextFlow fx:id="commentTextFlow" translateX="15.0" translateY="15.0" />
          </content>
       </ScrollPane>
-      <Label layoutX="138.0" layoutY="30.0" text="Comment in activity: ">
+      <Label layoutX="138.0" layoutY="70.0" text="Comment in team: ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="Back" />
       <TextField fx:id="commentTextField" layoutX="184.0" layoutY="550.0" prefHeight="25.0" prefWidth="398.0" promptText="send a message to team..." />
-      <Button layoutX="603.0" layoutY="550.0" mnemonicParsing="false" onAction="#onSentAction" text="send" />
-      <Label layoutX="410.0" layoutY="30.0" text="Choose Activity:">
+      <Button fx:id="sendClick" layoutX="603.0" layoutY="550.0" mnemonicParsing="false" onAction="#onSentAction" text="send" />
+      <Label layoutX="410.0" layoutY="70.0" text="Choose Team:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseActivity" layoutX="513.0" layoutY="27.0" prefWidth="150.0" />
-      <Label fx:id="teamLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="366.0" layoutY="71.0" text="teamLabel" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
-         <font>
-            <Font size="15.0" />
-         </font>
-      </Label>
-      <Label fx:id="activityLabel" layoutX="278.0" layoutY="30.0" text="activityLabel">
+      <ComboBox fx:id="chooseTeam" layoutX="513.0" layoutY="67.0" prefWidth="150.0" />
+      <Label fx:id="teamLabel" layoutX="278.0" layoutY="70.0" text="teamLabel">
          <font>
             <Font size="14.0" />
          </font>

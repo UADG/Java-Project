@@ -59,10 +59,12 @@ public class CommentTeamListDatasource implements Datasource<TeamList> {
                 if (line.equals("")) continue;
 
                 String[] data = line.split(",");
-
                 String teamName = data[0].trim();
-                String comment = data[1].trim();
-                teamList.addCommentInTeam(teamName,comment);
+                if (data.length >= 2){
+                    String comment = data[1].trim();
+                    teamList.addCommentInTeam(teamName,comment);
+                }
+                teamList.addCommentInTeam(teamName,"");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

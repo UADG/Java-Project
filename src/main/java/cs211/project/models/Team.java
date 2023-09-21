@@ -107,6 +107,14 @@ public class Team {
         return staffs;
     }
 
+    public void setFirstComment(String name) {
+        firstComment = name;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public StaffList getStaffs(){
         return staffs;
     }
@@ -133,14 +141,14 @@ public class Team {
     }
 
     public void addComment(String comment) {
-        this.comment += comment;
+        this.comment = comment;
     }
 
-    public boolean checkFirstComment(String comment) {
-        if (firstComment.equals(comment)) {
+    public boolean checkFirstComment(String name) {
+        if (!firstComment.equals(name)) {
+            firstComment = name;
             return true;
         }
-        firstComment = comment;
         return false;
     }
 
