@@ -54,10 +54,11 @@ public class EventScheduleController {
 
 
     @FXML
-    protected void onBackClick() {
+    protected void onBackClick() throws IOException {
         try {
             FXRouter.goTo("joined-history");
         } catch (IOException e) {
+            FXRouter.goTo("home-page");
             throw new RuntimeException(e);
         }
     }
