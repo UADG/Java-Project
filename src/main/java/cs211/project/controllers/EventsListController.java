@@ -180,10 +180,10 @@ public class EventsListController {
                         String teamName = teams.findLowestStaffTeam().getTeamName();
                         data.updateStaffInTeam(selectedEvent.getEventName(),teamName , new Staff(account), "+");
                         showInfoPopup("You are in "+teamName+" team");
+                        FXRouter.goTo("team-schedule",account);
                     }catch (NullPointerException e){
                         showErrorAlert("Sorry, there are no available seats at the moment.");
                     }
-                    FXRouter.goTo("team-schedule",account);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }
