@@ -1,6 +1,11 @@
 package cs211.project.models;
 
+import cs211.project.models.collections.AccountList;
+import cs211.project.models.collections.EventList;
 import cs211.project.models.collections.StaffList;
+import cs211.project.models.collections.TeamList;
+import cs211.project.services.AccountListDatasource;
+import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.TeamListFileDatasource;
 
 import java.util.ArrayList;
@@ -55,7 +60,11 @@ public class Team {
     }
 
     public void addStaffInTeam(String id){
-        staffs.addStaff(id,"ThisIsFromTeam");
+        AccountListDatasource data = new AccountListDatasource("data","user-info.csv");
+        AccountList list = data.readData();
+        for(Account account : list.getAccount()){
+            if(account.isId(Integer.parseInt(id))) staffs.addStaff(new Staff(account));
+        }
     }
 
     public void deleteStaff(String id){
@@ -107,6 +116,14 @@ public class Team {
         return staffs;
     }
 
+    public void setFirstComment(String name) {
+        firstComment = name;
+    }
+
+    public void setComment(String comment) {
+        this.comment = comment;
+    }
+
     public StaffList getStaffs(){
         return staffs;
     }
@@ -133,18 +150,30 @@ public class Team {
     }
 
     public void addComment(String comment) {
-        this.comment += comment;
+        this.comment = comment;
     }
 
-    public boolean checkFirstComment(String comment) {
-        if (firstComment.equals(comment)) {
+    public boolean checkFirstComment(String name) {
+        if (!firstComment.equals(name)) {
+            firstComment = name;
             return true;
         }
-        firstComment = comment;
         return false;
     }
 
-
+    public ArrayList<String> getUserInTeam(int id){
+        TeamListFileDatasource teamData = new TeamListFileDatasource("data", "team.csv");
+        TeamList teamlist = teamData.readData();
+        ArrayList<String> teamComboBox = new ArrayList<>();
+        for(Team team:teamlist.getTeams()){
+            for(Staff staff: team.getStaffs().getStaffList()){
+                if(staff.isId(Integer.toString(id))){
+                    teamComboBox.add(team.getEvent().getEventName());
+                }
+            }
+        }
+        return teamComboBox;
+    }
     @Override
     public String toString() {
         return teamName;

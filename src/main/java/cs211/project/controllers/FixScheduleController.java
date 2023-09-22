@@ -123,7 +123,7 @@ public class FixScheduleController {
 
         if(operator.equals("add activity")) {
             for(Activity activity: list.getActivities()){
-                if(activity.getTeamName().equals("null"))activityTableView.getItems().add(activity);
+                if(activity.getTeamName().equals(""))activityTableView.getItems().add(activity);
             }
         }else if(operator.equals("delete activity")){
             for(Activity activity: list.getActivities()){
@@ -156,9 +156,9 @@ public class FixScheduleController {
     }
 
     public void showInfo(Activity activity){
-        nameLabel.setText(activity.getDate());
-        timeStartLabel.setText(activity.getStartTimeActivity());
-        timeStopLabel.setText(activity.getEndTimeActivity());
+        nameLabel.setText(activity.getActivityName());
+        timeStartLabel.setText(activity.getStartDate()+" "+activity.getStartTimeActivity());
+        timeStopLabel.setText(activity.getEndDate()+" "+activity.getEndTimeActivity());
     }
 
     public void selectedTeam(){

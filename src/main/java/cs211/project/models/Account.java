@@ -13,7 +13,6 @@ public class Account {
     protected String pictureURL;
     protected String userStatus;
     protected ArrayList<String> allEventUser;
-
     protected final int id;
 
     public Account(int id, String username, String password, String name, String time, String pictureURL, String userStatus, String role) {
