@@ -45,6 +45,9 @@ public class EventList {
     public ArrayList<Event> getEvents(){
         return events;
     }
+    public String getDefaultPic(){
+        return "/images/default-profile.png";
+    }
 
     public void searchEvent(String searchText){
         search = new ArrayList<>();

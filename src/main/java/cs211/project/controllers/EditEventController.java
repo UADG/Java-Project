@@ -7,7 +7,11 @@ import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,6 +41,8 @@ public class EditEventController {
     private TextField timeEndTeamTextField;
     @FXML
     private TextField timeEndParticipantTextField;
+    @FXML
+    private ImageView imageView;
     private Datasource<EventList> eventListDatasource;
     private EventList eventList;
     private Event event;
@@ -69,6 +75,8 @@ public class EditEventController {
         detailTextField.setText(event.getDetail());
         timeEndTeamTextField.setText(event.getTimeTeam());
         timeEndParticipantTextField.setText(event.getTimeParticipant());
+        Image image = new Image(getClass().getResource(event.getPicURL()).toString());
+        imageView.setImage(image);
     }
 
     @FXML
@@ -114,6 +122,22 @@ public class EditEventController {
         } else {
             showErrorAlert("Please fill all information.");
             clearErrorMessage();
+        }
+    }
+    @FXML
+    public  void onImageView(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif")
+        );
+
+        File selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            Image image = new Image(selectedFile.toURI().toString());
+            event.setPicURL(selectedFile.toURI().toString());
+            System.out.println(event.getPicURL());
+            imageView.setImage(image);
+            eventListDatasource.writeData(eventList);
         }
     }
 

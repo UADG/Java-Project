@@ -129,6 +129,10 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public void setTimeParticipant(String timeParticipant) {
         this.timeParticipant = timeParticipant;
     }
+    public void setPicURL(String picURL) {
+        this.picURL = picURL;
+    }
+
     public void ticketBuy() {
         ticketBuy += 1;
     }
