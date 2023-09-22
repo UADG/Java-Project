@@ -183,7 +183,7 @@ public class EventsListController {
                     }catch (NullPointerException e){
                         showErrorAlert("Sorry, there are no available seats at the moment.");
                     }
-                    FXRouter.goTo("event-schedule",selectedEvent);
+                    FXRouter.goTo("team-schedule",account);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

@@ -55,8 +55,7 @@ public class UserStatus {
         usernameLabel.setText(user.getUsername());
         nameLabel.setText(user.getName());
         timeLabel.setText(user.getTime());
-        Image image = new Image(getClass().getResource(user.getPictureURL()).toString());
-        imageUserView.setImage(image);
+        imageUserView.setImage(new Image("file:"+user.getPictureURL(), true));
     }
 
     public void showList(AccountList accountList) {
@@ -78,7 +77,7 @@ public class UserStatus {
         usernameLabel.setText("");
         nameLabel.setText("");
         timeLabel.setText("");
-        imageUserView.setImage(null);
+        imageUserView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
     public void onBackClick() {
         try {

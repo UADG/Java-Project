@@ -25,7 +25,6 @@
       <Label layoutX="460.0" layoutY="287.0" text="End Date:" />
       <DatePicker fx:id="eventDatePickerEnd" layoutX="517.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" />
       <Button layoutX="652.0" layoutY="514.0" mnemonicParsing="false" onAction="#onFinishClick" text="Finish" />
-      <ImageView fitHeight="151.0" fitWidth="373.0" layoutX="214.0" layoutY="81.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="400.0" layoutY="357.0" text="Participants Amount:" />
       <TextField fx:id="amountParticipantTextField" layoutX="517.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" />
       <Label layoutX="426.0" layoutY="392.0" text="Time Team End:" />
@@ -38,5 +37,10 @@
          </font>
       </Label>
       <TextField fx:id="detailTextField" alignment="TOP_LEFT" layoutX="238.0" layoutY="393.0" prefHeight="100.0" />
+      <Button layoutX="205.0" layoutY="81.0" mnemonicParsing="false" onAction="#onImageView" style="-fx-background-color: transparent;">
+         <graphic>
+            <ImageView fx:id="imageView" fitHeight="151.0" fitWidth="373.0" pickOnBounds="true" preserveRatio="true" />
+         </graphic>
+      </Button>
    </children>
 </AnchorPane>
