@@ -159,11 +159,13 @@ public class EventsListController {
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
             TeamList teams = selectedEvent.loadTeamInEvent();
+            Team teamFound = null;
             boolean found = false;
             for(Team team : teams.getTeams()){
                 for(Staff staff: team.getStaffs().getStaffList()){
                     if(staff.getId().equals(Integer.toString(account.getId()))){
                         found = true;
+                        teamFound = team;
                         break;
                     }
                 }
@@ -185,7 +187,7 @@ public class EventsListController {
                     throw new RuntimeException(e);
                 }
             }else{
-                showErrorAlert("You are have team in this event already");
+                showInfoPopup("You are have team in this event already \nYour team is "+teamFound);
             }
         }else{
             showErrorAlert("please select some event ");

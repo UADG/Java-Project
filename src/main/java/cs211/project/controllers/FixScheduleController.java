@@ -123,7 +123,7 @@ public class FixScheduleController {
 
         if(operator.equals("add activity")) {
             for(Activity activity: list.getActivities()){
-                if(activity.getTeamName().equals("null"))activityTableView.getItems().add(activity);
+                if(activity.getTeamName().equals(""))activityTableView.getItems().add(activity);
             }
         }else if(operator.equals("delete activity")){
             for(Activity activity: list.getActivities()){
