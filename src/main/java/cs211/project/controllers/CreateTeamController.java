@@ -1,6 +1,7 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Activity;
+import cs211.project.models.Event;
 import cs211.project.models.Staff;
 import cs211.project.models.Team;
 import cs211.project.models.collections.ActivityList;
@@ -33,8 +34,10 @@ public class CreateTeamController {
     public void initialize(){
         errorLabel.setText("");
         clearInfo();
-        list = (ActivityList) FXRouter.getData();
-        eventName = list.getAllActivities().get(0).getEventName();
+        eventName = (String) FXRouter.getData();
+        Event event = new Event(eventName);
+        event.loadEventInfo();
+        list = event.loadActivityInEvent();
         showTable(list);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override

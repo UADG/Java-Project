@@ -62,7 +62,7 @@ public class CreateEventController {
                         Datasource<EventList> dataSource = new EventListFileDatasource("data","event-list.csv");
                         dataSource.writeData(eventList);
                         try {
-                            FXRouter.goTo("event-history", eventName);
+                            FXRouter.goTo("event-history", accounts);
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
