@@ -19,8 +19,8 @@ public class BanAllController {
     @FXML Label nameLabel;
     @FXML RadioButton chooseRoleTeam;
     @FXML RadioButton chooseRoleSingleParticipant;
-    @FXML ListView staffListView = new ListView<>();
-    @FXML ListView userListView = new ListView<>();
+    @FXML ListView staffListView;
+    @FXML ListView userListView;
 
     private Team team;
     private Staff selectedStaff;
