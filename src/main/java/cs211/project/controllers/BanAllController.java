@@ -19,7 +19,9 @@ public class BanAllController {
     @FXML Label nameLabel;
     @FXML RadioButton chooseRoleTeam;
     @FXML RadioButton chooseRoleSingleParticipant;
-    @FXML ListView eventMemberListView;
+    @FXML ListView staffListView = new ListView<>();
+    @FXML ListView userListView = new ListView<>();
+
     private Team team;
     private Staff selectedStaff;
     private Account selectedUser;
@@ -28,6 +30,7 @@ public class BanAllController {
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
+    private Datasource<AccountList> dataAccount;
     private BanListFileDatasource banPath;
     @FXML
     public void initialize(){
@@ -35,10 +38,11 @@ public class BanAllController {
         clearInfo();
         updateData();
         list = selectedEvent.loadTeamInEvent();
-        users = selectedEvent.loadUserInEvent();
-        showParticipant();
+        users = dataAccount.readData();
         notFirst = false;
+        selectedParticipant();
         chooseRoleSingleParticipant.setSelected(true);
+        showParticipant();
         chooseTeam.getItems().addAll(list.getTeams());
         setChooseTeamVisible(false);
 }
@@ -51,25 +55,32 @@ public class BanAllController {
     public void chooseRole(){
 
         if(chooseRoleTeam.isSelected()){
+            userListView.setVisible(false);
+            staffListView.setVisible(true);
             chooseRoleSingleParticipant.setSelected(false);
             setChooseTeamVisible(true);
             if(notFirst){
                 chooseWhichTeam();
+                System.out.println("1");
             }
 
 
         }
         if(chooseRoleSingleParticipant.isSelected()){
+            userListView.setVisible(true);
+            staffListView.setVisible(false);
             chooseRoleTeam.setSelected(false);
             setChooseTeamVisible(false);
             clearInfo();
             showParticipant();
+            System.out.println("2");
 
         }
     }
 
     public void updateData(){
         data = new TeamListFileDatasource("data","team.csv");
+        dataAccount = new UserEventListFileDatasource("data", "user-joined-event.csv");
         banPath = new BanListFileDatasource("data", "ban-staff-list.csv");
     }
 
@@ -85,20 +96,28 @@ public class BanAllController {
     }
 
     public void showStaff(){
-        eventMemberListView.getItems().clear();
-        eventMemberListView.getItems().addAll(team.getStaffThatNotBan().getStaffList());
+        staffListView.getItems().clear();
+        staffListView.getItems().addAll(team.getStaffThatNotBan().getStaffList());
     }
 
     public void showParticipant(){
-        eventMemberListView.getItems().clear();
-        eventMemberListView.getItems().addAll(users.getAccount());
+        userListView.getItems().clear();
+        for(Account account: users.getAccount()){
+            System.out.println(account.getName());
+            if(account.isEventName(selectedEvent.getEventName()))
+            {
+                userListView.getItems().add(account);
+            }
+        }
     }
 
     public void selectedTeam(){
+        System.out.println("This is from selectedTeam");
         chooseRoleTeam.setSelected(true);
         chooseRoleSingleParticipant.setSelected(false);
         chooseRole();
-        eventMemberListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Staff>() {
+
+        staffListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Staff>() {
             @Override
             public void changed(ObservableValue<? extends Staff> observable, Staff oldValue, Staff newValue) {
                 if (newValue == null) {
@@ -110,13 +129,17 @@ public class BanAllController {
                 }
             }
         });
+
     }
 
     public void selectedParticipant(){
+
+        System.out.println("This is from selectedParticipant");
         chooseRoleSingleParticipant.setSelected(true);
         chooseRoleTeam.setSelected(false);
         chooseRole();
-        eventMemberListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Account>() {
+        userListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Account>() {
+
             @Override
             public void changed(ObservableValue<? extends Account> observable, Account oldValue, Account newValue) {
                 if (newValue == null) {
@@ -125,12 +148,15 @@ public class BanAllController {
                 } else {
                     nameLabel.setText(newValue.getName());
                     selectedUser =  newValue;
+                    System.out.println("click ra ja");
+                    System.out.println(selectedUser.getName());
                 }
             }
         });
     }
     public void banTarget(){
         if (team != null && selectedStaff != null) {
+            System.out.println("This is from Ban Team");
             updateData();
             team.banStaffInTeam(selectedStaff.getId());
             data.updateStaffInTeam(selectedEvent.getEventName(),team.getTeamName(),selectedStaff,"-");
@@ -138,7 +164,12 @@ public class BanAllController {
             banPath.updateEventToId(selectedStaff.getId(),selectedStaff.getName(),"+");
             showStaff();
         } else if (selectedUser != null) {
+            System.out.println("This is from Ban selectedParticipant");
+            updateData();
+            System.out.println(selectedEvent.getEventName());
             selectedUser.deleteUserEventName(selectedEvent.getEventName());
+            System.out.println(selectedEvent.getEventName());
+            dataAccount.writeData(users);
             showParticipant();
         }
     }

@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
    <children>
       <Button fx:id="back" layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="41.0" text="back" />
       <Label layoutX="55.0" layoutY="63.0" text="List of participants">
@@ -16,7 +16,7 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <ListView fx:id="eventMemberListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
+      <ListView fx:id="staffListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
       <Label layoutX="474.0" layoutY="138.0" text="Role :">
          <font>
             <Font size="14.0" />
@@ -55,5 +55,6 @@
             <Font size="18.0" />
          </font>
       </Button>
+      <ListView fx:id="userListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
    </children>
 </AnchorPane>
