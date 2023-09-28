@@ -2,25 +2,40 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Event;
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.EventList;
+import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.FXRouter;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
+
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CreateEventController {
     private Account account = (Account) FXRouter.getData();
     private Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
     private EventList eventList = eventListDatasource.readData();
     private String errorText = "";
+    private Event newEvent;
+    private EventList eventLists;
 
     @FXML private TextField nameEvent;
     @FXML private DatePicker dateStart;
@@ -33,7 +48,13 @@ public class CreateEventController {
     @FXML private TextField timeTeam;
     @FXML private TextField timeParti;
     @FXML
-    protected void onNextClick() {
+    private void initialize(){
+        dateStart.setEditable(false);
+        dateEnd.setEditable(false);
+    }
+    @FXML
+    protected void onNextClick(ActionEvent events) {
+        LocalDate currentDate = LocalDate.now();
         String eventName = nameEvent.getText();
         LocalDate startDate = dateStart.getValue();
         LocalDate endDate = dateEnd.getValue();
@@ -47,49 +68,119 @@ public class CreateEventController {
         Event event = eventList.findEventByEventName(eventName);
 
         if(event!=null){
-            errorText += "This event's name already in used.";
+            errorText += "This event's name already in used.\n";
             clear(nameEvent);
-            errorText = "";
         }else {
 
             if (eventName.equals("") || startDate == null || endDate == null || startTime.equals("") || endTime.equals("")
-                    || ticketNum.equals("") || participantNum.equals("") || detail.equals("") || teamTime.equals("") || partiTime.equals("")) {
+                    || ticketNum.equals("") || participantNum.equals("") || teamTime.equals("") || partiTime.equals("")) {
                 errorText += "Please fill all information.\n";
             }
 
-//            try {
-//                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//                startDate.format(formatter);
-//                endDate.format(formatter);
-//            } catch (DateTimeParseException e) {
-//                errorText += "Invalid date format. Please use yyyy-MM-dd format.\n";
-//            }
+            if(eventName.length()<3){
+                errorText += "EVENT NAME:\nLength of name be must more than 3.\n";
+            }
 
             try {
-                LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm"));
-                LocalTime.parse(endTime, DateTimeFormatter.ofPattern("HH:mm"));
-                LocalTime.parse(teamTime, DateTimeFormatter.ofPattern("HH:mm"));
-                LocalTime.parse(partiTime, DateTimeFormatter.ofPattern("HH:mm"));
+                if (!currentDate.isBefore(startDate) && (!endDate.isAfter(startDate) || !startDate.isEqual(endDate))) {
+                    errorText += "DATE START:\nStart date must be after the current date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "DATE START:\nInvalid Date.\n";
+            }
+            try {
+                if (!currentDate.isBefore(endDate) && (!endDate.isAfter(startDate) || !startDate.isEqual(endDate))) {
+                    errorText += "DATE END:\nEnd date must be after the current date and the Start Date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "DATE END:\nInvalid Date.\n";
+            }
+            try {
+                LocalTime timeStart = LocalTime.parse(startTime, DateTimeFormatter.ofPattern("HH:mm"));
+                LocalTime timeEndEvent = LocalTime.parse(endTime, DateTimeFormatter.ofPattern("HH:mm"));
+
+                if (timeStart.isBefore(timeEndEvent)) {
+                    if (!timeStart.isBefore(timeEndEvent.minusHours(3))) {
+                        errorText += "TIME EVENT:\nStart date must be at least 4 hours before the end date.\n";
+                    }
+                } else {
+                    errorText += "TIME EVENT:\nEnd date must be after the Start Date.\n";
+                }
             } catch (DateTimeParseException e) {
-                errorText += "Invalid time format. Please use HH:mm format.\n";
+                errorText += "INVALID TIME EVENT:\nPlease use HH:mm format.\n";
             }
 
             try {
                 int tickets = Integer.parseInt(ticketNum);
-                int participants = Integer.parseInt(participantNum);
+                if(tickets < 20){
+                    errorText += "AMOUNT TICKET:\nTicket value cannot be less than 20.\n";
+                }
             } catch (NumberFormatException e) {
-                errorText += "Invalid number. Please enter a valid integer.";
+                errorText += "INVALID AMOUNT TICKET:\nPlease enter a valid integer value for the ticket.\n";
+            }
+            try {
+                int participants = Integer.parseInt(participantNum);
+                if(participants < 1){
+                    errorText += "AMOUNT PARTICIPANT:\nParticipant value cannot be less than 1.\n";
+                }
+            } catch (NumberFormatException e) {
+                errorText += "INVALID AMOUNT PARTICIPANT:\nPlease enter a valid integer value for the participant.\n";
+            }
+            try {
+                LocalTime.parse(teamTime, DateTimeFormatter.ofPattern("HH:mm"));
+            } catch (DateTimeParseException e) {
+                errorText += "INVALID TIME END TEAM:\nPlease use HH:mm format.\n";
+            }
+            try {
+                LocalTime.parse(partiTime, DateTimeFormatter.ofPattern("HH:mm"));
+            } catch (DateTimeParseException e) {
+                errorText += "INVALID TIME END PARTICIPANT:\nPlease use HH:mm format.\n";
             }
         }
+
         if(errorText.equals("")) {
-            int tickets = Integer.parseInt(ticketNum);
-            int participants = Integer.parseInt(participantNum);
-            eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
-                    participants, detail, teamTime, partiTime, 0, 0, "/images/default-profile.png", account.getUsername());
-            Datasource<EventList> dataSource = new EventListFileDatasource("data", "event-list.csv");
-            dataSource.writeData(eventList);
-            try {
-                FXRouter.goTo("event-image", eventList.findEventByEventName(eventName));
+            boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
+            if (confirmFinish){
+                int tickets = Integer.parseInt(ticketNum);
+                int participants = Integer.parseInt(participantNum);
+                eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
+                        participants, detail, teamTime, partiTime, 0, 0, "/images/default-profile.png", account.getUsername());
+                Datasource<EventList> dataSource = new EventListFileDatasource("data", "event-list.csv");
+                dataSource.writeData(eventList);
+
+                eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+                eventLists = eventListDatasource.readData();
+                newEvent = eventLists.findEventByEventName(eventName);
+                FileChooser chooser = new FileChooser();
+                chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
+                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG", "*.png", "*.jpg", "*.jpeg"));
+                Node source = (Node) events.getSource();
+                File file = chooser.showOpenDialog(source.getScene().getWindow());
+                if (file != null){
+                    try {
+                        File destDir = new File("images");
+                        if (!destDir.exists()) destDir.mkdirs();
+                        String[] fileSplit = file.getName().split("\\.");
+                        String filename = "Event_" + newEvent.getEventName() + "_image" + "."
+                                + fileSplit[fileSplit.length - 1];
+                        Path target = FileSystems.getDefault().getPath(
+                                destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
+                        );
+                        Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
+                        newEvent.setPicURL(destDir + "/" + filename);
+                        eventListDatasource.writeData(eventLists);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }try{
+                eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+                eventLists = eventListDatasource.readData();
+                newEvent = eventLists.findEventByEventName(eventName);
+                Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+                AccountList accountList = accountListDatasource.readData();
+                Account account1 = accountList.findAccountByUsername(newEvent.getEventManager());
+                FXRouter.goTo("event-history", account1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -118,5 +209,20 @@ public class CreateEventController {
 
     private void clear(TextField name){
         name.setText("");
+    }
+
+    private boolean showConfirmationDialog(String title, String message) {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle(title);
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+
+        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+        alert.getButtonTypes().setAll(confirmButton, cancelButton);
+
+        Optional<ButtonType> result = alert.showAndWait();
+        return result.isPresent() && result.get() == confirmButton;
     }
 }

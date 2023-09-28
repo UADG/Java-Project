@@ -84,7 +84,11 @@ public class EditEventController {
         detailTextField.setText(event.getDetail());
         timeEndTeamTextField.setText(event.getTimeTeam());
         timeEndParticipantTextField.setText(event.getTimeParticipant());
-        imageView.setImage(new Image("file:"+event.getPicURL(), true));
+        if(!event.getPicURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+event.getPicURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     @FXML

@@ -7,6 +7,9 @@ import cs211.project.services.Datasource;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -34,7 +37,12 @@ public class LoginPageController {
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
             if(account.isUnban(account.getUserStatus())) {
                 if (account.isPassword(password)) {
+                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                    String time = LocalDateTime.now().format(formatter);
+                    account.setTime(time);
                     FXRouter.goTo("home-page", account);
+                    Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+                    dataSource.writeData(accountList);
                 } else {
                     invalidLabel.setText("Wrong password.");
                     invalidLabel.setVisible(true);

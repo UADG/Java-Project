@@ -36,7 +36,11 @@ public class ProfileSetPageController {
         nameLabel.setText(account.getName());
         myText.setVisible(false);
         myRectangle.setVisible(false);
-        imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        if(!account.getPictureURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     @FXML

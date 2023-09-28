@@ -55,7 +55,11 @@ public class UserStatus {
         usernameLabel.setText(user.getUsername());
         nameLabel.setText(user.getName());
         timeLabel.setText(user.getTime());
-        imageUserView.setImage(new Image("file:"+user.getPictureURL(), true));
+        if(!user.getPictureURL().equals("/images/default-profile.png")){
+            imageUserView.setImage(new Image("file:"+user.getPictureURL(), true));
+        }else {
+            imageUserView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     public void showList(AccountList accountList) {
