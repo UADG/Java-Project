@@ -107,7 +107,7 @@ public class FinishActivityController {
         updateData();
         list = data.readData();
         list.findActivityInEvent(eventName);
-        showTable(list);
+        showTable(selectedEvent.loadActivityInEvent());
     }
 
 

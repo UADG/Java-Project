@@ -26,7 +26,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class CreateEventController {
@@ -66,7 +65,6 @@ public class CreateEventController {
         String teamTime = timeTeam.getText();
         String partiTime = timeParti.getText();
         Event event = eventList.findEventByEventName(eventName);
-
         if(event!=null){
             errorText += "This event's name already in used.\n";
             clear(nameEvent);

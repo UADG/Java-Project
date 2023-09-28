@@ -159,6 +159,7 @@ public class EventsListController {
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
             TeamList teams = selectedEvent.loadTeamInEvent();
+            System.out.println(selectedEvent.getEventName());
             Team teamFound = null;
             boolean found = false;
             for(Team team : teams.getTeams()){
@@ -173,16 +174,16 @@ public class EventsListController {
 
             if(!found){
                 try {
-                    TeamList list = selectedEvent.loadTeamInEvent();
+                    System.out.println(selectedEvent.getEventName());
                     TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
                     try{
-                        String teamName = list.findLowestStaffTeam().getTeamName();
+                        String teamName = teams.findLowestStaffTeam().getTeamName();
                         data.updateStaffInTeam(selectedEvent.getEventName(),teamName , new Staff(account), "+");
                         showInfoPopup("You are in "+teamName+" team");
+                        FXRouter.goTo("team-schedule",account);
                     }catch (NullPointerException e){
                         showErrorAlert("Sorry, there are no available seats at the moment.");
                     }
-                    FXRouter.goTo("team-schedule",account);
                 } catch (IOException e) {
                     throw new RuntimeException(e);
                 }

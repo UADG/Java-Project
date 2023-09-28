@@ -185,7 +185,7 @@ public class CreateScheduleController {
     @FXML
     protected void nextOnClick(){
         try {
-            FXRouter.goTo("create-team", activityList);
+            FXRouter.goTo("create-team", event.getEventName());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
