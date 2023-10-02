@@ -6,11 +6,16 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
+import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalTime;
@@ -18,6 +23,10 @@ import java.time.LocalTime;
 public class ParticipantScheduleController {
     @FXML private TableView<Activity> activityTableView;
     @FXML private ComboBox chooseEvent;
+    @FXML private AnchorPane slide;
+    @FXML private Button menuButton;
+    @FXML private Button adminButton;
+    @FXML private BorderPane bPane;
     private Account account = (Account) FXRouter.getData();
 
     private ActivityList activityList;
@@ -33,7 +42,12 @@ public class ParticipantScheduleController {
                 chooseEvent.getItems().add(activity.getEventName());
             }
         }
-
+        bPane.setVisible(false);
+        slide.setTranslateX(-200);
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
@@ -76,13 +90,65 @@ public class ParticipantScheduleController {
         activityList = datasource.readData();
         activityList.findActivityInEvent(eventName);
     }
-
     @FXML
-    protected void onBackClick() {
-        try {
-            FXRouter.goTo("home-page",account);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void OnMenuBarClick() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(0);
+        slideAnimate.play();
+        menuButton.setVisible(false);
+        slide.setTranslateX(0);
+        bPane.setVisible(true);
     }
+    @FXML
+    public void closeMenuBar() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(-200);
+        slideAnimate.play();
+        slide.setTranslateX(-200);
+        slideAnimate.setOnFinished(event-> {
+            menuButton.setVisible(true);
+            bPane.setVisible(false);
+        });
+    }
+    @FXML
+    public void onHomeClick() throws IOException {
+        FXRouter.goTo("events-list", account);
+    }
+    @FXML
+    public void onProfileClick() throws IOException {
+        FXRouter.goTo("profile-setting", account);
+    }
+    @FXML
+    public void onCreateEvent() throws IOException {
+        FXRouter.goTo("create-event", account);
+    }
+    @FXML
+    public void onJoinHistory() throws IOException {
+        FXRouter.goTo("joined-history", account);
+    }
+    @FXML
+    public void onEventHis() throws IOException {
+        FXRouter.goTo("event-history", account);
+    }
+    @FXML
+    public void onPartiSchedule() throws IOException {
+        FXRouter.goTo("participant-schedule", account);
+    }
+    @FXML
+    public void onTeamSchedule() throws IOException {
+        FXRouter.goTo("team-schedule", account);
+    }
+    @FXML
+    public void onComment() throws IOException {
+        FXRouter.goTo("comment-activity", account);
+    }
+    @FXML
+    public void onUserClick() throws IOException {
+        FXRouter.goTo("user-status", account);
+    }
+
 }

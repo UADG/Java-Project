@@ -111,6 +111,10 @@ public class RePassPageController {
         passwordNew.setText("");
     }
     @FXML
+    protected void onBackClick() throws IOException{
+        FXRouter.goTo("profile-setting");
+    }
+    @FXML
     public void OnMenuBarClick() throws IOException {
         TranslateTransition slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));

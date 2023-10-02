@@ -13,6 +13,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.fxml.FXML;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -31,6 +33,7 @@ public class EventHistoryController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private ImageView imageView;
     @FXML
     ListView<Event> eventListView;
     private Event selectedEvent;
@@ -70,6 +73,11 @@ public class EventHistoryController {
         timeStart.setText(event.getStartTime());
         timeEnd.setText(event.getEndTime());
         amountTicket.setText(String.format("%d",event.getTicket()));
+        if(!event.getPicURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+event.getPicURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
 
     }
     private void showList(EventList eventList) {
@@ -92,6 +100,7 @@ public class EventHistoryController {
         timeStart.setText("");
         timeEnd.setText("");
         amountTicket.setText("");
+        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
     @FXML
     protected void onEditDetailClick() {

@@ -6,6 +6,8 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.TeamScheduleController">
@@ -15,7 +17,6 @@
             <Font name="System Bold" size="19.0" />
          </font>
       </Label>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
       <TableView fx:id="activityTableView" layoutX="97.0" layoutY="131.0" prefHeight="387.0" prefWidth="607.0">
          <columns>
             <TableColumn prefWidth="98.0" text="Name" />
@@ -30,5 +31,77 @@
       </TableView>
       <ComboBox fx:id="teamComboBox" layoutX="97.0" layoutY="90.0" prefHeight="26.0" prefWidth="305.0" />
       <Button layoutX="437.0" layoutY="90.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" text="Search" />
+      <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
+         <left>
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutY="150.0" prefHeight="450.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Home" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onProfileClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Profile Setting" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onCreateEvent" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Create Event" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onJoinHistory" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Join History" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onEventHis" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Event History" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onPartiSchedule" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Participant Schedule" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onTeamSchedule" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Team Schedule" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onComment" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="comment" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="adminButton" mnemonicParsing="false" onAction="#onUserClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="User" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#closeMenuBar" stylesheets="@buttonOnClick.css" text="Menu" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

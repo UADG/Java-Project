@@ -12,7 +12,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventHistoryController">
    <children>
       <ListView fx:id="eventListView" layoutX="134.0" layoutY="144.0" prefHeight="291.0" prefWidth="200.0" />
-      <ImageView fitHeight="112.0" fitWidth="242.0" layoutX="392.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageView" fitHeight="112.0" fitWidth="242.0" layoutX="392.0" layoutY="144.0" pickOnBounds="true" preserveRatio="true" />
       <Label layoutX="404.0" layoutY="270.0" text="EventName : " />
       <Label layoutX="404.0" layoutY="298.0" text="DateStart :" />
       <Label layoutX="405.0" layoutY="353.0" text="TimeStart :" />

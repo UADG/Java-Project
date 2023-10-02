@@ -14,7 +14,7 @@
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventsListController">
    <children>
       <Label layoutX="163.0" layoutY="117.0" text="Event List" />
-      <ImageView fitHeight="111.0" fitWidth="229.0" layoutX="409.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="imageView" fitHeight="111.0" fitWidth="229.0" layoutX="409.0" layoutY="147.0" pickOnBounds="true" preserveRatio="true" />
       <ListView fx:id="eventListView" layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
       <TextField fx:id="searchTextField" alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
          <font>

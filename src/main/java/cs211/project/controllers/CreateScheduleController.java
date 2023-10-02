@@ -44,7 +44,7 @@ public class CreateScheduleController {
     private String eventName;
     private ActivityList activityList;
     private Activity selectedActivity;
-    private Event event = (Event) FXRouter.getData();;
+    private Event event = (Event) FXRouter.getData();
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();

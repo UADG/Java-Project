@@ -11,6 +11,8 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -35,6 +37,8 @@ public class EventsListController {
     private Label errorLabelApplyToParticipants;
     @FXML
     private TextField searchTextField;
+    @FXML
+    ImageView imageView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private Button adminButton;
@@ -51,6 +55,7 @@ public class EventsListController {
 
     @FXML
     public void initialize() {
+        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         bPane.setVisible(false);
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
@@ -98,12 +103,18 @@ public class EventsListController {
         eventNameLabel.setText(event.getEventName());
         ticketLeftLabel.setText(String.format("%d",event.getTicketLeft()));
         participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
+        if(!event.getPicURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+event.getPicURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     private void clearEventInfo() {
         eventNameLabel.setText("");
         ticketLeftLabel.setText("");
         participantLeftLabel.setText("");
+        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
 
     @FXML
