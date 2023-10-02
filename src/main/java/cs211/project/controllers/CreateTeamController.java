@@ -30,12 +30,13 @@ public class CreateTeamController {
     @FXML public Label errorLabel;
     public ActivityList list;
     public String eventName;
+    public Event event;
     public Activity selectedActivity;
     public void initialize(){
         errorLabel.setText("");
         clearInfo();
         eventName = (String) FXRouter.getData();
-        Event event = new Event(eventName);
+        event = new Event(eventName);
         event.loadEventInfo();
         list = event.loadActivityInEvent();
         showTable(list);
@@ -91,7 +92,7 @@ public class CreateTeamController {
 
 
         for (Activity activity: list.getActivities()) {
-            if(activity.getTeam() == null){
+            if(activity.getTeamName().equals("null")){
                 activityTableView.getItems().add(activity);
             }
         }
@@ -107,6 +108,7 @@ public class CreateTeamController {
                     Team team = new Team(teamName, number, eventName);
                     team.createTeamInCSV();
                     selectedActivity.updateTeamInActivity(team);
+                    list = event.loadActivityInEvent();
                     showTable(list);
                     teamNameTextField.clear();
                     numberOfTeamMemberTextField.clear();

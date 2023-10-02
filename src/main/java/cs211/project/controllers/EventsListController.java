@@ -1,9 +1,6 @@
 package cs211.project.controllers;
 
-import cs211.project.models.Account;
-import cs211.project.models.Event;
-import cs211.project.models.Staff;
-import cs211.project.models.Team;
+import cs211.project.models.*;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
@@ -200,22 +197,25 @@ public class EventsListController {
     @FXML
     protected void onApplyToParticipantClick() {
         try {
-            if(selectedEvent.getParticipantLeft() > 0 ) {
-                datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-                activityList = datasource.readData();
-                activityList.findActivityInEvent(selectedEvent.getEventName());
-                if(activityList.userIsParticipant(account.getUsername())) {
-                    activityList.addParticipant(account.getUsername());
-                    selectedEvent.participantJoin();
-                    datasource.writeData(activityList);
-                    FXRouter.goTo("participant-schedule",account);
+            if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
+                if(selectedEvent.checkParticipantIsFull()) {
+                    datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                    activityList = datasource.readData();
+                    activityList.findActivityInEvent(selectedEvent.getEventName());
+                    if (activityList.userIsParticipant(account.getUsername())) {
+                        activityList.addParticipant(account.getUsername());
+                        datasource.writeData(activityList);
+                        FXRouter.goTo("participant-schedule", account);
+                    } else {
+                        showErrorAlert("Sorry you're participant in this event");
+                    }
                 }
                 else{
-                    errorLabelApplyToParticipants.setText("Sorry you're participant in this event");
+                    showErrorAlert("Sorry participant in full");
                 }
             }
             else {
-                errorLabelApplyToParticipants.setText("Sorry participant is full");
+                showErrorAlert("Sorry this event not ready for apply to participant");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);

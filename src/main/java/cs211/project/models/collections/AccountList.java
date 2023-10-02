@@ -57,6 +57,15 @@ public class AccountList{
         return null;
     }
 
+    public Account findAccountByName(String name) {
+        for (Account account : accounts) {
+            if (account.isName(name)) {
+                return account;
+            }
+        }
+        return null;
+    }
+
     public ArrayList<Account> getAccount(){
         return accounts;
     }
