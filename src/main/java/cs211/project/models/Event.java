@@ -238,4 +238,13 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         return accountsInEvent;
     }
 
+    public Boolean checkParticipantIsFull(){
+        loadActivityInEvent();
+        for(Activity activity: activitys.getActivities()){
+            if(activity.getParticipantName().equals("")){
+                return true;
+            }
+        }
+        return false;
+    }
 }

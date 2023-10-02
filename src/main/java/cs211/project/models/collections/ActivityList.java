@@ -45,7 +45,10 @@ public class ActivityList {
                 }
             }
         }
-        return true;
+        if(startTimeActivity.isBefore(endTimeActivity)) {
+            return true;
+        }
+        return false;
     }
     public void addParticipant(String id) {
         for(Activity activity : activities){
