@@ -62,7 +62,7 @@ public class ProfileSetPageController {
     private void onChooseButtonClick(ActionEvent event){
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG", "*.png", "*.jpg", "*.jpeg"));
+        chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
         Node source = (Node) event.getSource();
         File file = chooser.showOpenDialog(source.getScene().getWindow());
         if (file != null){

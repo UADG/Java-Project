@@ -165,7 +165,7 @@ public class CreateEventController {
                 newEvent = eventLists.findEventByEventName(eventName);
                 FileChooser chooser = new FileChooser();
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
-                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG", "*.png", "*.jpg", "*.jpeg"));
+                chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
                 Node source = (Node) events.getSource();
                 File file = chooser.showOpenDialog(source.getScene().getWindow());
                 if (file != null){
