@@ -45,7 +45,12 @@ public class TeamScheduleController {
         Account account = (Account) FXRouter.getData();
         team = new Team("",1,1,"");
         teamComboBox.getItems().addAll(team.getUserInTeam(account.getId()));
-
+        bPane.setVisible(false);
+        slide.setTranslateX(-200);
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");

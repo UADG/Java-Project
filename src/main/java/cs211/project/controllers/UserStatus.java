@@ -53,6 +53,12 @@ public class UserStatus {
                 selectedAccount = newValue;
             }
         });
+        bPane.setVisible(false);
+        slide.setTranslateX(-200);
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
     }
 
     public void showInfo(Account account) {
