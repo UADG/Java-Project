@@ -2,9 +2,11 @@ package cs211.project.models;
 
 //import at.favre.lib.crypto.bcrypt.BCrypt;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-public class Account {
+public class Account implements Comparable<Account>{
     protected String username;
     protected String name;
     protected String password;
@@ -116,5 +118,21 @@ public class Account {
     @Override
     public String toString() {
         return "Role: " + role + " Username: " + username + " Last Online: " + time + " Status: " + userStatus;
+    }
+
+    @Override
+    public int compareTo(Account o) {
+        String pattern = "yyyy-MM-dd' 'HH:mm";
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        LocalDateTime userDateTime = LocalDateTime.parse(time, formatter);
+        LocalDateTime oDateTime = LocalDateTime.parse(o.time, formatter);
+
+        if (userDateTime.isBefore(oDateTime)) {
+            return 1;
+        } else if (userDateTime.isAfter(oDateTime)) {
+            return -1;
+        } else {
+            return 0;
+        }
     }
 }

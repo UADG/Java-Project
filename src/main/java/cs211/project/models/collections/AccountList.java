@@ -2,6 +2,8 @@ package cs211.project.models.collections;
 import cs211.project.models.Account;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
 public class AccountList{
     private ArrayList<Account> accounts;
     public AccountList() {accounts = new ArrayList<>();}
@@ -64,6 +66,10 @@ public class AccountList{
             }
         }
         return null;
+    }
+
+    public void sort(){
+        Collections.sort(accounts);
     }
 
     public ArrayList<Account> getAccount(){
