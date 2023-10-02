@@ -1,23 +1,23 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Account;
+import cs211.project.models.Activity;
 import cs211.project.models.Team;
+import cs211.project.models.collections.AccountList;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.TeamList;
-import cs211.project.services.CommentTeamListDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.FXRouter;
-import cs211.project.services.TeamListFileDatasource;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import cs211.project.services.*;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.time.LocalTime;
 
 public class CommentTeamController {
     @FXML
@@ -25,9 +25,9 @@ public class CommentTeamController {
     @FXML
     private ComboBox<String> chooseTeam;
     @FXML
-    private TableView<TeamList> teamListTableView;
+    private TableView<Activity> activityTableView;
     @FXML
-    private Label teamLabel;
+    private Label eventLabel;
     @FXML
     private ScrollPane commentScrollPane;
     @FXML
@@ -35,11 +35,13 @@ public class CommentTeamController {
     @FXML
     private Button sendClick;
     private Datasource<TeamList> commentDatasource;
-    private Datasource<TeamList> teamListDatasource;
-    private TeamList teamList;
+    private Datasource<AccountList> accountListDatasource;
+    private Datasource<ActivityList> activityListDatasource;
+    private ActivityList activityList;
     private TeamList commentTeam;
     private String selectedTeam;
     private Account account;
+    private AccountList accountList;
     private Team team;
 
 
@@ -47,39 +49,47 @@ public class CommentTeamController {
     private void initialize() {
         commentTextField.setEditable(false);
         sendClick.setVisible(false);
-        teamLabel.setVisible(false);
+        eventLabel.setVisible(false);
 
-        teamListDatasource = new TeamListFileDatasource("data", "team.csv");
         commentDatasource = new CommentTeamListDatasource("data", "team-comment.csv");
-        teamList = teamListDatasource.readData();
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        activityList = activityListDatasource.readData();
         commentTeam = commentDatasource.readData();
+        accountList = accountListDatasource.readData();
         account = (Account) FXRouter.getData();
 
-        ArrayList<Team> teams = teamList.getTeams();
-        ObservableList<String> teamNames = FXCollections.observableArrayList();
-        teams.forEach(team -> teamNames.add(team.getTeamName()));
-        chooseTeam.setItems(teamNames);
+        team = new Team("",1,1,"");
+        chooseTeam.getItems().addAll(team.getListTeam(account.getId()));
+        System.out.println(team.getEvent());
 
         chooseTeam.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.equals("")) {
+                clearCommentTextFlow();
                 commentTextField.setEditable(true);
                 sendClick.setVisible(true);
-                teamLabel.setVisible(true);
+                eventLabel.setVisible(true);
                 selectedTeam = newValue;
-                showInfo();
 
                 team = commentTeam.checkTeamExist(selectedTeam);
+                showInfo();
                 team.setFirstComment("");
 
                 String[] commentLines = team.getComment().split("\\\\n");
                 for (String line : commentLines) {
                     Text commentTextElement = new Text(line + "\n");
-                    if (line.contains(account.getName())) {
+                    if (accountList.findAccountByName(line.trim()) != null) {
                         commentTextElement.setFont(Font.font(commentTextElement.getFont().getFamily(), FontWeight.BOLD, commentTextElement.getFont().getSize()));
                     }
                     commentTextFlow.getChildren().add(commentTextElement);
                 }
                 commentScrollPane.setVvalue(1.0);
+
+                activityTableView.getItems().clear();
+                activityTableView.getColumns().clear();
+                activityList = activityListDatasource.readData();
+                activityList.findActivityInEvent(team.getEvent().getEventName());
+                showTable(activityList);
             }
         });
     }
@@ -114,7 +124,7 @@ public class CommentTeamController {
         for (String line : commentLines) {
             Text commentTextElement = new Text(line + "\n");
 
-            if (line.contains(account.getName())) {
+            if (accountList.findAccountByName(line.trim()) != null) {
                 commentTextElement.setFont(Font.font(commentTextElement.getFont().getFamily(), FontWeight.BOLD, commentTextElement.getFont().getSize()));
             }
             commentTextFlow.getChildren().add(commentTextElement);
@@ -125,12 +135,56 @@ public class CommentTeamController {
         commentScrollPane.setVvalue(1.0);
     }
 
+    private void showTable(ActivityList activityList) {
+        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
+        activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
+
+        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+
+        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
+
+        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
+
+        TableColumn<Activity, LocalTime> teamColumn = new TableColumn<>("team");
+        teamColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
+
+        TableColumn<Activity, String> statusColumn = new TableColumn<>("status");
+        statusColumn.setCellValueFactory(cellData -> {
+            int status = Integer.parseInt(cellData.getValue().getStatus());
+            if (status == 1) {
+                return new SimpleStringProperty("Finish");
+            } else {
+                return new SimpleStringProperty("Still Organize");
+            }
+        });
+
+        activityTableView.getColumns().clear();
+        activityTableView.getColumns().add(activityNameColumn);
+        activityTableView.getColumns().add(dateActivityColumn);
+        activityTableView.getColumns().add(startTimeActivityColumn);
+        activityTableView.getColumns().add(endTimeActivityColumn);
+        activityTableView.getColumns().add(teamColumn);
+        activityTableView.getColumns().add(statusColumn);
+
+        for (Activity activity: activityList.getActivities()) {
+            activityTableView.getItems().add(activity);
+        }
+
+    }
+
     public void clearCommentInfo() {
         commentTextField.setText("");
     }
 
+    public void clearCommentTextFlow() {
+        commentTextFlow.getChildren().clear();
+    }
+
     public void showInfo() {
-        teamLabel.setText(selectedTeam);
+        eventLabel.setText(team.getEvent().getEventName());
     }
 
     @FXML

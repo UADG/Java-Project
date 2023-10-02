@@ -120,10 +120,6 @@ public class Team {
         firstComment = name;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
-
     public StaffList getStaffs(){
         return staffs;
     }
@@ -174,6 +170,21 @@ public class Team {
         }
         return teamComboBox;
     }
+
+    public ArrayList<String> getListTeam(int id){
+        TeamListFileDatasource teamData = new TeamListFileDatasource("data", "team.csv");
+        TeamList teamlist = teamData.readData();
+        ArrayList<String> teamComboBox = new ArrayList<>();
+        for(Team team:teamlist.getTeams()){
+            for(Staff staff: team.getStaffs().getStaffList()){
+                if(staff.isId(Integer.toString(id))){
+                    teamComboBox.add(team.getTeamName());
+                }
+            }
+        }
+        return teamComboBox;
+    }
+
     @Override
     public String toString() {
         return teamName;

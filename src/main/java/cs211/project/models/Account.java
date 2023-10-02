@@ -100,6 +100,9 @@ public class Account {
     public boolean isPassword(String password) {
         return this.password.equals(password);
     }
+    public boolean isName(String name) {
+        return this.name.equals(name);
+    }
     public boolean isAdmin(String role) {
         return "admin".equals(role);
     }
