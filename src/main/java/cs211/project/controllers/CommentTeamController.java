@@ -7,14 +7,18 @@ import cs211.project.services.CommentTeamListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import cs211.project.services.TeamListFileDatasource;
+import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
+import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -34,6 +38,10 @@ public class CommentTeamController {
     private TextFlow commentTextFlow;
     @FXML
     private Button sendClick;
+    @FXML private AnchorPane slide;
+    @FXML private Button menuButton;
+    @FXML private Button adminButton;
+    @FXML private BorderPane bPane;
     private Datasource<TeamList> commentDatasource;
     private Datasource<TeamList> teamListDatasource;
     private TeamList teamList;
@@ -82,6 +90,12 @@ public class CommentTeamController {
                 commentScrollPane.setVvalue(1.0);
             }
         });
+        bPane.setVisible(false);
+        slide.setTranslateX(-200);
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
     }
 
     @FXML
@@ -134,11 +148,63 @@ public class CommentTeamController {
     }
 
     @FXML
-    protected void backOnClick() {
-        try {
-            FXRouter.goTo("home-page");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public void OnMenuBarClick() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(0);
+        slideAnimate.play();
+        menuButton.setVisible(false);
+        slide.setTranslateX(0);
+        bPane.setVisible(true);
+    }
+    @FXML
+    public void closeMenuBar() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(-200);
+        slideAnimate.play();
+        slide.setTranslateX(-200);
+        slideAnimate.setOnFinished(event-> {
+            menuButton.setVisible(true);
+            bPane.setVisible(false);
+        });
+    }
+    @FXML
+    public void onHomeClick() throws IOException {
+        FXRouter.goTo("events-list", account);
+    }
+    @FXML
+    public void onProfileClick() throws IOException {
+        FXRouter.goTo("profile-setting", account);
+    }
+    @FXML
+    public void onCreateEvent() throws IOException {
+        FXRouter.goTo("create-event", account);
+    }
+    @FXML
+    public void onJoinHistory() throws IOException {
+        FXRouter.goTo("joined-history", account);
+    }
+    @FXML
+    public void onEventHis() throws IOException {
+        FXRouter.goTo("event-history", account);
+    }
+    @FXML
+    public void onPartiSchedule() throws IOException {
+        FXRouter.goTo("participant-schedule", account);
+    }
+    @FXML
+    public void onTeamSchedule() throws IOException {
+        FXRouter.goTo("team-schedule", account);
+    }
+    @FXML
+    public void onComment() throws IOException {
+        FXRouter.goTo("comment-activity", account);
+    }
+    @FXML
+    public void onUserClick() throws IOException {
+        FXRouter.goTo("user-status", account);
     }
 }

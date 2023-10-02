@@ -40,7 +40,7 @@ public class LoginPageController {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     String time = LocalDateTime.now().format(formatter);
                     account.setTime(time);
-                    FXRouter.goTo("home-page", account);
+                    FXRouter.goTo("events-list", account);
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
                 } else {

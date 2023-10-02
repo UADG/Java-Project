@@ -7,6 +7,8 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventsListController">
@@ -46,7 +48,6 @@
             <Font size="11.0" />
          </font>
       </Button>
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
       <Label fx:id="errorLabelBook" layoutX="412.0" layoutY="450.0" text="errorLabel" textFill="#f20000" />
       <Button layoutX="572.0" layoutY="62.0" mnemonicParsing="false" onAction="#onSearchEventButton" prefHeight="24.0" prefWidth="96.0" text="Search">
          <font>
@@ -54,5 +55,77 @@
          </font>
       </Button>
       <Label fx:id="errorLabelApplyToParticipants" layoutX="521.0" layoutY="450.0" prefHeight="17.0" prefWidth="186.0" text="errorLabel" textFill="#f20000" />
+      <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
+         <left>
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+               <children>
+                  <VBox layoutY="150.0" prefHeight="450.0" prefWidth="200.0">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Home" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onProfileClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Profile Setting" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onCreateEvent" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Create Event" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onJoinHistory" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Join History" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onEventHis" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Event History" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onPartiSchedule" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Participant Schedule" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onTeamSchedule" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Team Schedule" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#onComment" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="comment" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="adminButton" mnemonicParsing="false" onAction="#onUserClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="User" textFill="WHITE">
+                           <font>
+                              <Font name="System Bold" size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </VBox>
+                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="14.0" layoutY="18.0" mnemonicParsing="false" onAction="#closeMenuBar" stylesheets="@buttonOnClick.css" text="Menu" textFill="WHITE">
+                     <font>
+                        <Font name="System Bold" size="12.0" />
+                     </font>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </left>
+      </BorderPane>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
    </children>
 </AnchorPane>

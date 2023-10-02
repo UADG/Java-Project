@@ -9,13 +9,14 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
 import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
+import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.BorderPane;
+import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -37,6 +38,11 @@ public class EventsListController {
     private Label errorLabelApplyToParticipants;
     @FXML
     private TextField searchTextField;
+    @FXML private AnchorPane slide;
+    @FXML private Button menuButton;
+    @FXML private Button adminButton;
+    @FXML private BorderPane bPane;
+
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
@@ -48,6 +54,7 @@ public class EventsListController {
 
     @FXML
     public void initialize() {
+        bPane.setVisible(false);
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
         clearEventInfo();
@@ -57,6 +64,7 @@ public class EventsListController {
 
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
+        slide.setTranslateX(-200);
 
         showList(eventList);
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
@@ -72,6 +80,10 @@ public class EventsListController {
                 }
             }
         });
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
     }
 
     private void showList(EventList eventList) {
@@ -97,16 +109,6 @@ public class EventsListController {
         participantLeftLabel.setText("");
     }
 
-
-
-    @FXML
-    protected void onBackClick() {
-        try {
-            FXRouter.goTo("home-page");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
     @FXML
     public void onSearchEventButton() {
         textSearch = searchTextField.getText().trim();
@@ -234,5 +236,65 @@ public class EventsListController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+    @FXML
+    public void OnMenuBarClick() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(0);
+        slideAnimate.play();
+        menuButton.setVisible(false);
+        slide.setTranslateX(0);
+        bPane.setVisible(true);
+    }
+    @FXML
+    public void closeMenuBar() throws IOException {
+        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate.setDuration(Duration.seconds(0.5));
+        slideAnimate.setNode(slide);
+        slideAnimate.setToX(-200);
+        slideAnimate.play();
+        slide.setTranslateX(-200);
+        slideAnimate.setOnFinished(event-> {
+            menuButton.setVisible(true);
+            bPane.setVisible(false);
+        });
+    }
+    @FXML
+    public void onHomeClick() throws IOException {
+
+    }
+    @FXML
+    public void onProfileClick() throws IOException {
+        FXRouter.goTo("profile-setting", account);
+    }
+    @FXML
+    public void onCreateEvent() throws IOException {
+        FXRouter.goTo("create-event", account);
+    }
+    @FXML
+    public void onJoinHistory() throws IOException {
+        FXRouter.goTo("joined-history", account);
+    }
+    @FXML
+    public void onEventHis() throws IOException {
+        FXRouter.goTo("event-history", account);
+    }
+    @FXML
+    public void onPartiSchedule() throws IOException {
+        FXRouter.goTo("participant-schedule", account);
+    }
+    @FXML
+    public void onTeamSchedule() throws IOException {
+        FXRouter.goTo("team-schedule", account);
+    }
+    @FXML
+    public void onComment() throws IOException {
+        FXRouter.goTo("comment-activity", account);
+    }
+    @FXML
+    public void onUserClick() throws IOException {
+        FXRouter.goTo("user-status", account);
     }
 }
