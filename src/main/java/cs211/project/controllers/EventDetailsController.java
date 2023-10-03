@@ -3,10 +3,8 @@ package cs211.project.controllers;
 import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.EventList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
-import cs211.project.services.EventListFileDatasource;
 import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
@@ -16,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -36,12 +35,14 @@ public class EventDetailsController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private HBox hBox;
     public void initialize(){
         if(!event.getPicURL().equals("/images/default-profile.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
             imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         }
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         nameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         timeLabel.setText(event.getStartTime() + " - " + event.getEndTime());

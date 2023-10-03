@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -40,6 +41,7 @@ public class ProfileSetPageController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private HBox hBox;
     @FXML public void initialize(){
         usernameLabel.setText(account.getUsername());
         nameLabel.setText(account.getName());
@@ -50,6 +52,7 @@ public class ProfileSetPageController {
         }else {
             imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         }
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         adminButton.setVisible(false);

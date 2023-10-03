@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -34,6 +35,7 @@ public class EventHistoryController {
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private ImageView imageView;
+    @FXML private HBox hBox;
     @FXML
     ListView<Event> eventListView;
     private Event selectedEvent;
@@ -42,6 +44,7 @@ public class EventHistoryController {
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
@@ -78,7 +81,6 @@ public class EventHistoryController {
         }else {
             imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         }
-
     }
     private void showList(EventList eventList) {
         eventListView.getItems().clear();
