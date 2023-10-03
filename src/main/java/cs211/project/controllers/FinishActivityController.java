@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 
 public class FinishActivityController {
-    @FXML public TableView activityTableView;
+    @FXML public TableView<Activity> activityTableView;
     @FXML public Label nameLabel;
     @FXML public Label timeStartLabel;
     @FXML public Label timeStopLabel;

@@ -3,6 +3,7 @@ package cs211.project.controllers;
 import cs211.project.models.*;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -18,11 +19,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 
 public class CreateTeamController {
-    private Event events = (Event) FXRouter.getData();
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(events.getEventManager());
-    @FXML public TableView activityTableView;
+    @FXML public TableView<Activity> activityTableView;
     @FXML public Label nameLabel;
     @FXML public Label timeStartLabel;
     @FXML public Label timeStopLabel;
@@ -33,6 +30,7 @@ public class CreateTeamController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    private Account account;
     public ActivityList list;
     public String eventName;
     public Event event;
@@ -40,8 +38,9 @@ public class CreateTeamController {
     public void initialize(){
         errorLabel.setText("");
         clearInfo();
-        eventName = (String) FXRouter.getData();
-        event = new Event(eventName);
+        Object[] objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        event = (Event) objects[1];
         event.loadEventInfo();
         list = event.loadActivityInEvent();
         showTable(list);
@@ -113,18 +112,26 @@ public class CreateTeamController {
         if(selectedActivity != null){
             String teamName = teamNameTextField.getText();
             String numberStr = numberOfTeamMemberTextField.getText();
+
+            boolean found = false;
+            TeamList teamList = event.loadTeamInEvent();
+            for(Team team : teamList.getTeams()) if(team.getTeamName().equals(teamName)) found = true;
             if(!teamName.equals("")&&!numberStr.equals("")){
-                try {
-                    int number = Integer.parseInt(numberStr);
-                    Team team = new Team(teamName, number, eventName);
-                    team.createTeamInCSV();
-                    selectedActivity.updateTeamInActivity(team);
-                    list = event.loadActivityInEvent();
-                    showTable(list);
-                    teamNameTextField.clear();
-                    numberOfTeamMemberTextField.clear();
-                }catch (NumberFormatException e){
-                    errorLabel.setText("Number of people must be number");
+                if(!found){
+                    try {
+                        int number = Integer.parseInt(numberStr);
+                        Team team = new Team(teamName, number, eventName);
+                        team.createTeamInCSV();
+                        selectedActivity.updateTeamInActivity(team);
+                        list = event.loadActivityInEvent();
+                        showTable(list);
+                        teamNameTextField.clear();
+                        numberOfTeamMemberTextField.clear();
+                    }catch (NumberFormatException e){
+                        errorLabel.setText("Number of people must be number");
+                    }
+                }else{
+                    errorLabel.setText("This team name already exist");
                 }
             }else{
                 errorLabel.setText("Must fill all information before create team");

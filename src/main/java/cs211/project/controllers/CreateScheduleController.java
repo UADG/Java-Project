@@ -22,6 +22,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 
 public class CreateScheduleController {
     @FXML TextField activityTextField;
@@ -204,7 +205,10 @@ public class CreateScheduleController {
     @FXML
     protected void nextOnClick(){
         try {
-            FXRouter.goTo("create-team", event.getEventName());
+            Object[] objects = new Object[2];
+            objects[0] = account;
+            objects[1] = event;
+            FXRouter.goTo("create-team", objects);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
