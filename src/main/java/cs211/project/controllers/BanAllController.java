@@ -19,17 +19,16 @@ import java.io.IOException;
 
 public class BanAllController {
     @FXML Label constantTeamLabel;
-    @FXML ComboBox chooseTeam;
+    @FXML ComboBox<Team> chooseTeam;
     @FXML Label nameLabel;
     @FXML RadioButton chooseRoleTeam;
     @FXML RadioButton chooseRoleSingleParticipant;
-    @FXML ListView staffListView;
-    @FXML ListView userListView;
+    @FXML ListView<Staff> staffListView;
+    @FXML ListView<Account> userListView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
-    Account account = (Account) FXRouter.getData();
     private Team team;
     private Staff selectedStaff;
     private Account selectedUser;
@@ -40,9 +39,12 @@ public class BanAllController {
     private TeamListFileDatasource data;
     private Datasource<AccountList> dataAccount;
     private BanListFileDatasource banPath;
+    private Account account;
     @FXML
     public void initialize(){
-        selectedEvent = (Event) FXRouter.getData();
+        Object[] objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        selectedEvent = (Event) objects[1];
         clearInfo();
         updateData();
         list = selectedEvent.loadTeamInEvent();

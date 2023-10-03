@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.time.LocalTime;
 
 public class FinishActivityController {
-    @FXML public TableView activityTableView;
+    @FXML public TableView<Activity> activityTableView;
     @FXML public Label nameLabel;
     @FXML public Label timeStartLabel;
     @FXML public Label timeStopLabel;
@@ -35,22 +35,26 @@ public class FinishActivityController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
-    private Event event = (Event) FXRouter.getData();
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(event.getEventManager());
     private Activity selectedActivity;
     private ActivityListFileDatasource data;
-    private ActivityList list;
-    private String eventName;
+    private Account account;
     private Event selectedEvent;
 
     @FXML
     public void initialize(){
         clearInfo();
         updateData();
-        selectedEvent = (Event)FXRouter.getData();
+        Object[] objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        selectedEvent = (Event) objects[1];
         showTable(selectedEvent.loadActivityInEvent());
+
+        bPane.setVisible(false);
+        slide.setTranslateX(-200);
+        adminButton.setVisible(false);
+        if(account.isAdmin(account.getRole())){
+            adminButton.setVisible(true);
+        }
 
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
@@ -123,14 +127,8 @@ public class FinishActivityController {
         data.writeData(list);
         updateData();
         list = data.readData();
-        list.findActivityInEvent(eventName);
+        list.findActivityInEvent(selectedEvent.getEventName());
         showTable(selectedEvent.loadActivityInEvent());
-        bPane.setVisible(false);
-        slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
 
 

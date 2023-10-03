@@ -54,6 +54,7 @@ public class EventHistoryController {
                     clearEventInfo();
                     selectedEvent = null;
                 } else {
+                    imageView.setVisible(true);
                     showEventInfo(newValue);
                     selectedEvent = newValue;
                 }
@@ -121,7 +122,10 @@ public class EventHistoryController {
     protected void onFinishActivityClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("finish-activity",selectedEvent);
+                Object[] objects = new Object[2];
+                objects[0] = accounts;
+                objects[1] = selectedEvent;
+                FXRouter.goTo("finish-activity",objects);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -147,7 +151,10 @@ public class EventHistoryController {
     protected void onBanAllClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("ban-all",selectedEvent);
+                Object[] objects = new Object[2];
+                objects[0] = accounts;
+                objects[1] = selectedEvent;
+                FXRouter.goTo("ban-all",objects);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
