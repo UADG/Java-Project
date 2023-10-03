@@ -56,6 +56,7 @@ public class EventsListController {
     @FXML
     public void initialize() {
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        imageView.setVisible(false);
         bPane.setVisible(false);
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
@@ -76,6 +77,7 @@ public class EventsListController {
                     clearEventInfo();
                     selectedEvent = null;
                 } else {
+                    imageView.setVisible(true);
                     errorLabelBook.setText("");
                     showEventInfo(newValue);
                     selectedEvent = newValue;
@@ -147,7 +149,9 @@ public class EventsListController {
         Account account  = accountList.findAccountByUsername(data.getUsername());
         if (selectedEvent != null) {
             try {
-                if(account.isEventName(selectedEvent.getEventName())) {
+                if (selectedEvent.isEventManager(account.getUsername())) {
+                    showErrorAlert("You are the manager of this event.");
+                } else if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
                 } else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();

@@ -21,12 +21,12 @@
       <Label fx:id="statusLabel" layoutX="536.0" layoutY="366.0" text="statusLabel" />
       <Label layoutX="485.0" layoutY="336.0" text="Date: " />
       <Label fx:id="dateLabel" layoutX="536.0" layoutY="336.0" text="dateLabel" />
-      <Button layoutX="447.0" layoutY="400.0" mnemonicParsing="false" onAction="#onCancelEventClick" text="Cancel Event">
+      <Button fx:id="cancelEvent" layoutX="447.0" layoutY="400.0" mnemonicParsing="false" onAction="#onCancelEventClick" text="Cancel Event">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <ListView fx:id="eventCompleteListView" layoutX="56.0" layoutY="335.0" prefHeight="173.0" prefWidth="282.0" />
+      <ListView fx:id="eventFinishListView" layoutX="56.0" layoutY="335.0" prefHeight="173.0" prefWidth="282.0" />
       <Button layoutX="551.0" layoutY="397.0" mnemonicParsing="false" onAction="#onOpenSchedule" text="open schedule" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>

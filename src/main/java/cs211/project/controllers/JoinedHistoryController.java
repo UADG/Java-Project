@@ -14,13 +14,14 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDate;
 
 public class JoinedHistoryController {
 
     @FXML
     private ListView<String> eventOrganizeListView;
     @FXML
-    private ListView<String> eventCompleteListView;
+    private ListView<String> eventFinishListView;
     @FXML
     private Label eventNameLabel;
     @FXML
@@ -33,17 +34,19 @@ public class JoinedHistoryController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
-
+    @FXML private Button cancelEvent;
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
     Account account;
     private AccountList accountList;
     private EventList eventList;
     private String selectedEvent;
+    private LocalDate currentDate;
 
     @FXML
     public void initialize() {
         clearEventInfo();
+        currentDate = LocalDate.now();
 
         datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
@@ -53,17 +56,28 @@ public class JoinedHistoryController {
         eventList = eventListDatasource.readData();
 
         showOrganizeList(account);
+        showFinishList(account);
 
         eventOrganizeListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
-            if (newValue == null) {
-                clearEventInfo();
-                selectedEvent = null;
-            } else {
+            if (newValue != null)  {
+                eventFinishListView.getSelectionModel().clearSelection();
+                cancelEvent.setVisible(true);
                 clearEventInfo();
                 showEventOrganizeInfo(displayUserJoinedEvents(newValue));
                 selectedEvent = newValue;
             }
         });
+
+        eventFinishListView.getSelectionModel().selectedItemProperty().addListener((observableValue, oldValue, newValue) -> {
+            if (newValue != null) {
+                eventOrganizeListView.getSelectionModel().clearSelection();
+                cancelEvent.setVisible(false);
+                clearEventInfo();
+                showEventFinishInfo(displayUserJoinedEvents(newValue));
+                selectedEvent = newValue;
+            }
+        });
+
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         adminButton.setVisible(false);
@@ -77,13 +91,45 @@ public class JoinedHistoryController {
     }
 
     private void showOrganizeList(Account account) {
-        eventOrganizeListView.getItems().addAll(accountList.findAccountByUsername(account.getUsername()).getAllEventUser());
+        eventOrganizeListView.getItems().clear();
+
+        String username = account.getUsername();
+        Account user = accountList.findAccountByUsername(username);
+
+        for (String eventName : user.getAllEventUser()) {
+            Event event = eventList.findEventByEventName(eventName);
+
+            if (currentDate.isBefore(event.getEndDate())) {
+                eventOrganizeListView.getItems().add(eventName);
+            }
+        }
+    }
+
+    private void showFinishList(Account account) {
+        eventFinishListView.getItems().clear();
+
+        String username = account.getUsername();
+        Account user = accountList.findAccountByUsername(username);
+
+        for (String eventName : user.getAllEventUser()) {
+            Event event = eventList.findEventByEventName(eventName);
+
+            if (currentDate.isAfter(event.getEndDate())) {
+                eventFinishListView.getItems().add(eventName);
+            }
+        }
     }
 
     private void showEventOrganizeInfo(Event event) {
         eventNameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
-        statusLabel.setText("still being organized.");
+        statusLabel.setText("Still being organized.");
+    }
+
+    private void showEventFinishInfo(Event event) {
+        eventNameLabel.setText(event.getEventName());
+        dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
+        statusLabel.setText("Finished");
     }
 
     private void clearEventInfo() {

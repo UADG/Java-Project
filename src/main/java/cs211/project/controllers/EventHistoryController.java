@@ -42,6 +42,7 @@ public class EventHistoryController {
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
+        imageView.setVisible(false);
         showList(eventList);
         clearEventInfo();
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
@@ -51,6 +52,7 @@ public class EventHistoryController {
                     clearEventInfo();
                     selectedEvent = null;
                 } else {
+                    imageView.setVisible(true);
                     showEventInfo(newValue);
                     selectedEvent = newValue;
                 }
