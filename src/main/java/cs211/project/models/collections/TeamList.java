@@ -42,25 +42,31 @@ public class TeamList {
     }
 
     public Team findLowestStaffTeam(){
-        boolean found = false;
-        int min;
-        Team lowestStaff;
-        if(teams.size() == 0) {
-            return null;
-        }
-        else {
-            min = teams.get(0).getNumberOfStaff() - teams.get(0).getNumberOfStaffLeft();
-            lowestStaff = teams.get(0);
-        }
-        for(Team team : teams){
-            int result = team.getNumberOfStaff() - team.getNumberOfStaffLeft();
-            if(result<min && team.getNumberOfStaffLeft()>0){
-                min = result;
-                lowestStaff = team;
-                System.out.println(lowestStaff.getTeamName());
+        boolean first = true;
+        Team lowest = null;
+        int min = 0;
+        int result = 0;
+
+        if(teams.isEmpty()) return null;
+        else{
+            for(Team team : teams){
+                if(team.getNumberOfStaffLeft() > 0){
+                    if(first){
+                        min = team.getNumberOfStaff()-team.getNumberOfStaffLeft();
+                        first = false;
+                    }
+                    result = team.getNumberOfStaff()-team.getNumberOfStaffLeft();
+
+                    if(result<=min){
+                        min = result;
+                        lowest = team;
+                    }
+                }
             }
+
+
+            return lowest;
         }
-        return lowestStaff;
     }
 
     public void addCommentInTeam(String teamName, String comment) {
