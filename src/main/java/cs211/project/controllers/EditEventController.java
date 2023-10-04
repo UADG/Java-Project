@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -60,6 +61,7 @@ public class EditEventController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private HBox hBox;
     private Datasource<EventList> eventListDatasource;
     private EventList eventList;
     private Event event;
@@ -108,6 +110,7 @@ public class EditEventController {
         }else {
             imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         }
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
     }
 
     @FXML

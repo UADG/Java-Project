@@ -15,6 +15,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -43,8 +44,7 @@ public class EventsListController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
-
-
+    @FXML private HBox hBox;
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
@@ -56,7 +56,7 @@ public class EventsListController {
     @FXML
     public void initialize() {
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
-        imageView.setVisible(false);
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
