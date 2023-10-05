@@ -168,6 +168,7 @@ public class JoinedHistoryController {
                 if (response == ButtonType.OK) {
                     user.deleteUserEventName(selectedEvent);
                     datasource.writeData(accountList);
+                    datasource.readData();
                     updateEventInfo();
                 }
             });

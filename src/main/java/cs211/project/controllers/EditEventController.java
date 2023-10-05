@@ -4,10 +4,7 @@ import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.EventList;
-import cs211.project.services.AccountListDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.EventListFileDatasource;
-import cs211.project.services.FXRouter;
+import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -63,14 +60,17 @@ public class EditEventController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     private Datasource<EventList> eventListDatasource;
+    private Datasource<AccountList> accountListDatasource;
+    private Datasource<AccountList> joinedEventDatasource;
     private EventList eventList;
     private Event event;
     private LocalDate currentDate;
     private String errorMessage;
-    private Event events = (Event) FXRouter.getData();
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(events.getEventManager());
+    private Event events;
+    private AccountList accountList;
+    private Account account;
+    private AccountList accountJoinList;
+    private Account accountJoined;
 
     @FXML
     private void initialize() {
@@ -78,9 +78,18 @@ public class EditEventController {
 
         Event data = (Event) FXRouter.getData();
         currentDate = LocalDate.now();
+        events = (Event) FXRouter.getData();
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        joinedEventDatasource = new UserEventListFileDatasource("data", "user-joined-event.csv");
+
         eventList = eventListDatasource.readData();
+        accountList = accountListDatasource.readData();
+        accountJoinList = joinedEventDatasource.readData();
+
         event = eventList.findEventByEventName(data.getEventName());
+        account = accountList.findAccountByUsername(events.getEventManager());
+
         showInfo(event);
 
         eventDatePickerEnd.setEditable(false);
@@ -145,7 +154,10 @@ public class EditEventController {
                 boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
                 if (confirmFinish) {
                     eventListDatasource.writeData(eventList);
+                    joinedEventDatasource.writeData(accountJoinList);
+
                     eventListDatasource.readData();
+                    joinedEventDatasource.readData();
                     showInfo(event);
                     onBackClick();
                 }
@@ -186,14 +198,26 @@ public class EditEventController {
     }
 
     private void changeNameDisplay(String name) {
-        if (Objects.equals(name, event.getEventName())) {
+        if (name.equals(event.getEventName())) {
             return;
         }
         try {
             if (name.length() < 3) {
                 errorMessage += "EVENT NAME:\nLength of name be must more than 3.\n";
             } else {
-                event.setEventName(name);
+                String thisEvent = event.getEventName();
+                for (Account account1 : accountJoinList.getAccount()) {
+                    System.out.println(account1.getAllEventUser());
+                    for (String event1 : account1.getAllEventUser()) {
+                        if (event1.equals(thisEvent)) {
+                            account1.getEventName(event1);
+                            System.out.println(account1.getName());
+                            account1.deleteUserEventName(thisEvent);
+                            account1.addUserEventName(name);
+                            event.setEventName(name);
+                        }
+                    }
+                }
             }
         } catch (Exception e) {
             errorMessage += "EVENT NAME:\nInvalid name.\n";
@@ -201,7 +225,7 @@ public class EditEventController {
     }
 
     private void changeDateStart(LocalDate startDate, LocalDate endDate) {
-        if (startDate == null) {
+        if (startDate.isEqual(event.getStartDate())) {
             return;
         }
         try {
@@ -216,7 +240,7 @@ public class EditEventController {
     }
 
     private void changeDateEnd(LocalDate startDate, LocalDate endDate) {
-        if (endDate == null){
+        if (endDate.isEqual(event.getEndDate())){
             return;
         }
         try {
@@ -231,7 +255,7 @@ public class EditEventController {
     }
 
     private void changeTimeStartEvent(String timeStartEvent, String timeEndEvent) {
-        if (timeStartEvent.isEmpty()) {
+        if (timeStartEvent.equals(event.getStartTime())) {
             return;
         }
 
@@ -255,7 +279,7 @@ public class EditEventController {
     }
 
     private void changeAmountTicket(String ticket) {
-        if (ticket.isEmpty()) {
+        if (Integer.parseInt(ticket) == event.getTicket()) {
             return;
         }
 
@@ -273,7 +297,7 @@ public class EditEventController {
     }
 
     private void changeAmountParticipant(String participant) {
-        if (participant.isEmpty()) {
+        if (Integer.parseInt(participant) == event.getParticipantNum()) {
             return;
         }
 
@@ -291,7 +315,7 @@ public class EditEventController {
     }
 
     private void changeTimeEndTeam(String TimeEndTeam) {
-        if (TimeEndTeam.isEmpty()) {
+        if (TimeEndTeam.equals(event.getEndTime())) {
             return;
         }
 
@@ -305,7 +329,7 @@ public class EditEventController {
     }
 
     private void changeTimeEndParticipant(String TimeEndParticipant) {
-        if (TimeEndParticipant.isEmpty()) {
+        if (TimeEndParticipant.equals(event.getTimeParticipant())) {
             return;
         }
 
@@ -322,7 +346,7 @@ public class EditEventController {
         try {
             event.setDetail(detail);
         } catch (Exception e) {
-            showErrorAlert("DETAIL:\nInvalid name.\n");
+            showErrorAlert("DETAIL:\nInvalid Text.\n");
         }
     }
 

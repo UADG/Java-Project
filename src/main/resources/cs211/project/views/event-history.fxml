@@ -30,16 +30,21 @@
       <Label fx:id="timeStart" layoutX="488.0" layoutY="353.0" text="TimeStartLabel" />
       <Label fx:id="timeEnd" layoutX="488.0" layoutY="379.0" text="TimeEndLabel" />
       <Label fx:id="amountTicket" layoutX="504.0" layoutY="406.0" text="AmountTicketsLabel" />
-      <Button layoutX="201.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditDetailClick" text="EditDetail" />
-      <Button layoutX="290.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" text="Finish Activity" />
-      <Button layoutX="513.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" text="Ban Participnat" />
-      <Button layoutX="398.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" text="EditSchedule" />
+      <Button fx:id="editActivity" layoutX="118.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditActivity" text="Edit Schedule" />
+      <Button fx:id="editDetail" layoutX="228.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditDetailClick" text="Edit Detail" />
+      <Button fx:id="finishActivity" layoutX="320.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" text="Finish Activity" />
+      <Button fx:id="fixSchedule" layoutX="428.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" text="Add/Delete Team" />
+      <Button fx:id="banAll" layoutX="558.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" text="Ban Participnat" />
       <Label layoutX="316.0" layoutY="83.0" text="Event History">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <Button layoutX="89.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditActivity" text="EditSchedule" />
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
@@ -107,10 +112,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
