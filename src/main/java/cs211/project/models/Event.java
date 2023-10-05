@@ -1,6 +1,7 @@
 package cs211.project.models;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -244,6 +245,29 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
             if(activity.getParticipantName().equals("")){
                 return true;
             }
+        }
+        return false;
+    }
+    public Boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime) {
+        LocalTime startLocalTime = LocalTime.parse(startTime);
+        LocalDate localDate = startDate;
+        LocalTime endLocalTime = LocalTime.parse(endTime);
+        LocalDateTime end = LocalDateTime.of(endDate, endLocalTime);
+
+        while (!localDate.isAfter(endDate)) {
+            LocalDateTime startLocalDateTime = LocalDateTime.of(localDate, startLocalTime);
+            System.out.println(localDate);
+            LocalDateTime endLocalDateTime;
+            if(startLocalDateTime.getHour() > end.getHour()){
+                endLocalDateTime = LocalDateTime.of(LocalDate.from(startLocalDateTime).plusDays(1), endLocalTime);
+            }
+            else{
+                endLocalDateTime = LocalDateTime.of(LocalDate.from(startLocalDateTime), endLocalTime);
+            }
+            if (!startLocalDateTime.isAfter(startActivityTime) && endLocalDateTime.isAfter(startActivityTime) && startLocalDateTime.isBefore(endActivityTime) && !endLocalDateTime.isBefore(endActivityTime)) {
+                return true;
+            }
+            localDate = localDate.plusDays(1);
         }
         return false;
     }

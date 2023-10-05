@@ -21,22 +21,25 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
 public class CreateScheduleController {
     @FXML TextField activityTextField;
+    @FXML TextField infoActivityTextField;
     @FXML ComboBox chooseHourTimeStart;
     @FXML ComboBox chooseMinTimeStart;
     @FXML ComboBox chooseHourTimeStop;
     @FXML ComboBox chooseMinTimeStop;
     @FXML DatePicker startDate;
     @FXML DatePicker endDate;
-    @FXML private Label activityNameLabel;
-    @FXML private Label dateLabel;
-    @FXML private Label timeStartLabel;
-    @FXML private Label timeStopLabel;
-    @FXML private Label errorActivityNameLabel;
+    @FXML private Label eventNameLabel;
+    @FXML private Label eventDateStart;
+    @FXML private Label eventDateEnd;
+    @FXML private Label eventTimeStart;
+    @FXML private Label eventTimeEnd;
+
     @FXML private TableView<Activity> activityTableView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
@@ -54,22 +57,18 @@ public class CreateScheduleController {
 
     @FXML
     public void initialize() {
-        clearActivityInfo();
-        errorActivityNameLabel.setText("");
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
         updateSchedule();
-
+        eventNameLabel.setText(eventName);
         addComboBox(event);
         showTable(activityList);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
                 if (newValue == null) {
-                    clearActivityInfo();
                     selectedActivity = null;
                 } else {
-                    showActivityInfo(newValue);
                     selectedActivity = newValue;
                 }
             }
@@ -83,7 +82,6 @@ public class CreateScheduleController {
     }
 
     private void showTable(ActivityList activityList) {
-        // กำหนด column ให้มี title ว่า ID และใช้ค่าจาก attribute id ของ object Student
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
@@ -93,15 +91,12 @@ public class CreateScheduleController {
         TableColumn<Activity, LocalDate> endDateActivityColumn = new TableColumn<>("endDate");
         endDateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endDate"));
 
-        // กำหนด column ให้มี title ว่า Name และใช้ค่าจาก attribute name ของ object Student
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-        // กำหนด column ให้มี title ว่า Score และใช้ค่าจาก attribute score ของ object Student
         TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
 
-        // ล้าง column เดิมทั้งหมดที่มีอยู่ใน table แล้วเพิ่ม column ใหม่
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
         activityTableView.getColumns().add(startDateActivityColumn);
@@ -122,19 +117,7 @@ public class CreateScheduleController {
         chooseHourTimeStop.getItems().addAll(event.getArrayHour());
         chooseMinTimeStop.getItems().addAll(event.getArrayMinute());
     }
-    private void showActivityInfo(Activity activity) {
 
-        activityNameLabel.setText(activity.getActivityName());
-        dateLabel.setText(activity.getStartDate()+"     "+activity.getEndDate());
-        timeStartLabel.setText(activity.getStartTimeActivity());
-        timeStopLabel.setText(activity.getEndTimeActivity());
-    }
-    private void clearActivityInfo() {
-        activityNameLabel.setText("");
-        dateLabel.setText("");
-        timeStartLabel.setText("");
-        timeStopLabel.setText("");
-    }
     private void updateSchedule(){
         activityList = datasource.readData();
         activityList.findActivityInEvent(eventName);
@@ -150,6 +133,7 @@ public class CreateScheduleController {
             LocalDate selectedEndDate = endDate.getValue();
             String hourEndStr = (String) chooseHourTimeStop.getValue();
             String minEndStr = (String) chooseMinTimeStop.getValue();
+            String infoActivity =  infoActivityTextField.getText();
         if (!activityName.isEmpty() && selectedStartDate != null && selectedEndDate != null&& hourStartStr != null && minStartStr != null && hourEndStr != null && minEndStr != null) {
             int hourStart = Integer.parseInt(hourStartStr);
             int minStart = Integer.parseInt(minStartStr);
@@ -158,22 +142,35 @@ public class CreateScheduleController {
 
             LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
             LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
-            if (activityList.checkActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity)) {
-                activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, null, "", "0", eventName);
-                datasource.writeData(activityList);
-                if(activityList.getActivities().isEmpty()){
-                        activityList.findActivityInEvent(eventName);
+            LocalDateTime startActivityTime = LocalDateTime.of(selectedStartDate,startTimeActivity);
+            LocalDateTime endActivityTime = LocalDateTime.of(selectedEndDate,endTimeActivity);
+            if(event.checkTimeActivity(startActivityTime,endActivityTime)){
+                if(activityList.checkActivityName(activityName)) {
+                    if (activityList.checkActivity(startActivityTime,endActivityTime)) {
+                        activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, "", "", "0", eventName, infoActivity, null);
+                        datasource.writeData(activityList);
+                        if (activityList.getActivities().isEmpty()) {
+                            activityList.findActivityInEvent(eventName);
+                        }
+                        updateSchedule();
+                        showTable(activityList);
+                    } else {
+                        showErrorAlert("Please select other time");
+                    }
                 }
-                updateSchedule();
-                showTable(activityList);
+                else{
+                    showErrorAlert("Please select other name");
+                }
             }
-
             else {
-                errorActivityNameLabel.setText("This activity conflicts with an existing activity.");
+                showErrorAlert("Please select time in event \n" + event.getStartDate() + "     "+ event.getStartTime() + "\nto\n"+ event.getEndDate() + "     " + event.getEndTime());
             }
         }
         else if(activityName.isEmpty()){
-            errorActivityNameLabel.setText("Please fill the name");
+            showErrorAlert("Please fill the name");
+        }
+        else {
+            showErrorAlert("Please fill the time");
         }
         }
         catch (NumberFormatException e) {
@@ -184,13 +181,15 @@ public class CreateScheduleController {
 
     @FXML
     protected void deleteOnClick(){
-        System.out.println(selectedActivity.getActivityName());
-        selectedActivity.deleteActivity();
-        System.out.println(selectedActivity.getActivityName());
-        datasource.writeData(activityList);
-        updateSchedule();
-        System.out.println(selectedActivity.getActivityName());
-        showTable(activityList);
+        if(selectedActivity != null){
+            selectedActivity.deleteActivity();
+            datasource.writeData(activityList);
+            updateSchedule();
+            showTable(activityList);
+        }
+        else{
+            showErrorAlert("Please select activity");
+        }
     }
 
     @FXML
@@ -202,6 +201,13 @@ public class CreateScheduleController {
         }
     }
 
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
     @FXML
     protected void nextOnClick(){
         try {

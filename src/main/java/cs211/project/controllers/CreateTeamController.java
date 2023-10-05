@@ -102,7 +102,7 @@ public class CreateTeamController {
 
 
         for (Activity activity: list.getActivities()) {
-            if(activity.getTeamName().equals("null")){
+            if(activity.getTeamName().equals("")){
                 activityTableView.getItems().add(activity);
             }
         }
@@ -120,7 +120,7 @@ public class CreateTeamController {
                 if(!found){
                     try {
                         int number = Integer.parseInt(numberStr);
-                        Team team = new Team(teamName, number, eventName);
+                        Team team = new Team(teamName, number, event.getEventName());
                         team.createTeamInCSV();
                         selectedActivity.updateTeamInActivity(team);
                         list = event.loadActivityInEvent();

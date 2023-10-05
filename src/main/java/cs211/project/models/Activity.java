@@ -3,6 +3,7 @@ package cs211.project.models;
 import cs211.project.services.ActivityListFileDatasource;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -17,9 +18,13 @@ public class Activity {
     private String status;
     private String eventName;
     private Team team;
+    private String infoActivity;
+    private String infoTeam;
     private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-    public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName) {
+    private LocalDateTime startLocalDateTime;
+    private LocalDateTime endLocalDateTime;
+    public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName,String infoActivity,String infoTeam) {
         this.activityName = activityName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -29,6 +34,10 @@ public class Activity {
         this.participantName = participantName;
         this.status = status;
         this.eventName = eventName;
+        this.infoActivity = infoActivity;
+        this.infoTeam = infoTeam;
+        startLocalDateTime = LocalDateTime.of(startDate,startTimeActivity);
+        endLocalDateTime = LocalDateTime.of(endDate,endTimeActivity);
     }
 
     public String getActivityName() {
@@ -63,28 +72,13 @@ public class Activity {
         return eventName;
     }
     public Team getTeam(){return team;}
-
-    public boolean checkTimeActivity(LocalTime startTimeActivity, LocalTime endTimeActivity, LocalDate startDate,LocalDate endDate){
-        if(this.startDate.equals(startDate) && this.endDate.equals(endDate)){
-            if(startDate.equals(endDate)) {
-                if (endTimeActivity.isBefore(startTimeActivity)) {
-                    return true;
-                } else if (this.startTimeActivity.isBefore(endTimeActivity) && this.endTimeActivity.isAfter(startTimeActivity)) {
-                    return true;
-                } else if (this.startTimeActivity.isAfter(startTimeActivity) && this.startTimeActivity.isBefore(endTimeActivity)) {
-                    return true;
-                } else if (endTimeActivity.equals(startTimeActivity)) {
-                    return true;
-                }
-                return false;
-            }
-            else{
-                return true;
-            }
+    public String getInfoActivity(){return infoActivity;}
+    public String getInfoTeam(){return infoTeam;}
+    public boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
+        if(!this.startLocalDateTime.isAfter(startActivityTime) && !this.endLocalDateTime.isBefore(endActivityTime)){
+            return false;
         }
-        else{
-            return true;
-        }
+        return true;
     }
 
     public void setActivityStatus(String status){
