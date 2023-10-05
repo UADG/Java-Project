@@ -1,10 +1,7 @@
 package cs211.project.controllers;
 
 import cs211.project.models.*;
-import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.StaffList;
-import cs211.project.models.collections.TeamList;
+import cs211.project.models.collections.*;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -33,11 +30,15 @@ public class BanAllController {
     private Staff selectedStaff;
     private Account selectedUser;
     private TeamList list;
-    private AccountList users;
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
-    private Datasource<AccountList> dataAccount;
+    private Datasource<EventList> eventListDatasource;
+    private Datasource<AccountList> accountListDatasource;
+    private Datasource<AccountList> banUserDatasource;
+    private AccountList accountList;
+    private AccountList banUserList;
+
     private BanListFileDatasource banPath;
     private Account account;
     @FXML
@@ -47,8 +48,9 @@ public class BanAllController {
         selectedEvent = (Event) objects[1];
         clearInfo();
         updateData();
+        accountList = accountListDatasource.readData();
+        banUserList = banUserDatasource.readData();
         list = selectedEvent.loadTeamInEvent();
-        users = dataAccount.readData();
         notFirst = false;
         selectedParticipant();
         chooseRoleSingleParticipant.setSelected(true);
@@ -96,8 +98,9 @@ public class BanAllController {
 
     public void updateData(){
         data = new TeamListFileDatasource("data","team.csv");
-        dataAccount = new UserEventListFileDatasource("data", "user-joined-event.csv");
         banPath = new BanListFileDatasource("data", "ban-staff-list.csv");
+        accountListDatasource = new UserEventListFileDatasource("data", "user-joined-event.csv");
+        banUserDatasource = new UserEventListFileDatasource("data", "ban-user.csv");
     }
 
     public void setChooseTeamVisible(boolean bool){
@@ -118,7 +121,7 @@ public class BanAllController {
 
     public void showParticipant(){
         userListView.getItems().clear();
-        for(Account account: users.getAccount()){
+        for(Account account: accountList.getAccount()){
             System.out.println(account.getName());
             if(account.isEventName(selectedEvent.getEventName()))
             {
@@ -172,7 +175,6 @@ public class BanAllController {
     }
     public void banTarget(){
         if (team != null && selectedStaff != null) {
-            System.out.println("This is from Ban Team");
             updateData();
             team.banStaffInTeam(selectedStaff.getId());
             data.updateStaffInTeam(selectedEvent.getEventName(),team.getTeamName(),selectedStaff,"-");
@@ -180,12 +182,11 @@ public class BanAllController {
             banPath.updateEventToId(selectedStaff.getId(),selectedStaff.getName(),"+");
             showStaff();
         } else if (selectedUser != null) {
-            System.out.println("This is from Ban selectedParticipant");
             updateData();
-            System.out.println(selectedEvent.getEventName());
             selectedUser.deleteUserEventName(selectedEvent.getEventName());
-            System.out.println(selectedEvent.getEventName());
-            dataAccount.writeData(users);
+            banUserList.addUserEvent(selectedUser.getId(),selectedEvent.getEventName());
+            banUserDatasource.writeData(banUserList);
+            accountListDatasource.writeData(accountList);
             showParticipant();
         }
     }

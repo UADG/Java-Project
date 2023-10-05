@@ -24,7 +24,7 @@
          </font>
       </Label>
       <RadioButton fx:id="chooseRoleTeam" layoutX="531.0" layoutY="167.0" mnemonicParsing="false" onAction="#selectedTeam" text="Event organizer team" />
-      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" text="singlely participants" />
+      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" text="User join" />
       <Label fx:id="constantTeamLabel" layoutX="474.0" layoutY="205.0" text="team :">
          <font>
             <Font size="14.0" />
@@ -57,6 +57,11 @@
          </font>
       </Button>
       <ListView fx:id="userListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
@@ -124,10 +129,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
