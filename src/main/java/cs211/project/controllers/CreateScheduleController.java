@@ -21,6 +21,7 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CreateScheduleController {
@@ -41,7 +42,6 @@ public class CreateScheduleController {
     @FXML private TableView<Activity> activityTableView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     private String eventName;
     private ActivityList activityList;
@@ -76,10 +76,6 @@ public class CreateScheduleController {
         });
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
 
     private void showTable(ActivityList activityList) {
@@ -284,7 +280,12 @@ public class CreateScheduleController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

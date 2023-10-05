@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.LoginPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.LoginPageController">
    <children>
       <HBox fx:id="hBox" prefHeight="100.0" prefWidth="200.0">
          <children>
@@ -28,9 +28,9 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameText" layoutX="339.0" layoutY="292.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" stylesheets="@searchBox.css" />
-      <PasswordField fx:id="passwordText" layoutX="339.0" layoutY="327.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" stylesheets="@searchBox.css" />
-      <Button layoutX="326.0" layoutY="400.0" mnemonicParsing="false" onAction="#loginButt" prefHeight="26.0" prefWidth="114.0" stylesheets="@othersButton.css" text="Login" textFill="WHITE">
+      <TextField fx:id="usernameText" layoutX="339.0" layoutY="292.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
+      <PasswordField fx:id="passwordText" layoutX="339.0" layoutY="327.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
+      <Button layoutX="326.0" layoutY="400.0" mnemonicParsing="false" onAction="#loginButt" prefHeight="26.0" prefWidth="114.0" styleClass="default-button" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>

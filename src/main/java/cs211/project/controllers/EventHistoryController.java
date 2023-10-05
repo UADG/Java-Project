@@ -22,6 +22,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -34,7 +35,6 @@ public class EventHistoryController {
     @FXML private Label amountTicket;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
@@ -46,6 +46,8 @@ public class EventHistoryController {
     @FXML private Button banAll;
     private Event selectedEvent;
     private Account accounts = (Account) FXRouter.getData();
+    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+    private AccountList accountList = accountListDatasource.readData();
     Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
     EventList eventList = eventListDatasource.readData();
     @FXML
@@ -68,10 +70,6 @@ public class EventHistoryController {
         });
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(accounts.isAdmin(accounts.getRole())){
-            adminButton.setVisible(true);
-        }
     }
     private void showEventInfo(Event event){
         LocalDate currentDate = LocalDate.now();
@@ -317,7 +315,12 @@ public class EventHistoryController {
         FXRouter.goTo("comment-activity", accounts);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", accounts);
+    public void onLogOutButton() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        accounts.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

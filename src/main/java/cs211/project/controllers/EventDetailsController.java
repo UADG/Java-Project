@@ -18,6 +18,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class EventDetailsController {
     private Event event = (Event) FXRouter.getData();
@@ -33,7 +35,6 @@ public class EventDetailsController {
     @FXML ImageView imageView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     public void initialize(){
@@ -50,10 +51,6 @@ public class EventDetailsController {
         descriptionLabel.setText(event.getDetail());
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
     @FXML
     protected void onBackClick() {
@@ -120,7 +117,12 @@ public class EventDetailsController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

@@ -9,7 +9,7 @@
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.RegisterPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.RegisterPageController">
    <children>
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a8cee5" height="131.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
       <ImageView fitHeight="92.0" fitWidth="200.0" layoutX="200.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="200.0" AnchorPane.rightAnchor="200.0" AnchorPane.topAnchor="15.0" />
@@ -33,13 +33,13 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="nameText" layoutX="275.0" layoutY="210.0" prefHeight="26.0" prefWidth="315.0" />
-      <TextField fx:id="usernameText" layoutX="275.0" layoutY="246.0" prefHeight="26.0" prefWidth="315.0" />
-      <TextField layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" />
-      <PasswordField fx:id="passText" layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" />
-      <TextField layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" />
-      <PasswordField fx:id="confirmText" layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" />
-      <Button layoutX="530.0" layoutY="398.0" mnemonicParsing="false" onAction="#onConfirmClick" text="Confirm" />
-      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+      <TextField fx:id="nameText" layoutX="275.0" layoutY="210.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <TextField fx:id="usernameText" layoutX="275.0" layoutY="246.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <TextField layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <PasswordField fx:id="passText" layoutX="275.0" layoutY="284.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <TextField layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <PasswordField fx:id="confirmText" layoutX="275.0" layoutY="321.0" prefHeight="26.0" prefWidth="315.0" styleClass="search-box" />
+      <Button layoutX="530.0" layoutY="398.0" mnemonicParsing="false" onAction="#onConfirmClick" styleClass="default-button" text="Confirm" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
    </children>
 </AnchorPane>

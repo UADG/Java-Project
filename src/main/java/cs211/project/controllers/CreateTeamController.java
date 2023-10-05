@@ -16,7 +16,9 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class CreateTeamController {
     @FXML public TableView<Activity> activityTableView;
@@ -28,8 +30,9 @@ public class CreateTeamController {
     @FXML public Label errorLabel;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+    private AccountList accountList = accountListDatasource.readData();
     private Account account;
     public ActivityList list;
     public String eventName;
@@ -58,10 +61,6 @@ public class CreateTeamController {
         });
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
 
     public void clearInfo(){
@@ -216,7 +215,12 @@ public class CreateTeamController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

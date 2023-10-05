@@ -26,6 +26,8 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class ProfileSetPageController {
     private Account accounts = (Account) FXRouter.getData();
@@ -39,7 +41,6 @@ public class ProfileSetPageController {
     @FXML private ImageView imageView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML public void initialize(){
@@ -55,10 +56,6 @@ public class ProfileSetPageController {
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
 
     @FXML
@@ -161,7 +158,14 @@ public class ProfileSetPageController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        AccountList accountList = accountListDatasource.readData();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

@@ -2,7 +2,9 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Activity;
+import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.services.AccountListDatasource;
 import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
@@ -18,14 +20,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class ParticipantScheduleController {
     @FXML private TableView<Activity> activityTableView;
     @FXML private ComboBox chooseEvent;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     private Account account = (Account) FXRouter.getData();
 
@@ -44,10 +47,6 @@ public class ParticipantScheduleController {
         }
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
@@ -147,8 +146,15 @@ public class ParticipantScheduleController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        AccountList accountList = accountListDatasource.readData();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 
 }

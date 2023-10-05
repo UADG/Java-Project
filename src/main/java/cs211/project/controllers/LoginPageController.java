@@ -33,9 +33,6 @@ public class LoginPageController {
     @FXML private Label invalidLabel;
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
-    private Datasource<EventList> eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-    private EventList eventList = eventListDatasource.readData();
-    private Event events;
     private AccountList accountList;
     @FXML
     public void initialize() {
@@ -43,18 +40,6 @@ public class LoginPageController {
         hBox.setAlignment(Pos.CENTER);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
         this.accountList = accountListDataSource.readData();
-//            for (Event event : eventList.getEvents()) {
-//                imageView.setImage(new Image("file:" + event.getPicURL()));
-//                new java.util.Timer().schedule(
-//                        new java.util.TimerTask() {
-//                            @Override
-//                            public void run() {
-//                                imageView.setImage(new Image("file:" + event.getPicURL()));
-//                            }
-//                        },
-//                        0
-//                );
-//            }
     }
     @FXML
     public void loginButt() throws IOException {

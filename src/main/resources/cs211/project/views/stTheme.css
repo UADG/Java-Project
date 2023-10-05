@@ -1,0 +1,29 @@
+.search-box{
+    -fx-background-radius: 100;
+}
+.default-button{
+    -fx-background-color: #6d86bf;
+    -fx-background-radius: 30;
+    -fx-text-fill: "WHITE";
+}
+.default-button:hover
+{
+    -fx-background-color: #acbee7;
+}
+.default-button:pressed
+{
+    -fx-background-color: #6d86bf;
+}
+
+.menu-button
+{
+    -fx-background-color: transparent;
+}
+.menu-button:hover
+{
+    -fx-background-color: #BBCBF5;
+}
+.menu-button:pressed
+{
+    -fx-background-color: transparent;
+}

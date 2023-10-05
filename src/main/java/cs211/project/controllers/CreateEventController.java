@@ -13,8 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -27,6 +25,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -34,6 +33,8 @@ import java.util.Optional;
 
 public class CreateEventController {
     private Account account = (Account) FXRouter.getData();
+    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
+    private AccountList accountList = accountListDatasource.readData();
     private Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
     private EventList eventList = eventListDatasource.readData();
     private String errorText = "";
@@ -52,7 +53,6 @@ public class CreateEventController {
     @FXML private TextField timeParti;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML
     private void initialize(){
@@ -60,10 +60,6 @@ public class CreateEventController {
         dateEnd.setEditable(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
     }
     @FXML
     protected void onNextClick(ActionEvent events) {
@@ -285,7 +281,12 @@ public class CreateEventController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }

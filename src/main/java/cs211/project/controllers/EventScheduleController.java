@@ -22,14 +22,15 @@ import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public class EventScheduleController {
     private Account account;
     @FXML private TableView<Activity> activityTableView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
-    @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private Label infoActivity;
     private Event selectedEvent;
@@ -43,10 +44,6 @@ public class EventScheduleController {
         infoActivity.setText("");
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        adminButton.setVisible(false);
-        if(account.isAdmin(account.getRole())){
-            adminButton.setVisible(true);
-        }
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
@@ -157,7 +154,14 @@ public class EventScheduleController {
         FXRouter.goTo("comment-activity", account);
     }
     @FXML
-    public void onUserClick() throws IOException {
-        FXRouter.goTo("user-status", account);
+    public void onLogOutButton() throws IOException {
+        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        AccountList accountList = accountListDatasource.readData();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        String time = LocalDateTime.now().format(formatter);
+        account.setTime(time);
+        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource.writeData(accountList);
+        FXRouter.goTo("login-page");
     }
 }
