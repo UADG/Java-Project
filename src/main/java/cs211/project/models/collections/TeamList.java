@@ -30,7 +30,16 @@ public class TeamList {
             }
         }
     }
-
+    public void deleteTeam(Event event, String teamName){
+        for(Team team: teams){
+            System.out.println(team.getEvent().getEventName() + team.getTeamName());
+            if(team.getTeamName().contains(teamName) && team.getEvent().getEventName().contains(event.getEventName())){
+                System.out.println("team :"+team.getTeamName());
+                teams.remove(team);
+                break;
+            }
+        }
+    }
 
     public Team checkTeamExist(String name){
         for(Team team : teams){

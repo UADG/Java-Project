@@ -5,10 +5,8 @@ import cs211.project.models.Activity;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
-import cs211.project.services.AccountListDatasource;
-import cs211.project.services.ActivityListFileDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.FXRouter;
+import cs211.project.models.collections.TeamList;
+import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -53,6 +51,8 @@ public class CreateScheduleController {
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account = accountList.findAccountByUsername(event.getEventManager());
+    private Datasource<TeamList> teamListDatasource;
+    private TeamList teams;
 
 
     @FXML
@@ -60,6 +60,7 @@ public class CreateScheduleController {
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
         updateSchedule();
+        teams = teamListDatasource.readData();
         eventNameLabel.setText(eventName);
         addComboBox(event);
         showTable(activityList);
@@ -121,6 +122,7 @@ public class CreateScheduleController {
     private void updateSchedule(){
         activityList = datasource.readData();
         activityList.findActivityInEvent(eventName);
+        teamListDatasource = new TeamListFileDatasource("data","team.csv");
     }
 
     @FXML
@@ -182,7 +184,12 @@ public class CreateScheduleController {
     @FXML
     protected void deleteOnClick(){
         if(selectedActivity != null){
+            if(!selectedActivity.getTeamName().equals("")){
+                System.out.println(selectedActivity.getTeamName());
+                teams.deleteTeam(event,selectedActivity.getTeamName());
+            }
             selectedActivity.deleteActivity();
+            teamListDatasource.writeData(teams);
             datasource.writeData(activityList);
             updateSchedule();
             showTable(activityList);
