@@ -21,6 +21,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventHistoryController {
@@ -36,8 +38,12 @@ public class EventHistoryController {
     @FXML private BorderPane bPane;
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
-    @FXML
-    ListView<Event> eventListView;
+    @FXML ListView<Event> eventListView;
+    @FXML private Button editActivity;
+    @FXML private Button editDetail;
+    @FXML private Button finishActivity;
+    @FXML private Button fixSchedule;
+    @FXML private Button banAll;
     private Event selectedEvent;
     private Account accounts = (Account) FXRouter.getData();
     Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
@@ -68,19 +74,91 @@ public class EventHistoryController {
         }
     }
     private void showEventInfo(Event event){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String startDate = event.getStartDate().format(formatter);
-        String endDate = event.getEndDate().format(formatter);
-        eventName.setText(event.getEventName());
-        dateStart.setText(startDate);
-        dateEnd.setText(endDate);
-        timeStart.setText(event.getStartTime());
-        timeEnd.setText(event.getEndTime());
-        amountTicket.setText(String.format("%d",event.getTicket()));
-        if(!event.getPicURL().equals("/images/default-profile.png")){
-            imageView.setImage(new Image("file:"+event.getPicURL(), true));
-        }else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        if (event.getEndDate().isAfter(currentDate)) {
+            editActivity.setVisible(true);
+            editDetail.setVisible(true);
+            finishActivity.setVisible(true);
+            fixSchedule.setVisible(true);
+            banAll.setVisible(true);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String startDate = event.getStartDate().format(formatter);
+            String endDate = event.getEndDate().format(formatter);
+            eventName.setText(event.getEventName());
+            dateStart.setText(startDate);
+            dateEnd.setText(endDate);
+            timeStart.setText(event.getStartTime());
+            timeEnd.setText(event.getEndTime());
+            amountTicket.setText(String.format("%d", event.getTicket()));
+            if (!event.getPicURL().equals("/images/default-profile.png")) {
+                imageView.setImage(new Image("file:" + event.getPicURL(), true));
+            } else {
+                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            }
+        } else if (event.getEndDate().isEqual(currentDate)){
+            if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
+                editActivity.setVisible(true);
+                editDetail.setVisible(true);
+                finishActivity.setVisible(true);
+                fixSchedule.setVisible(true);
+                banAll.setVisible(true);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String startDate = event.getStartDate().format(formatter);
+                String endDate = event.getEndDate().format(formatter);
+                eventName.setText(event.getEventName());
+                dateStart.setText(startDate);
+                dateEnd.setText(endDate);
+                timeStart.setText(event.getStartTime());
+                timeEnd.setText(event.getEndTime());
+                amountTicket.setText(String.format("%d", event.getTicket()));
+                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                    imageView.setImage(new Image("file:" + event.getPicURL(), true));
+                } else {
+                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                }
+            } else {
+                editActivity.setVisible(false);
+                editDetail.setVisible(false);
+                finishActivity.setVisible(false);
+                fixSchedule.setVisible(false);
+                banAll.setVisible(false);
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                String startDate = event.getStartDate().format(formatter);
+                String endDate = event.getEndDate().format(formatter);
+                eventName.setText(event.getEventName());
+                dateStart.setText(startDate);
+                dateEnd.setText(endDate);
+                timeStart.setText(event.getStartTime());
+                timeEnd.setText(event.getEndTime());
+                amountTicket.setText(String.format("%d", event.getTicket()));
+                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                    imageView.setImage(new Image("file:" + event.getPicURL(), true));
+                } else {
+                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                }
+            }
+        } else {
+            editActivity.setVisible(false);
+            editDetail.setVisible(false);
+            finishActivity.setVisible(false);
+            fixSchedule.setVisible(false);
+            banAll.setVisible(false);
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String startDate = event.getStartDate().format(formatter);
+            String endDate = event.getEndDate().format(formatter);
+            eventName.setText(event.getEventName());
+            dateStart.setText(startDate);
+            dateEnd.setText(endDate);
+            timeStart.setText(event.getStartTime());
+            timeEnd.setText(event.getEndTime());
+            amountTicket.setText(String.format("%d", event.getTicket()));
+            if (!event.getPicURL().equals("/images/default-profile.png")) {
+                imageView.setImage(new Image("file:" + event.getPicURL(), true));
+            } else {
+                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            }
         }
     }
     private void showList(EventList eventList) {

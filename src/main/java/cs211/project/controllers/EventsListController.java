@@ -19,6 +19,8 @@ import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 public class EventsListController {
     private Account account = (Account) FXRouter.getData();
@@ -45,6 +47,10 @@ public class EventsListController {
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
+    @FXML private Button bookTicket;
+    @FXML private Button applyStaff;
+    @FXML private Button applyParticipant;
+
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
@@ -91,24 +97,85 @@ public class EventsListController {
     }
 
     private void showList(EventList eventList) {
-        if(textSearch.equals("")) {
-            eventListView.getItems().clear();
-            eventListView.getItems().addAll(eventList.getEvents());
-        }
-        else{
-            eventListView.getItems().clear();
-            eventListView.getItems().addAll(eventList.getSearch());
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+
+        eventListView.getItems().clear();
+        for (Event event : eventList.getEvents()) {
+            if (event.getEndDate().isAfter(currentDate)) {
+                if (textSearch.equals("")) {
+                    eventListView.getItems().add(event);
+                } else {
+                    eventListView.getItems().clear();
+                    eventListView.getItems().addAll(eventList.getSearch());
+                }
+            } else if (event.getEndDate().isEqual(currentDate)){
+                if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
+                    if (textSearch.equals("")) {
+                        eventListView.getItems().add(event);
+                    } else {
+                        eventListView.getItems().clear();
+                        eventListView.getItems().addAll(eventList.getSearch());
+                    }
+                }
+            }
         }
     }
 
     private void showEventInfo(Event event) {
-        eventNameLabel.setText(event.getEventName());
-        ticketLeftLabel.setText(String.format("%d",event.getTicketLeft()));
-        participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
-        if(!event.getPicURL().equals("/images/default-profile.png")){
-            imageView.setImage(new Image("file:"+event.getPicURL(), true));
-        }else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        LocalDate currentDate = LocalDate.now();
+        LocalTime currentTime = LocalTime.now();
+        if (event.getEndDate().isAfter(currentDate)) {
+            bookTicket.setVisible(true);
+            applyStaff.setVisible(true);
+            applyParticipant.setVisible(true);
+            eventNameLabel.setText(event.getEventName());
+            ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
+            if (!event.getPicURL().equals("/images/default-profile.png")) {
+                imageView.setImage(new Image("file:" + event.getPicURL(), true));
+            } else {
+                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            }
+        } else if (event.getEndDate().isEqual(currentDate)){
+            if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
+                bookTicket.setVisible(true);
+                applyStaff.setVisible(true);
+                applyParticipant.setVisible(true);
+                eventNameLabel.setText(event.getEventName());
+                ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
+                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                    imageView.setImage(new Image("file:" + event.getPicURL(), true));
+                } else {
+                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                }
+            } else {
+                bookTicket.setVisible(false);
+                applyStaff.setVisible(false);
+                applyParticipant.setVisible(false);
+                eventNameLabel.setText(event.getEventName());
+                ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
+                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                    imageView.setImage(new Image("file:" + event.getPicURL(), true));
+                } else {
+                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                }
+                
+            }
+        } else {
+            bookTicket.setVisible(false);
+            applyStaff.setVisible(false);
+            applyParticipant.setVisible(false);
+            eventNameLabel.setText(event.getEventName());
+            ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
+            if (!event.getPicURL().equals("/images/default-profile.png")) {
+                imageView.setImage(new Image("file:" + event.getPicURL(), true));
+            } else {
+                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            }
         }
     }
 
@@ -150,7 +217,7 @@ public class EventsListController {
         if (selectedEvent != null) {
             try {
                 if (selectedEvent.isEventManager(account.getUsername())) {
-                    showErrorAlert("You are the manager of this event.");
+                    showErrorAlert("You can't join your own event.");
                 } else if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
                 } else if(selectedEvent.getTicketLeft() > 0) {
@@ -210,35 +277,37 @@ public class EventsListController {
                     showInfoPopup("You are have team in this event already \nYour team is "+teamFound);
                 }
             }else{
-                showErrorAlert("you can't join your own event");
+                showErrorAlert("You can't join your own event.");
             }
         }else{
-            showErrorAlert("please select some event ");
+            showErrorAlert("Please select some event ");
         }
 
     }
     @FXML
     protected void onApplyToParticipantClick() {
         try {
-            if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
-                if(selectedEvent.checkParticipantIsFull()) {
-                    datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-                    activityList = datasource.readData();
-                    activityList.findActivityInEvent(selectedEvent.getEventName());
-                    if (activityList.userIsParticipant(account.getUsername())) {
-                        activityList.addParticipant(account.getUsername());
-                        datasource.writeData(activityList);
-                        FXRouter.goTo("participant-schedule", account);
+            if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+                if (!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
+                    if (selectedEvent.checkParticipantIsFull()) {
+                        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                        activityList = datasource.readData();
+                        activityList.findActivityInEvent(selectedEvent.getEventName());
+                        if (activityList.userIsParticipant(account.getUsername())) {
+                            activityList.addParticipant(account.getUsername());
+                            datasource.writeData(activityList);
+                            FXRouter.goTo("participant-schedule", account);
+                        } else {
+                            showErrorAlert("Sorry you're participant in this event");
+                        }
                     } else {
-                        showErrorAlert("Sorry you're participant in this event");
+                        showErrorAlert("Sorry participant in full");
                     }
+                } else {
+                    showErrorAlert("Sorry this event not ready for apply to participant");
                 }
-                else{
-                    showErrorAlert("Sorry participant in full");
-                }
-            }
-            else {
-                showErrorAlert("Sorry this event not ready for apply to participant");
+            } else {
+                showErrorAlert("You can't join your own event.");
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
