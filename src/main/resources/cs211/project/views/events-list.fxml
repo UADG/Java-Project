@@ -10,10 +10,12 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventsListController">
    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#bbcbf5" height="91.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
       <Label layoutX="163.0" layoutY="117.0" text="Event List" />
       <HBox fx:id="hBox" layoutX="409.0" layoutY="147.0" prefHeight="111.0" prefWidth="229.0">
          <children>
@@ -21,50 +23,49 @@
          </children>
       </HBox>
       <ListView fx:id="eventListView" layoutX="163.0" layoutY="147.0" prefHeight="277.0" prefWidth="185.0" />
-      <TextField fx:id="searchTextField" alignment="TOP_LEFT" layoutX="250.0" layoutY="65.0" prefWidth="300.0" promptText="Search Here...">
-         <font>
-            <Font name="Krub Regular" size="9.0" />
-         </font>
-      </TextField>
+      <HBox layoutX="230.0" layoutY="50.0" prefHeight="50.0" prefWidth="350.0" stylesheets="@searchBox.css">
+         <children>
+            <TextField fx:id="searchTextField" alignment="TOP_LEFT" prefWidth="300.0" promptText="Type here to search." styleClass="search-box" />
+            <Button mnemonicParsing="false" onAction="#onSearchEventButton" prefHeight="15.0" prefWidth="90.0" styleClass="search-button" text="Search" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Button>
+         </children>
+      </HBox>
       <Label layoutX="410.0" layoutY="269.0" text="Name: " />
       <Label layoutX="410.0" layoutY="299.0" text="Ticket Left:" />
       <Label fx:id="eventNameLabel" layoutX="462.0" layoutY="269.0" text="eventNameLabel" />
       <Label fx:id="ticketLeftLabel" layoutX="491.0" layoutY="299.0" text="ticketLeftLabel" />
       <Label layoutX="410.0" layoutY="329.0" text="Participant Left:" />
       <Label fx:id="participantLeftLabel" layoutX="517.0" layoutY="329.0" text="participantLeftLabel" />
-      <Button layoutX="411.0" layoutY="359.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" text="Detail">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Button>
       <ScrollBar layoutX="163.0" layoutY="424.0" prefHeight="14.0" prefWidth="185.0" />
-      <Button layoutX="411.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" text="Book tickets">
+      <Button layoutX="411.0" layoutY="370.0" mnemonicParsing="false" onAction="#onDetailClick" prefHeight="24.0" prefWidth="96.0" stylesheets="@othersButton.css" text="Detail" textFill="WHITE">
          <font>
-            <Font size="11.0" />
+            <Font name="System Bold" size="12.0" />
+         </font></Button>
+      <Button layoutX="517.0" layoutY="370.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" stylesheets="@othersButton.css" text="apply for staff" textFill="WHITE">
+         <font>
+            <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="359.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="119.0" text="apply for staff">
+      <Button layoutX="411.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" stylesheets="@othersButton.css" text="Book tickets" textFill="WHITE">
          <font>
-            <Font size="11.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="119.0" text="apply for participant">
+      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="119.0" stylesheets="@othersButton.css" text="apply for participant" textFill="WHITE">
          <font>
-            <Font size="11.0" />
+            <Font name="System Bold" size="12.0" />
          </font>
       </Button>
       <Label fx:id="errorLabelBook" layoutX="412.0" layoutY="450.0" text="errorLabel" textFill="#f20000" />
-      <Button layoutX="572.0" layoutY="62.0" mnemonicParsing="false" onAction="#onSearchEventButton" prefHeight="24.0" prefWidth="96.0" text="Search">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Button>
       <Label fx:id="errorLabelApplyToParticipants" layoutX="521.0" layoutY="450.0" prefHeight="17.0" prefWidth="186.0" text="errorLabel" textFill="#f20000" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="150.0" prefHeight="450.0" prefWidth="200.0">
+                  <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
                         <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Home" textFill="WHITE">
                            <font>
@@ -101,12 +102,12 @@
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#onComment" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="comment" textFill="WHITE">
+                        <Button mnemonicParsing="false" onAction="#onComment" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Comment" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
                         </Button>
-                        <Button fx:id="adminButton" mnemonicParsing="false" onAction="#onUserClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="User" textFill="WHITE">
+                        <Button fx:id="adminButton" mnemonicParsing="false" onAction="#onUserClick" prefHeight="49.0" prefWidth="200.0" stylesheets="@buttonOnClick.css" text="Log out" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
                            </font>
@@ -127,7 +128,7 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@othersButton.css" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
