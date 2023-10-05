@@ -9,8 +9,11 @@ import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -22,26 +25,39 @@ import java.io.IOException;
 import java.time.LocalTime;
 
 public class EventScheduleController {
-    private Event event = (Event) FXRouter.getData();
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(event.getEventManager());
+    private Account account;
     @FXML private TableView<Activity> activityTableView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private Label infoActivity;
     private Event selectedEvent;
+    private Activity selectedActivity;
     @FXML
     public void initialize() {
-        selectedEvent = (Event) FXRouter.getData();
+        Object[] objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        selectedEvent = (Event) objects[1];
         showTable(selectedEvent.loadActivityInEvent());
+        infoActivity.setText("");
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         adminButton.setVisible(false);
         if(account.isAdmin(account.getRole())){
             adminButton.setVisible(true);
         }
+        activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
+            @Override
+            public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
+                if (newValue == null) {
+                    selectedActivity = null;
+                } else {
+                    selectedActivity = newValue;
+                    infoActivity.setText(selectedActivity.getInfoActivity());
+                }
+            }
+        });
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");

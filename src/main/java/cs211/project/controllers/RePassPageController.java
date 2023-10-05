@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -36,14 +37,19 @@ public class RePassPageController {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private HBox hBox;
     private Account accounts = (Account) FXRouter.getData();
     Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDataSource.readData();
     private Account account = accountList.findAccountByUsername(accounts.getUsername());
     @FXML
     public void initialize(){
-        Image image = new Image(getClass().getResource("/images/default-profile.png").toExternalForm());
-        imageView.setImage(image);
+        if(!account.getPictureURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         usernameLabel.setText(account.getUsername());
         myText.setVisible(false);
         myRectangle.setVisible(false);

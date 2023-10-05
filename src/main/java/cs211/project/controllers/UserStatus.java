@@ -14,6 +14,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -34,12 +35,14 @@ public class UserStatus {
     @FXML private Button menuButton;
     @FXML private Button adminButton;
     @FXML private BorderPane bPane;
+    @FXML private HBox hBox;
     private Account account = (Account) FXRouter.getData();
     private Account selectedAccount;
     private AccountList accountList;
 
     @FXML
     private void initialize() {
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         clearDataInfo();
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         accountList = accountListDatasource.readData();

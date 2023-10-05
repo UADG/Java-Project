@@ -178,8 +178,11 @@ public class JoinedHistoryController {
     @FXML
     public void onOpenSchedule() {
         if(selectedEvent!=null){
+            Object[] objects = new Object[2];
+            objects[0] = account;
+            objects[1] = eventList.findEventByEventName(selectedEvent);
             try{
-                FXRouter.goTo("event-schedule",eventList.findEventByEventName(selectedEvent));
+                FXRouter.goTo("event-schedule",objects);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }

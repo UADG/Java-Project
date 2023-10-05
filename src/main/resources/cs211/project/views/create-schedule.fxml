@@ -15,7 +15,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
    <children>
-      <Label layoutX="77.0" layoutY="61.0" text="List of Schedules">
+      <Label layoutX="77.0" layoutY="61.0" text="event name : ">
          <font>
             <Font size="20.0" />
          </font>
@@ -38,49 +38,9 @@
       </Label>
       <ComboBox fx:id="chooseMinTimeStart" layoutX="663.0" layoutY="223.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <TextField fx:id="activityTextField" layoutX="606.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new activity" />
-      <Button layoutX="567.0" layoutY="342.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" text="Add Activity" />
-      <Line endX="140.0" layoutX="597.0" layoutY="373.0" startX="-100.0" />
-      <Label layoutX="493.0" layoutY="382.0" text="Activity :">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="activityNameLabel" layoutX="565.0" layoutY="379.0" prefHeight="27.0" prefWidth="189.0" text="Name">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Button fx:id="delete" layoutX="567.0" layoutY="499.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" text="Delete" />
-      <Label layoutX="492.0" layoutY="434.0" text="Time Start :">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="timeStartLabel" layoutX="568.0" layoutY="431.0" prefHeight="27.0" prefWidth="198.0" text="Time Start">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="492.0" layoutY="407.0" text="Date :">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="dateLabel" layoutX="536.0" layoutY="405.0" prefHeight="25.0" prefWidth="231.0" text="Date">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label layoutX="492.0" layoutY="461.0" text="Time Stop :">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="timeStopLabel" layoutX="566.0" layoutY="459.0" prefHeight="25.0" prefWidth="189.0" text="Time Stop">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <Button layoutX="567.0" layoutY="500.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" text="Add Activity" />
+      <Line endX="140.0" layoutX="602.0" layoutY="483.0" startX="-100.0" />
+      <Button fx:id="delete" layoutX="567.0" layoutY="551.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" text="Delete" />
       <Label layoutX="491.0" layoutY="261.0" text="Time Stop :">
          <font>
             <Font size="14.0" />
@@ -101,18 +61,20 @@
             <TableColumn prefWidth="129.0" text="C3" />
         </columns>
       </TableView>
-      <Label fx:id="errorActivityNameLabel" layoutX="611.0" layoutY="128.0" text="errorActivityName" textFill="#eb0202">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="errorTimeLabel" layoutX="687.0" layoutY="346.0" text="errorTime" textFill="#eb0202">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
       <DatePicker fx:id="startDate" layoutX="566.0" layoutY="189.0" prefHeight="26.0" prefWidth="178.0" />
       <DatePicker fx:id="endDate" layoutX="567.0" layoutY="258.0" prefHeight="26.0" prefWidth="178.0" />
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
+      <Label fx:id="eventNameLabel" layoutX="197.0" layoutY="61.0" text="event name">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Button layoutX="63.0" layoutY="16.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" text="Back" />
+      <TextField fx:id="infoActivityTextField" alignment="TOP_LEFT" layoutX="493.0" layoutY="336.0" prefHeight="137.0" prefWidth="254.0" promptText="info activity" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
@@ -180,10 +142,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" stylesheets="@onMenuButton.css" text="Menu" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

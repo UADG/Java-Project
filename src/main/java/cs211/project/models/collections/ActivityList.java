@@ -3,6 +3,7 @@ package cs211.project.models.collections;
 import cs211.project.models.Activity;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 
@@ -15,11 +16,11 @@ public class ActivityList {
         allActivities = new ArrayList<>();
         activities = new ArrayList<>();
     }
-    public void addActivity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName, String participantName, String status, String eventName){
+    public void addActivity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName, String participantName, String status, String eventName, String infoActivity,String infoTeam){
         activityName = activityName.trim();
-        allActivities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
+        allActivities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam));
         if(!activities.isEmpty()){
-            activities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName));
+            activities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam));
         }
     }
 
@@ -35,20 +36,26 @@ public class ActivityList {
         }
 
     }
-    public boolean checkActivity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity){
+    public boolean checkActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
         if(!activities.isEmpty()) {
             for (Activity activity : activities) {
-                if (activity.isActivity(activityName)) {
-                    return false;
-                } else if (activity.checkTimeActivity(startTimeActivity, endTimeActivity, startDate, endDate)) {
+                 if (!activity.checkTimeActivity(startActivityTime,endActivityTime)) {
                     return false;
                 }
             }
         }
-        if(startTimeActivity.isBefore(endTimeActivity)) {
+        if(startActivityTime.isBefore(endActivityTime)) {
             return true;
         }
         return false;
+    }
+    public boolean checkActivityName(String activityName){
+        for(Activity activity: activities){
+            if (activity.isActivity(activityName)) {
+                return false;
+            }
+        }
+        return true;
     }
     public void addParticipant(String id) {
         for(Activity activity : activities){

@@ -78,8 +78,10 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String participantName = data[6].trim();
                 String status = data[7].trim();
                 String eventName = data[8].trim();
+                String infoActivity = data[9].trim();
+                String infoTeam = data[10].trim();
                 // เพิ่มข้อมูลลงใน list
-                activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName);
+                activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -112,7 +114,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (Activity activity : data.getAllActivities()) {
                 if(!activity.getActivityName().equals("")) {
-                    String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName();
+                    String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName() + "," + activity.getInfoActivity() + "," + activity.getInfoTeam();
                     buffer.append(line);
                     buffer.append("\n");
                 }
