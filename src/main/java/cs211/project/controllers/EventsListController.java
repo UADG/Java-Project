@@ -157,7 +157,10 @@ public class EventsListController {
                     selectedEvent.ticketBuy();
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
-                    FXRouter.goTo("event-schedule", selectedEvent);
+                    Object[] objects = new Object[2];
+                    objects[0] = account;
+                    objects[1] = selectedEvent;
+                    FXRouter.goTo("event-schedule", objects);
                 }
                 else {
                     errorLabelBook.setText("Sorry, tickets for this event are sold out.");
