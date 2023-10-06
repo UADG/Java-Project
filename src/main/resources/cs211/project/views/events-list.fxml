@@ -47,17 +47,17 @@
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Button layoutX="517.0" layoutY="370.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="160.0" styleClass="default-button" text="Apply for staff" textFill="WHITE">
+      <Button fx:id="applyStaff" layoutX="517.0" layoutY="370.0" mnemonicParsing="false" onAction="#onApplyToStaffClick" prefWidth="160.0" styleClass="default-button" text="Apply for staff" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="411.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" styleClass="default-button" text="Book tickets" textFill="WHITE">
+      <Button fx:id="bookTicket" layoutX="411.0" layoutY="420.0" mnemonicParsing="false" onAction="#onBookTicketsClick" prefHeight="24.0" prefWidth="96.0" styleClass="default-button" text="Book tickets" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Button layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="160.0" styleClass="default-button" text="Apply for participant" textFill="WHITE">
+      <Button fx:id="applyParticipant" layoutX="517.0" layoutY="422.0" mnemonicParsing="false" onAction="#onApplyToParticipantClick" prefWidth="160.0" styleClass="default-button" text="Apply for participant" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
