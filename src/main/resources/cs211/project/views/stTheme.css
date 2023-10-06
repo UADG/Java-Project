@@ -5,6 +5,8 @@
     -fx-background-color: #6d86bf;
     -fx-background-radius: 30;
     -fx-text-fill: "WHITE";
+    -fx-font-weight: bold;
+    -fx-font-family: "System";
 }
 .default-button:hover
 {

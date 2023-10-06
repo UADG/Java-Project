@@ -56,6 +56,14 @@ public class LoginPageController {
                     FXRouter.goTo("events-list", account);
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
+                    try{
+                    if(account.getRole().equals("admin")){
+                        FXRouter.goTo("user-status",account);
+                    }else{
+                        FXRouter.goTo("events-list", account);
+                    }}catch(IOException e){
+                        showAlert("Program Error");
+                    }
                 } else {
                     invalidLabel.setText("Wrong password.");
                     invalidLabel.setVisible(true);
