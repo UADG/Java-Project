@@ -39,6 +39,14 @@ public class Account implements Comparable<Account>{
         }
     }
 
+    public void changeName(String oldName, String newName) {
+        for (int i = 0; i < allEventUser.size(); i++) {
+            if (oldName.equals(allEventUser.get(i))) {
+                allEventUser.set(i, newName);
+            }
+        }
+    }
+
     public String getEventName(String name) {
         for (String event : allEventUser) {
             if (event.equals(name)) {

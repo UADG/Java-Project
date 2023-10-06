@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Objects;
 import java.util.Optional;
 
 public class EditEventController {
@@ -70,7 +69,6 @@ public class EditEventController {
     private AccountList accountList;
     private Account account;
     private AccountList accountJoinList;
-    private Account accountJoined;
 
     @FXML
     private void initialize() {
@@ -203,13 +201,9 @@ public class EditEventController {
             } else {
                 String thisEvent = event.getEventName();
                 for (Account account1 : accountJoinList.getAccount()) {
-                    System.out.println(account1.getAllEventUser());
                     for (String event1 : account1.getAllEventUser()) {
                         if (event1.equals(thisEvent)) {
-                            account1.getEventName(event1);
-                            System.out.println(account1.getName());
-                            account1.deleteUserEventName(thisEvent);
-                            account1.addUserEventName(name);
+                            account1.changeName(event1, name);
                             event.setEventName(name);
                         }
                     }
