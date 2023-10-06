@@ -8,9 +8,11 @@ import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -31,11 +33,17 @@ public class JoinedHistoryController {
     @FXML
     private Label statusLabel;
     @FXML
-    private ImageView imageUserView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private Button cancelEvent;
+    private ImageView imageView;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private Button cancelEvent;
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
     Account account;
@@ -47,6 +55,7 @@ public class JoinedHistoryController {
     @FXML
     public void initialize() {
         clearEventInfo();
+        hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
 
         datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
@@ -121,18 +130,28 @@ public class JoinedHistoryController {
         eventNameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         statusLabel.setText("Still being organized.");
+        if (!event.getPicURL().equals("/images/default-profile.png")) {
+            imageView.setImage(new Image("file:" + event.getPicURL(), true));
+        } else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     private void showEventFinishInfo(Event event) {
         eventNameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         statusLabel.setText("Finished");
+        if (!event.getPicURL().equals("/images/default-profile.png")) {
+            imageView.setImage(new Image("file:" + event.getPicURL(), true));
+        } else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
     }
 
     private void clearEventInfo() {
         eventNameLabel.setText("");
         dateLabel.setText("");
-        imageUserView.setImage(null);
+        imageView.setImage(null);
     }
 
     @FXML
