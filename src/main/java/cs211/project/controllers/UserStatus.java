@@ -88,4 +88,12 @@ public class UserStatus {
         timeLabel.setText("");
         imageUserView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
+    @FXML
+    private void onBackClick()throws IOException{
+        FXRouter.goTo("login-page");
+    }
+    @FXML
+    private void onChangePasswordClick()throws IOException{
+        FXRouter.goTo("re-password",account);
+    }
 }

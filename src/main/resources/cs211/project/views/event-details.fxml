@@ -11,7 +11,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventDetailsController">
    <children>
-      <Button layoutX="75.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" text="Back" />
+      <Button layoutX="75.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
       <HBox fx:id="hBox" layoutX="139.0" layoutY="147.0" prefHeight="100.0" prefWidth="200.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="165.0" fitWidth="270.0" pickOnBounds="true" preserveRatio="true" />
