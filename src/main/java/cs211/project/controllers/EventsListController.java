@@ -52,7 +52,7 @@ public class EventsListController {
     @FXML private Button bookTicket;
     @FXML private Button applyStaff;
     @FXML private Button applyParticipant;
-    @FXML private Button changeTheme;
+
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
@@ -65,7 +65,7 @@ public class EventsListController {
 
     @FXML
     public void initialize() {
-        loadTheme("st-theme.css");
+        loadTheme("dark-theme.css");
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
@@ -106,26 +106,19 @@ public class EventsListController {
         LocalTime currentTime = LocalTime.now();
 
         eventListView.getItems().clear();
-        for (Event event : eventList.getEvents()) {
-            if (event.getEndDate().isAfter(currentDate)) {
-                if (textSearch.equals("")) {
-                    eventListView.getItems().add(event);
-                } else if (event.getEndDate().isEqual(currentDate)) {
-                    if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
-                            eventListView.getItems().add(event);
-                    }
-                }
-            }
-        }
-        else{
-            for (Event event : eventList.getSearch()) {
-                if (event.getEndDate().isAfter(currentDate) || event.getEndDate().isEqual(currentDate)) {
+        if (textSearch.equals("")) {
+            for (Event event : eventList.getEvents()) {
+                if (event.getEndDate().isAfter(currentDate)) {
                     eventListView.getItems().add(event);
                 } else if (event.getEndDate().isEqual(currentDate)) {
                     if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
                         eventListView.getItems().add(event);
                     }
                 }
+            }
+        } else {
+            for (Event event : eventList.getSearch()) {
+                eventListView.getItems().add(event);
             }
         }
     }

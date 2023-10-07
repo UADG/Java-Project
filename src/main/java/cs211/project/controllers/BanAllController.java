@@ -244,6 +244,15 @@ public class BanAllController {
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", account);
     }
+
+    @FXML
+    protected void backOnClick(){
+        try {
+            FXRouter.goTo("event-history", account);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
     @FXML
     public void onLogOutButton() throws IOException {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");

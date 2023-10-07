@@ -370,7 +370,7 @@ public class EditEventController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("event-history");
+            FXRouter.goTo("event-history", account);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -17,7 +17,7 @@
    <children>
       <ScrollPane fx:id="commentScrollPane" layoutX="138.0" layoutY="202.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="330.0" prefWidth="525.0" vvalue="1.0">
          <content>
-            <TextFlow fx:id="commentTextFlow" styleClass="text-field" translateX="6.0" translateY="6.0" />
+            <TextFlow fx:id="commentTextFlow" styleClass="text-flow" translateX="6.0" translateY="6.0" />
          </content>
       </ScrollPane>
       <Label layoutX="143.0" layoutY="61.0" styleClass="text-field" text="Event: ">

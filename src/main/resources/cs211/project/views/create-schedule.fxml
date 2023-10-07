@@ -39,7 +39,7 @@
       <ComboBox fx:id="chooseMinTimeStart" layoutX="663.0" layoutY="223.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <TextField fx:id="activityTextField" layoutX="606.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new activity" styleClass="search-box" />
       <Button layoutX="567.0" layoutY="500.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" styleClass="default-button" text="Add Activity" />
-      <Line endX="140.0" layoutX="602.0" layoutY="483.0" startX="-100.0" styleClass="web-view" />
+      <Line endX="140.0" layoutX="602.0" layoutY="483.0" startX="-100.0" />
       <Button fx:id="delete" layoutX="567.0" layoutY="551.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" styleClass="default-button" text="Delete" />
       <Label layoutX="491.0" layoutY="261.0" styleClass="text-field" text="Time Stop :">
          <font>
@@ -68,8 +68,13 @@
             <Font size="20.0" />
          </font>
       </Label>
-      <Button layoutX="63.0" layoutY="16.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" text="Back" />
+      <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" styleClass="default-button" text="Back" />
       <TextField fx:id="infoActivityTextField" alignment="TOP_LEFT" layoutX="493.0" layoutY="336.0" prefHeight="137.0" prefWidth="254.0" promptText="info activity" styleClass="search-box-default" />
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
@@ -139,10 +144,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

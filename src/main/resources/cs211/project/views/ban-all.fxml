@@ -12,6 +12,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
    <children>
+      <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" styleClass="default-button" text="Back" />
       <Label layoutX="55.0" layoutY="63.0" styleClass="text-field" text="List of participants">
          <font>
             <Font size="20.0" />

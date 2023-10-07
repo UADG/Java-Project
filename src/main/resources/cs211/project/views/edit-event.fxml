@@ -13,6 +13,7 @@
 
 <AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
    <children>
+      <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="26.0" prefWidth="48.0" styleClass="default-button" text="Back" />
       <Label layoutX="157.0" layoutY="252.0" styleClass="text-field" text="Event Name: " />
       <Label layoutX="168.0" layoutY="287.0" styleClass="text-field" text="Start Date:" />
       <TextField fx:id="eventNameTextField" layoutX="238.0" layoutY="248.0" prefWidth="123.0" styleClass="search-box" />
