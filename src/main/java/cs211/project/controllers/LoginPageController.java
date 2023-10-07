@@ -32,20 +32,26 @@ public class LoginPageController {
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
-    private AccountList accountList;
     private boolean isLightTheme = true;
+    private AccountList accountList;
+    private Object[] objects;
     @FXML
     public void initialize() {
         invalidLabel.setVisible(false);
         hBox.setAlignment(Pos.CENTER);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
         this.accountList = accountListDataSource.readData();
+        loadTheme(isLightTheme);
     }
     @FXML
     public void loginButt() throws IOException {
         String username = usernameText.getText().trim();
         String password = passwordText.getText().trim();
         Account account = accountList.findAccountByUsername(username);
+        objects = new Object[2];
+        objects[0] = account;
+        objects[1] = isLightTheme;
+
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
             if(account.isUnban(account.getUserStatus())) {
@@ -53,14 +59,14 @@ public class LoginPageController {
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     String time = LocalDateTime.now().format(formatter);
                     account.setTime(time);
-                    FXRouter.goTo("events-list", account);
+                    FXRouter.goTo("events-list", objects);
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
                     try{
                     if(account.getRole().equals("admin")){
-                        FXRouter.goTo("user-status",account);
+                        FXRouter.goTo("user-status", objects);
                     }else{
-                        FXRouter.goTo("events-list", account);
+                        FXRouter.goTo("events-list", objects);
                     }}catch(IOException e){
                         showAlert("Program Error");
                     }
@@ -95,7 +101,7 @@ public class LoginPageController {
     }
     @FXML
     public void registerLink(ActionEvent event) throws IOException {
-        FXRouter.goTo("register-page");
+        FXRouter.goTo("register-page", isLightTheme);
     }
     public void clearData(){
         usernameText.setText("");
@@ -117,6 +123,14 @@ public class LoginPageController {
             loadTheme("st-theme.css");
         }
         isLightTheme = !isLightTheme;
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
     }
 
     private void loadTheme(String themeName) {

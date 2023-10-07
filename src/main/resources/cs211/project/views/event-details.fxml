@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventDetailsController">
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventDetailsController">
    <children>
       <Button layoutX="75.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
       <HBox fx:id="hBox" layoutX="139.0" layoutY="147.0" prefHeight="100.0" prefWidth="200.0">

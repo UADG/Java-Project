@@ -30,14 +30,23 @@ public class UserStatus {
     private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
-
-    @FXML private HBox hBox;
-    private Account account = (Account) FXRouter.getData();
+    @FXML
+    private HBox hBox;
+    @FXML
+    private AnchorPane parent;
+    private Account account;
+    private Boolean isLightTheme;
     private Account selectedAccount;
     private AccountList accountList;
+    private Object[] objects;
 
     @FXML
     private void initialize() {
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
+
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         clearDataInfo();
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
@@ -89,11 +98,27 @@ public class UserStatus {
         imageUserView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
     @FXML
-    private void onBackClick()throws IOException{
+    private void onBackClick() throws IOException {
         FXRouter.goTo("login-page");
     }
     @FXML
-    private void onChangePasswordClick()throws IOException{
-        FXRouter.goTo("re-password",account);
+    private void onChangePasswordClick() throws IOException {
+        FXRouter.goTo("re-password", objects);
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

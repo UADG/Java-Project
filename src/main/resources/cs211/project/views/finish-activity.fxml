@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
    <children>
       <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
       <Button layoutX="523.0" layoutY="308.0" mnemonicParsing="false" onAction="#finishActivity" prefHeight="27.0" prefWidth="137.0" styleClass="default-button" text="Finish Activity" />

@@ -58,6 +58,10 @@ public class EditEventController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
+    @FXML private AnchorPane parent;
+    private Object[] objects;
+    private Object[] objectsSend;
+    private Boolean isLightTheme;
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> joinedEventDatasource;
@@ -74,9 +78,18 @@ public class EditEventController {
     private void initialize() {
         clearErrorMessage();
 
-        Event data = (Event) FXRouter.getData();
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        events = (Event) objects[1];
+        isLightTheme = (Boolean) objects[2];
+
+        objectsSend = new Object[2];
+        objectsSend[0] = account;
+        objectsSend[1] = isLightTheme;
+        loadTheme(isLightTheme);
+
         currentDate = LocalDate.now();
-        events = (Event) FXRouter.getData();
+
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         joinedEventDatasource = new UserEventListFileDatasource("data", "user-joined-event.csv");
@@ -85,7 +98,7 @@ public class EditEventController {
         accountList = accountListDatasource.readData();
         accountJoinList = joinedEventDatasource.readData();
 
-        event = eventList.findEventByEventName(data.getEventName());
+        event = eventList.findEventByEventName(events.getEventName());
         account = accountList.findAccountByUsername(events.getEventManager());
 
         showInfo(event);
@@ -370,7 +383,7 @@ public class EditEventController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("event-history", account);
+            FXRouter.goTo("event-history", objectsSend);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -401,35 +414,35 @@ public class EditEventController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objectsSend);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objectsSend);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objectsSend);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objectsSend);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objectsSend);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objectsSend);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objectsSend);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objectsSend);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -439,5 +452,21 @@ public class EditEventController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

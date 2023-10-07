@@ -41,12 +41,21 @@ public class RePassPageController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private Button backButton;
-    private Account accounts = (Account) FXRouter.getData();
+    @FXML private AnchorPane parent;
+    private Object[] objects;
+    private Account accounts;
+    private Boolean isLightTheme;
     Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDataSource.readData();
-    private Account account = accountList.findAccountByUsername(accounts.getUsername());
+    private Account account;
     @FXML
     public void initialize(){
+        objects = (Object[]) FXRouter.getData();
+        accounts = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
+
+        account = accountList.findAccountByUsername(accounts.getUsername());
         if(account.getRole().equals("admin")){
             menuButton.setVisible(false);
             backButton.setLayoutX(14);
@@ -120,9 +129,9 @@ public class RePassPageController {
     protected void onBackClick() throws IOException {
         System.out.println(account.getRole());
         if (account.getRole().equals("user")) {
-            FXRouter.goTo("profile-setting", account);
+            FXRouter.goTo("profile-setting", objects);
         } else {
-            FXRouter.goTo("user-status", account);
+            FXRouter.goTo("user-status", objects);
         }
     }
     @FXML
@@ -151,35 +160,35 @@ public class RePassPageController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -191,5 +200,21 @@ public class RePassPageController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

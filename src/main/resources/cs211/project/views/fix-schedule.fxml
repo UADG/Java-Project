@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FixScheduleController">
+<AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FixScheduleController">
    <children>
       <Button fx:id="back" layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="25.0" prefWidth="49.0" styleClass="default-button" text="back" />
       <Label layoutX="77.0" layoutY="73.0" styleClass="text-field" text="List of Activity">

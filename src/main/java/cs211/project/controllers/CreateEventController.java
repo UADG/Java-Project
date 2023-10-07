@@ -32,7 +32,7 @@ import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 public class CreateEventController {
-    private Account account = (Account) FXRouter.getData();
+    private Account account;
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
@@ -54,12 +54,21 @@ public class CreateEventController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private AnchorPane parent;
+    private Boolean isLightTheme;
+    private Object[] objects;
+
     @FXML
     private void initialize(){
         dateStart.setEditable(false);
         dateEnd.setEditable(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
+        objects = (Object[]) FXRouter.getData();
+
+        account = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
     }
     @FXML
     protected void onNextClick(ActionEvent events) {
@@ -188,7 +197,10 @@ public class CreateEventController {
                 Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
                 AccountList accountList = accountListDatasource.readData();
                 Account account1 = accountList.findAccountByUsername(newEvent.getEventManager());
-                FXRouter.goTo("event-history", account1);
+                Object[] objects1 = new Object[2];
+                objects1[0] = account1;
+                objects1[1] = isLightTheme;
+                FXRouter.goTo("event-history", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -250,35 +262,35 @@ public class CreateEventController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -288,5 +300,21 @@ public class CreateEventController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }
