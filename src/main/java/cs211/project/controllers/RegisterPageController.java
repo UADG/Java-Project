@@ -9,6 +9,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -18,10 +19,20 @@ import java.time.format.DateTimeFormatter;
 public class RegisterPageController {
     Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDatasource.readData();
-    @FXML TextField nameText;
-    @FXML TextField usernameText;
-    @FXML TextField passText;
-    @FXML TextField confirmText;
+    @FXML private TextField nameText;
+    @FXML private TextField usernameText;
+    @FXML private TextField passText;
+    @FXML private TextField confirmText;
+    @FXML private AnchorPane parent;
+    private Boolean isLightTheme;
+
+    @FXML
+    private void initialize() {
+        isLightTheme = (Boolean) FXRouter.getData();
+        loadTheme(isLightTheme);
+    }
+
+
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("login-page");
     }
@@ -96,5 +107,21 @@ public class RegisterPageController {
         usernameText.setText("");
         passText.setText("");
         confirmText.setText("");
+    }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

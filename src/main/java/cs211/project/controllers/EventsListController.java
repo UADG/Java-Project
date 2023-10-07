@@ -25,7 +25,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventsListController {
-    private Account account = (Account) FXRouter.getData();
+    private Account account;
     private AccountList accountList;
 
     @FXML
@@ -61,11 +61,17 @@ public class EventsListController {
     private String textSearch = "";
     private Event selectedEvent;
     private ActivityList activityList;
-    private boolean isLightTheme = true;
+    private Object[] objects;
+    private Object[] objectsSend;
+    private Boolean isLightTheme;
 
     @FXML
     public void initialize() {
-        loadTheme("dark-theme.css");
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
+
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
@@ -79,7 +85,7 @@ public class EventsListController {
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         slide.setTranslateX(-200);
-        account  = accountList.findAccountByUsername(account.getUsername());
+        account = accountList.findAccountByUsername(account.getUsername());
         showList(eventList);
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
             @Override
@@ -202,7 +208,11 @@ public class EventsListController {
     protected void onDetailClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("event-details", selectedEvent);
+                Object[] objects1 = new Object[3];
+                objects1[0] = account;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
+                FXRouter.goTo("event-details", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -225,10 +235,11 @@ public class EventsListController {
                     selectedEvent.ticketBuy();
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
-                    Object[] objects = new Object[2];
-                    objects[0] = account;
-                    objects[1] = selectedEvent;
-                    FXRouter.goTo("event-schedule", objects);
+                    Object[] objects1 = new Object[3];
+                    objects1[0] = account;
+                    objects1[1] = selectedEvent;
+                    objects1[2] = isLightTheme;
+                    FXRouter.goTo("event-schedule", objects1);
                 }
                 else {
                     errorLabelBook.setText("Sorry, tickets for this event are sold out.");
@@ -274,7 +285,7 @@ public class EventsListController {
                                 String teamName = teams.findLowestStaffTeam().getTeamName();
                                 data.updateStaffInTeam(selectedEvent.getEventName(), teamName, new Staff(account), "+");
                                 showInfoPopup("You are in " + teamName + " team");
-                                FXRouter.goTo("team-schedule", account);
+                                FXRouter.goTo("team-schedule", objects);
                             } catch (NullPointerException e) {
                                 showErrorAlert("Sorry, there are no available seats at the moment.");
                             }
@@ -308,7 +319,7 @@ public class EventsListController {
                         if (selectedEvent.checkParticipantIsFull()) {
                             activityList.addParticipant(account.getUsername());
                             datasource.writeData(activityList);
-                            FXRouter.goTo("participant-schedule", account);
+                            FXRouter.goTo("participant-schedule", objects);
                         } else {
                             showErrorAlert("Sorry, participant in full.");
                         }
@@ -367,45 +378,37 @@ public class EventsListController {
         });
     }
 
-    private void loadTheme(String themeName) {
-        if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        }
-    }
-
     @FXML
     public void onHomeClick() throws IOException {
 
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -425,5 +428,23 @@ public class EventsListController {
             loadTheme("st-theme.css");
         }
         isLightTheme = !isLightTheme;
+        objects[1] = isLightTheme;
     }
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
+    }
+
 }
