@@ -18,12 +18,10 @@ import java.time.format.DateTimeFormatter;
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.util.Duration;
 
@@ -33,7 +31,9 @@ public class LoginPageController {
     @FXML private Label invalidLabel;
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
+    @FXML private AnchorPane parent;
     private AccountList accountList;
+    private boolean isLightTheme = true;
     @FXML
     public void initialize() {
         invalidLabel.setVisible(false);
@@ -107,5 +107,23 @@ public class LoginPageController {
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
+    }
+
+    @FXML
+    protected void onChangeTheme() {
+        if (isLightTheme) {
+            loadTheme("dark-theme.css");
+        } else {
+            loadTheme("st-theme.css");
+        }
+        isLightTheme = !isLightTheme;
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

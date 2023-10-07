@@ -10,41 +10,41 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateTeamController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateTeamController">
    <children>
-      <Label layoutX="55.0" layoutY="95.0" text="List of Activity in Event">
+      <Label layoutX="55.0" layoutY="95.0" styleClass="text-field" text="List of Activity in Event">
          <font>
             <Font size="16.0" />
          </font>
       </Label>
-      <Button layoutX="75.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="25.0" prefWidth="41.0" text="back" />
-      <Label layoutX="451.0" layoutY="164.0" text="Activity's name :">
+      <Button layoutX="73.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" prefHeight="25.0" prefWidth="49.0" styleClass="default-button" text="back" />
+      <Label layoutX="451.0" layoutY="164.0" styleClass="text-field" text="Activity's name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" layoutX="555.0" layoutY="161.0" prefHeight="27.0" prefWidth="191.0" text="Name">
+      <Label fx:id="nameLabel" layoutX="555.0" layoutY="161.0" prefHeight="27.0" prefWidth="191.0" styleClass="text-field" text="Name">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="451.0" layoutY="191.0" text="Time Start :">
+      <Label layoutX="451.0" layoutY="191.0" styleClass="text-field" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="timeStartLabel" layoutX="526.0" layoutY="188.0" prefHeight="27.0" prefWidth="198.0" text="Time Start">
+      <Label fx:id="timeStartLabel" layoutX="526.0" layoutY="188.0" prefHeight="27.0" prefWidth="198.0" styleClass="text-field" text="Time Start">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="450.0" layoutY="251.0" text="Team name :">
+      <Label layoutX="450.0" layoutY="251.0" styleClass="text-field" text="Team name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <TextField fx:id="teamNameTextField" layoutX="533.0" layoutY="249.0" prefHeight="20.0" prefWidth="191.0" styleClass="search-box" />
-      <Label layoutX="451.0" layoutY="287.0" text="Number of people:">
+      <Label layoutX="451.0" layoutY="287.0" styleClass="text-field" text="Number of people:">
          <font>
             <Font size="14.0" />
          </font>
@@ -61,21 +61,26 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" layoutX="450.0" layoutY="347.0" prefHeight="20.0" prefWidth="307.0" text="Label" textFill="RED">
+      <Label fx:id="errorLabel" layoutX="450.0" layoutY="347.0" prefHeight="20.0" prefWidth="307.0" styleClass="text-field-error" text="Label" textFill="RED">
          <font>
             <Font size="11.0" />
          </font>
       </Label>
-      <Button layoutX="704.0" layoutY="429.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="25.0" prefWidth="41.0" styleClass="default-button" text="Next" />
+      <Button layoutX="696.0" layoutY="429.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="25.0" prefWidth="49.0" styleClass="default-button" text="Next" />
       <TableView fx:id="activityTableView" layoutX="55.0" layoutY="134.0" prefHeight="375.0" prefWidth="377.0">
         <columns>
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
@@ -142,10 +147,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

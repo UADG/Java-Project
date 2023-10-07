@@ -6,50 +6,55 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.ProfileSetPageController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.ProfileSetPageController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#adb0bc" height="124.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
-      <Label layoutX="333.0" layoutY="235.0" text="Username">
+      <Pane prefHeight="124.0" prefWidth="800.0" styleClass="progress-bar" />
+      <Label layoutX="333.0" layoutY="235.0" styleClass="text-field" text="Username">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="358.0" layoutY="272.0" text="Name">
+      <Label layoutX="358.0" layoutY="272.0" styleClass="text-field" text="Name">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="355.0" layoutY="309.0" text="Profile">
+      <Label layoutX="355.0" layoutY="309.0" styleClass="text-field" text="Profile">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <Button layoutX="411.0" layoutY="305.0" mnemonicParsing="false" onAction="#onChooseButtonClick" styleClass="default-button" text="choose" />
-      <Label fx:id="usernameLabel" layoutX="411.0" layoutY="235.0" text="username">
+      <Label fx:id="usernameLabel" layoutX="411.0" layoutY="235.0" styleClass="text-field" text="username">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" layoutX="411.0" layoutY="271.0" text="name">
+      <Label fx:id="nameLabel" layoutX="411.0" layoutY="271.0" styleClass="text-field" text="name">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
       <Button layoutX="356.0" layoutY="351.0" mnemonicParsing="false" onAction="#rePassButt" styleClass="default-button" text="Change Password" />
-      <Rectangle fx:id="myRectangle" arcHeight="5.0" arcWidth="5.0" fill="#29a624" height="42.0" layoutY="558.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="800.0" />
-      <Label fx:id="myText" layoutX="669.0" layoutY="571.0" text="Your profile is set. ✓" textFill="WHITE" />
+      <Pane fx:id="myRectangle" layoutY="558.0" prefHeight="42.0" prefWidth="800.0" styleClass="text-area" />
+      <Label fx:id="myText" layoutX="669.0" layoutY="571.0" styleClass="text-field" text="Your profile is set. ✓" textFill="WHITE" />
       <HBox fx:id="hBox" layoutX="345.0" layoutY="62.0" prefHeight="124.0" prefWidth="110.0">
          <children>
             <ImageView fx:id="imageView" fitHeight="124.0" fitWidth="110.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
@@ -116,10 +121,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

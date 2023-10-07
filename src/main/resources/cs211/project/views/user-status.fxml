@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.UserStatus">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.UserStatus">
    <children>
       <ListView fx:id="accountListView" layoutX="107.0" layoutY="154.0" prefHeight="321.0" prefWidth="250.0" />
       <HBox fx:id="hBox" layoutX="428.0" layoutY="151.0" prefHeight="150.0" prefWidth="207.0">
@@ -16,37 +16,37 @@
             <ImageView fx:id="imageUserView" fitHeight="150.0" fitWidth="207.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Label layoutX="438.0" layoutY="335.0" text="Username:">
+      <Label layoutX="438.0" layoutY="335.0" styleClass="text-field" text="Username:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="463.0" layoutY="372.0" text="Name:">
+      <Label layoutX="463.0" layoutY="372.0" styleClass="text-field" text="Name:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="usernameLabel" layoutX="516.0" layoutY="335.0" text="usernameLabel">
+      <Label fx:id="usernameLabel" layoutX="516.0" layoutY="335.0" styleClass="text-field" text="usernameLabel">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" layoutX="516.0" layoutY="371.0" text="nameLabel">
+      <Label fx:id="nameLabel" layoutX="516.0" layoutY="371.0" styleClass="text-field" text="nameLabel">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="436.0" layoutY="411.0" text="Last Active:">
+      <Label layoutX="436.0" layoutY="411.0" styleClass="text-field" text="Last Active:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="timeLabel" layoutX="516.0" layoutY="411.0" text="dd/mm/yy">
+      <Label fx:id="timeLabel" layoutX="516.0" layoutY="411.0" styleClass="text-field" text="dd/mm/yy">
          <font>
             <Font size="13.0" />
          </font>
       </Label>
-      <Label layoutX="107.0" layoutY="126.0" text="User List">
+      <Label layoutX="107.0" layoutY="126.0" styleClass="text-field" text="User List">
          <font>
             <Font size="18.0" />
          </font>

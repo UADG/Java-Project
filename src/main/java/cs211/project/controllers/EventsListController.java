@@ -45,12 +45,14 @@ public class EventsListController {
     @FXML
     ImageView imageView;
     @FXML private AnchorPane slide;
+    @FXML private AnchorPane parent;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private Button bookTicket;
     @FXML private Button applyStaff;
     @FXML private Button applyParticipant;
+
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
@@ -59,9 +61,11 @@ public class EventsListController {
     private String textSearch = "";
     private Event selectedEvent;
     private ActivityList activityList;
+    private boolean isLightTheme = true;
 
     @FXML
     public void initialize() {
+        loadTheme("dark-theme.css");
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
@@ -104,24 +108,17 @@ public class EventsListController {
         eventListView.getItems().clear();
         if (textSearch.equals("")) {
             for (Event event : eventList.getEvents()) {
-                if (event.getEndDate().isAfter(currentDate) || event.getEndDate().isEqual(currentDate)) {
-                    eventListView.getItems().add(event);
-                } else if (event.getEndDate().isEqual(currentDate)) {
-                    if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
-                            eventListView.getItems().add(event);
-                    }
-                }
-            }
-        }
-        else{
-            for (Event event : eventList.getSearch()) {
-                if (event.getEndDate().isAfter(currentDate) || event.getEndDate().isEqual(currentDate)) {
+                if (event.getEndDate().isAfter(currentDate)) {
                     eventListView.getItems().add(event);
                 } else if (event.getEndDate().isEqual(currentDate)) {
                     if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
                         eventListView.getItems().add(event);
                     }
                 }
+            }
+        } else {
+            for (Event event : eventList.getSearch()) {
+                eventListView.getItems().add(event);
             }
         }
     }
@@ -369,6 +366,15 @@ public class EventsListController {
             bPane.setVisible(false);
         });
     }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
+    }
+
     @FXML
     public void onHomeClick() throws IOException {
 
@@ -409,5 +415,15 @@ public class EventsListController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    @FXML
+    protected void onChangeTheme() {
+        if (isLightTheme) {
+            loadTheme("dark-theme.css");
+        } else {
+            loadTheme("st-theme.css");
+        }
+        isLightTheme = !isLightTheme;
     }
 }
