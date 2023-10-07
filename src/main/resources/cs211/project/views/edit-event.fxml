@@ -11,34 +11,34 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EditEventController">
    <children>
-      <Label layoutX="157.0" layoutY="252.0" text="Event Name: " />
-      <Label layoutX="168.0" layoutY="287.0" text="Start Date:" />
-      <TextField fx:id="eventNameTextField" layoutX="238.0" layoutY="248.0" prefWidth="123.0" />
-      <Label layoutX="138.0" layoutY="322.0" text="Time Event Start:" />
-      <TextField fx:id="timeStartEventTextField" layoutX="238.0" layoutY="319.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="426.0" layoutY="322.0" text="Time Event End:" />
-      <TextField fx:id="timeEndEventTextField" layoutX="517.0" layoutY="318.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="139.0" layoutY="357.0" text="Tickets Amount:" />
-      <TextField fx:id="amountTicketTextField" layoutX="238.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="192.0" layoutY="392.0" text="Detail:" />
-      <DatePicker fx:id="eventDatePickerStart" layoutX="238.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" />
-      <Label layoutX="460.0" layoutY="287.0" text="End Date:" />
-      <DatePicker fx:id="eventDatePickerEnd" layoutX="517.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label layoutX="157.0" layoutY="252.0" styleClass="text-field" text="Event Name: " />
+      <Label layoutX="168.0" layoutY="287.0" styleClass="text-field" text="Start Date:" />
+      <TextField fx:id="eventNameTextField" layoutX="238.0" layoutY="248.0" prefWidth="123.0" styleClass="search-box" />
+      <Label layoutX="138.0" layoutY="322.0" styleClass="text-field" text="Time Event Start:" />
+      <TextField fx:id="timeStartEventTextField" layoutX="238.0" layoutY="319.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="426.0" layoutY="322.0" styleClass="text-field" text="Time Event End:" />
+      <TextField fx:id="timeEndEventTextField" layoutX="517.0" layoutY="318.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="139.0" layoutY="357.0" styleClass="text-field" text="Tickets Amount:" />
+      <TextField fx:id="amountTicketTextField" layoutX="238.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="192.0" layoutY="392.0" styleClass="text-field" text="Detail:" />
+      <DatePicker fx:id="eventDatePickerStart" layoutX="238.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" styleClass="date-picker" />
+      <Label layoutX="460.0" layoutY="287.0" styleClass="text-field" text="End Date:" />
+      <DatePicker fx:id="eventDatePickerEnd" layoutX="517.0" layoutY="282.0" prefHeight="26.0" prefWidth="123.0" styleClass="date-picker" />
       <Button layoutX="652.0" layoutY="514.0" mnemonicParsing="false" onAction="#onFinishClick" styleClass="default-button" text="Finish" />
-      <Label layoutX="400.0" layoutY="357.0" text="Participants Amount:" />
-      <TextField fx:id="amountParticipantTextField" layoutX="517.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="426.0" layoutY="392.0" text="Time Team End:" />
-      <TextField fx:id="timeEndTeamTextField" layoutX="517.0" layoutY="388.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="399.0" layoutY="427.0" text="Time Participant End:" />
-      <TextField fx:id="timeEndParticipantTextField" layoutX="517.0" layoutY="425.0" prefHeight="26.0" prefWidth="70.0" />
-      <Label layoutX="353.0" layoutY="51.0" text="Edit Event">
+      <Label layoutX="400.0" layoutY="357.0" styleClass="text-field" text="Participants Amount:" />
+      <TextField fx:id="amountParticipantTextField" layoutX="517.0" layoutY="353.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="426.0" layoutY="392.0" styleClass="text-field" text="Time Team End:" />
+      <TextField fx:id="timeEndTeamTextField" layoutX="517.0" layoutY="388.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="399.0" layoutY="427.0" styleClass="text-field" text="Time Participant End:" />
+      <TextField fx:id="timeEndParticipantTextField" layoutX="517.0" layoutY="425.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="353.0" layoutY="51.0" styleClass="text-field" text="Edit Event">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
-      <TextField fx:id="detailTextField" alignment="TOP_LEFT" layoutX="238.0" layoutY="393.0" prefHeight="100.0" />
+      <TextField fx:id="detailTextField" alignment="TOP_LEFT" layoutX="238.0" layoutY="393.0" prefHeight="100.0" styleClass="search-box-default" />
       <HBox fx:id="hBox" layoutX="205.0" layoutY="81.0" prefHeight="151.0" prefWidth="373.0">
          <children>
             <Button mnemonicParsing="false" onAction="#onImageView" style="-fx-background-color: transparent;" textAlignment="CENTER">
@@ -50,7 +50,7 @@
       </HBox>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>

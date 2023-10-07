@@ -13,27 +13,27 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentTeamController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CommentTeamController">
    <children>
       <ScrollPane fx:id="commentScrollPane" layoutX="138.0" layoutY="202.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="330.0" prefWidth="525.0" vvalue="1.0">
          <content>
-            <TextFlow fx:id="commentTextFlow" translateX="15.0" translateY="15.0" />
+            <TextFlow fx:id="commentTextFlow" styleClass="text-field" translateX="6.0" translateY="6.0" />
          </content>
       </ScrollPane>
-      <Label layoutX="143.0" layoutY="61.0" text="Event: ">
+      <Label layoutX="143.0" layoutY="61.0" styleClass="text-field" text="Event: ">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <TextField fx:id="commentTextField" layoutX="184.0" layoutY="550.0" prefHeight="25.0" prefWidth="398.0" promptText="send a message to team..." styleClass="search-box" />
       <Button fx:id="sendClick" layoutX="603.0" layoutY="550.0" mnemonicParsing="false" onAction="#onSentAction" styleClass="default-button" text="send" />
-      <Label layoutX="401.0" layoutY="61.0" text="Choose Team:">
+      <Label layoutX="401.0" layoutY="61.0" styleClass="text-field" text="Choose Team:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <ComboBox fx:id="chooseTeam" layoutX="507.0" layoutY="58.0" prefWidth="150.0" />
-      <Label fx:id="eventLabel" layoutX="191.0" layoutY="61.0" text="eventLabel">
+      <Label fx:id="eventLabel" layoutX="191.0" layoutY="61.0" styleClass="text-field" text="eventLabel">
          <font>
             <Font size="14.0" />
          </font>
@@ -53,7 +53,7 @@
       </TableView>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>

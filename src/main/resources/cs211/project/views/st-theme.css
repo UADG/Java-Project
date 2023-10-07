@@ -1,6 +1,9 @@
 .search-box{
     -fx-background-radius: 100;
 }
+.search-box-default{
+    -fx-background-radius: 20;
+}
 .default-button{
     -fx-background-color: #6d86bf;
     -fx-background-radius: 30;
@@ -28,4 +31,13 @@
 .menu-button:pressed
 {
     -fx-background-color: transparent;
+}
+.tab-pane
+{
+    -fx-background-color: #909DBD;
+}
+
+.progress-bar
+{
+    -fx-background-color: #bbc9ea;
 }

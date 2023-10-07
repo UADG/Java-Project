@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.TeamScheduleController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.TeamScheduleController">
    <children>
-      <Label layoutX="97.0" layoutY="28.0" text="TEAM SCHEDULE">
+      <Label layoutX="97.0" layoutY="28.0" styleClass="text-field" text="TEAM SCHEDULE">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
@@ -29,11 +29,11 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ComboBox fx:id="teamComboBox" layoutX="97.0" layoutY="90.0" prefHeight="26.0" prefWidth="305.0" />
+      <ComboBox fx:id="teamComboBox" layoutX="97.0" layoutY="90.0" prefHeight="26.0" prefWidth="305.0" styleClass="combo-box" />
       <Button layoutX="437.0" layoutY="90.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" styleClass="default-button" text="Search" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>

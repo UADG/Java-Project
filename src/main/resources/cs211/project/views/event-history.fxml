@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventHistoryController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.EventHistoryController">
    <children>
       <ListView fx:id="eventListView" layoutX="134.0" layoutY="144.0" prefHeight="291.0" prefWidth="200.0" />
       <HBox fx:id="hBox" layoutX="392.0" layoutY="144.0" prefHeight="112.0" prefWidth="242.0">
@@ -18,31 +18,31 @@
             <ImageView fx:id="imageView" fitHeight="112.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Label layoutX="404.0" layoutY="270.0" text="EventName : " />
-      <Label layoutX="404.0" layoutY="298.0" text="DateStart :" />
-      <Label layoutX="405.0" layoutY="353.0" text="TimeStart :" />
-      <Label layoutX="404.0" layoutY="379.0" text="TimeEnd :" />
-      <Label layoutX="404.0" layoutY="406.0" text="AmountTickets :" />
-      <Label layoutX="404.0" layoutY="326.0" text="DateEnd :" />
-      <Label fx:id="eventName" layoutX="486.0" layoutY="270.0" text="EventNameLabel" />
-      <Label fx:id="dateStart" layoutX="486.0" layoutY="298.0" text="DateStartLabel" />
-      <Label fx:id="dateEnd" layoutX="486.0" layoutY="326.0" text="DateEndLabel" />
-      <Label fx:id="timeStart" layoutX="488.0" layoutY="353.0" text="TimeStartLabel" />
-      <Label fx:id="timeEnd" layoutX="488.0" layoutY="379.0" text="TimeEndLabel" />
-      <Label fx:id="amountTicket" layoutX="504.0" layoutY="406.0" text="AmountTicketsLabel" />
+      <Label layoutX="404.0" layoutY="270.0" styleClass="text-field" text="EventName : " />
+      <Label layoutX="404.0" layoutY="298.0" styleClass="text-field" text="DateStart :" />
+      <Label layoutX="405.0" layoutY="353.0" styleClass="text-field" text="TimeStart :" />
+      <Label layoutX="404.0" layoutY="379.0" styleClass="text-field" text="TimeEnd :" />
+      <Label layoutX="404.0" layoutY="406.0" styleClass="text-field" text="AmountTickets :" />
+      <Label layoutX="404.0" layoutY="326.0" styleClass="text-field" text="DateEnd :" />
+      <Label fx:id="eventName" layoutX="486.0" layoutY="270.0" styleClass="text-field" text="EventNameLabel" />
+      <Label fx:id="dateStart" layoutX="486.0" layoutY="298.0" styleClass="text-field" text="DateStartLabel" />
+      <Label fx:id="dateEnd" layoutX="486.0" layoutY="326.0" styleClass="text-field" text="DateEndLabel" />
+      <Label fx:id="timeStart" layoutX="488.0" layoutY="353.0" styleClass="text-field" text="TimeStartLabel" />
+      <Label fx:id="timeEnd" layoutX="488.0" layoutY="379.0" styleClass="text-field" text="TimeEndLabel" />
+      <Label fx:id="amountTicket" layoutX="504.0" layoutY="406.0" styleClass="text-field" text="AmountTicketsLabel" />
       <Button fx:id="editActivity" layoutX="118.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditActivity" styleClass="default-button" text="Edit Schedule" />
       <Button fx:id="editDetail" layoutX="228.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditDetailClick" styleClass="default-button" text="Edit Detail" />
       <Button fx:id="finishActivity" layoutX="320.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" styleClass="default-button" text="Finish Activity" />
       <Button fx:id="fixSchedule" layoutX="428.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" styleClass="default-button" text="Add/Delete Team" />
       <Button fx:id="banAll" layoutX="558.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" styleClass="default-button" text="Ban Participnat" />
-      <Label layoutX="316.0" layoutY="83.0" text="Event History">
+      <Label layoutX="316.0" layoutY="83.0" styleClass="text-field" text="Event History">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>

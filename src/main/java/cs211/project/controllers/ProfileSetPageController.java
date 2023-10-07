@@ -16,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
@@ -37,7 +38,7 @@ public class ProfileSetPageController {
     @FXML Label usernameLabel;
     @FXML Label nameLabel;
     @FXML private Label myText;
-    @FXML private Rectangle myRectangle;
+    @FXML private Pane myRectangle;
     @FXML private ImageView imageView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;

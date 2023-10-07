@@ -13,25 +13,25 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.CreateScheduleController">
    <children>
-      <Label layoutX="77.0" layoutY="61.0" text="event name : ">
+      <Label layoutX="77.0" layoutY="61.0" styleClass="text-field" text="event name : ">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
-      <Label layoutX="490.0" layoutY="151.0" text="Schedule's name :">
+      <Label layoutX="490.0" layoutY="151.0" styleClass="text-field" text="Schedule's name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="493.0" layoutY="193.0" text="Time Start :">
+      <Label layoutX="493.0" layoutY="193.0" styleClass="text-field" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <ComboBox fx:id="chooseHourTimeStart" layoutX="568.0" layoutY="223.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
-      <Label layoutX="650.0" layoutY="222.0" text="/">
+      <Label layoutX="650.0" layoutY="222.0" styleClass="text-field" text="/">
          <font>
             <Font size="18.0" />
          </font>
@@ -39,21 +39,21 @@
       <ComboBox fx:id="chooseMinTimeStart" layoutX="663.0" layoutY="223.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
       <TextField fx:id="activityTextField" layoutX="606.0" layoutY="149.0" prefHeight="25.0" prefWidth="115.0" promptText="write new activity" styleClass="search-box" />
       <Button layoutX="567.0" layoutY="500.0" mnemonicParsing="false" onAction="#addActivityOnClick" prefHeight="25.0" prefWidth="115.0" styleClass="default-button" text="Add Activity" />
-      <Line endX="140.0" layoutX="602.0" layoutY="483.0" startX="-100.0" />
+      <Line endX="140.0" layoutX="602.0" layoutY="483.0" startX="-100.0" styleClass="web-view" />
       <Button fx:id="delete" layoutX="567.0" layoutY="551.0" mnemonicParsing="false" onAction="#deleteOnClick" prefHeight="25.0" prefWidth="115.0" styleClass="default-button" text="Delete" />
-      <Label layoutX="491.0" layoutY="261.0" text="Time Stop :">
+      <Label layoutX="491.0" layoutY="261.0" styleClass="text-field" text="Time Stop :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
       <ComboBox fx:id="chooseHourTimeStop" layoutX="568.0" layoutY="298.0" prefHeight="25.0" prefWidth="74.0" promptText="Hour" />
-      <Label layoutX="647.0" layoutY="300.0" prefHeight="23.0" prefWidth="0.0" text="/">
+      <Label layoutX="647.0" layoutY="300.0" prefHeight="23.0" prefWidth="0.0" styleClass="text-field" text="/">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
       <ComboBox fx:id="chooseMinTimeStop" layoutX="663.0" layoutY="298.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <Button fx:id="next" layoutX="718.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="41.0" styleClass="default-button" text="next" />
+      <Button fx:id="next" layoutX="711.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="48.0" styleClass="default-button" text="next" />
       <TableView fx:id="activityTableView" layoutX="17.0" layoutY="151.0" prefHeight="386.0" prefWidth="422.0">
         <columns>
           <TableColumn prefWidth="133.0" text="C1" />
@@ -63,16 +63,16 @@
       </TableView>
       <DatePicker fx:id="startDate" layoutX="566.0" layoutY="189.0" prefHeight="26.0" prefWidth="178.0" />
       <DatePicker fx:id="endDate" layoutX="567.0" layoutY="258.0" prefHeight="26.0" prefWidth="178.0" />
-      <Label fx:id="eventNameLabel" layoutX="197.0" layoutY="61.0" text="event name">
+      <Label fx:id="eventNameLabel" layoutX="197.0" layoutY="61.0" styleClass="text-field" text="event name">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <Button layoutX="63.0" layoutY="16.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" text="Back" />
-      <TextField fx:id="infoActivityTextField" alignment="TOP_LEFT" layoutX="493.0" layoutY="336.0" prefHeight="137.0" prefWidth="254.0" promptText="info activity" />
+      <TextField fx:id="infoActivityTextField" alignment="TOP_LEFT" layoutX="493.0" layoutY="336.0" prefHeight="137.0" prefWidth="254.0" promptText="info activity" styleClass="search-box-default" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
