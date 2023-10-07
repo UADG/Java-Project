@@ -75,7 +75,7 @@ public class EventsListController {
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         slide.setTranslateX(-200);
-
+        account  = accountList.findAccountByUsername(account.getUsername());
         showList(eventList);
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
             @Override
@@ -102,21 +102,24 @@ public class EventsListController {
         LocalTime currentTime = LocalTime.now();
 
         eventListView.getItems().clear();
-        for (Event event : eventList.getEvents()) {
-            if (event.getEndDate().isAfter(currentDate)||event.getEndDate().isEqual(currentDate)) {
-                if (textSearch.equals("")) {
+        if (textSearch.equals("")) {
+            for (Event event : eventList.getEvents()) {
+                if (event.getEndDate().isAfter(currentDate) || event.getEndDate().isEqual(currentDate)) {
                     eventListView.getItems().add(event);
-                } else {
-                    eventListView.getItems().clear();
-                    eventListView.getItems().addAll(eventList.getSearch());
+                } else if (event.getEndDate().isEqual(currentDate)) {
+                    if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
+                            eventListView.getItems().add(event);
+                    }
                 }
-            } else if (event.getEndDate().isEqual(currentDate)){
-                if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
-                    if (textSearch.equals("")) {
+            }
+        }
+        else{
+            for (Event event : eventList.getSearch()) {
+                if (event.getEndDate().isAfter(currentDate) || event.getEndDate().isEqual(currentDate)) {
+                    eventListView.getItems().add(event);
+                } else if (event.getEndDate().isEqual(currentDate)) {
+                    if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
                         eventListView.getItems().add(event);
-                    } else {
-                        eventListView.getItems().clear();
-                        eventListView.getItems().addAll(eventList.getSearch());
                     }
                 }
             }
@@ -163,7 +166,7 @@ public class EventsListController {
                 } else {
                     imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
                 }
-                
+
             }
         } else {
             bookTicket.setVisible(false);
@@ -213,14 +216,14 @@ public class EventsListController {
 
     @FXML
     protected void onBookTicketsClick() {
-        Account data = (Account) FXRouter.getData();
-        Account account  = accountList.findAccountByUsername(data.getUsername());
         if (selectedEvent != null) {
             try {
                 if (selectedEvent.isEventManager(account.getUsername())) {
                     showErrorAlert("You can't join your own event.");
                 } else if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
+                }else if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty() && selectedEvent.loadActivityInEvent().userIsParticipant(account.getUsername())){
+                    showErrorAlert("Sorry, you're participant in this event.");
                 } else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
                     account.addUserEventName(selectedEvent.getEventName());
@@ -244,41 +247,49 @@ public class EventsListController {
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
             selectedEvent.loadActivityInEvent();
-            if(!selectedEvent.getEventManager().equals(account.getUsername())){
-                TeamList teams = selectedEvent.loadTeamInEvent();
-                System.out.println(selectedEvent.getEventName());
-                Team teamFound = null;
-                boolean found = false;
-                for(Team team : teams.getTeams()){
-                    for(Staff staff: team.getStaffs().getStaffList()){
-                        if(staff.getId().equals(Integer.toString(account.getId()))){
-                            found = true;
-                            teamFound = team;
-                            break;
+            if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty() && selectedEvent.loadActivityInEvent().userIsParticipant(account.getUsername())){
+                showErrorAlert("Sorry, you're participant in this event.");
+            }
+            else if(account.isEventName(selectedEvent.getEventName())) {
+                showErrorAlert("You have already booked a ticket for this event.");
+            }
+            else {
+                if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+                    TeamList teams = selectedEvent.loadTeamInEvent();
+                    System.out.println(selectedEvent.getEventName());
+                    Team teamFound = null;
+                    boolean found = false;
+                    for (Team team : teams.getTeams()) {
+                        for (Staff staff : team.getStaffs().getStaffList()) {
+                            if (staff.getId().equals(Integer.toString(account.getId()))) {
+                                found = true;
+                                teamFound = team;
+                                break;
+                            }
                         }
                     }
-                }
 
-                if(!found){
-                    try {
-                        System.out.println(selectedEvent.getEventName());
-                        TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
-                        try{
-                            String teamName = teams.findLowestStaffTeam().getTeamName();
-                            data.updateStaffInTeam(selectedEvent.getEventName(),teamName , new Staff(account), "+");
-                            showInfoPopup("You are in "+teamName+" team");
-                            FXRouter.goTo("team-schedule",account);
-                        }catch (NullPointerException e){
-                            showErrorAlert("Sorry, there are no available seats at the moment.");
+                    if (!found) {
+                        try {
+                            System.out.println(selectedEvent.getEventName());
+                            TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
+                            try {
+                                String teamName = teams.findLowestStaffTeam().getTeamName();
+                                data.updateStaffInTeam(selectedEvent.getEventName(), teamName, new Staff(account), "+");
+                                showInfoPopup("You are in " + teamName + " team");
+                                FXRouter.goTo("team-schedule", account);
+                            } catch (NullPointerException e) {
+                                showErrorAlert("Sorry, there are no available seats at the moment.");
+                            }
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    } else {
+                        showInfoPopup("You are have team in this event already \nYour team is " + teamFound);
                     }
-                }else{
-                    showInfoPopup("You are have team in this event already \nYour team is "+teamFound);
+                } else {
+                    showErrorAlert("You can't join your own event.");
                 }
-            }else{
-                showErrorAlert("You can't join your own event.");
             }
         }else{
             showErrorAlert("Please select some event ");
@@ -286,32 +297,36 @@ public class EventsListController {
 
     }
     @FXML
-    protected void onApplyToParticipantClick() {
-        try {
+    protected void onApplyToParticipantClick() throws IOException {
+        if(selectedEvent != null) {
             if (!selectedEvent.getEventManager().equals(account.getUsername())) {
-                if (!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
-                    if (selectedEvent.checkParticipantIsFull()) {
-                        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-                        activityList = datasource.readData();
-                        activityList.findActivityInEvent(selectedEvent.getEventName());
-                        if (activityList.userIsParticipant(account.getUsername())) {
+                if(account.isEventName(selectedEvent.getEventName())) {
+                    showErrorAlert("You have already booked a ticket for this event.");
+                }
+                else if (!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
+                    datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                    activityList = datasource.readData();
+                    activityList.findActivityInEvent(selectedEvent.getEventName());
+                    if (!activityList.userIsParticipant(account.getUsername())) {
+                        if (selectedEvent.checkParticipantIsFull()) {
                             activityList.addParticipant(account.getUsername());
                             datasource.writeData(activityList);
                             FXRouter.goTo("participant-schedule", account);
                         } else {
-                            showErrorAlert("Sorry you're participant in this event");
+                            showErrorAlert("Sorry, participant in full.");
                         }
                     } else {
-                        showErrorAlert("Sorry participant in full");
+                        showErrorAlert("Sorry, you're participant in this event.");
                     }
                 } else {
-                    showErrorAlert("Sorry this event not ready for apply to participant");
+                    showErrorAlert("Sorry, this event not ready for apply to participant.");
                 }
             } else {
                 showErrorAlert("You can't join your own event.");
             }
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        }
+        else {
+            showErrorAlert("Please select event");
         }
     }
 
