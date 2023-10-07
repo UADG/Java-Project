@@ -9,43 +9,43 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.FinishActivityController">
    <children>
-      <Button layoutX="75.0" layoutY="14.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
+      <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
       <Button layoutX="523.0" layoutY="308.0" mnemonicParsing="false" onAction="#finishActivity" prefHeight="27.0" prefWidth="137.0" styleClass="default-button" text="Finish Activity" />
-      <Label layoutX="519.0" layoutY="144.0" text="Activity :">
+      <Label layoutX="519.0" layoutY="144.0" styleClass="text-field" text="Activity :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="520.0" layoutY="184.0" text="Date :">
+      <Label layoutX="520.0" layoutY="184.0" styleClass="text-field" text="Date :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="518.0" layoutY="221.0" text="Time Start :">
+      <Label layoutX="518.0" layoutY="221.0" styleClass="text-field" text="Time Start :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label layoutX="70.0" layoutY="66.0" prefHeight="27.0" prefWidth="130.0" text="Finish Activity">
+      <Label layoutX="70.0" layoutY="66.0" prefHeight="27.0" prefWidth="130.0" styleClass="text-field" text="Finish Activity">
          <font>
             <Font size="18.0" />
          </font></Label>
-      <Label layoutX="518.0" layoutY="256.0" text="Time End :">
+      <Label layoutX="518.0" layoutY="256.0" styleClass="text-field" text="Time End :">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="nameLabel" layoutX="582.0" layoutY="144.0" text="ActivityName">
+      <Label fx:id="nameLabel" layoutX="582.0" layoutY="144.0" styleClass="text-field" text="ActivityName">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="dateLabel" layoutX="561.0" layoutY="184.0" text="Date">
+      <Label fx:id="dateLabel" layoutX="561.0" layoutY="184.0" styleClass="text-field" text="Date">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="timeStartLabel" layoutX="590.0" layoutY="221.0" text="TimeStart">
+      <Label fx:id="timeStartLabel" layoutX="590.0" layoutY="221.0" styleClass="text-field" text="TimeStart">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="timeStopLabel" layoutX="581.0" layoutY="256.0" text="TimeEnd">
+      <Label fx:id="timeStopLabel" layoutX="581.0" layoutY="256.0" styleClass="text-field" text="TimeEnd">
          <font>
             <Font size="14.0" />
          </font></Label>
@@ -55,9 +55,14 @@
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
       </TableView>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
@@ -124,10 +129,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

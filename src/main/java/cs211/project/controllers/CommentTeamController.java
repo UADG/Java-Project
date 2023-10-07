@@ -90,8 +90,9 @@ public class CommentTeamController {
                 String[] commentLines = team.getComment().split("\\\\n");
                 for (String line : commentLines) {
                     Text commentTextElement = new Text(line + "\n");
+                    commentTextElement.setStyle("-fx-fill: white;");
                     if (accountList.findAccountByName(line.trim()) != null) {
-                        commentTextElement.setFont(Font.font(commentTextElement.getFont().getFamily(), FontWeight.BOLD, commentTextElement.getFont().getSize()));
+                        commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
                     }
                     commentTextFlow.getChildren().add(commentTextElement);
                 }
@@ -137,9 +138,9 @@ public class CommentTeamController {
 
         for (String line : commentLines) {
             Text commentTextElement = new Text(line + "\n");
-
+            commentTextElement.setStyle("-fx-fill: white;");
             if (accountList.findAccountByName(line.trim()) != null) {
-                commentTextElement.setFont(Font.font(commentTextElement.getFont().getFamily(), FontWeight.BOLD, commentTextElement.getFont().getSize()));
+                commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
             }
             commentTextFlow.getChildren().add(commentTextElement);
         }

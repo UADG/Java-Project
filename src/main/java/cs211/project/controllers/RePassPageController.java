@@ -17,6 +17,7 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
@@ -31,7 +32,7 @@ public class RePassPageController {
     @FXML private PasswordField passwordNew;
     @FXML private Label usernameLabel;
     @FXML private Label myText;
-    @FXML private Rectangle myRectangle;
+    @FXML private Pane myRectangle;
     @FXML private Label errorLabel;
     @FXML private Label errorLabel1;
     @FXML private ImageView imageView;

@@ -86,10 +86,10 @@ public class ActivityList {
     public boolean userIsParticipant(String participantName) {
         for (Activity activity : activities) {
             if(activity.getParticipantName().equals(participantName)){
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
     public ArrayList<Activity> getAllActivities(){
         return allActivities;

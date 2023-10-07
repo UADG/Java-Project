@@ -10,43 +10,44 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" stylesheets="@stTheme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
+<AnchorPane prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
    <children>
-      <Label layoutX="55.0" layoutY="63.0" text="List of participants">
+      <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" styleClass="default-button" text="Back" />
+      <Label layoutX="55.0" layoutY="63.0" styleClass="text-field" text="List of participants">
          <font>
             <Font size="20.0" />
          </font>
       </Label>
       <ListView fx:id="staffListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
-      <Label layoutX="474.0" layoutY="138.0" text="Role :">
+      <Label layoutX="474.0" layoutY="138.0" styleClass="text-field" text="Role :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <RadioButton fx:id="chooseRoleTeam" layoutX="531.0" layoutY="167.0" mnemonicParsing="false" onAction="#selectedTeam" text="Event organizer team" />
-      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" text="User join" />
-      <Label fx:id="constantTeamLabel" layoutX="474.0" layoutY="205.0" text="team :">
+      <RadioButton fx:id="chooseRoleTeam" layoutX="531.0" layoutY="167.0" mnemonicParsing="false" onAction="#selectedTeam" styleClass="text-field" text="Event organizer team" />
+      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" styleClass="text-field" text="User join" />
+      <Label fx:id="constantTeamLabel" layoutX="474.0" layoutY="205.0" styleClass="text-field" text="team :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseTeam" layoutX="527.0" layoutY="202.0" onAction="#chooseWhichTeam" prefHeight="25.0" prefWidth="182.0" promptText="choose team" />
-      <Label fx:id="constantNameLabelForTeam" layoutX="472.0" layoutY="252.0" text="Name :">
+      <ComboBox fx:id="chooseTeam" layoutX="527.0" layoutY="202.0" onAction="#chooseWhichTeam" prefHeight="25.0" prefWidth="182.0" promptText="choose team" styleClass="combo-box" />
+      <Label fx:id="constantNameLabelForTeam" layoutX="472.0" layoutY="252.0" styleClass="text-field" text="Name :">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabel" layoutX="528.0" layoutY="252.0" text="Name">
+      <Label fx:id="nameLabel" layoutX="528.0" layoutY="252.0" styleClass="text-field" text="Name">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="constantNameLabelSingleParticipant" layoutX="373.0" layoutY="215.0" text="ชื่อ :" visible="false">
+      <Label fx:id="constantNameLabelSingleParticipant" layoutX="373.0" layoutY="215.0" styleClass="text-field" text="ชื่อ :" visible="false">
          <font>
             <Font size="18.0" />
          </font>
       </Label>
-      <Label fx:id="nameLabelSigleParticipant" layoutX="414.0" layoutY="215.0" prefHeight="27.0" prefWidth="234.0" text="Name" visible="false">
+      <Label fx:id="nameLabelSigleParticipant" layoutX="414.0" layoutY="215.0" prefHeight="27.0" prefWidth="234.0" styleClass="text-field" text="Name" visible="false">
          <font>
             <Font size="18.0" />
          </font>
@@ -59,7 +60,7 @@
       <ListView fx:id="userListView" layoutX="52.0" layoutY="102.0" prefHeight="431.0" prefWidth="380.0" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
-            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #909DBD;" BorderPane.alignment="CENTER">
+            <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
                   <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
                      <children>
