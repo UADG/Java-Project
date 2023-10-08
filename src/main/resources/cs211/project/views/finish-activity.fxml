@@ -54,6 +54,9 @@
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
          <font>
