@@ -24,7 +24,7 @@ public class Event {
     private String eventManager;
     private String picURL;
     private ArrayList<ArrayList<String >> arr ;
-    private ActivityList activitys;
+    private ActivityList activities;
     private TeamList teams;
 
 public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
@@ -147,6 +147,21 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public String toString() {
         return eventName;
     }
+    public ArrayList<Activity> getArrayListActivities(){
+        return activities.getActivities();
+    }
+
+    public ActivityList getActivities(){
+        return activities;
+    }
+
+    public TeamList getTeams() {
+        return teams;
+    }
+
+    public ArrayList<Team> getArrayListTeams(){
+        return teams.getTeams();
+    }
 
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
@@ -176,10 +191,10 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
 
     public ActivityList loadActivityInEvent() {
         ActivityListFileDatasource data = new ActivityListFileDatasource("data","activity-list.csv");
-        activitys = data.readData();
-        activitys.findActivityInEvent(eventName);
+        activities = data.readData();
+        activities.findActivityInEvent(eventName);
 
-        return activitys;
+        return activities;
     }
 
     public TeamList loadTeamInEvent() {
@@ -188,7 +203,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         ArrayList<String> nameTeamInEvent = new ArrayList<>();
         teams = new TeamList();
         loadActivityInEvent();
-        for(Activity activity:activitys.getActivities()){
+        for(Activity activity:activities.getActivities()){
             nameTeamInEvent.add(activity.getTeamName());
         }
 
@@ -219,7 +234,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
 
     public Boolean checkParticipantIsFull(){
         loadActivityInEvent();
-        for(Activity activity: activitys.getActivities()){
+        for(Activity activity: activities.getActivities()){
             if(activity.getParticipantName().equals("")){
                 return true;
             }
