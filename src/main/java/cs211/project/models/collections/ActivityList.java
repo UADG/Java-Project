@@ -91,6 +91,16 @@ public class ActivityList {
         }
         return false;
     }
+    public void changeNameEvent(String  eventName,String changeName){
+        System.out.println(eventName);
+        for(Activity activity : allActivities){
+            System.out.println(activity.getEventName());
+            if(activity.getEventName().equals(eventName)){
+                activity.setEventName(changeName);
+            }
+        }
+
+    }
     public ArrayList<Activity> getAllActivities(){
         return allActivities;
     }

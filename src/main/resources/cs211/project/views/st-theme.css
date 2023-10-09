@@ -9,8 +9,8 @@
     -fx-background-radius: 20;
     -fx-text-fill: "WHITE";
     -fx-font-weight: bold;
-    -fx-font-family: "Webdings";
-    -fx-font-size: 18;
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 13;
 }
 
 .default-button:hover
@@ -32,8 +32,8 @@
 .menu-button
 {
     -fx-background-color: transparent;
-    -fx-font-family: "Webdings";
-    -fx-font-size: 22;
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 13;
 }
 .menu-button:hover
 {
@@ -54,17 +54,17 @@
 }
 
 .label, .hyperlink, .text-field, .list-view, .combo-box{
-    -fx-font-family: "Webdings";
-    -fx-font-size: 20;
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 13;
 }
 
 #invalidLabel, #errorLabel, #errorLabel1, #errorLabelApplyToParticipants, #errorLabelBook{
-    -fx-font-family: "Webdings";
-    -fx-font-size: 18;
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 12;
 }
 
 #eventDetailLabel{
-    -fx-font-family: "Webdings";
-    -fx-font-size: 25;
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 15;
     -fx-font-weight: bold;
 }

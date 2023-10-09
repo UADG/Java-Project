@@ -3,7 +3,9 @@ package cs211.project.controllers;
 import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -45,13 +47,11 @@ public class EditEventController {
     @FXML
     private TextField amountTicketTextField;
     @FXML
-    private TextField amountParticipantTextField;
-    @FXML
     private TextField detailTextField;
     @FXML
-    private TextField timeEndTeamTextField;
+    private DatePicker startJoinDate;
     @FXML
-    private TextField timeEndParticipantTextField;
+    private DatePicker endJoinDate;
     @FXML
     private ImageView imageView;
     @FXML private AnchorPane slide;
@@ -113,14 +113,13 @@ public class EditEventController {
     private void showInfo(Event event) {
         eventNameTextField.setText(event.getEventName());
         eventDatePickerStart.setValue(event.getStartDate());
-        eventDatePickerEnd.setValue(event.getEndDate());;
+        eventDatePickerEnd.setValue(event.getEndDate());
         timeStartEventTextField.setText(event.getStartTime());
         timeEndEventTextField.setText(event.getEndTime());
+        startJoinDate.setValue(event.getStartJoinDate());
+        endJoinDate.setValue(event.getEndJoinDate());
         amountTicketTextField.setText(String.valueOf(event.getTicket()));
-        amountParticipantTextField.setText(String.valueOf(event.getParticipantNum()));
         detailTextField.setText(event.getDetail());
-        timeEndTeamTextField.setText(event.getTimeTeam());
-        timeEndParticipantTextField.setText(event.getTimeParticipant());
         if(!event.getPicURL().equals("/images/default-profile.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
@@ -137,25 +136,23 @@ public class EditEventController {
         String timeStartEvent = timeStartEventTextField.getText().trim();
         String timeEndEvent = timeEndEventTextField.getText().trim();
         String amountTicket = amountTicketTextField.getText().trim();
-        String amountParticipant = amountParticipantTextField.getText().trim();
         String detail = detailTextField.getText().trim();
-        String timeEndTeam = timeEndTeamTextField.getText().trim();
-        String timeEndParticipant = timeEndParticipantTextField.getText().trim();
+        LocalDate joinDateStart = startJoinDate.getValue();
+        LocalDate joinDateEnd = endJoinDate.getValue();
 
         if (!eventName.isEmpty() && eventDateStart != null && eventDateEnd != null &&
                 !timeStartEvent.isEmpty() && !timeEndEvent.isEmpty() &&
-                !amountTicket.isEmpty() && !amountParticipant.isEmpty() &&
-                !timeEndTeam.isEmpty() && !timeEndParticipant.isEmpty()) {
+                !amountTicket.isEmpty() && joinDateStart != null &&
+                joinDateEnd != null) {
 
             changeNameDisplay(eventName);
             changeDateStart(eventDateStart, eventDateEnd);
             changeDateEnd(eventDateStart, eventDateEnd);
             changeTimeStartEvent(timeStartEvent, timeEndEvent);
             changeAmountTicket(amountTicket);
-            changeAmountParticipant(amountParticipant);
-            changeTimeEndTeam(timeEndTeam);
-            changeTimeEndParticipant(timeEndParticipant);
             changeDetail(detail);
+            changeJoinDateStart(joinDateStart, joinDateEnd);
+            changeJoinDateEnd(joinDateStart, joinDateEnd);
 
             if (errorMessage.equals("")) {
                 boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
@@ -205,22 +202,32 @@ public class EditEventController {
     }
 
     private void changeNameDisplay(String name) {
+        Datasource<ActivityList> activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        ActivityList activityList = activityListDatasource.readData();
         if (name.equals(event.getEventName())) {
             return;
         }
         try {
             if (name.length() < 3) {
                 errorMessage += "EVENT NAME:\nLength of name be must more than 3.\n";
-            } else {
+            }
+            if(isContainSpecialCharacter(name)){
+                errorMessage += "EVENT NAME:\nEvent name must not contain special character.\n";
+            }
+            if(name.length() >= 3 && !isContainSpecialCharacter(name)){
                 String thisEvent = event.getEventName();
                 for (Account account1 : accountJoinList.getAccount()) {
                     for (String event1 : account1.getAllEventUser()) {
                         if (event1.equals(thisEvent)) {
                             account1.changeName(event1, name);
-                            event.setEventName(name);
                         }
                     }
                 }
+                activityList.changeNameEvent(thisEvent,name);
+
+                activityListDatasource.writeData(activityList);
+                event.setEventName(name);
+
             }
         } catch (Exception e) {
             errorMessage += "EVENT NAME:\nInvalid name.\n";
@@ -254,6 +261,31 @@ public class EditEventController {
             }
         } catch (Exception e) {
             errorMessage += "DATE END:\nInvalid Date.\n";
+        }
+    }
+    private void changeJoinDateStart(LocalDate startJoin, LocalDate endJoin) {
+        if (startJoin.isEqual(event.getStartDate())) {
+            return;
+        }
+        try {
+            if (!currentDate.isBefore(startJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endJoin)) {
+                errorMessage += "JOIN EVENT START DATE:\nJoin event start date must be after the current date and before the end date.\n";
+            }
+        } catch (Exception e) {
+            errorMessage += "JOIN EVENT START DATE:\nInvalid Date.\n";
+        }
+    }
+
+    private void changeJoinDateEnd(LocalDate startJoin, LocalDate endJoin) {
+        if (endJoin.isEqual(event.getEndDate())){
+            return;
+        }
+        try {
+            if (!currentDate.isBefore(endJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endJoin)) {
+                errorMessage += "JOIN EVENT END DATE:\nJoin event end date must be after the current date, join event start date and before the end date.\n";
+            }
+        } catch (Exception e) {
+            errorMessage += "JOIN EVENT END DATE:\nInvalid Date.\n";
         }
     }
 
@@ -299,51 +331,6 @@ public class EditEventController {
         }
     }
 
-    private void changeAmountParticipant(String participant) {
-        if (Integer.parseInt(participant) == event.getParticipantNum()) {
-            return;
-        }
-
-        try {
-            int participantValue = Integer.parseInt(participant);
-
-            if (participantValue < event.getParticipantLeft()) {
-                errorMessage += "AMOUNT PARTICIPANT:\nParticipant value cannot be less than the current participant left\n.";
-            } else {
-                event.setParticipantNum(participantValue);
-            }
-        } catch (NumberFormatException e) {
-            errorMessage += "INVALID AMOUNT PARTICIPANT:\nPlease enter a valid integer value for the participant\n.";
-        }
-    }
-
-    private void changeTimeEndTeam(String TimeEndTeam) {
-        if (TimeEndTeam.equals(event.getEndTime())) {
-            return;
-        }
-
-        try {
-            LocalTime selectedTime = LocalTime.parse(TimeEndTeam, DateTimeFormatter.ofPattern("HH:mm"));
-            String time = selectedTime.toString();
-            event.setTimeTeam(time);
-        } catch (DateTimeParseException e) {
-            errorMessage += "INVALID TIME END TEAM:\nPlease use HH:mm format.\n";
-        }
-    }
-
-    private void changeTimeEndParticipant(String TimeEndParticipant) {
-        if (TimeEndParticipant.equals(event.getTimeParticipant())) {
-            return;
-        }
-
-        try {
-            LocalTime selectedTime = LocalTime.parse(TimeEndParticipant, DateTimeFormatter.ofPattern("HH:mm"));
-            String time = selectedTime.toString();
-            event.setTimeParticipant(time);
-        } catch (DateTimeParseException e) {
-            errorMessage += "INVALID TIME END PARTICIPANT:\nPlease use HH:mm format.\n";
-        }
-    }
 
     private void changeDetail(String detail) {
         try {
@@ -466,5 +453,14 @@ public class EditEventController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

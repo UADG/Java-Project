@@ -17,36 +17,28 @@ public class Event {
     private String startTime;
     private String endTime;
     private int ticket;
-    private int participantNum;
     private String detail;
-    private String timeTeam;
-    private String timeParticipant;
+    private LocalDate startJoinDate;
+    private LocalDate endJoinDate;
     private int ticketBuy = 0;
-    private int participantJoin = 0;
     private String eventManager;
     private String picURL;
-    private ArrayList<String> arrayStartTimeActivity;
-    private ArrayList<String> arrayMinute;
-    private ArrayList<String> arrayDateActivity;
     private ArrayList<ArrayList<String >> arr ;
     private ActivityList activitys;
     private TeamList teams;
 
 public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
-             int ticket, int participantNum, String detail, String timeTeam,
-             String timeParticipant,int ticketBuy, int participantJoin, String picURL, String eventManager){
+             int ticket, String detail, LocalDate startJoinDate, LocalDate endJoinDate,int ticketBuy, String picURL, String eventManager){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.startTime =startTime;
         this.endTime = endTime;
         this.ticket = ticket;
-        this.participantNum = participantNum;
         this.detail = detail;
-        this.timeTeam = timeTeam;
-        this.timeParticipant = timeParticipant;
+        this.startJoinDate = startJoinDate;
+        this.endJoinDate = endJoinDate;
         this.ticketBuy = ticketBuy;
-        this.participantJoin = participantJoin;
         this.eventManager = eventManager;
         this.picURL = picURL;
         ActivityHardCode datasource = new ActivityHardCode();
@@ -76,23 +68,17 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public int getTicket() {
         return ticket;
     }
-    public int getParticipantNum() {
-        return participantNum;
-    }
     public String getDetail() {
         return detail;
     }
-    public String getTimeTeam() {
-        return timeTeam;
+    public LocalDate getStartJoinDate(){
+        return startJoinDate;
     }
-    public String getTimeParticipant() {
-        return timeParticipant;
+    public LocalDate getEndJoinDate(){
+        return endJoinDate;
     }
     public int getTicketBuy() {
         return ticketBuy;
-    }
-    public int getParticipantJoin() {
-        return participantJoin;
     }
     public String getEventManager(){return eventManager;}
 
@@ -118,18 +104,18 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public void setTicket(int ticket) {
         this.ticket = ticket;
     }
-    public void setParticipantNum(int participantNum) {
-        this.participantNum = participantNum;
-    }
     public void setDetail(String detail) {
         this.detail = detail;
     }
-    public void setTimeTeam(String timeTeam) {
-        this.timeTeam = timeTeam;
+
+    public void setStartJoinDate(LocalDate startJoinDate) {
+        this.startJoinDate = startJoinDate;
     }
-    public void setTimeParticipant(String timeParticipant) {
-        this.timeParticipant = timeParticipant;
+
+    public void setEndJoinDate(LocalDate endJoinDate) {
+        this.endJoinDate = endJoinDate;
     }
+
     public void setPicURL(String picURL) {
         this.picURL = picURL;
     }
@@ -139,12 +125,6 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     }
     public int getTicketLeft() {
         return ticket - ticketBuy;
-    }
-    public int getParticipantLeft() {
-        return participantNum-participantJoin;
-    }
-    public void participantJoin() {
-        participantJoin += 1;
     }
     public ArrayList<String> getArrayHour() {
         ArrayList<String> arrayStartTimeActivity = new ArrayList<>();
@@ -185,11 +165,9 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
                 this.startTime = event.getStartTime();
                 this.endTime = event.getEndTime();
                 this.ticket = event.getTicket();
-                this.participantNum = event.getParticipantNum();
-                this.participantJoin = event.getParticipantLeft();
                 this.detail = event.getDetail();
-                this.timeTeam = event.getTimeTeam();
-                this.timeParticipant = event.getTimeParticipant();
+                this.startJoinDate = event.getStartJoinDate();
+                this.endJoinDate = event.getEndJoinDate();
                 ticketBuy = event.getTicketLeft();
             }
         }

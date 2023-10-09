@@ -74,16 +74,20 @@ public class RegisterPageController {
             }
         }
         if(account==null){
-            if(!username.equals("")&&!name.equals("")&&!pass.equals("")){
-                if(pass.equals(confirmPass)){
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                    String time = LocalDateTime.now().format(formatter);
-                    accountList.addNewAccount(id,username,pass,name, time, "/images/default-profile.png","unban", "user");
-                    Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-                    dataSource.writeData(accountList);
-                    FXRouter.goTo("login-page");
+            if(!username.equals("")&&!name.equals("")&&!pass.equals("")&&!confirmPass.equals("")){
+                if(!isContainSpecialCharacter(username)||!isContainSpecialCharacter(name)||!isContainSpecialCharacter(pass)) {
+                    if (pass.equals(confirmPass)) {
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                        String time = LocalDateTime.now().format(formatter);
+                        accountList.addNewAccount(id, username, pass, name, time, "/images/default-profile.png", "user");
+                        Datasource<AccountList> dataSource = new AccountListDatasource("data", "user-info.csv");
+                        dataSource.writeData(accountList);
+                        FXRouter.goTo("login-page");
+                    } else {
+                        showErrorAlert("Confirm password wrong. Please try again.");
+                    }
                 }else {
-                    showErrorAlert("Confirm password wrong. Please try again.");
+                    showErrorAlert("Information must not contain special character.");
                 }
             }else {
                 showErrorAlert("Please fill all the information.");
@@ -120,5 +124,15 @@ public class RegisterPageController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

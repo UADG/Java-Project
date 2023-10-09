@@ -7,14 +7,14 @@ import java.util.Collections;
 public class AccountList{
     private ArrayList<Account> accounts;
     public AccountList() {accounts = new ArrayList<>();}
-    public void addNewAccount(int id, String username, String password, String name, String time, String picURL, String userStatus, String role) {
+    public void addNewAccount(int id, String username, String password, String name, String time, String picURL, String role) {
         username = username.trim();
         name = name.trim();
         password = password.trim();
         if (!username.equals("")&&!name.equals("")) {
             Account exist = findAccountByUsername(username);
             if (exist == null) {
-                accounts.add(new Account(id, username, password, name, time.trim(), picURL.trim(), userStatus.trim(), role.trim()));
+                accounts.add(new Account(id, username, password, name, time.trim(), picURL.trim(), role.trim()));
             }
         }
     }

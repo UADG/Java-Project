@@ -98,4 +98,7 @@ public class Activity {
     public void deleteActivity(){
         this.activityName = "";
     }
+    public void setEventName(String eventName){
+        this.eventName = eventName;
+    }
 }
