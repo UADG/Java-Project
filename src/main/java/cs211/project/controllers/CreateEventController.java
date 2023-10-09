@@ -57,6 +57,8 @@ public class CreateEventController {
     private void initialize(){
         dateStart.setEditable(false);
         dateEnd.setEditable(false);
+        startJoinDate.setEditable(false);
+        endJoinDate.setEditable(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         objects = (Object[]) FXRouter.getData();
@@ -91,7 +93,7 @@ public class CreateEventController {
                 errorText += "EVENT NAME:\nEvent name must not contain special character.\n";
             }
             if(eventName.length()<3){
-                errorText += "EVENT NAME:\nLength of name be must more than 3.\n";
+                errorText += "EVENT NAME:\nLength of name must be more than 3.\n";
             }
 
             try {
@@ -132,15 +134,15 @@ public class CreateEventController {
                 errorText += "INVALID AMOUNT TICKET:\nPlease enter a valid integer value for the ticket.\n";
             }
             try {
-                if (!currentDate.isBefore(startJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endDate)) {
-                    errorText += "JOIN EVENT START DATE:\nJoin event start date must be after the current date and before the end date.\n";
+                if (currentDate.isAfter(startJoin) || startJoin.isAfter(endJoin) || startJoin.isAfter(endDate)) {
+                    errorText += "JOIN EVENT START DATE:\nJoin event start date must be after the current date\nand before the end date.\n";
                 }
             } catch (Exception e) {
                 errorText += "JOIN EVENT START DATE:\nInvalid Date.\n";
             }
             try {
-                if (!currentDate.isBefore(endJoin) && (!endJoin.isAfter(startDate) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endDate)) {
-                    errorText += "JOIN EVENT END DATE:\nJoin event end date must be after the current date, join event start date and before the end date.\n";
+                if (currentDate.isAfter(endJoin) || endJoin.isAfter(endDate) || endJoin.isBefore(startJoin)) {
+                    errorText += "JOIN EVENT END DATE:\nJoin event end date must be after the current date,\njoin event start date and before the end date.\n";
                 }
             } catch (Exception e) {
                 errorText += "JOIN EVENT END DATE:\nInvalid Date.\n";
