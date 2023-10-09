@@ -53,7 +53,7 @@
     -fx-background-color: #bbc9ea;
 }
 
-.label, .hyperlink, .text-field, .list-view, .combo-box{
+.label, .hyperlink, .text-field, .list-view, .combo-box, .table-view{
     -fx-font-family: "Gurmukhi Sangam MN";
     -fx-font-size: 13;
 }

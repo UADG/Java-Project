@@ -17,7 +17,7 @@
     -fx-font-weight: bold;
     -fx-font-family: "Tiro Devanagari Hindi";
 }
-.label, .hyperlink, .text-field, .list-view, .combo-box{
+.label, .hyperlink, .text-field, .list-view, .combo-box, .table-view{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 14;
 }
@@ -243,6 +243,3 @@
 .date-picker {
     -fx-background-color: #383A40;
 }
-
-
-
