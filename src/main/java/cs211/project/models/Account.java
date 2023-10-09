@@ -13,11 +13,10 @@ public class Account implements Comparable<Account>{
     protected String role;
     protected String time;
     protected String pictureURL;
-    protected String userStatus;
     protected ArrayList<String> allEventUser;
     protected final int id;
 
-    public Account(int id, String username, String password, String name, String time, String pictureURL, String userStatus, String role) {
+    public Account(int id, String username, String password, String name, String time, String pictureURL, String role) {
         this.id = id;
         this.role = role;
         this.username = username;
@@ -25,7 +24,6 @@ public class Account implements Comparable<Account>{
         this.password = password;
         this.time = time;
         this.pictureURL = pictureURL;
-        this.userStatus = userStatus;
         allEventUser = new ArrayList<>();
     }
 
@@ -89,11 +87,7 @@ public class Account implements Comparable<Account>{
     public String getPictureURL() {
         return pictureURL;
     }
-    public String getUserStatus() { return userStatus; }
     public int getId(){return id;}
-    public void setUserStatus(String userStatus) {
-        this.userStatus = userStatus;
-    }
     public void setPassword(String password) {
         this.password = password;
     }
@@ -116,16 +110,13 @@ public class Account implements Comparable<Account>{
     public boolean isAdmin(String role) {
         return "admin".equals(role);
     }
-    public boolean isUnban(String userStatus) {
-        return "unban".equals(userStatus);
-    }
 //    public boolean validatePassword(String password) {
 //        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), this.password);
 //        return result.verified;
 //    }
     @Override
     public String toString() {
-        return "Role: " + role + " Username: " + username + " Last Online: " + time + " Status: " + userStatus;
+        return "Role: " + role + " Username: " + username + " Last Online: " + time;
     }
 
     @Override

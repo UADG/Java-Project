@@ -64,16 +64,14 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 String startTime = data[3].trim();
                 String endTime = data[4].trim();
                 int ticket = Integer.parseInt(data[5].trim());
-                int participantNum = Integer.parseInt(data[6].trim());
-                String detail = data[7].trim();
-                String timeTeam = data[8].trim();
-                String timeParticipant = data[9].trim(); //int ticketBuy, int participantJoin, String picURL,
-                int ticketBuy = Integer.parseInt(data[10].trim());
-                int participantJoin = Integer.parseInt(data[11].trim());
-                String picURL = data[12].trim();
-                String eventManager = data[13].trim();
+                String detail = data[6].trim();
+                LocalDate startJoinDate = LocalDate.parse(data[7], formatter);
+                LocalDate endJoinDate = LocalDate.parse(data[8], formatter);
+                int ticketBuy = Integer.parseInt(data[9].trim());
+                String picURL = data[10].trim();
+                String eventManager = data[11].trim();
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, ticket,
-                        participantNum, detail, timeTeam, timeParticipant, ticketBuy, participantJoin, picURL,eventManager);
+                        detail, startJoinDate, endJoinDate, ticketBuy, picURL,eventManager);
             }
 
         } catch (FileNotFoundException e) {
@@ -111,8 +109,8 @@ public class EventListFileDatasource implements Datasource<EventList>{
             for(Event event:data.getEvents()){
                 String line = event.getEventName()+","+event.getStartDate()+","+event.getEndDate()+
                         ","+event.getStartTime()+","+event.getEndTime()+","+event.getTicket()
-                        +","+event.getParticipantNum()+","+event.getDetail()+","+event.getTimeTeam()
-                        +","+event.getTimeParticipant()+","+event.getTicketBuy()+","+event.getParticipantJoin()
+                        +","+event.getDetail()+","+event.getStartJoinDate()
+                        +","+event.getEndJoinDate()+","+event.getTicketBuy()
                         +","+event.getPicURL()+","+event.getEventManager();
                 buffer.append(line);
                 buffer.append("\n");

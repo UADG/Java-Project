@@ -65,7 +65,6 @@ public class EventsListController {
     private Event selectedEvent;
     private ActivityList activityList;
     private Object[] objects;
-    private Object[] objectsSend;
     private Boolean isLightTheme;
 
     @FXML
@@ -143,7 +142,6 @@ public class EventsListController {
             applyParticipant.setVisible(true);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
-            participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -156,7 +154,6 @@ public class EventsListController {
                 applyParticipant.setVisible(true);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
-                participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -168,7 +165,6 @@ public class EventsListController {
                 applyParticipant.setVisible(false);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
-                participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -182,7 +178,6 @@ public class EventsListController {
             applyParticipant.setVisible(false);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
-            participantLeftLabel.setText(String.format("%d", event.getParticipantLeft()));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {

@@ -61,9 +61,8 @@ public class AccountListDatasource implements Datasource<AccountList>{
                 String name = data[3].trim();
                 String time = data[4].trim();
                 String picURL = data[5].trim();
-                String userStatus = data[6].trim();
                 String role = data[7].trim();
-                accountList.addNewAccount( id, username, password, name, time, picURL, userStatus, role);
+                accountList.addNewAccount( id, username, password, name, time, picURL, role);
             }
 
         } catch (FileNotFoundException e) {
@@ -101,7 +100,7 @@ public class AccountListDatasource implements Datasource<AccountList>{
             for(Account account:data.getAccount()){
                 String line = account.getId()+","+account.getUsername()+","+account.getPassword()+
                         ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+","+
-                        account.getUserStatus()+","+account.getRole();
+                        ","+account.getRole();
                 buffer.append(line);
                 buffer.append("\n");
             }
