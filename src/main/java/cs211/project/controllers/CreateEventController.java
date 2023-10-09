@@ -134,14 +134,14 @@ public class CreateEventController {
                 errorText += "INVALID AMOUNT TICKET:\nPlease enter a valid integer value for the ticket.\n";
             }
             try {
-                if (currentDate.isAfter(startJoin) || !endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin) || startJoin.isAfter(endDate) || startJoin.isAfter(endJoin)) {
+                if (currentDate.isAfter(startJoin) || startJoin.isAfter(endJoin) || startJoin.isAfter(endDate)) {
                     errorText += "JOIN EVENT START DATE:\nJoin event start date must be after the current date\nand before the end date.\n";
                 }
             } catch (Exception e) {
                 errorText += "JOIN EVENT START DATE:\nInvalid Date.\n";
             }
             try {
-                if (currentDate.isAfter(endJoin) || endJoin.isBefore(startDate) || !startJoin.isEqual(endJoin) || endJoin.isAfter(endDate)) {
+                if (currentDate.isAfter(endJoin) || endJoin.isAfter(endDate) || endJoin.isBefore(startJoin)) {
                     errorText += "JOIN EVENT END DATE:\nJoin event end date must be after the current date,\njoin event start date and before the end date.\n";
                 }
             } catch (Exception e) {

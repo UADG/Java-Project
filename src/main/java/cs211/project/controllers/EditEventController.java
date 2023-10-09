@@ -270,7 +270,7 @@ public class EditEventController {
             return;
         }
         try {
-            if (currentDate.isAfter(startJoin) || !endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin) || startJoin.isAfter(endJoinDate.getValue()) || startJoin.isAfter(endJoin)) {
+            if (currentDate.isAfter(startJoin) || startJoin.isAfter(endJoin) || startJoin.isAfter(eventDatePickerEnd.getValue())) {
                 errorMessage += "JOIN EVENT START DATE:\nJoin event start date must be after the current date\nand before the end date.\n";
             }
         } catch (Exception e) {
@@ -283,7 +283,7 @@ public class EditEventController {
             return;
         }
         try {
-            if (currentDate.isAfter(endJoin) || endJoin.isBefore(startJoinDate.getValue()) || !startJoin.isEqual(endJoin) || endJoin.isAfter(endJoinDate.getValue())) {
+            if (currentDate.isAfter(endJoin) || endJoin.isAfter(eventDatePickerEnd.getValue()) || endJoin.isBefore(startJoin)) {
                 errorMessage += "JOIN EVENT END DATE:\nJoin event end date must be after the current date,\njoin event start date and before the end date.\n";
             }
         } catch (Exception e) {
