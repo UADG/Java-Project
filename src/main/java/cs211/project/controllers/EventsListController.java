@@ -35,7 +35,7 @@ public class EventsListController {
     @FXML
     private Label ticketLeftLabel;
     @FXML
-    private Label participantLeftLabel;
+    private Label teamLeftLabel;
     @FXML
     private ListView<Event> eventListView;
     @FXML
@@ -60,7 +60,9 @@ public class EventsListController {
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banListDatasource;
+    private Datasource<TeamList> teamListDatasource;
     private EventList eventList;
+    private TeamList teamList;
     private String textSearch = "";
     private Event selectedEvent;
     private ActivityList activityList;
@@ -84,10 +86,16 @@ public class EventsListController {
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         banListDatasource = new UserEventListFileDatasource("data","ban-user.csv");
+        teamListDatasource = new TeamListFileDatasource("data", "team.csv");
+
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         banList = banListDatasource.readData();
+        teamList = teamListDatasource.readData();
+
+
         ban = banList.findAccountByUsername(account.getUsername());
+
         slide.setTranslateX(-200);
         account = accountList.findAccountByUsername(account.getUsername());
         showList(eventList);
@@ -100,8 +108,8 @@ public class EventsListController {
                 } else {
                     imageView.setVisible(true);
                     errorLabelBook.setText("");
-                    showEventInfo(newValue);
                     selectedEvent = newValue;
+                    showEventInfo(newValue);
                 }
             }
         });
@@ -142,6 +150,7 @@ public class EventsListController {
             applyParticipant.setVisible(true);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -154,6 +163,7 @@ public class EventsListController {
                 applyParticipant.setVisible(true);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -165,6 +175,7 @@ public class EventsListController {
                 applyParticipant.setVisible(false);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -178,6 +189,7 @@ public class EventsListController {
             applyParticipant.setVisible(false);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -189,7 +201,7 @@ public class EventsListController {
     private void clearEventInfo() {
         eventNameLabel.setText("");
         ticketLeftLabel.setText("");
-        participantLeftLabel.setText("");
+        teamLeftLabel.setText("");
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
 

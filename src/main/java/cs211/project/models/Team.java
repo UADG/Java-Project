@@ -128,6 +128,10 @@ public class Team {
         return bannedStaff;
     }
 
+    public String getEventName() {
+        return eventName;
+    }
+
     public int getNumberOfStaff(){return numberOfStaff;}
     public int getNumberOfStaffLeft(){return numberOfStaffLeft;}
     public Event getEvent(){return  event;}
