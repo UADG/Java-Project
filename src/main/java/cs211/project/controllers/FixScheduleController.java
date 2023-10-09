@@ -38,7 +38,6 @@ public class FixScheduleController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-    private Event event = (Event) FXRouter.getData();
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account;
