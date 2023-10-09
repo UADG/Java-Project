@@ -182,8 +182,7 @@ public class JoinedHistoryController {
     @FXML
     public void onCancelEventClick() {
         if (selectedEvent != null) {
-            Account account = (Account) FXRouter.getData();
-            Account user = accountList.findAccountByUsername(account.getUsername());
+            account = accountList.findAccountByUsername(account.getUsername());
 
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmation");
@@ -192,7 +191,7 @@ public class JoinedHistoryController {
 
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
-                    user.deleteUserEventName(selectedEvent);
+                    account.deleteUserEventName(selectedEvent);
                     datasource.writeData(accountList);
                     datasource.readData();
                     updateEventInfo();
