@@ -65,7 +65,6 @@ public class EventsListController {
     private Event selectedEvent;
     private ActivityList activityList;
     private Object[] objects;
-    private Object[] objectsSend;
     private Boolean isLightTheme;
 
     @FXML
@@ -236,6 +235,9 @@ public class EventsListController {
                     showErrorAlert("Sorry, you have ban form this event.");
                 }else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
+
+                    eventListDatasource.readData();
+                    eventListDatasource.writeData(eventList);
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
                     Object[] objects1 = new Object[3];
