@@ -90,6 +90,17 @@ public class TeamList {
 
     }
 
+    public int allNumberOfStaffLeft(String eventName) {
+        int numberOfStaffLeft = 0;
+        eventName = eventName.trim();
+        for(Team team : teams) {
+            if (team.getEvent().getEventName().equals(eventName)) {
+                numberOfStaffLeft += team.getNumberOfStaffLeft();
+            }
+        }
+        return numberOfStaffLeft;
+    }
+
     public ArrayList<Team> getTeams(){
         return teams;
     }
