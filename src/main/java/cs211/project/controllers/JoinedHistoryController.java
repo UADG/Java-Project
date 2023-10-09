@@ -44,16 +44,10 @@ public class JoinedHistoryController {
     private BorderPane bPane;
     @FXML
     private Button cancelEvent;
-<<<<<<< HEAD
-    @FXML private AnchorPane parent;
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     @FXML
     private AnchorPane parent;
     private Object[] objects;
     private Object[] objectsSend;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
     private Account account;
@@ -65,16 +59,12 @@ public class JoinedHistoryController {
 
     @FXML
     public void initialize() {
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
 
         loadTheme(isLightTheme);
 
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         clearEventInfo();
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
@@ -302,8 +292,6 @@ public class JoinedHistoryController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
 
     private void loadTheme(Boolean theme) {
         if (theme) {
@@ -312,8 +300,6 @@ public class JoinedHistoryController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

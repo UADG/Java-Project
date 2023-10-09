@@ -8,7 +8,6 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -35,25 +34,17 @@ public class EventScheduleController {
     @FXML private BorderPane bPane;
     @FXML private Label infoActivity;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objectsSend;
     private Object[] objects;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Event selectedEvent;
     private Activity selectedActivity;
     private Boolean isLightTheme;
 
     @FXML
     public void initialize() {
-<<<<<<< HEAD
-        loadTheme(theme);
         Object[] objects = (Object[]) FXRouter.getData();
-=======
+
         objects = (Object[]) FXRouter.getData();
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
@@ -187,9 +178,6 @@ public class EventScheduleController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -198,7 +186,6 @@ public class EventScheduleController {
         }
     }
 
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

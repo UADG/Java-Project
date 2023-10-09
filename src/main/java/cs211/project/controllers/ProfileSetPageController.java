@@ -5,7 +5,6 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +17,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.stage.FileChooser;
 import javafx.util.Duration;
 
@@ -45,12 +43,6 @@ public class ProfileSetPageController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    @FXML public void initialize(){
-        loadTheme(theme);
-=======
     private Object[] objects;
     private Boolean isLightTheme;
 
@@ -60,8 +52,6 @@ public class ProfileSetPageController {
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
-        account = accountList.findAccountByUsername(account.getUsername());
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         usernameLabel.setText(account.getUsername());
         nameLabel.setText(account.getName());
         myText.setVisible(false);
@@ -186,8 +176,6 @@ public class ProfileSetPageController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
 
     private void loadTheme(Boolean theme) {
         if (theme) {
@@ -196,8 +184,6 @@ public class ProfileSetPageController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

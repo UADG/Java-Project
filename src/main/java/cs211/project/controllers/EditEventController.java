@@ -59,14 +59,9 @@ public class EditEventController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objects;
     private Object[] objectsSend;
     private Boolean isLightTheme;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> joinedEventDatasource;
@@ -81,7 +76,6 @@ public class EditEventController {
 
     @FXML
     private void initialize() {
-        loadTheme(theme);
         clearErrorMessage();
 
         objects = (Object[]) FXRouter.getData();
@@ -459,9 +453,6 @@ public class EditEventController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-
-<<<<<<< HEAD
-=======
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -469,8 +460,6 @@ public class EditEventController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

@@ -9,7 +9,6 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -39,12 +38,7 @@ public class FixScheduleController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
     private Event event = (Event) FXRouter.getData();
-=======
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account;
@@ -61,7 +55,6 @@ public class FixScheduleController {
 
     @FXML
     public void initialize(){
-        loadTheme(theme);
         clearInfo();
 
         objects = (Object[]) FXRouter.getData();
@@ -294,9 +287,6 @@ public class FixScheduleController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -305,7 +295,6 @@ public class FixScheduleController {
         }
     }
 
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

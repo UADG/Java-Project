@@ -28,15 +28,8 @@ public class ParticipantScheduleController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    private Account account = (Account) FXRouter.getData();
-
-=======
     private Account account;
     private Object[] objects;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private ActivityList activityList;
     private Datasource<ActivityList> datasource;
     private String eventName;
@@ -44,15 +37,10 @@ public class ParticipantScheduleController {
 
     @FXML
     public void initialize() {
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
         for(Activity activity:activityList.getAllActivities()){
@@ -171,13 +159,6 @@ public class ParticipantScheduleController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
-    }
-    private void loadTheme(String themeName) {
-        if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        }
     }
 
     private void loadTheme(Boolean theme) {

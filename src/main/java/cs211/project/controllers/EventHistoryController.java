@@ -45,14 +45,8 @@ public class EventHistoryController {
     @FXML private Button fixSchedule;
     @FXML private Button banAll;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objects;
     private Boolean isLightTheme;
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Event selectedEvent;
     private Account accounts;
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
@@ -61,15 +55,10 @@ public class EventHistoryController {
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         accounts = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
@@ -355,9 +344,6 @@ public class EventHistoryController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -365,8 +351,6 @@ public class EventHistoryController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

@@ -28,7 +28,6 @@ public class BanAllController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
     private Object[] objectsSend;
     private boolean isLightTheme;
     private Team team;
@@ -45,11 +44,8 @@ public class BanAllController {
 
     private BanListFileDatasource banPath;
     private Account account;
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
     @FXML
     public void initialize(){
-        loadTheme(theme);
         Object[] objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
@@ -275,9 +271,6 @@ public class BanAllController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-
-<<<<<<< HEAD
-=======
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -285,8 +278,6 @@ public class BanAllController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

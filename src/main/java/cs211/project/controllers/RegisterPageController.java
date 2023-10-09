@@ -5,7 +5,6 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -20,19 +19,6 @@ import java.time.format.DateTimeFormatter;
 public class RegisterPageController {
     Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDatasource.readData();
-<<<<<<< HEAD
-    @FXML TextField nameText;
-    @FXML TextField usernameText;
-    @FXML TextField passText;
-    @FXML TextField confirmText;
-    @FXML private AnchorPane parent;
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    @FXML
-    public void initialize() {
-        loadTheme(theme);
-    }
-=======
     @FXML private TextField nameText;
     @FXML private TextField usernameText;
     @FXML private TextField passText;
@@ -45,9 +31,6 @@ public class RegisterPageController {
         isLightTheme = (Boolean) FXRouter.getData();
         loadTheme(isLightTheme);
     }
-
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("login-page");
     }
@@ -123,9 +106,6 @@ public class RegisterPageController {
         passText.setText("");
         confirmText.setText("");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -134,7 +114,6 @@ public class RegisterPageController {
         }
     }
 
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

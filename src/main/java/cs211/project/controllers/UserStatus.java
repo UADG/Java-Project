@@ -5,18 +5,13 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 
 import java.io.IOException;
 
@@ -31,35 +26,23 @@ public class UserStatus {
     private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
-<<<<<<< HEAD
-    @FXML private HBox hBox;
-    @FXML private AnchorPane parent;
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    private Account account = (Account) FXRouter.getData();
-=======
+    private Account account;
     @FXML
     private HBox hBox;
     @FXML
     private AnchorPane parent;
-    private Account account;
     private Boolean isLightTheme;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Account selectedAccount;
     private AccountList accountList;
     private Object[] objects;
 
     @FXML
     private void initialize() {
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         clearDataInfo();
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
@@ -127,13 +110,6 @@ public class UserStatus {
         }
     }
 
-    private void loadTheme(String themeName) {
-        if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        }
-    }
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

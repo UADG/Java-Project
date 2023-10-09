@@ -6,7 +6,6 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -23,14 +22,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventDetailsController {
-<<<<<<< HEAD
     @FXML private AnchorPane parent;
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    private Event event = (Event) FXRouter.getData();
-=======
     private Event event;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account;
@@ -45,16 +38,12 @@ public class EventDetailsController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
-    @FXML private AnchorPane parent;
     private Object[] objects;
     private Object[] objectsSent;
     private Boolean isLightTheme;
 
 
     public void initialize(){
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         event = (Event) objects[1];
@@ -65,8 +54,6 @@ public class EventDetailsController {
         objectsSent[1] = isLightTheme;
         loadTheme(isLightTheme);
 
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         if(!event.getPicURL().equals("/images/default-profile.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
@@ -155,8 +142,6 @@ public class EventDetailsController {
         FXRouter.goTo("login-page");
     }
 
-<<<<<<< HEAD
-=======
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -164,8 +149,6 @@ public class EventDetailsController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

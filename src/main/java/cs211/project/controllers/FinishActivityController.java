@@ -34,13 +34,8 @@ public class FinishActivityController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objectsSend;
     private Boolean isLightTheme;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Activity selectedActivity;
     private ActivityListFileDatasource data;
     private Account account;
@@ -48,7 +43,6 @@ public class FinishActivityController {
 
     @FXML
     public void initialize(){
-        loadTheme(theme);
         clearInfo();
         updateData();
         Object[] objects = (Object[]) FXRouter.getData();
@@ -216,13 +210,6 @@ public class FinishActivityController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
-    }
-    private void loadTheme(String themeName) {
-        if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        }
     }
 
     private void loadTheme(Boolean theme) {

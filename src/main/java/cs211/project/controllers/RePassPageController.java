@@ -5,24 +5,20 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
-import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
-import java.io.File;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,30 +39,20 @@ public class RePassPageController {
     @FXML private HBox hBox;
     @FXML private Button backButton;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    private Account accounts = (Account) FXRouter.getData();
-=======
     private Object[] objects;
     private Account accounts;
     private Boolean isLightTheme;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDataSource.readData();
     private Account account;
     @FXML
     public void initialize(){
-<<<<<<< HEAD
-        loadTheme(theme);
-=======
         objects = (Object[]) FXRouter.getData();
         accounts = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
         account = accountList.findAccountByUsername(accounts.getUsername());
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         if(account.getRole().equals("admin")){
             menuButton.setVisible(false);
             backButton.setLayoutX(14);
@@ -212,9 +198,6 @@ public class RePassPageController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -222,8 +205,6 @@ public class RePassPageController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

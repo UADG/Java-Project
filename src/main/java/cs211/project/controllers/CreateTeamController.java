@@ -32,13 +32,8 @@ public class CreateTeamController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objects;
     private Object[] objectsSend;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account;
@@ -49,7 +44,6 @@ public class CreateTeamController {
     private Boolean isLightTheme;
 
     public void initialize(){
-        loadTheme(theme);
         errorLabel.setText("");
         clearInfo();
         objects = (Object[]) FXRouter.getData();
@@ -241,9 +235,6 @@ public class CreateTeamController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-
-<<<<<<< HEAD
-=======
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -251,8 +242,6 @@ public class CreateTeamController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

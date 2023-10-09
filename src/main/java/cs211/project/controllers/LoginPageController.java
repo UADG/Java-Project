@@ -4,7 +4,6 @@ import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
-import cs211.project.services.ThemeDatasource;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -27,18 +26,11 @@ public class LoginPageController {
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-    private AccountList accountList;
-=======
     private boolean isLightTheme = true;
     private AccountList accountList;
     private Object[] objects;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     @FXML
     public void initialize() {
-        loadTheme(theme);
         invalidLabel.setVisible(false);
         hBox.setAlignment(Pos.CENTER);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
@@ -56,36 +48,17 @@ public class LoginPageController {
 
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
-<<<<<<< HEAD
             if (account.isPassword(password)) {
                 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 String time = LocalDateTime.now().format(formatter);
                 account.setTime(time);
-                FXRouter.goTo("events-list", account);
                 Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                 dataSource.writeData(accountList);
                 try{
-=======
-            if(account.isUnban(account.getUserStatus())) {
-                if (account.isPassword(password)) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                    String time = LocalDateTime.now().format(formatter);
-                    account.setTime(time);
-                    FXRouter.goTo("events-list", objects);
-                    Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-                    dataSource.writeData(accountList);
-                    try{
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
                     }else{
-<<<<<<< HEAD
-                        FXRouter.goTo("events-list", account);
-=======
                         FXRouter.goTo("events-list", objects);
-                    }}catch(IOException e){
-                        showAlert("Program Error");
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
                     }
                 }catch(IOException e){
                     showAlert("Program Error");
@@ -131,15 +104,13 @@ public class LoginPageController {
         alert.showAndWait();
     }
     @FXML
-    private void onChangeTheme(){
-        if(theme.equals("dark-theme.css")){
-            theme = "st-theme.css";
-            themeDatasource.write(theme);
+    protected void onChangeTheme() {
+        if (isLightTheme) {
+            loadTheme("dark-theme.css");
         } else {
-            theme = "dark-theme.css";
-            themeDatasource.write(theme);
+            loadTheme("st-theme.css");
         }
-        loadTheme(theme);
+        isLightTheme = !isLightTheme;
     }
 
     private void loadTheme(Boolean theme) {

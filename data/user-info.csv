@@ -1,14 +1,7 @@
-<<<<<<< HEAD
-0,admin,123,ad,2023-10-07 19:28,/images/default-profile.png,unban,admin
-1,best,123,BestTo,2023-10-07 17:02,/images/default-profile.png,unban,user
-2,win,123,WinnieThePooh,2023-10-02 16:52,/images/default-profile.png,unban,user
-3,ai,123,AiAye,2023-10-09 13:34,images/account_AiAye_image.png,unban,user
-4,jim,123,JimZaKung,2023-10-07 19:53,images/account_JimZaKung_image.gif,unban,user
-=======
-0,admin,123,ad,2023-10-08 01:31,/images/default-profile.png,unban,admin
+0,admin,12,ad,2023-10-09 15:12,/images/default-profile.png,unban,admin
 1,best,123,BestTo,2023-10-09 02:21,/images/default-profile.png,unban,user
 2,win,123,WinnieThePooh,2023-10-08 20:24,/images/default-profile.png,unban,user
-3,ai,123,AiAye,2023-10-08 20:36,images/account_AiAye_image.png,unban,user
+3,ai,123,AiAye,2023-10-09 15:34,images/account_AiAye_image.png,unban,user
 4,jim,123,JimZaKung,2023-10-09 02:38,images/account_JimZaKung_image.gif,unban,user
 5,testjoin,123,join,2023-10-09 02:18,/images/default-profile.png,unban,user
 6,testcreate,123,testcreate,2023-10-08 20:34,/images/default-profile.png,unban,user
@@ -19,4 +12,3 @@
 11,bk1,123,book tic 1,2023-10-09 02:34,/images/default-profile.png,unban,user
 12,bk2,123,book 2,2023-10-09 02:35,/images/default-profile.png,unban,user
 13,jp3,123,join parti,2023-10-09 02:37,/images/default-profile.png,unban,user
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf

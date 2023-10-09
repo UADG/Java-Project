@@ -36,6 +36,6 @@
          </font></Button>
       <Hyperlink layoutX="357.0" layoutY="433.0" onAction="#registerLink" text="Register" />
       <Label fx:id="invalidLabel" layoutX="340.0" layoutY="353.0" styleClass="text-field-error" text="Invalid username or password." textFill="#e40a0a" />
-      <Button fx:id="changeTheme" layoutX="690.0" layoutY="10.0" mnemonicParsing="false" onAction="#onChangeTheme" styleClass="default-button" text="Change Theme" />
+      <Button layoutX="690.0" layoutY="10.0" mnemonicParsing="false" onAction="#onChangeTheme" styleClass="default-button" text="Change Theme" />
    </children>
 </AnchorPane>

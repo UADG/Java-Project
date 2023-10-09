@@ -17,8 +17,6 @@ import javafx.scene.layout.BorderPane;
 import cs211.project.services.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
@@ -47,10 +45,7 @@ public class CommentTeamController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-=======
     private Boolean isLightTheme;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<ActivityList> activityListDatasource;
@@ -60,16 +55,10 @@ public class CommentTeamController {
     private Account account;
     private AccountList accountList;
     private Team team;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Object[] objects;
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
 
     @FXML
     private void initialize() {
-        loadTheme(theme);
         commentTextField.setEditable(false);
         sendClick.setVisible(false);
         eventLabel.setVisible(false);
@@ -297,9 +286,6 @@ public class CommentTeamController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
-
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -307,8 +293,6 @@ public class CommentTeamController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

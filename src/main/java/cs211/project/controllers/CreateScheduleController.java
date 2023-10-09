@@ -44,7 +44,6 @@ public class CreateScheduleController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
     private Object[] objectsSend;
     private Object[] objects;
     private String eventName;
@@ -57,15 +56,6 @@ public class CreateScheduleController {
     private Account account;
     private Datasource<TeamList> teamListDatasource;
     private TeamList teams;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-
-
-    @FXML
-    public void initialize() {
-        loadTheme(theme);
-=======
     private Boolean isLightTheme;
 
     @FXML
@@ -79,8 +69,6 @@ public class CreateScheduleController {
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
         loadTheme(isLightTheme);
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
         updateSchedule();
@@ -309,8 +297,6 @@ public class CreateScheduleController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-<<<<<<< HEAD
-=======
 
     private void loadTheme(Boolean theme) {
         if (theme) {
@@ -319,8 +305,6 @@ public class CreateScheduleController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

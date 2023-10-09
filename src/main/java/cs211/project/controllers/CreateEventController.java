@@ -52,17 +52,10 @@ public class CreateEventController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
-<<<<<<< HEAD
-    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
-    private String theme = themeDatasource.read();
-=======
     private Boolean isLightTheme;
     private Object[] objects;
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     @FXML
     private void initialize(){
-        loadTheme(theme);
         dateStart.setEditable(false);
         dateEnd.setEditable(false);
         bPane.setVisible(false);
@@ -304,9 +297,6 @@ public class CreateEventController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
-
-<<<<<<< HEAD
-=======
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -314,8 +304,6 @@ public class CreateEventController {
             loadTheme("dark-theme.css");
         }
     }
-
->>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;
