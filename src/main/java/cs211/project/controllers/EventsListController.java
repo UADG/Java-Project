@@ -27,6 +27,8 @@ import java.time.format.DateTimeFormatter;
 public class EventsListController {
     private Account account;
     private AccountList accountList;
+    private AccountList banList;
+    private Account ban;
 
     @FXML
     private Label eventNameLabel;
@@ -57,6 +59,7 @@ public class EventsListController {
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
+    private Datasource<AccountList> banListDatasource;
     private EventList eventList;
     private String textSearch = "";
     private Event selectedEvent;
@@ -81,9 +84,11 @@ public class EventsListController {
 
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
-
+        banListDatasource = new UserEventListFileDatasource("data","ban-user.csv");
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
+        banList = banListDatasource.readData();
+        ban = banList.findAccountByUsername(account.getUsername());
         slide.setTranslateX(-200);
         account = accountList.findAccountByUsername(account.getUsername());
         showList(eventList);
@@ -231,7 +236,9 @@ public class EventsListController {
                     showErrorAlert("You have already booked a ticket for this event.");
                 }else if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty() && selectedEvent.loadActivityInEvent().userIsParticipant(account.getUsername())){
                     showErrorAlert("Sorry, you're participant in this event.");
-                } else if(selectedEvent.getTicketLeft() > 0) {
+                }else if(ban.isEventName(selectedEvent.getEventName())){
+                    showErrorAlert("Sorry, you have ban form this event.");
+                }else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
@@ -260,6 +267,8 @@ public class EventsListController {
             }
             else if(account.isEventName(selectedEvent.getEventName())) {
                 showErrorAlert("You have already booked a ticket for this event.");
+            }else if(ban.isEventName(selectedEvent.getEventName())){
+                showErrorAlert("Sorry, you have ban form this event.");
             }
             else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
@@ -307,7 +316,10 @@ public class EventsListController {
     @FXML
     protected void onApplyToParticipantClick() throws IOException {
         if(selectedEvent != null) {
-            if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+            if(ban.isEventName(selectedEvent.getEventName())){
+                showErrorAlert("Sorry, you have ban form this event.");
+            }
+            else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
                 if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
                 }
