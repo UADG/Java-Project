@@ -3,7 +3,9 @@ package cs211.project.controllers;
 import cs211.project.models.Account;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
+import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -200,6 +202,8 @@ public class EditEventController {
     }
 
     private void changeNameDisplay(String name) {
+        Datasource<ActivityList> activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        ActivityList activityList = activityListDatasource.readData();
         if (name.equals(event.getEventName())) {
             return;
         }
@@ -216,10 +220,14 @@ public class EditEventController {
                     for (String event1 : account1.getAllEventUser()) {
                         if (event1.equals(thisEvent)) {
                             account1.changeName(event1, name);
-                            event.setEventName(name);
                         }
                     }
                 }
+                activityList.changeNameEvent(thisEvent,name);
+
+                activityListDatasource.writeData(activityList);
+                event.setEventName(name);
+
             }
         } catch (Exception e) {
             errorMessage += "EVENT NAME:\nInvalid name.\n";
