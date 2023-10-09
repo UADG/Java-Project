@@ -33,6 +33,7 @@ public class CreateScheduleController {
     @FXML ComboBox chooseMinTimeStop;
     @FXML DatePicker startDate;
     @FXML DatePicker endDate;
+    @FXML private AnchorPane parent;
     @FXML private Label eventNameLabel;
     @FXML private Label eventDateStart;
     @FXML private Label eventDateEnd;
@@ -53,10 +54,13 @@ public class CreateScheduleController {
     private Account account = accountList.findAccountByUsername(event.getEventManager());
     private Datasource<TeamList> teamListDatasource;
     private TeamList teams;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
 
 
     @FXML
     public void initialize() {
+        loadTheme(theme);
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
         updateSchedule();
@@ -287,5 +291,12 @@ public class CreateScheduleController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

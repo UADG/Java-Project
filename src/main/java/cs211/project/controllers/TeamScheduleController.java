@@ -26,6 +26,7 @@ import java.time.format.DateTimeFormatter;
 
 public class TeamScheduleController {
     @FXML private ComboBox teamComboBox;
+    @FXML private AnchorPane parent;
 
     @FXML private TableView<Activity> activityTableView;
 
@@ -37,8 +38,11 @@ public class TeamScheduleController {
     private Team team;
     private String eventName;
     private  Datasource<ActivityList> datasource;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     @FXML
     public void initialize(){
+        loadTheme(theme);
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
         Account account = (Account) FXRouter.getData();
@@ -153,5 +157,12 @@ public class TeamScheduleController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

@@ -5,6 +5,7 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
+import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -30,14 +31,17 @@ public class UserStatus {
     private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
-
     @FXML private HBox hBox;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Account account = (Account) FXRouter.getData();
     private Account selectedAccount;
     private AccountList accountList;
 
     @FXML
     private void initialize() {
+        loadTheme(theme);
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         clearDataInfo();
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
@@ -95,5 +99,12 @@ public class UserStatus {
     @FXML
     private void onChangePasswordClick()throws IOException{
         FXRouter.goTo("re-password",account);
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

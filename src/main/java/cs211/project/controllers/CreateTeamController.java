@@ -31,6 +31,9 @@ public class CreateTeamController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     private Account account;
@@ -39,6 +42,7 @@ public class CreateTeamController {
     public Event event;
     public Activity selectedActivity;
     public void initialize(){
+        loadTheme(theme);
         errorLabel.setText("");
         clearInfo();
         Object[] objects = (Object[]) FXRouter.getData();
@@ -222,5 +226,13 @@ public class CreateTeamController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

@@ -5,10 +5,12 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
+import cs211.project.services.ThemeDatasource;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
@@ -22,6 +24,13 @@ public class RegisterPageController {
     @FXML TextField usernameText;
     @FXML TextField passText;
     @FXML TextField confirmText;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
+    @FXML
+    public void initialize() {
+        loadTheme(theme);
+    }
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("login-page");
     }
@@ -96,5 +105,12 @@ public class RegisterPageController {
         usernameText.setText("");
         passText.setText("");
         confirmText.setText("");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

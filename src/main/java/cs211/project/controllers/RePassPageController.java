@@ -5,6 +5,7 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
+import cs211.project.services.ThemeDatasource;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -41,12 +42,16 @@ public class RePassPageController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private Button backButton;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Account accounts = (Account) FXRouter.getData();
     Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDataSource.readData();
     private Account account = accountList.findAccountByUsername(accounts.getUsername());
     @FXML
     public void initialize(){
+        loadTheme(theme);
         if(account.getRole().equals("admin")){
             menuButton.setVisible(false);
             backButton.setLayoutX(14);
@@ -191,5 +196,12 @@ public class RePassPageController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

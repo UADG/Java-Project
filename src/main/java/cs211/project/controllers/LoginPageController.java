@@ -1,14 +1,10 @@
 package cs211.project.controllers;
 
 import cs211.project.models.Account;
-import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.EventList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
-import cs211.project.services.EventListFileDatasource;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
+import cs211.project.services.ThemeDatasource;
 import javafx.event.ActionEvent;
 
 import java.io.IOException;
@@ -23,7 +19,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
-import javafx.util.Duration;
 
 public class LoginPageController {
     @FXML private TextField usernameText;
@@ -32,10 +27,12 @@ public class LoginPageController {
     @FXML private ImageView imageView;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private AccountList accountList;
-    private boolean isLightTheme = true;
     @FXML
     public void initialize() {
+        loadTheme(theme);
         invalidLabel.setVisible(false);
         hBox.setAlignment(Pos.CENTER);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
@@ -48,37 +45,33 @@ public class LoginPageController {
         Account account = accountList.findAccountByUsername(username);
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
-            if(account.isUnban(account.getUserStatus())) {
-                if (account.isPassword(password)) {
-                    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                    String time = LocalDateTime.now().format(formatter);
-                    account.setTime(time);
-                    FXRouter.goTo("events-list", account);
-                    Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-                    dataSource.writeData(accountList);
-                    try{
+            if (account.isPassword(password)) {
+                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                String time = LocalDateTime.now().format(formatter);
+                account.setTime(time);
+                FXRouter.goTo("events-list", account);
+                Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+                dataSource.writeData(accountList);
+                try{
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status",account);
                     }else{
                         FXRouter.goTo("events-list", account);
-                    }}catch(IOException e){
-                        showAlert("Program Error");
                     }
-                } else {
-                    invalidLabel.setText("Wrong password.");
-                    invalidLabel.setVisible(true);
-                    new java.util.Timer().schedule(
-                            new java.util.TimerTask() {
-                                @Override
-                                public void run() {
-                                    invalidLabel.setVisible(false);
-                                }
-                            },
-                            1000 // 1 sec
-                    );
+                }catch(IOException e){
+                    showAlert("Program Error");
                 }
-            }else {
-                showAlert("Your account got banned.");
+            } else {
+                invalidLabel.setText("Wrong password.");
+                invalidLabel.setVisible(true);
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                invalidLabel.setVisible(false);
+                            }},
+                        1000 // 1 sec
+                    );
             }
         }else{
             invalidLabel.setVisible(true);
@@ -103,20 +96,21 @@ public class LoginPageController {
     }
     private void showAlert(String message) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Banned");
+        alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
-
     @FXML
-    protected void onChangeTheme() {
-        if (isLightTheme) {
-            loadTheme("dark-theme.css");
+    private void onChangeTheme(){
+        if(theme.equals("dark-theme.css")){
+            theme = "st-theme.css";
+            themeDatasource.write(theme);
         } else {
-            loadTheme("st-theme.css");
+            theme = "dark-theme.css";
+            themeDatasource.write(theme);
         }
-        isLightTheme = !isLightTheme;
+        loadTheme(theme);
     }
 
     private void loadTheme(String themeName) {

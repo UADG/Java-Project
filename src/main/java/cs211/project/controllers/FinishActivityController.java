@@ -5,10 +5,7 @@ import cs211.project.models.Activity;
 import cs211.project.models.Event;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
-import cs211.project.services.AccountListDatasource;
-import cs211.project.services.ActivityListFileDatasource;
-import cs211.project.services.Datasource;
-import cs211.project.services.FXRouter;
+import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -36,6 +33,9 @@ public class FinishActivityController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Activity selectedActivity;
     private ActivityListFileDatasource data;
     private Account account;
@@ -43,6 +43,7 @@ public class FinishActivityController {
 
     @FXML
     public void initialize(){
+        loadTheme(theme);
         clearInfo();
         updateData();
         Object[] objects = (Object[]) FXRouter.getData();
@@ -203,6 +204,13 @@ public class FinishActivityController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 
 }

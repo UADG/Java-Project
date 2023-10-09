@@ -44,6 +44,9 @@ public class JoinedHistoryController {
     private BorderPane bPane;
     @FXML
     private Button cancelEvent;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
     Account account;
@@ -54,6 +57,7 @@ public class JoinedHistoryController {
 
     @FXML
     public void initialize() {
+        loadTheme(theme);
         clearEventInfo();
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
@@ -280,5 +284,12 @@ public class JoinedHistoryController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

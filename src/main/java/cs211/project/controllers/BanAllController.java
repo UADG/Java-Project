@@ -24,6 +24,7 @@ public class BanAllController {
     @FXML RadioButton chooseRoleSingleParticipant;
     @FXML ListView<Staff> staffListView;
     @FXML ListView<Account> userListView;
+    @FXML private AnchorPane parent;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
@@ -34,7 +35,6 @@ public class BanAllController {
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
-    private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banUserDatasource;
     private AccountList accountList;
@@ -42,8 +42,11 @@ public class BanAllController {
 
     private BanListFileDatasource banPath;
     private Account account;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     @FXML
     public void initialize(){
+        loadTheme(theme);
         Object[] objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
@@ -261,5 +264,13 @@ public class BanAllController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

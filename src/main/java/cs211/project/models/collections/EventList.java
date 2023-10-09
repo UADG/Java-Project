@@ -34,19 +34,8 @@ public class EventList {
         }
         return null;
     }
-    public Event findEventByUsername(String username) {
-        for (Event event : events) {
-            if (event.isEventManager(username)) {
-                return event;
-            }
-        }
-        return null;
-    }
     public ArrayList<Event> getEvents(){
         return events;
-    }
-    public String getDefaultPic(){
-        return "/images/default-profile.png";
     }
 
     public void searchEvent(String searchText){

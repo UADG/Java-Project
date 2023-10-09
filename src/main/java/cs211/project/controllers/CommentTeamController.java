@@ -46,6 +46,7 @@ public class CommentTeamController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private AnchorPane parent;
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<ActivityList> activityListDatasource;
@@ -55,10 +56,12 @@ public class CommentTeamController {
     private Account account;
     private AccountList accountList;
     private Team team;
-
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
 
     @FXML
     private void initialize() {
+        loadTheme(theme);
         commentTextField.setEditable(false);
         sendClick.setVisible(false);
         eventLabel.setVisible(false);
@@ -266,5 +269,12 @@ public class CommentTeamController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

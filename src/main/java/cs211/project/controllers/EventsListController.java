@@ -52,8 +52,8 @@ public class EventsListController {
     @FXML private Button bookTicket;
     @FXML private Button applyStaff;
     @FXML private Button applyParticipant;
-
-
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
@@ -65,7 +65,7 @@ public class EventsListController {
 
     @FXML
     public void initialize() {
-        loadTheme("dark-theme.css");
+        loadTheme(theme);
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
@@ -95,10 +95,6 @@ public class EventsListController {
                 }
             }
         });
-//        adminButton.setVisible(false);
-//        if(account.isAdmin(account.getRole())){
-//            adminButton.setVisible(true);
-//        }
     }
 
     private void showList(EventList eventList) {
@@ -367,14 +363,6 @@ public class EventsListController {
         });
     }
 
-    private void loadTheme(String themeName) {
-        if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
-            parent.getStylesheets().clear();
-            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
-        }
-    }
-
     @FXML
     public void onHomeClick() throws IOException {
 
@@ -418,12 +406,21 @@ public class EventsListController {
     }
 
     @FXML
-    protected void onChangeTheme() {
-        if (isLightTheme) {
-            loadTheme("dark-theme.css");
+    private void onChangeTheme(){
+        if(theme.equals("dark-theme.css")){
+            theme = "st-theme.css";
+            themeDatasource.write(theme);
         } else {
-            loadTheme("st-theme.css");
+            theme = "dark-theme.css";
+            themeDatasource.write(theme);
         }
-        isLightTheme = !isLightTheme;
+        loadTheme(theme);
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

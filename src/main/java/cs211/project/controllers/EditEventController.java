@@ -58,6 +58,9 @@ public class EditEventController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> joinedEventDatasource;
@@ -72,6 +75,7 @@ public class EditEventController {
 
     @FXML
     private void initialize() {
+        loadTheme(theme);
         clearErrorMessage();
 
         Event data = (Event) FXRouter.getData();
@@ -439,5 +443,13 @@ public class EditEventController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }

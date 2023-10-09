@@ -44,6 +44,9 @@ public class EventHistoryController {
     @FXML private Button finishActivity;
     @FXML private Button fixSchedule;
     @FXML private Button banAll;
+    @FXML private AnchorPane parent;
+    private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
+    private String theme = themeDatasource.read();
     private Event selectedEvent;
     private Account accounts = (Account) FXRouter.getData();
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
@@ -52,6 +55,7 @@ public class EventHistoryController {
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
+        loadTheme(theme);
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
@@ -322,5 +326,12 @@ public class EventHistoryController {
         Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
+    }
+    private void loadTheme(String themeName) {
+        if (parent != null) {
+            String cssPath = "/cs211/project/views/" + themeName;
+            parent.getStylesheets().clear();
+            parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
+        }
     }
 }
