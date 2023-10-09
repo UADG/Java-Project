@@ -45,17 +45,31 @@ public class EventHistoryController {
     @FXML private Button fixSchedule;
     @FXML private Button banAll;
     @FXML private AnchorPane parent;
+<<<<<<< HEAD
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
+=======
+    private Object[] objects;
+    private Boolean isLightTheme;
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Event selectedEvent;
-    private Account accounts = (Account) FXRouter.getData();
+    private Account accounts;
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
     Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
+<<<<<<< HEAD
         loadTheme(theme);
+=======
+        objects = (Object[]) FXRouter.getData();
+        accounts = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
@@ -188,8 +202,12 @@ public class EventHistoryController {
     @FXML
     protected void onEditDetailClick() {
         if (selectedEvent != null) {
+            Object[] objects1 = new Object[3];
+                objects1[0] = accounts;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
             try {
-                FXRouter.goTo("edit-event", selectedEvent);
+                FXRouter.goTo("edit-event", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -202,10 +220,11 @@ public class EventHistoryController {
     protected void onFinishActivityClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects = new Object[2];
-                objects[0] = accounts;
-                objects[1] = selectedEvent;
-                FXRouter.goTo("finish-activity",objects);
+                Object[] objects1 = new Object[3];
+                objects1[0] = accounts;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
+                FXRouter.goTo("finish-activity", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -217,7 +236,11 @@ public class EventHistoryController {
     protected void onFixScheduleClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("fix-team-schedule",selectedEvent);
+                Object[] objects1 = new Object[3];
+                objects1[0] = accounts;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
+                FXRouter.goTo("fix-team-schedule",objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -231,10 +254,11 @@ public class EventHistoryController {
     protected void onBanAllClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects = new Object[2];
-                objects[0] = accounts;
-                objects[1] = selectedEvent;
-                FXRouter.goTo("ban-all",objects);
+                Object[] objects1 = new Object[3];
+                objects1[0] = accounts;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
+                FXRouter.goTo("ban-all", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -254,7 +278,11 @@ public class EventHistoryController {
     protected void onEditActivity(){
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("create-schedule", selectedEvent);
+                Object[] objects1 = new Object[3];
+                objects1[0] = accounts;
+                objects1[1] = selectedEvent;
+                objects1[2] = isLightTheme;
+                FXRouter.goTo("create-schedule", objects1);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -288,35 +316,35 @@ public class EventHistoryController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", accounts);
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", accounts);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", accounts);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", accounts);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", accounts);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", accounts);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", accounts);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", accounts);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -327,6 +355,18 @@ public class EventHistoryController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

@@ -12,10 +12,18 @@
     -fx-font-family: "JasmineUPC";
     -fx-font-size: 18;
 }
+
 .default-button:hover
 {
     -fx-background-color: #acbee7;
 }
+
+.text-area
+{
+    -fx-background-color: #1ac900;
+    -fx-text-fill: #ffffff;
+}
+
 .default-button:pressed
 {
     -fx-background-color: #6d86bf;

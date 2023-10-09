@@ -44,16 +44,20 @@ public class CreateScheduleController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private AnchorPane parent;
+    private Object[] objectsSend;
+    private Object[] objects;
     private String eventName;
     private ActivityList activityList;
     private Activity selectedActivity;
-    private Event event = (Event) FXRouter.getData();
+    private Event event;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(event.getEventManager());
+    private Account account;
     private Datasource<TeamList> teamListDatasource;
     private TeamList teams;
+<<<<<<< HEAD
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
 
@@ -61,6 +65,22 @@ public class CreateScheduleController {
     @FXML
     public void initialize() {
         loadTheme(theme);
+=======
+    private Boolean isLightTheme;
+
+    @FXML
+    public void initialize() {
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        event = (Event) objects[1];
+        isLightTheme = (Boolean) objects[2];
+
+        objectsSend = new Object[2];
+        objectsSend[0] = account;
+        objectsSend[1] = isLightTheme;
+        loadTheme(isLightTheme);
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
         updateSchedule();
@@ -202,7 +222,7 @@ public class CreateScheduleController {
     @FXML
     protected void backOnClick(){
         try {
-            FXRouter.goTo("event-history");
+            FXRouter.goTo("event-history", objectsSend);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -218,9 +238,6 @@ public class CreateScheduleController {
     @FXML
     protected void nextOnClick(){
         try {
-            Object[] objects = new Object[2];
-            objects[0] = account;
-            objects[1] = event;
             FXRouter.goTo("create-team", objects);
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -253,35 +270,35 @@ public class CreateScheduleController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objectsSend);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objectsSend);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objectsSend);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objectsSend);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objectsSend);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objectsSend);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objectsSend);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objectsSend);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -292,6 +309,18 @@ public class CreateScheduleController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

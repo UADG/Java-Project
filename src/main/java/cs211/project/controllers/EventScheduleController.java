@@ -35,16 +35,34 @@ public class EventScheduleController {
     @FXML private BorderPane bPane;
     @FXML private Label infoActivity;
     @FXML private AnchorPane parent;
+<<<<<<< HEAD
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
+=======
+    private Object[] objectsSend;
+    private Object[] objects;
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Event selectedEvent;
     private Activity selectedActivity;
+    private Boolean isLightTheme;
+
     @FXML
     public void initialize() {
+<<<<<<< HEAD
         loadTheme(theme);
         Object[] objects = (Object[]) FXRouter.getData();
+=======
+        objects = (Object[]) FXRouter.getData();
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
+        isLightTheme = (Boolean) objects[2];
+
+        objectsSend = new Object[2];
+        objectsSend[0] = account;
+        objectsSend[1] = isLightTheme;
+        loadTheme(isLightTheme);
+
         showTable(selectedEvent.loadActivityInEvent());
         infoActivity.setText("");
         bPane.setVisible(false);
@@ -97,7 +115,7 @@ public class EventScheduleController {
     @FXML
     protected void onBackClick() throws IOException {
         try {
-            FXRouter.goTo("joined-history",account);
+            FXRouter.goTo("joined-history", objectsSend);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -128,35 +146,35 @@ public class EventScheduleController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objectsSend);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objectsSend);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objectsSend);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objectsSend);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objectsSend);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objectsSend);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objectsSend);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objectsSend);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -169,6 +187,18 @@ public class EventScheduleController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

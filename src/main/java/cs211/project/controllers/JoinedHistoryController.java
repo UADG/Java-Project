@@ -44,27 +44,43 @@ public class JoinedHistoryController {
     private BorderPane bPane;
     @FXML
     private Button cancelEvent;
+<<<<<<< HEAD
     @FXML private AnchorPane parent;
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
+=======
+    @FXML
+    private AnchorPane parent;
+    private Object[] objects;
+    private Object[] objectsSend;
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> datasource;
-    Account account;
+    private Account account;
     private AccountList accountList;
     private EventList eventList;
     private String selectedEvent;
     private LocalDate currentDate;
+    private Boolean isLightTheme;
 
     @FXML
     public void initialize() {
+<<<<<<< HEAD
         loadTheme(theme);
+=======
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+
+        loadTheme(isLightTheme);
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         clearEventInfo();
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
 
         datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-        account = (Account) FXRouter.getData();
 
         accountList = datasource.readData();
         eventList = eventListDatasource.readData();
@@ -161,7 +177,7 @@ public class JoinedHistoryController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("home-page");
+            FXRouter.goTo("home-page", objects);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -199,11 +215,12 @@ public class JoinedHistoryController {
     @FXML
     public void onOpenSchedule() {
         if(selectedEvent!=null){
-            Object[] objects = new Object[2];
-            objects[0] = account;
-            objects[1] = eventList.findEventByEventName(selectedEvent);
+            objectsSend = new Object[3];
+            objectsSend[0] = account;
+            objectsSend[1] = eventList.findEventByEventName(selectedEvent);
+            objectsSend[2] = isLightTheme;
             try{
-                FXRouter.goTo("event-schedule",objects);
+                FXRouter.goTo("event-schedule",objectsSend);
             }catch (IOException e){
                 throw new RuntimeException(e);
             }
@@ -244,35 +261,35 @@ public class JoinedHistoryController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -285,6 +302,18 @@ public class JoinedHistoryController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

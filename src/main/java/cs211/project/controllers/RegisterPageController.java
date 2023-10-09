@@ -20,6 +20,7 @@ import java.time.format.DateTimeFormatter;
 public class RegisterPageController {
     Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
     AccountList accountList = accountListDatasource.readData();
+<<<<<<< HEAD
     @FXML TextField nameText;
     @FXML TextField usernameText;
     @FXML TextField passText;
@@ -31,6 +32,22 @@ public class RegisterPageController {
     public void initialize() {
         loadTheme(theme);
     }
+=======
+    @FXML private TextField nameText;
+    @FXML private TextField usernameText;
+    @FXML private TextField passText;
+    @FXML private TextField confirmText;
+    @FXML private AnchorPane parent;
+    private Boolean isLightTheme;
+
+    @FXML
+    private void initialize() {
+        isLightTheme = (Boolean) FXRouter.getData();
+        loadTheme(isLightTheme);
+    }
+
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("login-page");
     }
@@ -106,6 +123,18 @@ public class RegisterPageController {
         passText.setText("");
         confirmText.setText("");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

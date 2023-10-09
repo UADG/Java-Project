@@ -23,13 +23,17 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventDetailsController {
+<<<<<<< HEAD
     @FXML private AnchorPane parent;
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
     private Event event = (Event) FXRouter.getData();
+=======
+    private Event event;
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
     private AccountList accountList = accountListDatasource.readData();
-    private Account account = accountList.findAccountByUsername(event.getEventManager());
+    private Account account;
 
     @FXML Label nameLabel;
     @FXML Label dateLabel;
@@ -41,8 +45,28 @@ public class EventDetailsController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
+    @FXML private AnchorPane parent;
+    private Object[] objects;
+    private Object[] objectsSent;
+    private Boolean isLightTheme;
+
+
     public void initialize(){
+<<<<<<< HEAD
         loadTheme(theme);
+=======
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        event = (Event) objects[1];
+        isLightTheme = (Boolean) objects[2];
+
+        objectsSent = new Object[2];
+        objectsSent[0] = account;
+        objectsSent[1] = isLightTheme;
+        loadTheme(isLightTheme);
+
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
         if(!event.getPicURL().equals("/images/default-profile.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
@@ -60,7 +84,7 @@ public class EventDetailsController {
     @FXML
     protected void onBackClick() {
         try {
-            FXRouter.goTo("events-list");
+            FXRouter.goTo("events-list", objectsSent);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -91,35 +115,35 @@ public class EventDetailsController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objectsSent);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objectsSent);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objectsSent);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objectsSent);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objectsSent);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objectsSent);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objectsSent);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objectsSent);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -131,6 +155,17 @@ public class EventDetailsController {
         FXRouter.goTo("login-page");
     }
 
+<<<<<<< HEAD
+=======
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

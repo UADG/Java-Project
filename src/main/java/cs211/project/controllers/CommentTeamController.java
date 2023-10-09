@@ -47,6 +47,10 @@ public class CommentTeamController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
+<<<<<<< HEAD
+=======
+    private Boolean isLightTheme;
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<ActivityList> activityListDatasource;
@@ -56,8 +60,12 @@ public class CommentTeamController {
     private Account account;
     private AccountList accountList;
     private Team team;
+<<<<<<< HEAD
     private ThemeDatasource themeDatasource = new ThemeDatasource("data", "theme.csv");
     private String theme = themeDatasource.read();
+=======
+    private Object[] objects;
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
 
     @FXML
     private void initialize() {
@@ -72,11 +80,14 @@ public class CommentTeamController {
         activityList = activityListDatasource.readData();
         commentTeam = commentDatasource.readData();
         accountList = accountListDatasource.readData();
-        account = (Account) FXRouter.getData();
+
+        objects = (Object[]) FXRouter.getData();
+        account = (Account) objects[0];
+        isLightTheme = (Boolean) objects[1];
+        loadTheme(isLightTheme);
 
         team = new Team("",1,1,"");
         chooseTeam.getItems().addAll(team.getListTeam(account.getId()));
-        System.out.println(team.getEvent());
 
         chooseTeam.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.equals("")) {
@@ -93,9 +104,17 @@ public class CommentTeamController {
                 String[] commentLines = team.getComment().split("\\\\n");
                 for (String line : commentLines) {
                     Text commentTextElement = new Text(line + "\n");
-                    commentTextElement.setStyle("-fx-fill: white;");
+                    if (!isLightTheme) {
+                        commentTextElement.setStyle("-fx-fill: white;");
+                    } else {
+                        commentTextElement.setStyle("-fx-fill: #000000;");
+                    }
                     if (accountList.findAccountByName(line.trim()) != null) {
-                        commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
+                        if (!isLightTheme) {
+                            commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
+                        } else {
+                            commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: #000000;");
+                        }
                     }
                     commentTextFlow.getChildren().add(commentTextElement);
                 }
@@ -141,9 +160,17 @@ public class CommentTeamController {
 
         for (String line : commentLines) {
             Text commentTextElement = new Text(line + "\n");
-            commentTextElement.setStyle("-fx-fill: white;");
+            if (!isLightTheme) {
+                commentTextElement.setStyle("-fx-fill: white;");
+            } else {
+                commentTextElement.setStyle("-fx-fill: #000000;");
+            }
             if (accountList.findAccountByName(line.trim()) != null) {
-                commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
+                if (!isLightTheme) {
+                    commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: white;");
+                } else {
+                    commentTextElement.setStyle("-fx-font-weight: bold; -fx-fill: #000000;");
+                }
             }
             commentTextFlow.getChildren().add(commentTextElement);
         }
@@ -231,35 +258,35 @@ public class CommentTeamController {
     }
     @FXML
     public void onHomeClick() throws IOException {
-        FXRouter.goTo("events-list", account);
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
-        FXRouter.goTo("profile-setting", account);
+        FXRouter.goTo("profile-setting", objects);
     }
     @FXML
     public void onCreateEvent() throws IOException {
-        FXRouter.goTo("create-event", account);
+        FXRouter.goTo("create-event", objects);
     }
     @FXML
     public void onJoinHistory() throws IOException {
-        FXRouter.goTo("joined-history", account);
+        FXRouter.goTo("joined-history", objects);
     }
     @FXML
     public void onEventHis() throws IOException {
-        FXRouter.goTo("event-history", account);
+        FXRouter.goTo("event-history", objects);
     }
     @FXML
     public void onPartiSchedule() throws IOException {
-        FXRouter.goTo("participant-schedule", account);
+        FXRouter.goTo("participant-schedule", objects);
     }
     @FXML
     public void onTeamSchedule() throws IOException {
-        FXRouter.goTo("team-schedule", account);
+        FXRouter.goTo("team-schedule", objects);
     }
     @FXML
     public void onComment() throws IOException {
-        FXRouter.goTo("comment-activity", account);
+        FXRouter.goTo("comment-activity", objects);
     }
     @FXML
     public void onLogOutButton() throws IOException {
@@ -270,6 +297,18 @@ public class CommentTeamController {
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+<<<<<<< HEAD
+=======
+
+    private void loadTheme(Boolean theme) {
+        if (theme) {
+            loadTheme("st-theme.css");
+        } else {
+            loadTheme("dark-theme.css");
+        }
+    }
+
+>>>>>>> 8ab29c07a331938002d3ef6deeeaf29016062bbf
     private void loadTheme(String themeName) {
         if (parent != null) {
             String cssPath = "/cs211/project/views/" + themeName;

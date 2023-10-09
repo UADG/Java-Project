@@ -72,6 +72,9 @@
           <TableColumn prefWidth="75.0" text="C1" />
           <TableColumn prefWidth="75.0" text="C2" />
         </columns>
+         <columnResizePolicy>
+            <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+         </columnResizePolicy>
       </TableView>
       <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="510.0" layoutY="135.0" mnemonicParsing="false" onAction="#selectedParticipant" styleClass="text-field" text="singlely participants" />
       <RadioButton fx:id="chooseRoleTeam" layoutX="510.0" layoutY="164.0" mnemonicParsing="false" onAction="#selectedTeam" styleClass="text-field" text="Event organizer team" />

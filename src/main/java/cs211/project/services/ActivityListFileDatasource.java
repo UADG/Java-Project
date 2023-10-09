@@ -63,7 +63,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             // ใช้ while loop เพื่ออ่านข้อมูลรอบละบรรทัด
             while ( (line = buffer.readLine()) != null ){
                 // ถ้าเป็นบรรทัดว่าง ให้ข้าม
-                if (line.equals("")) continue;
+                if (line.isEmpty()) continue;
 
                 // แยกสตริงด้วย ,
                 String[] data = line.split(",");
@@ -191,7 +191,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             bufferedWriter.write("");
             for(int i = 0;i<allInfo.size();i++){
                 String[] newLine = allInfo.get(i);
-                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7]+","+newLine[8];
+                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7]+","+newLine[8]+","+newLine[9]+","+newLine[10];
                 bufferedWriter.append(writeLine);
                 bufferedWriter.append("\n");
             }
