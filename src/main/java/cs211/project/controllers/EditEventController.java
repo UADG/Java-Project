@@ -210,7 +210,11 @@ public class EditEventController {
         try {
             if (name.length() < 3) {
                 errorMessage += "EVENT NAME:\nLength of name be must more than 3.\n";
-            } else {
+            }
+            if(isContainSpecialCharacter(name)){
+                errorMessage += "EVENT NAME:\nEvent name must not contain special character.\n";
+            }
+            if(name.length() >= 3 && !isContainSpecialCharacter(name)){
                 String thisEvent = event.getEventName();
                 for (Account account1 : accountJoinList.getAccount()) {
                     for (String event1 : account1.getAllEventUser()) {
@@ -449,5 +453,14 @@ public class EditEventController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

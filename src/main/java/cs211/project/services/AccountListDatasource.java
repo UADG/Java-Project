@@ -61,7 +61,7 @@ public class AccountListDatasource implements Datasource<AccountList>{
                 String name = data[3].trim();
                 String time = data[4].trim();
                 String picURL = data[5].trim();
-                String role = data[7].trim();
+                String role = data[6].trim();
                 accountList.addNewAccount( id, username, password, name, time, picURL, role);
             }
 
@@ -99,7 +99,7 @@ public class AccountListDatasource implements Datasource<AccountList>{
         try {
             for(Account account:data.getAccount()){
                 String line = account.getId()+","+account.getUsername()+","+account.getPassword()+
-                        ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+","+
+                        ","+account.getName()+","+account.getTime()+","+account.getPictureURL()+
                         ","+account.getRole();
                 buffer.append(line);
                 buffer.append("\n");

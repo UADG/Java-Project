@@ -44,7 +44,6 @@ public class CreateEventController {
     @FXML private TextField timeStart;
     @FXML private TextField timeEnd;
     @FXML private TextField ticket;
-    @FXML private TextField parti;
     @FXML private TextField detailLabel;
     @FXML private DatePicker startJoinDate;
     @FXML private DatePicker endJoinDate;
@@ -84,12 +83,13 @@ public class CreateEventController {
             errorText += "This event's name already in used.\n";
             clear(nameEvent);
         }else {
-
             if (eventName.equals("") || startDate == null || endDate == null || startTime.equals("") || endTime.equals("")
                     || ticketNum.equals("") || startJoin == null || endJoin == null) {
                 errorText += "Please fill all information.\n";
             }
-
+            if(isContainSpecialCharacter(eventName)){
+                errorText += "EVENT NAME:\nEvent name must not contain special character.\n";
+            }
             if(eventName.length()<3){
                 errorText += "EVENT NAME:\nLength of name be must more than 3.\n";
             }
@@ -305,5 +305,14 @@ public class CreateEventController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }
