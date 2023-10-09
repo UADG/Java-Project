@@ -117,7 +117,8 @@ public class FixScheduleController {
         }else{
             team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
             notFirst = true;
-            if(operator != null)showActivity();
+            
+            if(operator != null) showActivity();
         }
 
     }
