@@ -78,7 +78,7 @@ public class RegisterPageController {
                 if(pass.equals(confirmPass)){
                     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                     String time = LocalDateTime.now().format(formatter);
-                    accountList.addNewAccount(id,username,pass,name, time, "/images/default-profile.png","unban", "user");
+                    accountList.addNewAccount(id,username,pass,name, time, "/images/default-profile.png","user");
                     Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                     dataSource.writeData(accountList);
                     FXRouter.goTo("login-page");

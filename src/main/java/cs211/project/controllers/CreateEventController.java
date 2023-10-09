@@ -46,8 +46,8 @@ public class CreateEventController {
     @FXML private TextField ticket;
     @FXML private TextField parti;
     @FXML private TextField detailLabel;
-    @FXML private TextField timeTeam;
-    @FXML private TextField timeParti;
+    @FXML private DatePicker startJoinDate;
+    @FXML private DatePicker endJoinDate;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
@@ -75,10 +75,10 @@ public class CreateEventController {
         String startTime = timeStart.getText();
         String endTime = timeEnd.getText();
         String ticketNum = ticket.getText();
-        String participantNum = parti.getText();
+        LocalDate startJoin = startJoinDate.getValue();
+        LocalDate endJoin = endJoinDate.getValue();
         String detail = detailLabel.getText();
-        String teamTime = timeTeam.getText();
-        String partiTime = timeParti.getText();
+
         Event event = eventList.findEventByEventName(eventName);
         if(event!=null){
             errorText += "This event's name already in used.\n";
@@ -86,7 +86,7 @@ public class CreateEventController {
         }else {
 
             if (eventName.equals("") || startDate == null || endDate == null || startTime.equals("") || endTime.equals("")
-                    || ticketNum.equals("") || participantNum.equals("") || teamTime.equals("") || partiTime.equals("")) {
+                    || ticketNum.equals("") || startJoin == null || endJoin == null) {
                 errorText += "Please fill all information.\n";
             }
 
@@ -132,22 +132,18 @@ public class CreateEventController {
                 errorText += "INVALID AMOUNT TICKET:\nPlease enter a valid integer value for the ticket.\n";
             }
             try {
-                int participants = Integer.parseInt(participantNum);
-                if(participants < 1){
-                    errorText += "AMOUNT PARTICIPANT:\nParticipant value cannot be less than 1.\n";
+                if (!currentDate.isBefore(startJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endDate)) {
+                    errorText += "JOIN EVENT START DATE:\nJoin event start date must be after the current date and before the end date.\n";
                 }
-            } catch (NumberFormatException e) {
-                errorText += "INVALID AMOUNT PARTICIPANT:\nPlease enter a valid integer value for the participant.\n";
+            } catch (Exception e) {
+                errorText += "JOIN EVENT START DATE:\nInvalid Date.\n";
             }
             try {
-                LocalTime.parse(teamTime, DateTimeFormatter.ofPattern("HH:mm"));
-            } catch (DateTimeParseException e) {
-                errorText += "INVALID TIME END TEAM:\nPlease use HH:mm format.\n";
-            }
-            try {
-                LocalTime.parse(partiTime, DateTimeFormatter.ofPattern("HH:mm"));
-            } catch (DateTimeParseException e) {
-                errorText += "INVALID TIME END PARTICIPANT:\nPlease use HH:mm format.\n";
+                if (!currentDate.isBefore(endJoin) && (!endJoin.isAfter(startDate) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endDate)) {
+                    errorText += "JOIN EVENT END DATE:\nJoin event end date must be after the current date, join event start date and before the end date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "JOIN EVENT END DATE:\nInvalid Date.\n";
             }
         }
 
@@ -155,9 +151,8 @@ public class CreateEventController {
             boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
             if (confirmFinish){
                 int tickets = Integer.parseInt(ticketNum);
-                int participants = Integer.parseInt(participantNum);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
-                        participants, detail, teamTime, partiTime, 0, 0, "/images/default-profile.png", account.getUsername());
+                        detail, startJoin, endJoin, 0, "/images/default-profile.png", account.getUsername());
                 Datasource<EventList> dataSource = new EventListFileDatasource("data", "event-list.csv");
                 dataSource.writeData(eventList);
 

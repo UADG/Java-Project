@@ -26,12 +26,10 @@
       <Label layoutX="462.0" layoutY="217.0" styleClass="text-field" text="End Date:" />
       <DatePicker fx:id="dateEnd" layoutX="519.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
       <Button layoutX="652.0" layoutY="514.0" mnemonicParsing="false" onAction="#onNextClick" styleClass="default-button" text="Next" />
-      <Label layoutX="402.0" layoutY="287.0" styleClass="text-field" text="Participants Amount:" />
-      <TextField fx:id="parti" layoutX="519.0" layoutY="283.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="428.0" layoutY="322.0" styleClass="text-field" text="Time Team End:" />
-      <TextField fx:id="timeTeam" layoutX="519.0" layoutY="318.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="401.0" layoutY="357.0" styleClass="text-field" text="Time Participant End:" />
-      <TextField fx:id="timeParti" layoutX="519.0" layoutY="355.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="428.0" layoutY="322.0" styleClass="text-field" text="Join Event Start Date:" />
+      <DatePicker fx:id="startJoinDate" layoutX="519.0" layoutY="318.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label layoutX="401.0" layoutY="357.0" styleClass="text-field" text="Join Event End Date:" />
+      <DatePicker fx:id="endJoinDate" layoutX="519.0" layoutY="355.0" prefHeight="26.0" prefWidth="123.0" />
       <Label layoutX="332.0" layoutY="51.0" styleClass="text-field" text="Create Event">
          <font>
             <Font name="System Bold" size="20.0" />
