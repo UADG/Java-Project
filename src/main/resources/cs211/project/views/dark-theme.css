@@ -33,12 +33,6 @@
     -fx-font-weight: bold;
 }
 
-#eventDetailLabel{
-    -fx-font-family: "Tiro Devanagari Hindi";
-    -fx-font-size: 13;
-    -fx-font-weight: bold;
-}
-
 .default-button:hover {
     -fx-background-color: #404249;
 }
