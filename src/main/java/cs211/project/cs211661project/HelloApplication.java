@@ -38,6 +38,7 @@ public class HelloApplication extends Application {
         FXRouter.when("event-history", viewPath+"event-history.fxml");
         FXRouter.when("finish-activity", viewPath+"finish-activity.fxml");
         FXRouter.when("user-status", viewPath+"user-status.fxml");
+        FXRouter.when("about-us", viewPath+"about-us.fxml");
     }
 
 

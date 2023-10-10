@@ -84,3 +84,19 @@
 .date-picker .text-field {
     -fx-background-radius: 20;
 }
+#vBox,#vBox1,#vBox2,#vBox3{
+    -fx-background-color: #ffffff;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);
+}
+#parent1{
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);
+    -fx-background-color: #909DBD;
+}
+#headLabel4,#headLabel1,#headLabel2,#headLabel3{
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 18;
+    -fx-font-weight: bold;
+    -fx-text-fill: #ffffff;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1), 0, 0, 1, 1);
+}
