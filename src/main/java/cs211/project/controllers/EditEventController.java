@@ -2,10 +2,9 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Event;
-import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.EventList;
-import cs211.project.models.collections.TeamList;
+import cs211.project.models.Staff;
+import cs211.project.models.Team;
+import cs211.project.models.collections.*;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
@@ -31,6 +30,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.ArrayList;
 import java.util.Optional;
 
 public class EditEventController {
@@ -66,6 +66,15 @@ public class EditEventController {
     private Datasource<EventList> eventListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> joinedEventDatasource;
+    private Datasource<TeamList> teamListDatasource;
+    private Datasource<StaffList> banStaffListDatasource;
+    private  Datasource<AccountList> banUserDatasource;
+    private Datasource<ActivityList> activityListDatasource ;
+    private ActivityList activityList ;
+    private AccountList banUserList;
+    private StaffList banStaffList;
+    private TeamList teamList;
+
     private EventList eventList;
     private Event event;
     private LocalDate currentDate;
@@ -97,10 +106,22 @@ public class EditEventController {
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         joinedEventDatasource = new UserEventListFileDatasource("data", "user-joined-event.csv");
+        teamListDatasource = new TeamListFileDatasource("data","team.csv");
+        banStaffListDatasource = new BanListFileDatasource("data","ban-staff-list.csv");
+        banUserDatasource = new UserEventListFileDatasource("data","ban-user.csv");
+        activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+
+
+
 
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         accountJoinList = joinedEventDatasource.readData();
+        teamList = teamListDatasource.readData();
+        banUserList = banUserDatasource.readData();
+        banStaffList = banStaffListDatasource.readData();
+        activityList = activityListDatasource.readData();
+
 
         event = eventList.findEventByEventName(events.getEventName());
         account = accountList.findAccountByUsername(events.getEventManager());
@@ -167,6 +188,10 @@ public class EditEventController {
                     joinedEventDatasource.readData();
                     eventListDatasource.writeData(eventList);
                     joinedEventDatasource.writeData(accountJoinList);
+                    activityListDatasource.writeData(activityList);
+                    banUserDatasource.writeData(banUserList);
+                    banStaffListDatasource.writeData(banStaffList);
+                    teamListDatasource.writeData(teamList);
                     showInfo(event);
                     onBackClick();
                 }
@@ -207,8 +232,6 @@ public class EditEventController {
     }
 
     private void changeNameDisplay(String name) {
-        Datasource<ActivityList> activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        ActivityList activityList = activityListDatasource.readData();
         if (name.equals(event.getEventName())) {
             return;
         }
@@ -228,9 +251,29 @@ public class EditEventController {
                         }
                     }
                 }
-                activityList.changeNameEvent(thisEvent,name);
 
-                activityListDatasource.writeData(activityList);
+                for(Team team : teamList.getTeams()){
+                    if(team.getEvent().getEventName().equals(thisEvent))team.setEvent(name);
+                }
+
+                for(Staff staff : banStaffList.getStaffList()){
+                    for(String eventName : staff.getBannedEvent()){
+                        if(eventName.equals(thisEvent)){
+                            staff.removeEventThatGetBanned(thisEvent);
+                            staff.addEventThatGetBanned(name);
+                        }
+                    }
+                }
+
+                for(Account account : banUserList.getAccount()){
+                    for(String eventName : account.getAllEventUser()){
+                        if(eventName.equals(thisEvent)){
+                            account.changeName(thisEvent, name);
+                        }
+                    }
+                }
+
+                activityList.changeNameEvent(thisEvent,name);
                 event.setEventName(name);
 
             }

@@ -101,6 +101,15 @@ public class ActivityList {
         }
 
     }
+    public ArrayList<String> getParticipantInEvent(){
+        ArrayList<String> participants = new ArrayList<>();
+        for(Activity activity: activities){
+            if(!activity.getParticipantName().isEmpty()) {
+                participants.add(activity.getParticipantName());
+            }
+        }
+        return participants;
+    }
     public ArrayList<Activity> getAllActivities(){
         return allActivities;
     }

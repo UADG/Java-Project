@@ -7,6 +7,7 @@ import cs211.project.models.Team;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.services.AccountListDatasource;
+import cs211.project.services.ActivityListFileDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
@@ -46,14 +47,13 @@ public class FixScheduleController {
     private Account account;
     private Event selectedEvent;
     private Team team;
-    private boolean notFirst;
     private ActivityList list;
     private Activity selectedActivity;
     private String operator;
     private Object[] objects;
     private Object[] objectsSend;
     private Boolean isLightTheme;
-
+    private String participantName;
 
     @FXML
     public void initialize(){
@@ -75,10 +75,9 @@ public class FixScheduleController {
         loadTheme(isLightTheme);
 
         String[] op = {"add activity","delete activity"};
-        notFirst = false;
         list = selectedEvent.loadActivityInEvent();
+        chooseTeam.getItems().addAll(list.getParticipantInEvent());
         chooseRoleSingleParticipant.setSelected(true);
-        chooseTeam.getItems().addAll(selectedEvent.loadTeamInEvent().getTeams());
         chooseOperator.getItems().addAll(op);
         setChooseTeamVisible(false);
         bPane.setVisible(false);
@@ -96,44 +95,61 @@ public class FixScheduleController {
     public void chooseRole(){
 
         if(chooseRoleTeam.isSelected()){
+            activityTableView.getItems().clear();
+            chooseTeam.getItems().clear();
+            chooseTeam.getItems().addAll(selectedEvent.loadTeamInEvent().getTeams());
             chooseRoleSingleParticipant.setSelected(false);
             setChooseTeamVisible(true);
-            if(notFirst){
-                chooseWhichTeam();
-            }
+            constantTeamLabel.setText("Team:");
+            chooseWhichTeam();
 
 
         }
         if(chooseRoleSingleParticipant.isSelected()){
+            activityTableView.getItems().clear();
+            chooseTeam.getItems().clear();
+            chooseTeam.getItems().addAll(list.getParticipantInEvent());
             chooseRoleTeam.setSelected(false);
-            setChooseTeamVisible(false);
+            constantTeamLabel.setText("Parti:");
             clearInfo();
-            showParticipant();
-
+            if(chooseOperator.getValue() != null) {
+                chooseWhichOperator();
+                showActivity();
+            }
         }
     }
-
     public void setChooseTeamVisible(boolean bool){
         chooseTeam.setVisible(bool);
         constantTeamLabel.setVisible(bool);
     }
 
     public void chooseWhichTeam(){
-        if(team == null && operator == null){
-            team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
-            notFirst = true;
-        }else{
-            team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
-            notFirst = true;
-            
-            if(operator != null) showActivity();
+        if(chooseRoleTeam.isSelected()){
+            if (team == null && operator == null) {
+                team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
+            } else if(chooseTeam.getValue() != null){
+                team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
+                if (operator != null) showActivity();
+            }
         }
-
+        else if (chooseRoleSingleParticipant.isSelected()){
+            participantName = (String) chooseTeam.getSelectionModel().getSelectedItem();
+        }
     }
 
     public void chooseWhichOperator(){
         operator = (String) chooseOperator.getSelectionModel().getSelectedItem();
-        if(team != null) showActivity();
+        if(chooseRoleTeam.isSelected()){
+            if(team != null && chooseTeam.getValue() != null) showActivity();
+        } else if (chooseRoleSingleParticipant.isSelected()) {
+            if(operator.equals("delete activity")){
+                setChooseTeamVisible(false);
+            }
+            else {
+                setChooseTeamVisible(true);
+            }
+            showActivity();
+        }
     }
 
     public void showActivity(){
@@ -162,33 +178,61 @@ public class FixScheduleController {
         activityTableView.getItems().clear();
 
 
-        if(operator.equals("add activity")) {
-            for(Activity activity: list.getActivities()){
-                if(activity.getTeamName().equals(""))activityTableView.getItems().add(activity);
+        if(chooseRoleTeam.isSelected()) {
+            if (operator.equals("add activity")) {
+                for (Activity activity : list.getActivities()) {
+                    if (activity.getTeamName().equals("")) activityTableView.getItems().add(activity);
+                }
+            } else if (operator.equals("delete activity")) {
+                for (Activity activity : list.getActivities()) {
+                    if (activity.getTeamName().equals(team.getTeamName())) activityTableView.getItems().add(activity);
+                }
             }
-        }else if(operator.equals("delete activity")){
-            for(Activity activity: list.getActivities()){
-                if(activity.getTeamName().equals(team.getTeamName()))activityTableView.getItems().add(activity);
+        }
+        else {
+            if (operator.equals("add activity")) {
+                for (Activity activity : list.getActivities()) {
+                    if (activity.getParticipantName().equals("")) {
+                        activityTableView.getItems().add(activity);
+                    }
+                }
+            } else if (operator.equals("delete activity")) {
+                for (Activity activity : list.getActivities()) {
+                    if (!activity.getParticipantName().isEmpty()) {
+                        activityTableView.getItems().add(activity);
+                    }
+                }
             }
         }
     }
 
     public void updateDataToTarget(){
-        if(selectedActivity != null) {
-            if(operator.equals("add activity")){
-                selectedActivity.updateTeamInActivity(team);
-            }else if(operator.equals("delete activity")){
-                selectedActivity.updateTeamInActivity(null);
+        if(chooseRoleTeam.isSelected()){
+            if (selectedActivity != null) {
+                if (operator.equals("add activity")) {
+                    selectedActivity.updateTeamInActivity(team);
+                } else if (operator.equals("delete activity")) {
+                    selectedActivity.updateTeamInActivity(null);
+                }
+                list = selectedEvent.loadActivityInEvent();
+                showActivity();
             }
-            list = selectedEvent.loadActivityInEvent();
-            showActivity();
+        }
+        else if (chooseRoleSingleParticipant.isSelected()){
+            if (selectedActivity != null) {
+                if (operator.equals("add activity")) {
+                    selectedActivity.setParticipantName(participantName);
+                } else if (operator.equals("delete activity")) {
+                    selectedActivity.setParticipantName("");
+                }
+                Datasource<ActivityList> datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                datasource.writeData(list);
+                list = selectedEvent.loadActivityInEvent();
+                showActivity();
+            }
         }
     }
 
-    public void showParticipant(){
-        activityTableView.getItems().clear();
-        activityTableView.getItems().addAll();
-    }
 
     public void selectedParticipant(){
         chooseRoleSingleParticipant.setSelected(true);

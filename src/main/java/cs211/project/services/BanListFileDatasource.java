@@ -65,6 +65,7 @@ public class BanListFileDatasource implements Datasource<StaffList>{
                 Staff staff = new Staff(data[0],"notnullja");
                 for(int i = 1;i< data.length;i++){
                     staff.addEventThatGetBanned(data[i]);
+                    System.out.println(staff.getBannedEvent().get(0));
                 }
                 list.addStaff(staff);
             }

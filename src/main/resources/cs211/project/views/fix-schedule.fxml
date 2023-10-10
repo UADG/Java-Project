@@ -63,7 +63,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <ComboBox fx:id="chooseTeam" layoutX="517.0" layoutY="197.0" onAction="#chooseWhichTeam" prefWidth="150.0" promptText="Choose Team" styleClass="combo-box" />
+      <ComboBox fx:id="chooseTeam" layoutX="517.0" layoutY="197.0" onAction="#chooseWhichTeam" prefWidth="150.0" styleClass="combo-box" />
       <Label fx:id="nameLabel" layoutX="524.0" layoutY="276.0" styleClass="text-field" text="Activity name">
          <font>
             <Font size="14.0" />
