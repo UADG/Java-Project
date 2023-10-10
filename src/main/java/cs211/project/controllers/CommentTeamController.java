@@ -12,6 +12,8 @@ import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import cs211.project.services.*;
@@ -45,6 +47,7 @@ public class CommentTeamController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Boolean isLightTheme;
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
@@ -62,7 +65,6 @@ public class CommentTeamController {
         commentTextField.setEditable(false);
         sendClick.setVisible(false);
         eventLabel.setVisible(false);
-
         commentDatasource = new CommentTeamListDatasource("data", "team-comment.csv");
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
@@ -74,6 +76,11 @@ public class CommentTeamController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
 
         team = new Team("",1,1,"");
         chooseTeam.getItems().addAll(team.getListTeam(account.getId()));

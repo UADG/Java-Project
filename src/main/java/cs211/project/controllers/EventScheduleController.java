@@ -17,6 +17,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -34,6 +36,7 @@ public class EventScheduleController {
     @FXML private BorderPane bPane;
     @FXML private Label infoActivity;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Object[] objectsSend;
     private Object[] objects;
     private Event selectedEvent;
@@ -43,12 +46,14 @@ public class EventScheduleController {
     @FXML
     public void initialize() {
         Object[] objects = (Object[]) FXRouter.getData();
-
-        objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;

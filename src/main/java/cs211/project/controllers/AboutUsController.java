@@ -19,10 +19,10 @@ public class AboutUsController {
     public void initialize(){
         isLightTheme = (Boolean) FXRouter.getData();
         loadTheme(isLightTheme);
-        bestImage.setImage(new Image("file:images/account_JimZaKung_image.gif"));
-        winImage.setImage(new Image("file:images/account_JimZaKung_image.gif"));
-        aiImage.setImage(new Image("file:images/account_JimZaKung_image.gif"));
-        jimImage.setImage(new Image("file:images/account_JimZaKung_image.gif"));
+        bestImage.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        winImage.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        aiImage.setImage(new Image(getClass().getResource("/images/ai-image.jpg").toExternalForm()));
+        jimImage.setImage(new Image(getClass().getResource("/images/jim-image.jpg").toExternalForm()));
     }
     @FXML
     private void onBackClick() throws IOException {

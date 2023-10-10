@@ -18,34 +18,47 @@
             <ImageView fx:id="imageView" fitHeight="112.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </HBox>
-      <Label layoutX="404.0" layoutY="270.0" styleClass="text-field" text="EventName : " />
-      <Label layoutX="404.0" layoutY="298.0" styleClass="text-field" text="DateStart :" />
-      <Label layoutX="405.0" layoutY="353.0" styleClass="text-field" text="TimeStart :" />
-      <Label layoutX="404.0" layoutY="379.0" styleClass="text-field" text="TimeEnd :" />
-      <Label layoutX="404.0" layoutY="406.0" styleClass="text-field" text="AmountTickets :" />
-      <Label layoutX="404.0" layoutY="326.0" styleClass="text-field" text="DateEnd :" />
-      <Label fx:id="eventName" layoutX="486.0" layoutY="270.0" styleClass="text-field" text="EventNameLabel" />
-      <Label fx:id="dateStart" layoutX="486.0" layoutY="298.0" styleClass="text-field" text="DateStartLabel" />
-      <Label fx:id="dateEnd" layoutX="486.0" layoutY="326.0" styleClass="text-field" text="DateEndLabel" />
-      <Label fx:id="timeStart" layoutX="488.0" layoutY="353.0" styleClass="text-field" text="TimeStartLabel" />
-      <Label fx:id="timeEnd" layoutX="488.0" layoutY="379.0" styleClass="text-field" text="TimeEndLabel" />
-      <Label fx:id="amountTicket" layoutX="504.0" layoutY="406.0" styleClass="text-field" text="AmountTicketsLabel" />
+      <Label layoutX="404.0" layoutY="270.0" styleClass="text-field" text="Event Name : " />
+      <Label layoutX="416.0" layoutY="295.0" styleClass="text-field" text="Date Start :" />
+      <Label layoutX="413.0" layoutY="345.0" styleClass="text-field" text="Time Start :" />
+      <Label layoutX="418.0" layoutY="370.0" styleClass="text-field" text="Time End :" />
+      <Label layoutX="380.0" layoutY="395.0" styleClass="text-field" text="Amount Tickets :" />
+      <Label layoutX="420.0" layoutY="320.0" styleClass="text-field" text="Date End :" />
+      <Label fx:id="eventName" layoutX="502.0" layoutY="270.0" styleClass="text-field" text="EventNameLabel" />
+      <Label fx:id="dateStart" layoutX="502.0" layoutY="295.0" styleClass="text-field" text="DateStartLabel" />
+      <Label fx:id="dateEnd" layoutX="502.0" layoutY="320.0" styleClass="text-field" text="DateEndLabel" />
+      <Label fx:id="timeStart" layoutX="502.0" layoutY="345.0" styleClass="text-field" text="TimeStartLabel" />
+      <Label fx:id="timeEnd" layoutX="502.0" layoutY="370.0" styleClass="text-field" text="TimeEndLabel" />
+      <Label fx:id="amountTicket" layoutX="502.0" layoutY="395.0" styleClass="text-field" text="AmountTicketsLabel" />
       <Button fx:id="editActivity" layoutX="118.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditActivity" styleClass="default-button" text="Edit Schedule" />
       <Button fx:id="editDetail" layoutX="228.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditDetailClick" styleClass="default-button" text="Edit Detail" />
       <Button fx:id="finishActivity" layoutX="320.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" styleClass="default-button" text="Finish Activity" />
       <Button fx:id="fixSchedule" layoutX="428.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" styleClass="default-button" text="Add/Delete Team" />
       <Button fx:id="banAll" layoutX="558.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" styleClass="default-button" text="Ban Participnat" />
-      <Label layoutX="316.0" layoutY="83.0" styleClass="text-field" text="Event History">
+      <Label fx:id="headLabel" layoutX="352.0" layoutY="85.0" styleClass="text-field" text="Event History">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
+                  <VBox prefHeight="600.0" prefWidth="200.0">
                      <children>
+                        <Label />
+                        <Label />
+                        <Label />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
                         <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" styleClass="menu-button" text="Home" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -95,11 +108,6 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeMenuBar" styleClass="menu-button" text="Menu" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -109,10 +117,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

@@ -12,6 +12,8 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -28,6 +30,7 @@ public class ParticipantScheduleController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Account account;
     private Object[] objects;
     private ActivityList activityList;
@@ -37,10 +40,16 @@ public class ParticipantScheduleController {
 
     @FXML
     public void initialize() {
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
         for(Activity activity:activityList.getAllActivities()){

@@ -45,6 +45,7 @@ public class EventHistoryController {
     @FXML private Button fixSchedule;
     @FXML private Button banAll;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Boolean isLightTheme;
     private Event selectedEvent;
@@ -55,10 +56,16 @@ public class EventHistoryController {
     EventList eventList = eventListDatasource.readData();
     @FXML
     public void initialize() {
+
         objects = (Object[]) FXRouter.getData();
         accounts = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
@@ -97,10 +104,10 @@ public class EventHistoryController {
             timeStart.setText(event.getStartTime());
             timeEnd.setText(event.getEndTime());
             amountTicket.setText(String.format("%d", event.getTicket()));
-            if (!event.getPicURL().equals("/images/default-profile.png")) {
+            if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
-                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
             }
         } else if (event.getEndDate().isEqual(currentDate)){
             if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
@@ -118,10 +125,10 @@ public class EventHistoryController {
                 timeStart.setText(event.getStartTime());
                 timeEnd.setText(event.getEndTime());
                 amountTicket.setText(String.format("%d", event.getTicket()));
-                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
-                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
                 }
             } else {
                 editActivity.setVisible(false);
@@ -138,10 +145,10 @@ public class EventHistoryController {
                 timeStart.setText(event.getStartTime());
                 timeEnd.setText(event.getEndTime());
                 amountTicket.setText(String.format("%d", event.getTicket()));
-                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
-                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
                 }
             }
         } else {
@@ -159,10 +166,10 @@ public class EventHistoryController {
             timeStart.setText(event.getStartTime());
             timeEnd.setText(event.getEndTime());
             amountTicket.setText(String.format("%d", event.getTicket()));
-            if (!event.getPicURL().equals("/images/default-profile.png")) {
+            if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
-                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
             }
         }
     }
@@ -186,7 +193,7 @@ public class EventHistoryController {
         timeStart.setText("");
         timeEnd.setText("");
         amountTicket.setText("");
-        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
     }
     @FXML
     protected void onEditDetailClick() {

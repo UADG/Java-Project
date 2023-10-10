@@ -7,8 +7,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
@@ -51,12 +53,25 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
+                  <VBox prefHeight="600.0" prefWidth="200.0">
                      <children>
+                        <Label />
+                        <Label />
+                        <Label />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
                         <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" styleClass="menu-button" text="Home" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -106,11 +121,6 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeMenuBar" styleClass="menu-button" text="Menu" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />
@@ -120,10 +130,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>
