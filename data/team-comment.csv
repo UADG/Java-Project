@@ -1,13 +1,22 @@
 ทีมโซน A,
 TeamA,
 Team1,
-Team2,joinTeam\nyo
-TeamB,join\nงานเป็นไงมั่ง\n\njoin\nดีๆ\nกำลังสวยเลย\nใกล้เสร็จละ
-team1,joinTeam\nเรียบร้อยแล้วนะ
-team แจกน้ำ,join\nแจกน้ำๆ\nไปแจกโซนโน้นๆ
-ความปลอดภัย,join event check\nทุกคนเป็นไงมั่ง\nเรียบร้อยดีมั้ย\nมีอะไรให้ช่วยบอกนะ
-team2,joinTeam\nไปจัดอุปกรณ์มาๆ
+Team2,joinTeam\nyo\n\ntestcreate\nyo ว่าไง\n\njoinTeam\nyo
+TeamB,join\nงานเป็นไงมั่ง\n\njoin\nดีๆ\nกำลังสวยเลย\nใกล้เสร็จละ\n\nWinnieThePooh\nทำความสะอาดโซนนี้อยู่\n\njoin\nเครๆ
+team1,joinTeam\nเรียบร้อยแล้วนะ\n\njoin\nเรียบร้อยครับ
+team แจกน้ำ,join\nแจกน้ำๆ\nไปแจกโซนโน้นๆ\n\njoin\nได้ครับๆ
+ความปลอดภัย,join event check\nทุกคนเป็นไงมั่ง\nเรียบร้อยดีมั้ย\nมีอะไรให้ช่วยบอกนะ\n\nWinnieThePooh\nเรียบร้อยดีๆ\n\njoinTeam\nเรียบร้อยเหมือนกัน
+team2,joinTeam\nไปจัดอุปกรณ์มาๆ\n\nJimZaKung\nได้ครับสุดหล่อ\n\njoinTeam\nเครๆ\nมีไรให้ช่วยอีกบอกนะ
 1,
-2,
-4,
-6,
+2,testcreate\ntest ดู
+4,WinnieThePooh\ntest test
+6,JimZaKung\ntest
+ทีม 1,testcreate\nโชว์ๆ
+ทีม 2,WinnieThePooh\nพักกินข้าวกันๆ
+ทีมวาดรูป,
+แสดงผลงาน,
+เลี้ยงฉลอง,
+วาดรูป,
+ฝึกแต่งตัว,
+ออกกำลังกาย,
+พักผ่อน,

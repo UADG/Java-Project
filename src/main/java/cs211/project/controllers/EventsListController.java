@@ -422,7 +422,7 @@ public class EventsListController {
 
     @FXML
     public void onHomeClick() throws IOException {
-
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
