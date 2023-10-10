@@ -27,6 +27,9 @@ public class EventsListController {
     private AccountList banList;
     private Account ban;
 
+    private LocalDate currentDate = LocalDate.now();
+    private LocalTime currentTime = LocalTime.now();
+
     @FXML
     private Label eventNameLabel;
     @FXML
@@ -51,7 +54,7 @@ public class EventsListController {
     @FXML private Button bookTicket;
     @FXML private Button applyStaff;
     @FXML private Button applyParticipant;
-
+    @FXML private ImageView logoImageView;
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
@@ -75,8 +78,13 @@ public class EventsListController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
 
-        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
         errorLabelBook.setText("");
@@ -118,9 +126,6 @@ public class EventsListController {
     }
 
     private void showList(EventList eventList) {
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
-
         eventListView.getItems().clear();
         if (textSearch.equals("")) {
             for (Event event : eventList.getEvents()) {
@@ -140,8 +145,6 @@ public class EventsListController {
     }
 
     private void showEventInfo(Event event) {
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
         if (event.getEndDate().isAfter(currentDate)){
             bookTicket.setVisible(true);
             applyStaff.setVisible(true);
@@ -149,10 +152,10 @@ public class EventsListController {
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
             teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
-            if (!event.getPicURL().equals("/images/default-profile.png")) {
+            if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
-                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
             }
         } else if (event.getEndDate().isEqual(currentDate)){
             if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
@@ -162,10 +165,10 @@ public class EventsListController {
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
                 teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
-                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
-                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
                 }
             } else {
                 bookTicket.setVisible(false);
@@ -174,10 +177,10 @@ public class EventsListController {
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
                 teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
-                if (!event.getPicURL().equals("/images/default-profile.png")) {
+                if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
-                    imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                    imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
                 }
 
             }
@@ -188,10 +191,10 @@ public class EventsListController {
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
             teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
-            if (!event.getPicURL().equals("/images/default-profile.png")) {
+            if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
-                imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+                imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
             }
         }
     }
@@ -200,7 +203,7 @@ public class EventsListController {
         eventNameLabel.setText("");
         ticketLeftLabel.setText("");
         teamLeftLabel.setText("");
-        imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
     }
 
     @FXML
@@ -419,7 +422,7 @@ public class EventsListController {
 
     @FXML
     public void onHomeClick() throws IOException {
-
+        FXRouter.goTo("events-list", objects);
     }
     @FXML
     public void onProfileClick() throws IOException {
@@ -462,8 +465,10 @@ public class EventsListController {
     @FXML
     protected void onChangeTheme() {
         if (isLightTheme) {
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
             loadTheme("dark-theme.css");
         } else {
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
             loadTheme("st-theme.css");
         }
         isLightTheme = !isLightTheme;

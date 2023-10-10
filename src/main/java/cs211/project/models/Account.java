@@ -1,7 +1,5 @@
 package cs211.project.models;
 
-//import at.favre.lib.crypto.bcrypt.BCrypt;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -110,15 +108,10 @@ public class Account implements Comparable<Account>{
     public boolean isAdmin(String role) {
         return "admin".equals(role);
     }
-//    public boolean validatePassword(String password) {
-//        BCrypt.Result result = BCrypt.verifyer().verify(password.toCharArray(), this.password);
-//        return result.verified;
-//    }
     @Override
     public String toString() {
         return "ID: " + id + " Username: " + username + " Last Online: " + time;
     }
-
     @Override
     public int compareTo(Account o) {
         String pattern = "yyyy-MM-dd' 'HH:mm";

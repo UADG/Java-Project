@@ -33,7 +33,7 @@
       <Button layoutX="690.0" layoutY="10.0" mnemonicParsing="false" onAction="#onChangeTheme" styleClass="default-button" text="Change Theme" />
       <Pane prefHeight="600.0" prefWidth="225.0" styleClass="progress-bar">
          <children>
-            <ImageView fitHeight="135.0" fitWidth="136.0" layoutX="45.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="imageView" fitHeight="208.0" fitWidth="208.0" layoutX="9.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
       <Button layoutX="615.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAboutUsClick" styleClass="default-button" text="About Us" />

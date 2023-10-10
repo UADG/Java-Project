@@ -39,6 +39,7 @@ public class EventDetailsController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private Label bookDateLabel;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSent;
     private Boolean isLightTheme;
@@ -49,16 +50,20 @@ public class EventDetailsController {
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         objectsSent = new Object[2];
         objectsSent[0] = account;
         objectsSent[1] = isLightTheme;
         loadTheme(isLightTheme);
 
-        if(!event.getPicURL().equals("/images/default-profile.png")){
+        if(!event.getPicURL().equals("/images/default-event.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         nameLabel.setText(event.getEventName());

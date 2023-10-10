@@ -11,6 +11,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -27,6 +29,7 @@ public class ParticipantScheduleController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     @FXML private Label infoActivity;
     private Account account;
     private Object[] objects;
@@ -42,6 +45,11 @@ public class ParticipantScheduleController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
         for(Activity activity:activityList.getAllActivities()){

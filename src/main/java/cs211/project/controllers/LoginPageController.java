@@ -27,6 +27,8 @@ public class LoginPageController {
     private Object[] objects;
     @FXML
     public void initialize() {
+        imageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+
         invalidLabel.setVisible(false);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
         this.accountList = accountListDataSource.readData();
@@ -102,8 +104,11 @@ public class LoginPageController {
     protected void onChangeTheme() {
         if (isLightTheme) {
             loadTheme("dark-theme.css");
+            imageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+
         } else {
             loadTheme("st-theme.css");
+            imageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
         }
         isLightTheme = !isLightTheme;
     }

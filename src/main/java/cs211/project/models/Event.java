@@ -123,6 +123,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public void ticketBuy() {
         ticketBuy += 1;
     }
+    public void ticketCancel(){ticketBuy -= 1;}
     public int getTicketLeft() {
         return ticket - ticketBuy;
     }

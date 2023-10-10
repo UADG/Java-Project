@@ -4,14 +4,16 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="parent" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.ParticipantScheduleController">
    <children>
-      <Label layoutX="113.0" layoutY="27.0" styleClass="text-field" text="PARTICIPANT SCHEDULE">
+      <Label fx:id="headLabel" layoutX="92.0" layoutY="69.0" styleClass="text-field" text="PARTICIPANT SCHEDULE">
          <font>
             <Font name="System Bold" size="19.0" />
          </font>
@@ -21,14 +23,14 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ComboBox fx:id="chooseEvent" layoutX="92.0" layoutY="55.0" prefHeight="26.0" prefWidth="305.0" />
-      <Button layoutX="432.0" layoutY="56.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" styleClass="default-button" text="Search" />
+      <ComboBox fx:id="chooseEvent" layoutX="357.0" layoutY="64.0" prefHeight="27.0" prefWidth="274.0" />
+      <Button layoutX="631.0" layoutY="64.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" styleClass="default-button" text="Search" />
       <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
          <font>
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Label layoutX="43.0" layoutY="488.0" styleClass="text-field" text="activity info :">
+      <Label layoutX="43.0" layoutY="488.0" styleClass="text-field" text="Activity Info:">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
@@ -42,8 +44,16 @@
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
+                  <VBox prefHeight="600.0" prefWidth="200.0">
                      <children>
+                        <Label />
+                        <Label />
+                        <Label />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
                         <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" styleClass="menu-button" text="Home" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -93,11 +103,6 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeMenuBar" styleClass="menu-button" text="Menu" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />

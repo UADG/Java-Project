@@ -46,6 +46,7 @@ public class JoinedHistoryController {
     private Button cancelEvent;
     @FXML
     private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSend;
     private Datasource<EventList> eventListDatasource;
@@ -64,7 +65,11 @@ public class JoinedHistoryController {
         isLightTheme = (Boolean) objects[1];
 
         loadTheme(isLightTheme);
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         clearEventInfo();
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
@@ -140,10 +145,10 @@ public class JoinedHistoryController {
         eventNameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         statusLabel.setText("Still being organized.");
-        if (!event.getPicURL().equals("/images/default-profile.png")) {
+        if (!event.getPicURL().equals("/images/default-event.png")) {
             imageView.setImage(new Image("file:" + event.getPicURL(), true));
         } else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
     }
 
@@ -151,16 +156,17 @@ public class JoinedHistoryController {
         eventNameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
         statusLabel.setText("Finished");
-        if (!event.getPicURL().equals("/images/default-profile.png")) {
+        if (!event.getPicURL().equals("/images/default-event.png")) {
             imageView.setImage(new Image("file:" + event.getPicURL(), true));
         } else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
     }
 
     private void clearEventInfo() {
         eventNameLabel.setText("");
         dateLabel.setText("");
+        statusLabel.setText("");
         imageView.setImage(null);
     }
 
@@ -183,6 +189,7 @@ public class JoinedHistoryController {
     public void onCancelEventClick() {
         if (selectedEvent != null) {
             account = accountList.findAccountByUsername(account.getUsername());
+            Event event = eventList.findEventByEventName(selectedEvent);
 
             Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmation");
@@ -192,8 +199,11 @@ public class JoinedHistoryController {
             confirmationDialog.showAndWait().ifPresent(response -> {
                 if (response == ButtonType.OK) {
                     account.deleteUserEventName(selectedEvent);
-                    datasource.writeData(accountList);
+                    event.ticketCancel();
+                    eventListDatasource.readData();
+                    eventListDatasource.writeData(eventList);
                     datasource.readData();
+                    datasource.writeData(accountList);
                     updateEventInfo();
                 }
             });

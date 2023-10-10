@@ -62,12 +62,6 @@
     -fx-font-family: "Gurmukhi Sangam MN";
     -fx-font-size: 12;
 }
-
-#eventDetailLabel{
-    -fx-font-family: "Gurmukhi Sangam MN";
-    -fx-font-size: 15;
-    -fx-font-weight: bold;
-}
 #headLabel{
     -fx-font-family: "Gurmukhi Sangam MN";
     -fx-font-size: 18;
@@ -99,4 +93,8 @@
     -fx-font-weight: bold;
     -fx-text-fill: #ffffff;
     -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,1), 0, 0, 1, 1);
+}
+.combo-box{
+    -fx-background-radius: 20;
+    -fx-background-color: #c2cdea;
 }
