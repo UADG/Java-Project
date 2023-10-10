@@ -27,7 +27,6 @@ public class CreateTeamController {
     @FXML public Label timeStopLabel;
     @FXML public TextField teamNameTextField;
     @FXML public TextField numberOfTeamMemberTextField;
-    @FXML public Label errorLabel;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
@@ -44,7 +43,6 @@ public class CreateTeamController {
     private Boolean isLightTheme;
 
     public void initialize(){
-        errorLabel.setText("");
         clearInfo();
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
@@ -128,29 +126,42 @@ public class CreateTeamController {
             TeamList teamList = event.loadTeamInEvent();
             for(Team team : teamList.getTeams()) if(team.getTeamName().equals(teamName)) found = true;
             if(!teamName.equals("")&&!numberStr.equals("")){
-                if(!found){
-                    try {
-                        int number = Integer.parseInt(numberStr);
-                        Team team = new Team(teamName, number, event.getEventName());
-                        team.createTeamInCSV();
-                        selectedActivity.updateTeamInActivity(team);
-                        list = event.loadActivityInEvent();
-                        showTable(list);
-                        teamNameTextField.clear();
-                        numberOfTeamMemberTextField.clear();
-                    }catch (NumberFormatException e){
-                        errorLabel.setText("Number of people must be number");
+                int number = Integer.parseInt(numberStr);
+                if(number > 0){
+                    if(!found){
+                        try {
+
+                            Team team = new Team(teamName, number, event.getEventName());
+                            team.createTeamInCSV();
+                            selectedActivity.updateTeamInActivity(team);
+                            list = event.loadActivityInEvent();
+                            showTable(list);
+                            teamNameTextField.clear();
+                            numberOfTeamMemberTextField.clear();
+                        }catch (NumberFormatException e){
+                            showErrorAlert("Number of people must be number");
+                        }
+                    }else{
+                        showErrorAlert("This team name already exist");
                     }
                 }else{
-                    errorLabel.setText("This team name already exist");
+                    showErrorAlert("Number of people must more than zero");
                 }
             }else{
-                errorLabel.setText("Must fill all information before create team");
+                showErrorAlert("Must fill all information before create team");
             }
         }else{
-            errorLabel.setText("please select some activity before create team");
+            showErrorAlert("please select some activity before create team");
         }
 
+    }
+
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 
     @FXML
