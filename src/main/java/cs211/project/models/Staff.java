@@ -50,13 +50,9 @@ public class Staff{
         bannedEvent.remove(eventName);
     }
 
-
-//    public String loadNameFromId(){
-//        UserEventListFileDatasource userAll = new UserEventListFileDatasource("data","user-info.csv");
-//        for(Account account : userAll.readData().getAccount()){
-//            if()
-//        }
-//    }
+    public void setBannedEvent(ArrayList<String> bannedEvent){
+        this.bannedEvent = bannedEvent;
+    }
 
     public Team loadTeam(){
         TeamListFileDatasource dataList = new TeamListFileDatasource("data","team.csv");

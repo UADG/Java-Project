@@ -133,11 +133,10 @@ public class CreateTeamController {
             TeamList teamList = event.loadTeamInEvent();
             for(Team team : teamList.getTeams()) if(team.getTeamName().equals(teamName)) found = true;
             if(!teamName.equals("")&&!numberStr.equals("")){
-                int number = Integer.parseInt(numberStr);
-                if(number > 0){
-                    if(!found){
-                        try {
-
+                try {
+                    int number = Integer.parseInt(numberStr);
+                    if (number > 0) {
+                        if (!found) {
                             Team team = new Team(teamName, number, event.getEventName());
                             team.createTeamInCSV();
                             selectedActivity.updateTeamInActivity(team);
@@ -145,14 +144,14 @@ public class CreateTeamController {
                             showTable(list);
                             teamNameTextField.clear();
                             numberOfTeamMemberTextField.clear();
-                        }catch (NumberFormatException e){
-                            showErrorAlert("Number of people must be number");
+                        } else {
+                            showErrorAlert("This team name already exist");
                         }
-                    }else{
-                        showErrorAlert("This team name already exist");
+                    } else {
+                        showErrorAlert("Number of people must more than zero");
                     }
-                }else{
-                    showErrorAlert("Number of people must more than zero");
+                }catch(NumberFormatException e){
+                    showErrorAlert("Number of people must be number");
                 }
             }else{
                 showErrorAlert("Must fill all information before create team");
