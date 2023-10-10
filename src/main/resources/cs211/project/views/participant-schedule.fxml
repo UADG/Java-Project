@@ -23,8 +23,8 @@
             <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
          </columnResizePolicy>
       </TableView>
-      <ComboBox fx:id="chooseEvent" layoutX="357.0" layoutY="66.0" prefHeight="27.0" prefWidth="274.0" />
-      <Button layoutX="631.0" layoutY="66.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" styleClass="default-button" text="Search" />
+      <ComboBox fx:id="chooseEvent" layoutX="357.0" layoutY="64.0" prefHeight="27.0" prefWidth="274.0" />
+      <Button layoutX="631.0" layoutY="64.0" mnemonicParsing="false" onAction="#onSearchClick" prefHeight="26.0" prefWidth="71.0" styleClass="default-button" text="Search" />
       <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
          <font>
             <Font name="System Bold" size="12.0" />
