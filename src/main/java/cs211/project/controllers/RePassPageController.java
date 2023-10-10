@@ -8,6 +8,7 @@ import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -30,8 +31,6 @@ public class RePassPageController {
     @FXML private Label usernameLabel;
     @FXML private Label myText;
     @FXML private Pane myRectangle;
-    @FXML private Label errorLabel;
-    @FXML private Label errorLabel1;
     @FXML private ImageView imageView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
@@ -39,6 +38,7 @@ public class RePassPageController {
     @FXML private HBox hBox;
     @FXML private Button backButton;
     @FXML private AnchorPane parent;
+    @FXML private PasswordField passwordConfirm;
     private Object[] objects;
     private Account accounts;
     private Boolean isLightTheme;
@@ -67,8 +67,6 @@ public class RePassPageController {
         usernameLabel.setText(account.getUsername());
         myText.setVisible(false);
         myRectangle.setVisible(false);
-        errorLabel.setVisible(false);
-        errorLabel1.setVisible(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
     }
@@ -76,51 +74,44 @@ public class RePassPageController {
     public void onConfirmClick(ActionEvent event) throws IOException {
         String oldPass = passwordOld.getText();
         String newPass = passwordNew.getText();
-        if(account.getPassword().equals(oldPass) && !newPass.equals("")){
-            account.setPassword(newPass);
-            accountListDataSource.writeData(accountList);
+        String confirmPass = passwordConfirm.getText();
+        if(!isContainSpecialCharacter(newPass)) {
+            if (account.getPassword().equals(oldPass) && !newPass.equals("")) {
+                if(confirmPass.equals(newPass)){
+                account.setPassword(newPass);
+                accountListDataSource.writeData(accountList);
+                clearText();
+                myText.setVisible(true);
+                myRectangle.setVisible(true);
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                myText.setVisible(false);
+                                myRectangle.setVisible(false);
+                            }
+                        },
+                        1000
+                );
+                }else {
+                    showErrorAlert("New password not match with Confirm password.");
+                }
+            } else if (newPass.equals("") || oldPass.equals("") || confirmPass.equals("")) {
+                clearText();
+                showErrorAlert("Incorrect Password");
+            } else {
+                clearText();
+                showErrorAlert("Invalid Password");
+            }
+        }else{
             clearText();
-            myText.setVisible(true);
-            myRectangle.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            myText.setVisible(false);
-                            myRectangle.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
-        }else if(!newPass.equals("")||oldPass.equals("")){
-            clearText();
-            errorLabel.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            errorLabel.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
-        }else {
-            clearText();
-            errorLabel1.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            errorLabel1.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
+            showErrorAlert("Password must not contain special character.");
         }
     }
     public void clearText(){
         passwordOld.setText("");
         passwordNew.setText("");
+        passwordConfirm.setText("");
     }
     @FXML
     protected void onBackClick() throws IOException {
@@ -211,5 +202,21 @@ public class RePassPageController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void showErrorAlert(String message) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

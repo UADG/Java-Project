@@ -30,8 +30,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ProfileSetPageController {
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
+    Datasource<AccountList> accountListDataSource;
+    AccountList accountList;
     private Account account;
     @FXML Label usernameLabel;
     @FXML Label nameLabel;
@@ -46,8 +46,12 @@ public class ProfileSetPageController {
     @FXML private ImageView logoImageView;
     private Object[] objects;
     private Boolean isLightTheme;
+    private Account user;
 
     @FXML public void initialize(){
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
+        accountListDataSource.readData();
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -73,6 +77,7 @@ public class ProfileSetPageController {
 
     @FXML
     private void onChooseButtonClick(ActionEvent event){
+        user = accountList.findAccountByUsername(account.getUsername());
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
@@ -90,7 +95,8 @@ public class ProfileSetPageController {
                 );
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
                 imageView.setImage(new Image(target.toUri().toString()));
-                account.setPictureURL(destDir + "/" + filename);
+                user.setPictureURL(destDir + "/" + filename);
+                accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
                 myText.setVisible(true);
                 myRectangle.setVisible(true);
@@ -102,14 +108,19 @@ public class ProfileSetPageController {
                                 myRectangle.setVisible(false);
                             }
                         },
-                        1000 // 1 second
+                        1000
                 );
+                update();
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
-
+    public void update(){
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
+    }
     @FXML
     public void rePassButt(ActionEvent event) throws IOException {
         FXRouter.goTo("re-password", objects);
