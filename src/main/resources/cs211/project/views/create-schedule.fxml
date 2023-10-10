@@ -7,8 +7,10 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
@@ -53,7 +55,7 @@
          </font>
       </Label>
       <ComboBox fx:id="chooseMinTimeStop" layoutX="663.0" layoutY="298.0" prefHeight="25.0" prefWidth="80.0" promptText="Minute" />
-      <Button fx:id="next" layoutX="711.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="48.0" styleClass="default-button" text="next" />
+      <Button fx:id="next" layoutX="711.0" layoutY="499.0" mnemonicParsing="false" onAction="#nextOnClick" prefHeight="25.0" prefWidth="48.0" styleClass="default-button" text="Next" />
       <TableView fx:id="activityTableView" layoutX="17.0" layoutY="151.0" prefHeight="386.0" prefWidth="422.0">
         <columns>
           <TableColumn prefWidth="133.0" text="C1" />
@@ -82,8 +84,16 @@
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
                <children>
-                  <VBox layoutY="124.0" prefHeight="476.0" prefWidth="200.0">
+                  <VBox prefHeight="600.0" prefWidth="200.0">
                      <children>
+                        <Label />
+                        <Label />
+                        <Label />
+                        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0">
+                           <children>
+                              <ImageView fx:id="logoImageView" fitHeight="150.0" fitWidth="180.0" pickOnBounds="true" preserveRatio="true" />
+                           </children>
+                        </HBox>
                         <Button mnemonicParsing="false" onAction="#onHomeClick" prefHeight="49.0" prefWidth="200.0" styleClass="menu-button" text="Home" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="14.0" />
@@ -133,11 +143,6 @@
                         </Button>
                      </children>
                   </VBox>
-                  <Label layoutX="79.0" layoutY="62.0" text="Logo" textFill="WHITE">
-                     <font>
-                        <Font size="18.0" />
-                     </font>
-                  </Label>
                   <Button layoutX="20.0" layoutY="20.0" mnemonicParsing="false" onAction="#closeMenuBar" styleClass="menu-button" text="Menu" textFill="WHITE">
                      <font>
                         <Font name="System Bold" size="12.0" />

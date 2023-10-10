@@ -10,6 +10,8 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
@@ -51,6 +53,7 @@ public class CreateEventController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Boolean isLightTheme;
     private Object[] objects;
     @FXML
@@ -62,10 +65,14 @@ public class CreateEventController {
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         objects = (Object[]) FXRouter.getData();
-
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
     }
     @FXML
     protected void onNextClick(ActionEvent events) {
@@ -154,7 +161,7 @@ public class CreateEventController {
             if (confirmFinish){
                 int tickets = Integer.parseInt(ticketNum);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
-                        detail, startJoin, endJoin, 0, "/images/default-profile.png", account.getUsername());
+                        detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername());
                 Datasource<EventList> dataSource = new EventListFileDatasource("data", "event-list.csv");
                 dataSource.writeData(eventList);
 

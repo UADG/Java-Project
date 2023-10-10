@@ -59,6 +59,7 @@ public class EditEventController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSend;
     private Boolean isLightTheme;
@@ -77,12 +78,15 @@ public class EditEventController {
     @FXML
     private void initialize() {
         clearErrorMessage();
-
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         events = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
@@ -122,10 +126,10 @@ public class EditEventController {
         endJoinDate.setValue(event.getEndJoinDate());
         amountTicketTextField.setText(String.valueOf(event.getTicket()));
         detailTextField.setText(event.getDetail());
-        if(!event.getPicURL().equals("/images/default-profile.png")){
+        if(!event.getPicURL().equals("/images/default-event.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
-            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+            imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
     }
@@ -159,11 +163,10 @@ public class EditEventController {
             if (errorMessage.equals("")) {
                 boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
                 if (confirmFinish) {
-                    eventListDatasource.writeData(eventList);
-                    joinedEventDatasource.writeData(accountJoinList);
-
                     eventListDatasource.readData();
                     joinedEventDatasource.readData();
+                    eventListDatasource.writeData(eventList);
+                    joinedEventDatasource.writeData(accountJoinList);
                     showInfo(event);
                     onBackClick();
                 }
@@ -272,6 +275,8 @@ public class EditEventController {
         try {
             if (currentDate.isAfter(startJoin) || startJoin.isAfter(endJoin) || startJoin.isAfter(eventDatePickerEnd.getValue())) {
                 errorMessage += "JOIN EVENT START DATE:\nJoin event start date must be after the current date\nand before the end date.\n";
+            }else{
+                event.setStartJoinDate(startJoin);
             }
         } catch (Exception e) {
             errorMessage += "JOIN EVENT START DATE:\nInvalid Date.\n";
@@ -285,6 +290,8 @@ public class EditEventController {
         try {
             if (currentDate.isAfter(endJoin) || endJoin.isAfter(eventDatePickerEnd.getValue()) || endJoin.isBefore(startJoin)) {
                 errorMessage += "JOIN EVENT END DATE:\nJoin event end date must be after the current date,\njoin event start date and before the end date.\n";
+            }else {
+                event.setEndJoinDate(endJoin);
             }
         } catch (Exception e) {
             errorMessage += "JOIN EVENT END DATE:\nInvalid Date.\n";

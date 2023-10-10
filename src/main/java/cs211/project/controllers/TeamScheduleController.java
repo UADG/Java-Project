@@ -15,6 +15,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
@@ -33,6 +35,8 @@ public class TeamScheduleController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private Label infoActivity;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Account account;
     private ActivityList activityList;
@@ -43,13 +47,18 @@ public class TeamScheduleController {
 
     @FXML
     public void initialize(){
+        infoActivity.setText("");
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
         datasource = new ActivityListFileDatasource("data", "activity-list.csv");
         activityList = datasource.readData();
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         team = new Team("",1,1,"");
         teamComboBox.getItems().addAll(team.getUserInTeam(account.getId()));
         bPane.setVisible(false);

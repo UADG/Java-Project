@@ -11,4 +11,5 @@ event test,2023-12-01,2023-12-09,14:00,23:00,20,,2023-10-09,2023-10-09,2,images/
 test 2,2023-10-10,2023-10-11,08:00,23:00,20,,2023-10-09,2023-10-09,6,images/Event_test 2_image.png,create
 test create long event name,2023-10-14,2023-10-15,07:00,18:00,20,,2023-10-09,2023-10-09,4,images/Event_test create long event name_image.gif,create
 create event that have activity and have team,2023-10-20,2023-10-20,12:00,23:00,20,,2023-10-09,2023-10-09,3,images/Event_create event that have activity and have team_image.gif,ctt1
-create more event,2023-10-14,2023-10-15,12:00,16:00,30,,2023-10-09,2023-10-09,5,images/Event_create more event_image.gif,create
+create more event,2023-10-14,2023-10-15,12:00,16:00,30,,2023-10-09,2023-10-09,4,images/Event_create more event_image.gif,create
+EVENT,2023-10-20,2023-10-21,01:00,09:00,50,,2023-10-11,2023-10-19,0,/images/default-event.png,ai

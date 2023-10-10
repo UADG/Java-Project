@@ -43,6 +43,7 @@ public class ProfileSetPageController {
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
+    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Boolean isLightTheme;
 
@@ -51,7 +52,11 @@ public class ProfileSetPageController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-
+        if(isLightTheme){
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        }else{
+            logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
+        }
         usernameLabel.setText(account.getUsername());
         nameLabel.setText(account.getName());
         myText.setVisible(false);
