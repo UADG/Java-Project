@@ -75,7 +75,13 @@ public class Activity {
     public String getInfoActivity(){return infoActivity;}
     public String getInfoTeam(){return infoTeam;}
     public boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
-        if(!this.startLocalDateTime.isAfter(startActivityTime) && !this.endLocalDateTime.isBefore(endActivityTime)){
+        if(!this.startLocalDateTime.isAfter(endActivityTime) && !this.endLocalDateTime.isBefore(endActivityTime)){
+            return false;
+        }
+        else if (!this.startLocalDateTime.isAfter(startActivityTime) && !this.endLocalDateTime.isBefore(startActivityTime)){
+            return false;
+        }
+        else if(!this.startLocalDateTime.isBefore(startActivityTime) && !this.startLocalDateTime.isAfter(endActivityTime)){
             return false;
         }
         return true;
