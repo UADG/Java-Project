@@ -35,7 +35,6 @@ public class TeamScheduleController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
-    @FXML private Label infoActivity;
     @FXML private ImageView logoImageView;
     private Object[] objects;
     private Account account;
@@ -47,7 +46,6 @@ public class TeamScheduleController {
 
     @FXML
     public void initialize(){
-        infoActivity.setText("");
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -98,8 +96,9 @@ public class TeamScheduleController {
         activityTableView.getItems().clear();
 
         for (Activity activity: activityList.getActivities()) {
-            if(activity.getStatus().equals("0"))
-            activityTableView.getItems().add(activity);
+            if(activity.getStatus().equals("0")) {
+                activityTableView.getItems().add(activity);
+            }
         }
         for (Activity activity: activityList.getActivities()) {
             if(activity.getStatus().equals("1"))
