@@ -20,13 +20,14 @@
 .label, .hyperlink, .text-field, .list-view, .combo-box, .table-view{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 13;
+    -fx-text-fill: white;
 }
 
 #invalidLabel, #errorLabel, #errorLabel1, #errorLabelApplyToParticipants, #errorLabelBook{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 11;
 }
-#headLabel{
+#headLabel,#headLabel1,#headLabel2,#headLabel3{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 15;
     -fx-font-weight: bold;
@@ -58,11 +59,6 @@
 
 .menu-button:pressed {
     -fx-background-color: transparent;
-}
-
-.tab-pane
-{
-    -fx-background-color: #2B2D31;
 }
 
 .progress-bar
@@ -251,4 +247,9 @@
 .date-picker {
     -fx-background-color: #383A40;
     -fx-background-radius: 20;
+}
+#vBox,#vBox1,#vBox2,#vBox3{
+    -fx-background-color: #4c4e54;
+    -fx-background-radius: 20;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.3), 10, 0, 0, 5);
 }

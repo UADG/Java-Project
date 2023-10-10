@@ -61,11 +61,6 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="errorLabel" layoutX="450.0" layoutY="347.0" prefHeight="20.0" prefWidth="307.0" styleClass="text-field-error" text="Label" textFill="RED">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Label>
       <Button layoutX="696.0" layoutY="429.0" mnemonicParsing="false" onAction="#onNextClick" prefHeight="25.0" prefWidth="49.0" styleClass="default-button" text="Next" />
       <TableView fx:id="activityTableView" layoutX="55.0" layoutY="134.0" prefHeight="375.0" prefWidth="377.0">
         <columns>

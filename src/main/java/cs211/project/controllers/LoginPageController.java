@@ -12,19 +12,15 @@ import java.time.format.DateTimeFormatter;
 
 import cs211.project.services.FXRouter;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.HBox;
-
 public class LoginPageController {
     @FXML private TextField usernameText;
     @FXML private PasswordField passwordText;
     @FXML private Label invalidLabel;
     @FXML private ImageView imageView;
-    @FXML private HBox hBox;
     @FXML private AnchorPane parent;
     private boolean isLightTheme = true;
     private AccountList accountList;
@@ -32,7 +28,6 @@ public class LoginPageController {
     @FXML
     public void initialize() {
         invalidLabel.setVisible(false);
-        hBox.setAlignment(Pos.CENTER);
         Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
         this.accountList = accountListDataSource.readData();
         loadTheme(isLightTheme);
@@ -54,15 +49,15 @@ public class LoginPageController {
                 account.setTime(time);
                 Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                 dataSource.writeData(accountList);
-                //try{
+                try{
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
                     }else{
                         FXRouter.goTo("events-list", objects);
                     }
-//                }catch(IOException e){
-//                    showAlert("Program Error");
-//                }
+                }catch(IOException e){
+                    showAlert("Program Error");
+                }
             } else {
                 invalidLabel.setText("Wrong password.");
                 invalidLabel.setVisible(true);
@@ -111,6 +106,10 @@ public class LoginPageController {
             loadTheme("st-theme.css");
         }
         isLightTheme = !isLightTheme;
+    }
+    @FXML
+    private void onAboutUsClick()throws IOException{
+        FXRouter.goTo("about-us", isLightTheme);
     }
 
     private void loadTheme(Boolean theme) {
