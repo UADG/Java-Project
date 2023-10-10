@@ -7,35 +7,35 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.LoginPageController">
    <children>
-      <HBox fx:id="hBox" prefHeight="100.0" prefWidth="200.0">
-         <children>
-            <ImageView fx:id="imageView" fitHeight="600.0" fitWidth="226.0" pickOnBounds="true" preserveRatio="true" />
-         </children>
-      </HBox>
-      <ImageView fitHeight="135.0" fitWidth="275.0" layoutX="263.0" layoutY="133.0" pickOnBounds="true" preserveRatio="true" />
-      <Label layoutX="260.0" layoutY="296.0" styleClass="text-field" text="Username">
+      <Label layoutX="352.0" layoutY="298.0" styleClass="text-field" text="Username">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="261.0" layoutY="330.0" styleClass="text-field" text="Password">
+      <Label layoutX="353.0" layoutY="332.0" styleClass="text-field" text="Password">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <TextField fx:id="usernameText" layoutX="339.0" layoutY="292.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
-      <PasswordField fx:id="passwordText" layoutX="339.0" layoutY="327.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
-      <Button layoutX="326.0" layoutY="400.0" mnemonicParsing="false" onAction="#loginButt" prefHeight="26.0" prefWidth="114.0" styleClass="default-button" text="Login" textFill="WHITE">
+      <TextField fx:id="usernameText" layoutX="431.0" layoutY="294.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
+      <PasswordField fx:id="passwordText" layoutX="431.0" layoutY="329.0" prefHeight="26.0" prefWidth="200.0" styleClass="search-box" />
+      <Button layoutX="418.0" layoutY="402.0" mnemonicParsing="false" onAction="#loginButt" prefHeight="26.0" prefWidth="114.0" styleClass="default-button" text="Login" textFill="WHITE">
          <font>
             <Font name="System Bold" size="12.0" />
          </font></Button>
-      <Hyperlink layoutX="357.0" layoutY="433.0" onAction="#registerLink" text="Register" />
-      <Label fx:id="invalidLabel" layoutX="340.0" layoutY="353.0" styleClass="text-field-error" text="Invalid username or password." textFill="#e40a0a" />
+      <Hyperlink layoutX="449.0" layoutY="435.0" onAction="#registerLink" text="Register" />
+      <Label fx:id="invalidLabel" layoutX="432.0" layoutY="355.0" styleClass="text-field-error" text="Invalid username or password." textFill="#e40a0a" />
       <Button layoutX="690.0" layoutY="10.0" mnemonicParsing="false" onAction="#onChangeTheme" styleClass="default-button" text="Change Theme" />
+      <Pane prefHeight="600.0" prefWidth="225.0" styleClass="progress-bar">
+         <children>
+            <ImageView fitHeight="135.0" fitWidth="136.0" layoutX="45.0" layoutY="131.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+      </Pane>
+      <Button layoutX="615.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAboutUsClick" styleClass="default-button" text="About Us" />
    </children>
 </AnchorPane>

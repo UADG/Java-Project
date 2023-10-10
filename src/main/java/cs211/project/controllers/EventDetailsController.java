@@ -38,6 +38,7 @@ public class EventDetailsController {
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
     @FXML private HBox hBox;
+    @FXML private Label bookDateLabel;
     private Object[] objects;
     private Object[] objectsSent;
     private Boolean isLightTheme;
@@ -62,6 +63,7 @@ public class EventDetailsController {
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         nameLabel.setText(event.getEventName());
         dateLabel.setText(event.getStartDate() + " - " + event.getEndDate());
+        bookDateLabel.setText(event.getStartJoinDate() + " - " + event.getEndJoinDate());
         timeLabel.setText(event.getStartTime() + " - " + event.getEndTime());
         ticketLabel.setText(event.getTicketLeft() + "/" + event.getTicket());
         descriptionLabel.setText(event.getDetail());
