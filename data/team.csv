@@ -1,9 +1,13 @@
 testJim,ทีมโซน A,5,5
 test by jim,TeamA,5,5
 testJim,Team1,5,5
-testJim,Team2,5,4,8
+testJim,Team2,5,3,8,23
 testJim,TeamB,10,8,5,9
 JimZaKungEvent,team1,3,0,5,7,8
 test team,team แจกน้ำ,5,3,5,9
-test team,ความปลอดภัย,10,8,7,8
+test team,ความปลอดภัย,10,7,7,8,23
 best หล่อ,team2,2,0,4,8
+create event that have activity and have team,1,5,5
+create event that have activity and have team,2,5,5
+create event that have activity and have team,4,10,10
+create event that have activity and have team,6,20,19,4

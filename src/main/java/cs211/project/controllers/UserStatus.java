@@ -5,15 +5,22 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
+import javafx.beans.property.SimpleObjectProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class UserStatus {
     @FXML
@@ -26,11 +33,13 @@ public class UserStatus {
     private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
-    private Account account;
     @FXML
     private HBox hBox;
     @FXML
     private AnchorPane parent;
+    @FXML
+    private TableView<Account> accountTableView;
+    private Account account;
     private Boolean isLightTheme;
     private Account selectedAccount;
     private AccountList accountList;
@@ -48,8 +57,8 @@ public class UserStatus {
         Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         accountList = accountListDatasource.readData();
         accountList.sort();
-        showList(accountList);
-        accountListView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+        showTable(accountList);
+        accountTableView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (newValue == null) {
                 clearDataInfo();
                 selectedAccount = null;
@@ -71,20 +80,51 @@ public class UserStatus {
             imageUserView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
         }
     }
+    private void showTable(AccountList accountList) {
+        TableColumn<Account, ImageView> imageColumn = new TableColumn<>("Profile");
+        imageColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(getImageView(param.getValue().getPictureURL())));
+        TableColumn<Account, String> IDColumn = new TableColumn<>("ID");
+        IDColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-    public void showList(AccountList accountList) {
-        accountListView.getItems().clear();
-        accountListView.getItems().addAll(accountList.getAccount());
+        TableColumn<Account, String> nameColumn = new TableColumn<>("Name");
+        nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+
+        TableColumn<Account, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
+
+        TableColumn<Account, LocalDateTime> lastOnlineColumn = new TableColumn<>("Last Online");
+        lastOnlineColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+
+        accountTableView.setItems(FXCollections.observableArrayList(accountList.getAccount()));
+
+        accountTableView.getColumns().clear();
+        accountTableView.getColumns().add(imageColumn);
+        accountTableView.getColumns().add(IDColumn);
+        accountTableView.getColumns().add(nameColumn);
+        accountTableView.getColumns().add(usernameColumn);
+        accountTableView.getColumns().add(lastOnlineColumn);
+
+
         for (Account account : accountList.getAccount()) {
             if (account.isAdmin(account.getRole())) {
                 removeAccount(account);
             }
         }
-
+    }
+    private ImageView getImageView(String pictureURL) {
+        ImageView imageView = new ImageView();
+        if (!pictureURL.equals("/images/default-profile.png")) {
+            imageView.setImage(new Image("file:" + pictureURL, true));
+        } else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
+        imageView.setFitHeight(50);
+        imageView.setFitWidth(50);
+        return imageView;
     }
 
     public void removeAccount(Account accountToRemove) {
-        accountListView.getItems().remove(accountToRemove);
+        accountTableView.getItems().remove(accountToRemove);
     }
 
     public void clearDataInfo () {

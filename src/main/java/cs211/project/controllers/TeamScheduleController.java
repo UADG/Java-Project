@@ -9,11 +9,11 @@ import cs211.project.models.collections.ActivityList;
 import cs211.project.models.collections.EventList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
@@ -33,6 +33,7 @@ public class TeamScheduleController {
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
     @FXML private BorderPane bPane;
+    @FXML private Label infoActivity;
     private Object[] objects;
     private Account account;
     private ActivityList activityList;
@@ -40,9 +41,11 @@ public class TeamScheduleController {
     private String eventName;
     private  Datasource<ActivityList> datasource;
     private Boolean isLightTheme;
+    private Activity selectedActivity;
 
     @FXML
     public void initialize(){
+        infoActivity.setText("");
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -54,13 +57,25 @@ public class TeamScheduleController {
         teamComboBox.getItems().addAll(team.getUserInTeam(account.getId()));
         bPane.setVisible(false);
         slide.setTranslateX(-200);
+        activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
+            @Override
+            public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
+                if (newValue == null) {
+                    infoActivity.setText("");
+                    selectedActivity = null;
+                } else {
+                    selectedActivity = newValue;
+                    infoActivity.setText(selectedActivity.getInfoActivity());
+                }
+            }
+        });
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
         TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
@@ -71,17 +86,30 @@ public class TeamScheduleController {
         TableColumn<Activity, LocalTime> teamColumn = new TableColumn<>("team");
         teamColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
 
+        TableColumn<Activity, String> statusColumn = new TableColumn<>("status");
+        statusColumn.setCellValueFactory(cellData -> {
+            int status = Integer.parseInt(cellData.getValue().getStatus());
+            if (status == 1) {
+                return new SimpleStringProperty("Finish");
+            } else {
+                return new SimpleStringProperty("Still Organize");
+            }
+        });
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
         activityTableView.getColumns().add(dateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
-        activityTableView.getColumns().add(teamColumn);
-
+        activityTableView.getColumns().add(statusColumn);
         activityTableView.getItems().clear();
 
         for (Activity activity: activityList.getActivities()) {
+            if(activity.getStatus().equals("0"))
             activityTableView.getItems().add(activity);
+        }
+        for (Activity activity: activityList.getActivities()) {
+            if(activity.getStatus().equals("1"))
+                activityTableView.getItems().add(activity);
         }
     }
 

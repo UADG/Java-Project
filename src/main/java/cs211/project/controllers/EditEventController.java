@@ -105,6 +105,8 @@ public class EditEventController {
 
         eventDatePickerEnd.setEditable(false);
         eventDatePickerStart.setEditable(false);
+        endJoinDate.setEditable(false);
+        startJoinDate.setEditable(false);
 
         bPane.setVisible(false);
         slide.setTranslateX(-200);
@@ -210,7 +212,11 @@ public class EditEventController {
         try {
             if (name.length() < 3) {
                 errorMessage += "EVENT NAME:\nLength of name be must more than 3.\n";
-            } else {
+            }
+            if(isContainSpecialCharacter(name)){
+                errorMessage += "EVENT NAME:\nEvent name must not contain special character.\n";
+            }
+            if(name.length() >= 3 && !isContainSpecialCharacter(name)){
                 String thisEvent = event.getEventName();
                 for (Account account1 : accountJoinList.getAccount()) {
                     for (String event1 : account1.getAllEventUser()) {
@@ -264,8 +270,8 @@ public class EditEventController {
             return;
         }
         try {
-            if (!currentDate.isBefore(startJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endJoin)) {
-                errorMessage += "JOIN EVENT START DATE:\nJoin event start date must be after the current date and before the end date.\n";
+            if (currentDate.isAfter(startJoin) || startJoin.isAfter(endJoin) || startJoin.isAfter(eventDatePickerEnd.getValue())) {
+                errorMessage += "JOIN EVENT START DATE:\nJoin event start date must be after the current date\nand before the end date.\n";
             }
         } catch (Exception e) {
             errorMessage += "JOIN EVENT START DATE:\nInvalid Date.\n";
@@ -277,8 +283,8 @@ public class EditEventController {
             return;
         }
         try {
-            if (!currentDate.isBefore(endJoin) && (!endJoin.isAfter(startJoin) || !startJoin.isEqual(endJoin)) && startJoin.isAfter(endJoin)) {
-                errorMessage += "JOIN EVENT END DATE:\nJoin event end date must be after the current date, join event start date and before the end date.\n";
+            if (currentDate.isAfter(endJoin) || endJoin.isAfter(eventDatePickerEnd.getValue()) || endJoin.isBefore(startJoin)) {
+                errorMessage += "JOIN EVENT END DATE:\nJoin event end date must be after the current date,\njoin event start date and before the end date.\n";
             }
         } catch (Exception e) {
             errorMessage += "JOIN EVENT END DATE:\nInvalid Date.\n";
@@ -449,5 +455,14 @@ public class EditEventController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
     }
 }

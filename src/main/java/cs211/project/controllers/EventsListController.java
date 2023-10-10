@@ -1,10 +1,7 @@
 package cs211.project.controllers;
 
 import cs211.project.models.*;
-import cs211.project.models.collections.AccountList;
-import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.EventList;
-import cs211.project.models.collections.TeamList;
+import cs211.project.models.collections.*;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
@@ -35,7 +32,7 @@ public class EventsListController {
     @FXML
     private Label ticketLeftLabel;
     @FXML
-    private Label participantLeftLabel;
+    private Label teamLeftLabel;
     @FXML
     private ListView<Event> eventListView;
     @FXML
@@ -60,12 +57,16 @@ public class EventsListController {
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banListDatasource;
+    private Datasource<TeamList> teamListDatasource;
+    private Datasource<StaffList> banStaffListDatasource;
+    private StaffList banStaffList;
+    private Staff banStaff;
     private EventList eventList;
+    private TeamList teamList;
     private String textSearch = "";
     private Event selectedEvent;
     private ActivityList activityList;
     private Object[] objects;
-    private Object[] objectsSend;
     private Boolean isLightTheme;
 
     @FXML
@@ -85,10 +86,18 @@ public class EventsListController {
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
         accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         banListDatasource = new UserEventListFileDatasource("data","ban-user.csv");
+        teamListDatasource = new TeamListFileDatasource("data", "team.csv");
+
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         banList = banListDatasource.readData();
+        teamList = teamListDatasource.readData();
+
+
         ban = banList.findAccountByUsername(account.getUsername());
+        banStaffListDatasource = new BanListFileDatasource("data","ban-staff-list.csv");
+        banStaffList = banStaffListDatasource.readData();
+        banStaff = banStaffList.checkStaffInList(String.valueOf(account.getId()));
         slide.setTranslateX(-200);
         account = accountList.findAccountByUsername(account.getUsername());
         showList(eventList);
@@ -101,15 +110,11 @@ public class EventsListController {
                 } else {
                     imageView.setVisible(true);
                     errorLabelBook.setText("");
-                    showEventInfo(newValue);
                     selectedEvent = newValue;
+                    showEventInfo(newValue);
                 }
             }
         });
-//        adminButton.setVisible(false);
-//        if(account.isAdmin(account.getRole())){
-//            adminButton.setVisible(true);
-//        }
     }
 
     private void showList(EventList eventList) {
@@ -143,6 +148,7 @@ public class EventsListController {
             applyParticipant.setVisible(true);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -155,6 +161,7 @@ public class EventsListController {
                 applyParticipant.setVisible(true);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -166,6 +173,7 @@ public class EventsListController {
                 applyParticipant.setVisible(false);
                 eventNameLabel.setText(event.getEventName());
                 ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+                teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
                 if (!event.getPicURL().equals("/images/default-profile.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -179,6 +187,7 @@ public class EventsListController {
             applyParticipant.setVisible(false);
             eventNameLabel.setText(event.getEventName());
             ticketLeftLabel.setText(String.format("%d", event.getTicketLeft()));
+            teamLeftLabel.setText(String.format("%d", teamList.allNumberOfStaffLeft(event.getEventName())));
             if (!event.getPicURL().equals("/images/default-profile.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -190,7 +199,7 @@ public class EventsListController {
     private void clearEventInfo() {
         eventNameLabel.setText("");
         ticketLeftLabel.setText("");
-        participantLeftLabel.setText("");
+        teamLeftLabel.setText("");
         imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
     }
 
@@ -225,17 +234,39 @@ public class EventsListController {
     @FXML
     protected void onBookTicketsClick() {
         if (selectedEvent != null) {
+            selectedEvent.loadTeamInEvent();
+            Team teamFound = null;
+            boolean found = false;
             try {
+                if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+                    TeamList teams = selectedEvent.getTeams();
+                    System.out.println(selectedEvent.getEventName());
+                    for (Team team : teams.getTeams()) {
+                        for (Staff staff : team.getStaffs().getStaffList()) {
+                            if (staff.getId().equals(Integer.toString(account.getId()))) {
+                                found = true;
+                                teamFound = team;
+                                break;
+                            }
+                        }
+                    }
+                }
+
                 if (selectedEvent.isEventManager(account.getUsername())) {
                     showErrorAlert("You can't join your own event.");
-                } else if(account.isEventName(selectedEvent.getEventName())) {
+                }else if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
-                }else if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty() && selectedEvent.loadActivityInEvent().userIsParticipant(account.getUsername())){
+                }else if(!selectedEvent.getArrayListActivities().isEmpty() && selectedEvent.getActivities().userIsParticipant(account.getUsername())){
                     showErrorAlert("Sorry, you're participant in this event.");
                 }else if(ban.isEventName(selectedEvent.getEventName())){
-                    showErrorAlert("Sorry, you have ban form this event.");
+                    showErrorAlert("Sorry, you have ban from this event.");
+                }else if(found){
+                    showErrorAlert("\"You are have team in this event already \nYour team is \"" + teamFound);
                 }else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
+
+                    eventListDatasource.readData();
+                    eventListDatasource.writeData(eventList);
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
                     Object[] objects1 = new Object[3];
@@ -257,18 +288,19 @@ public class EventsListController {
     @FXML
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
-            selectedEvent.loadActivityInEvent();
-            if(!selectedEvent.loadActivityInEvent().getActivities().isEmpty() && selectedEvent.loadActivityInEvent().userIsParticipant(account.getUsername())){
+            selectedEvent.loadTeamInEvent();
+            if(!selectedEvent.getArrayListActivities().isEmpty() && selectedEvent.getActivities().userIsParticipant(account.getUsername())){
                 showErrorAlert("Sorry, you're participant in this event.");
             }
             else if(account.isEventName(selectedEvent.getEventName())) {
                 showErrorAlert("You have already booked a ticket for this event.");
             }else if(ban.isEventName(selectedEvent.getEventName())){
                 showErrorAlert("Sorry, you have ban form this event.");
-            }
-            else {
+            }else if(banStaff != null){
+                showErrorAlert("Sorry, you have ban from being staff in this event");
+            }else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
-                    TeamList teams = selectedEvent.loadTeamInEvent();
+                    TeamList teams = selectedEvent.getTeams();
                     System.out.println(selectedEvent.getEventName());
                     Team teamFound = null;
                     boolean found = false;
@@ -314,12 +346,10 @@ public class EventsListController {
         if(selectedEvent != null) {
             if(ban.isEventName(selectedEvent.getEventName())){
                 showErrorAlert("Sorry, you have ban form this event.");
-            }
-            else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
+            }else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
                 if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
-                }
-                else if (!selectedEvent.loadActivityInEvent().getActivities().isEmpty()) {
+                }else if (!selectedEvent.getArrayListTeams().isEmpty()) {
                     datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                     activityList = datasource.readData();
                     activityList.findActivityInEvent(selectedEvent.getEventName());
