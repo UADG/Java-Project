@@ -6,11 +6,10 @@ import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,6 +30,7 @@ public class ParticipantScheduleController {
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
     @FXML private ImageView logoImageView;
+    @FXML private Label infoActivity;
     private Account account;
     private Object[] objects;
     private ActivityList activityList;
@@ -40,7 +40,7 @@ public class ParticipantScheduleController {
 
     @FXML
     public void initialize() {
-
+        infoActivity.setText("");
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -60,6 +60,16 @@ public class ParticipantScheduleController {
         }
         bPane.setVisible(false);
         slide.setTranslateX(-200);
+        activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
+            @Override
+            public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
+                if (newValue == null) {
+                    infoActivity.setText("");
+                } else {
+                    infoActivity.setText(newValue.getInfoActivity());
+                }
+            }
+        });
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");

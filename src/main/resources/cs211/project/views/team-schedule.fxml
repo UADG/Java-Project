@@ -38,16 +38,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Label layoutX="43.0" layoutY="489.0" styleClass="text-field" text="activity info :">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="infoActivity" layoutX="129.0" layoutY="489.0" styleClass="text-field" text="activity info ">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">

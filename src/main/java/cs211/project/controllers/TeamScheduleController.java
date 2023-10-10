@@ -44,11 +44,9 @@ public class TeamScheduleController {
     private String eventName;
     private  Datasource<ActivityList> datasource;
     private Boolean isLightTheme;
-    private Activity selectedActivity;
 
     @FXML
     public void initialize(){
-
         infoActivity.setText("");
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
@@ -65,18 +63,6 @@ public class TeamScheduleController {
         teamComboBox.getItems().addAll(team.getUserInTeam(account.getId()));
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-        activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
-            @Override
-            public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
-                if (newValue == null) {
-                    infoActivity.setText("");
-                    selectedActivity = null;
-                } else {
-                    selectedActivity = newValue;
-                    infoActivity.setText(selectedActivity.getInfoActivity());
-                }
-            }
-        });
     }
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
