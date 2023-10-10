@@ -130,6 +130,7 @@ public class EventsListController {
                             clearEventInfo();
                             imageView.setVisible(true);
                             errorLabelBook.setText("");
+                            selectedEvent = event;
                             showEventInfo(event);
                         });
 
@@ -159,6 +160,7 @@ public class EventsListController {
                             clearEventInfo();
                             imageView.setVisible(true);
                             errorLabelBook.setText("");
+                            selectedEvent = event;
                             showEventInfo(event);
                         });
 
@@ -191,6 +193,7 @@ public class EventsListController {
                         clearEventInfo();
                         imageView.setVisible(true);
                         errorLabelBook.setText("");
+                        selectedEvent = event;
                         showEventInfo(event);
                     });
 
