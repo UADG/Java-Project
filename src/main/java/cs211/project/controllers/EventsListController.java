@@ -4,15 +4,13 @@ import cs211.project.models.*;
 import cs211.project.models.collections.*;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.*;
 import javafx.util.Duration;
 
 import java.io.IOException;
@@ -37,8 +35,6 @@ public class EventsListController {
     @FXML
     private Label teamLeftLabel;
     @FXML
-    private ListView<Event> eventListView;
-    @FXML
     private Label errorLabelBook;
     @FXML
     private Label errorLabelApplyToParticipants;
@@ -55,6 +51,7 @@ public class EventsListController {
     @FXML private Button applyStaff;
     @FXML private Button applyParticipant;
     @FXML private ImageView logoImageView;
+    @FXML private GridPane eventGridPane;
 
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
@@ -71,7 +68,8 @@ public class EventsListController {
     private ActivityList activityList;
     private Object[] objects;
     private Boolean isLightTheme;
-
+    private int column;
+    private int row;
     @FXML
     public void initialize() {
         objects = (Object[]) FXRouter.getData();
@@ -101,49 +99,117 @@ public class EventsListController {
         banList = banListDatasource.readData();
         teamList = teamListDatasource.readData();
 
-
         ban = banList.findAccountByUsername(account.getUsername());
         banStaffListDatasource = new BanListFileDatasource("data","ban-staff-list.csv");
         banStaffList = banStaffListDatasource.readData();
         banStaff = banStaffList.checkStaffInList(String.valueOf(account.getId()));
         slide.setTranslateX(-200);
         account = accountList.findAccountByUsername(account.getUsername());
-        showList(eventList);
-        eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
-            @Override
-            public void changed(ObservableValue<? extends Event> observable, Event oldValue, Event newValue) {
-                if (newValue == null) {
-                    clearEventInfo();
-                    selectedEvent = null;
-                } else {
-                    imageView.setVisible(true);
-                    errorLabelBook.setText("");
-                    selectedEvent = newValue;
-                    showEventInfo(newValue);
-                }
-            }
-        });
+        showGrid(eventList);
     }
+    public void showGrid(EventList eventLists){
+        eventGridPane.getChildren().clear();
+        column = 0;
+        row = 1;
+        try {
+            if (textSearch.equals("")) {
+                for (Event event: eventLists.getEvents()) {
+                    if (event.getEndDate().isAfter(currentDate)) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
+                    AnchorPane anchorPane = fxmlLoader.load();
 
-    private void showList(EventList eventList) {
-        eventListView.getItems().clear();
-        if (textSearch.equals("")) {
-            for (Event event : eventList.getEvents()) {
-                if (event.getEndDate().isAfter(currentDate)) {
-                    eventListView.getItems().add(event);
-                } else if (event.getEndDate().isEqual(currentDate)) {
-                    if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
-                        eventListView.getItems().add(event);
+                    EventItemController eventItemController = fxmlLoader.getController();
+                    eventItemController.setData(event);
+
+                    if (column == 2) {
+                        column = 0;
+                        row++;
                     }
+                        anchorPane.setOnMouseClicked(events -> {
+                            clearEventInfo();
+                            imageView.setVisible(true);
+                            errorLabelBook.setText("");
+                            showEventInfo(event);
+                        });
+
+                    eventGridPane.add(anchorPane, column++, row);
+                    eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    eventGridPane.setPrefWidth(460);
+                    eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+                    eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    eventGridPane.setPrefHeight(460);
+                    eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+
+                    GridPane.setMargin(anchorPane, new Insets(20));
+                }else if (event.getEndDate().isEqual(currentDate)) {
+                    FXMLLoader fxmlLoader = new FXMLLoader();
+                    fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
+                    AnchorPane anchorPane = fxmlLoader.load();
+
+                    EventItemController eventItemController = fxmlLoader.getController();
+                    eventItemController.setData(event);
+
+                    if (column == 2) {
+                        column = 0;
+                        row++;
+                    }
+                        anchorPane.setOnMouseClicked(events -> {
+                            clearEventInfo();
+                            imageView.setVisible(true);
+                            errorLabelBook.setText("");
+                            showEventInfo(event);
+                        });
+
+                    eventGridPane.add(anchorPane, column++, row);
+                    eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                    eventGridPane.setPrefWidth(460);
+                    eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+                    eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                    eventGridPane.setPrefHeight(460);
+                    eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+
+                    GridPane.setMargin(anchorPane, new Insets(20));
                 }
             }
-        } else {
-            for (Event event : eventList.getSearch()) {
-                eventListView.getItems().add(event);
+            }else {
+                for (Event event: eventLists.getSearch()) {
+                        FXMLLoader fxmlLoader = new FXMLLoader();
+                        fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
+                        AnchorPane anchorPane = fxmlLoader.load();
+
+                        EventItemController eventItemController = fxmlLoader.getController();
+                        eventItemController.setData(event);
+
+                        if (column == 2) {
+                            column = 0;
+                            row++;
+                        }
+                    anchorPane.setOnMouseClicked(events -> {
+                        clearEventInfo();
+                        imageView.setVisible(true);
+                        errorLabelBook.setText("");
+                        showEventInfo(event);
+                    });
+
+                        eventGridPane.add(anchorPane, column++, row);
+                        eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+                        eventGridPane.setPrefWidth(460);
+                        eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+                        eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+                        eventGridPane.setPrefHeight(460);
+                        eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+
+                        GridPane.setMargin(anchorPane, new Insets(20));
+                    }
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
-
     private void showEventInfo(Event event) {
         if (event.getEndDate().isAfter(currentDate)){
             bookTicket.setVisible(true);
@@ -211,8 +277,7 @@ public class EventsListController {
         textSearch = searchTextField.getText().trim();
         try {
             eventList.searchEvent(textSearch);
-            showList(eventList);
-
+            showGrid(eventList);
         } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
