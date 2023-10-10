@@ -344,12 +344,13 @@ public class EventsListController {
     @FXML
     protected void onApplyToParticipantClick() throws IOException {
         if(selectedEvent != null) {
+            selectedEvent.loadActivityInEvent();
             if(ban.isEventName(selectedEvent.getEventName())){
                 showErrorAlert("Sorry, you have ban form this event.");
             }else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
                 if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
-                }else if (!selectedEvent.getArrayListTeams().isEmpty()) {
+                }else if (!selectedEvent.getArrayListActivities().isEmpty()) {
                     datasource = new ActivityListFileDatasource("data", "activity-list.csv");
                     activityList = datasource.readData();
                     activityList.findActivityInEvent(selectedEvent.getEventName());
