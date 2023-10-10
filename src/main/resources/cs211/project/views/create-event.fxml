@@ -14,27 +14,32 @@
       <Label layoutX="159.0" layoutY="182.0" styleClass="text-field" text="Event Name: " />
       <Label layoutX="170.0" layoutY="217.0" styleClass="text-field" text="Start Date:" />
       <TextField fx:id="nameEvent" layoutX="240.0" layoutY="178.0" prefWidth="123.0" styleClass="search-box" />
-      <Label layoutX="140.0" layoutY="252.0" styleClass="text-field" text="Time Event Start:" />
-      <TextField fx:id="timeStart" layoutX="240.0" layoutY="249.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="428.0" layoutY="252.0" styleClass="text-field" text="Time Event End:" />
-      <TextField fx:id="timeEnd" layoutX="519.0" layoutY="248.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="141.0" layoutY="287.0" styleClass="text-field" text="Tickets Amount:" />
-      <TextField fx:id="ticket" layoutX="240.0" layoutY="283.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="194.0" layoutY="322.0" styleClass="text-field" text="Detail:" />
-      <TextField fx:id="detailLabel" alignment="TOP_LEFT" layoutX="240.0" layoutY="323.0" prefHeight="100.0" styleClass="search-box-default" />
+      <Label layoutX="134.0" layoutY="285.0" styleClass="text-field" text="Time Event Start:" />
+      <TextField fx:id="timeStart" layoutX="240.0" layoutY="282.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="428.0" layoutY="285.0" styleClass="text-field" text="Time Event End:" />
+      <TextField fx:id="timeEnd" layoutX="527.0" layoutY="281.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="428.0" layoutY="182.0" styleClass="text-field" text="Tickets Amount:" />
+      <TextField fx:id="ticket" layoutX="527.0" layoutY="178.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="175.0" layoutY="331.0" styleClass="text-field" text="Detail:" />
+      <TextField fx:id="detailLabel" alignment="TOP_LEFT" layoutX="221.0" layoutY="331.0" prefHeight="115.0" prefWidth="403.0" styleClass="search-box-default" />
       <DatePicker fx:id="dateStart" layoutX="240.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
       <Label layoutX="462.0" layoutY="217.0" styleClass="text-field" text="End Date:" />
-      <DatePicker fx:id="dateEnd" layoutX="519.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
+      <DatePicker fx:id="dateEnd" layoutX="527.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
       <Button layoutX="652.0" layoutY="514.0" mnemonicParsing="false" onAction="#onNextClick" styleClass="default-button" text="Next" />
-      <Label layoutX="428.0" layoutY="322.0" styleClass="text-field" text="Join Event Start Date:" />
-      <DatePicker fx:id="startJoinDate" layoutX="519.0" layoutY="318.0" prefHeight="26.0" prefWidth="123.0" />
-      <Label layoutX="401.0" layoutY="357.0" styleClass="text-field" text="Join Event End Date:" />
-      <DatePicker fx:id="endJoinDate" layoutX="519.0" layoutY="355.0" prefHeight="26.0" prefWidth="123.0" />
-      <Label layoutX="332.0" layoutY="51.0" styleClass="text-field" text="Create Event">
+      <Label layoutX="109.0" layoutY="250.0" styleClass="text-field" text="Join Event Start Date:" />
+      <DatePicker fx:id="startJoinDate" layoutX="240.0" layoutY="246.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label layoutX="403.0" layoutY="250.0" styleClass="text-field" text="Join Event End Date:" />
+      <DatePicker fx:id="endJoinDate" layoutX="527.0" layoutY="246.0" prefHeight="26.0" prefWidth="123.0" />
+      <Label fx:id="headLabel" layoutX="356.0" layoutY="53.0" styleClass="text-field" text="Create Event">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
       </Label>
+      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Button>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
@@ -104,10 +109,5 @@
             </AnchorPane>
          </left>
       </BorderPane>
-      <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
-         <font>
-            <Font name="System Bold" size="12.0" />
-         </font>
-      </Button>
    </children>
 </AnchorPane>

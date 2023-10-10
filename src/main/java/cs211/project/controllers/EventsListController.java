@@ -115,10 +115,6 @@ public class EventsListController {
                 }
             }
         });
-//        adminButton.setVisible(false);
-//        if(account.isAdmin(account.getRole())){
-//            adminButton.setVisible(true);
-//        }
     }
 
     private void showList(EventList eventList) {

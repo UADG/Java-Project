@@ -26,6 +26,11 @@
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 11;
 }
+#headLabel{
+    -fx-font-family: "Tiro Devanagari Hindi";
+    -fx-font-size: 15;
+    -fx-font-weight: bold;
+}
 
 #eventDetailLabel{
     -fx-font-family: "Tiro Devanagari Hindi";
@@ -233,13 +238,17 @@
 .date-picker .calendar-date-cell {
     -fx-text-fill: white;
     -fx-background-color: #383A40;
+    -fx-background-radius: 20;
 }
 
 .date-picker .text-field {
     -fx-text-fill: white;
     -fx-background-color: #383A40;
+
+    -fx-background-radius: 20;
 }
 
 .date-picker {
     -fx-background-color: #383A40;
+    -fx-background-radius: 20;
 }
