@@ -171,6 +171,14 @@ public class CreateScheduleController {
                         }
                         updateSchedule();
                         showTable(activityList);
+                        activityTextField.clear();
+                        chooseHourTimeStart.setValue(null);
+                        chooseMinTimeStart.setValue(null);
+                        chooseHourTimeStop.setValue(null);
+                        chooseMinTimeStop.setValue(null);
+                        startDate.setValue(null);
+                        endDate.setValue(null);
+                        infoActivityTextField.clear();
                     } else {
                         showErrorAlert("Please select other time");
                     }
