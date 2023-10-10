@@ -17,7 +17,7 @@
     -fx-font-weight: bold;
     -fx-font-family: "Tiro Devanagari Hindi";
 }
-.label, .hyperlink, .text-field, .list-view, .combo-box, .table-view{
+.label, .hyperlink, .text-field, .list-view, .combo-box, .table-view, .text-flow{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 13;
     -fx-text-fill: white;
