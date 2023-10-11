@@ -51,15 +51,13 @@ public class LoginPageController {
                 account.setTime(time);
                 Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
                 dataSource.writeData(accountList);
-                try{
+
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
                     }else{
                         FXRouter.goTo("events-list", objects);
                     }
-                }catch(IOException e){
-                    showAlert("Program Error");
-                }
+
             } else {
                 invalidLabel.setText("Wrong password.");
                 invalidLabel.setVisible(true);
