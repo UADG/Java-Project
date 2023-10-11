@@ -46,7 +46,6 @@ public class ProfileSetPageController {
     @FXML private ImageView logoImageView;
     private Object[] objects;
     private Boolean isLightTheme;
-    private Account user;
 
     @FXML public void initialize(){
         accountListDataSource = new AccountListDatasource("data","user-info.csv");
@@ -77,7 +76,6 @@ public class ProfileSetPageController {
 
     @FXML
     private void onChooseButtonClick(ActionEvent event){
-        user = accountList.findAccountByUsername(account.getUsername());
         FileChooser chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
@@ -94,10 +92,12 @@ public class ProfileSetPageController {
                         destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
                 );
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
+                account = accountList.findAccountByUsername(account.getUsername());
                 imageView.setImage(new Image(target.toUri().toString()));
-                user.setPictureURL(destDir + "/" + filename);
+                account.setPictureURL(destDir + "/" + filename);
                 accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
+                update();
                 myText.setVisible(true);
                 myRectangle.setVisible(true);
                 new java.util.Timer().schedule(
@@ -118,8 +118,13 @@ public class ProfileSetPageController {
         }
     }
     public void update(){
-        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        if(!account.getPictureURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
         accountList = accountListDataSource.readData();
+        account = accountList.findAccountByUsername(account.getUsername());
     }
     @FXML
     public void rePassButt(ActionEvent event) throws IOException {
