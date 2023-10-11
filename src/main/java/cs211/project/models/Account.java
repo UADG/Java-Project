@@ -5,14 +5,18 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class Account implements Comparable<Account>{
-    protected String username;
-    protected String name;
-    protected String password;
-    protected String role;
-    protected String time;
-    protected String pictureURL;
-    protected ArrayList<String> allEventUser;
-    protected final int id;
+    private String username;
+    private String name;
+    private String password;
+    private String role;
+    private String time;
+    private String pictureURL;
+    private ArrayList<String> allEventUser;
+    private final int id;
+    private String pattern;
+    private DateTimeFormatter formatter;
+    private LocalDateTime userDateTime;
+    private LocalDateTime oDateTime;
 
     public Account(int id, String username, String password, String name, String time, String pictureURL, String role) {
         this.id = id;
@@ -124,10 +128,10 @@ public class Account implements Comparable<Account>{
     }
     @Override
     public int compareTo(Account o) {
-        String pattern = "yyyy-MM-dd' 'HH:mm";
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
-        LocalDateTime userDateTime = LocalDateTime.parse(time, formatter);
-        LocalDateTime oDateTime = LocalDateTime.parse(o.time, formatter);
+        pattern = "yyyy-MM-dd' 'HH:mm";
+        formatter = DateTimeFormatter.ofPattern(pattern);
+        userDateTime = LocalDateTime.parse(time, formatter);
+        oDateTime = LocalDateTime.parse(o.time, formatter);
 
         if (userDateTime.isBefore(oDateTime)) {
             return 1;
