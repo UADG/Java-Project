@@ -1,4 +1,5 @@
 package cs211.project.models.collections;
+
 import cs211.project.models.Account;
 
 import java.util.ArrayList;
@@ -17,9 +18,6 @@ public class AccountList{
                 accounts.add(new Account(id, username, password, name, time.trim(), picURL.trim(), role.trim()));
             }
         }
-    }
-    public void addNewAccount(Account account){
-        accounts.add(account);
     }
     public void addUserEvent(int id, String eventName) {
         eventName = eventName.trim();

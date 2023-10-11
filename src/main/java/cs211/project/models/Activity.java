@@ -20,10 +20,11 @@ public class Activity {
     private Team team;
     private String infoActivity;
     private String infoTeam;
-    private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+    private DateTimeFormatter dateFormatter;
+    private DateTimeFormatter timeFormatter;
     private LocalDateTime startLocalDateTime;
     private LocalDateTime endLocalDateTime;
+    private ActivityListFileDatasource activityListFileDatasource;
     public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName,String infoActivity,String infoTeam) {
         this.activityName = activityName;
         this.startDate = startDate;
@@ -36,6 +37,8 @@ public class Activity {
         this.eventName = eventName;
         this.infoActivity = infoActivity;
         this.infoTeam = infoTeam;
+        dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         startLocalDateTime = LocalDateTime.of(startDate,startTimeActivity);
         endLocalDateTime = LocalDateTime.of(endDate,endTimeActivity);
     }
@@ -43,9 +46,13 @@ public class Activity {
     public String getActivityName() {
         return activityName;
     }
+
     public String getStartDate(){return startDate.format(dateFormatter);}
+
     public String getEndDate(){return endDate.format(dateFormatter);}
+
     public String getDate(){return startDate.format(dateFormatter)+endDate.format(dateFormatter);}
+
     public String getStartTimeActivity() {
         return startTimeActivity.format(timeFormatter);
     }
@@ -65,49 +72,54 @@ public class Activity {
     public String getStatus() {
         return status;
     }
-    public boolean isActivity(String activityName) {
-        return this.activityName.equals(activityName);
-    }
+
     public String getEventName() {
         return eventName;
     }
+
     public Team getTeam(){return team;}
+
     public String getInfoActivity(){return infoActivity;}
+
     public String getInfoTeam(){return infoTeam;}
-    public boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
-        if(this.startLocalDateTime.isBefore(endActivityTime) && !this.endLocalDateTime.isBefore(endActivityTime)){
-            System.out.println(1);
-            return false;
-        }
-        else if (!this.startLocalDateTime.isAfter(startActivityTime) && this.endLocalDateTime.isAfter(startActivityTime)){
-            System.out.println(2);
-            return false;
-        }
-        else if(!this.startLocalDateTime.isBefore(startActivityTime) && this.startLocalDateTime.isBefore(endActivityTime)){
-            System.out.println(3);
-            return false;
-        }
-        return true;
-    }
 
     public void setActivityStatus(String status){
         this.status = status;
+    }
+
+    public void setParticipantName(String participantName){
+        this.participantName = participantName;
+    }
+
+    public void setEventName(String eventName){
+        this.eventName = eventName;
+    }
+
+    public boolean isActivity(String activityName) {
+        return this.activityName.equals(activityName);
+    }
+
+    public boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
+        if(this.startLocalDateTime.isBefore(endActivityTime) && !this.endLocalDateTime.isBefore(endActivityTime)){
+            return false;
+        }
+        else if (!this.startLocalDateTime.isAfter(startActivityTime) && this.endLocalDateTime.isAfter(startActivityTime)){
+            return false;
+        }
+        else if(!this.startLocalDateTime.isBefore(startActivityTime) && this.startLocalDateTime.isBefore(endActivityTime)){
+            return false;
+        }
+        return true;
     }
     public boolean userIsParticipant(String participantName){
         return this.participantName.equals(participantName);
     }
     public void updateTeamInActivity(Team team){
         this.team = team;
-        ActivityListFileDatasource datasource = new ActivityListFileDatasource("data","activity-list.csv");
-        datasource.updateTeamInActivity(activityName,team);
-    }
-    public void setParticipantName(String participantName){
-        this.participantName = participantName;
+        activityListFileDatasource = new ActivityListFileDatasource("data","activity-list.csv");
+        activityListFileDatasource.updateTeamInActivity(activityName,team);
     }
     public void deleteActivity(){
         this.activityName = "";
-    }
-    public void setEventName(String eventName){
-        this.eventName = eventName;
     }
 }

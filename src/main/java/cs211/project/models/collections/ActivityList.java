@@ -10,7 +10,7 @@ import java.util.ArrayList;
 public class ActivityList {
     private ArrayList<Activity> allActivities;
     private ArrayList<Activity> activities;
-
+    private ArrayList<String> participants;
 
     public ActivityList(){
         allActivities = new ArrayList<>();
@@ -24,18 +24,14 @@ public class ActivityList {
         }
     }
 
-    public void addActivity(Activity activity){
-        activities.add(activity);
-    }
-
     public void findActivityInEvent(String eventName){
         for(Activity activity: allActivities){
             if(activity.getEventName().equals((eventName))){
                 activities.add(activity);
             }
         }
-
     }
+
     public boolean checkActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime){
         if(!activities.isEmpty()) {
             for (Activity activity : activities) {
@@ -49,6 +45,7 @@ public class ActivityList {
         }
         return false;
     }
+
     public boolean checkActivityName(String activityName){
         for(Activity activity: activities){
             if (activity.isActivity(activityName)) {
@@ -57,6 +54,7 @@ public class ActivityList {
         }
         return true;
     }
+
     public void addParticipant(String id) {
         for(Activity activity : activities){
             if(activity.getParticipantName().isEmpty()){
@@ -65,6 +63,7 @@ public class ActivityList {
             }
         }
     }
+
     public void setActivityStatus(String activityName, String status) {
         for(Activity activity : activities){
             if(activity.getActivityName().equals(activityName)){
@@ -83,6 +82,7 @@ public class ActivityList {
             }
         }
     }
+
     public boolean userIsParticipant(String participantName) {
         for (Activity activity : activities) {
             if(activity.getParticipantName().equals(participantName)){
@@ -91,18 +91,18 @@ public class ActivityList {
         }
         return false;
     }
+
     public void changeNameEvent(String  eventName,String changeName){
-        System.out.println(eventName);
         for(Activity activity : allActivities){
-            System.out.println(activity.getEventName());
             if(activity.getEventName().equals(eventName)){
                 activity.setEventName(changeName);
             }
         }
 
     }
+
     public ArrayList<String> getParticipantInEvent(){
-        ArrayList<String> participants = new ArrayList<>();
+        participants = new ArrayList<>();
         for(Activity activity: activities){
             if(!activity.getParticipantName().isEmpty()) {
                 participants.add(activity.getParticipantName());
@@ -110,9 +110,11 @@ public class ActivityList {
         }
         return participants;
     }
+
     public ArrayList<Activity> getAllActivities(){
         return allActivities;
     }
+
     public ArrayList<Activity> getActivities(){
         return activities;
     }
