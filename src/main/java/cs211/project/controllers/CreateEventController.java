@@ -32,11 +32,11 @@ import java.util.Optional;
 
 public class CreateEventController {
     private Account account;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    private Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
-    private EventList eventList = eventListDatasource.readData();
-    private String errorText = "";
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
+    private Datasource<EventList> eventListDatasource;
+    private EventList eventList;
+    private String errorText;
     private Event newEvent;
     private EventList eventLists;
 
@@ -60,6 +60,11 @@ public class CreateEventController {
     private Object[] objects;
     @FXML
     private void initialize(){
+        accountListDatasource = new AccountListDatasource("data","user-info.csv");
+        eventListDatasource = new EventListFileDatasource("data","event-list.csv");
+        accountList = accountListDatasource.readData();
+        eventList = eventListDatasource.readData();
+        errorText = "";
         dateStart.setEditable(false);
         dateEnd.setEditable(false);
         startJoinDate.setEditable(false);
@@ -179,7 +184,6 @@ public class CreateEventController {
         if(errorText.equals("")) {
             boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
             if (confirmFinish){
-                // here
                 int tickets = Integer.parseInt(ticketNum);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
                         detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername(), startTeamDate, endTeamDate);

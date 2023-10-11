@@ -36,8 +36,8 @@ public class CreateTeamController {
     @FXML private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSend;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList ;
     private Account account;
     public ActivityList list;
     public String eventName;
@@ -51,6 +51,8 @@ public class CreateTeamController {
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
         if(isLightTheme){
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
         }else{
