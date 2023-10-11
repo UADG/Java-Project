@@ -6,7 +6,6 @@ import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -26,25 +25,47 @@ import java.time.format.DateTimeFormatter;
 
 public class RePassPageController {
 
-    @FXML private PasswordField passwordOld;
-    @FXML private PasswordField passwordNew;
-    @FXML private Label usernameLabel;
-    @FXML private Label myText;
-    @FXML private Pane myRectangle;
-    @FXML private ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private Button backButton;
-    @FXML private AnchorPane parent;
-    @FXML private PasswordField passwordConfirm;
-    private Object[] objects;
-    private Account accounts;
-    private Boolean isLightTheme;
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
+    @FXML
+    private PasswordField passwordOld;
+    @FXML
+    private PasswordField passwordNew;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label myText;
+    @FXML
+    private Pane myRectangle;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private Button backButton;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private PasswordField passwordConfirm;
+    private Datasource<AccountList> accountListDataSource;
+    private AccountList accountList;
     private Account account;
+    private Account accounts;
+    private Object[] objects;
+    private Alert alert;
+    private TranslateTransition slideAnimate;
+    private Boolean isLightTheme;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
+    private String specialChar;
+    private String oldPass;
+    private String newPass;
+    private String confirmPass;
     @FXML
     public void initialize(){
         objects = (Object[]) FXRouter.getData();
@@ -52,6 +73,8 @@ public class RePassPageController {
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
         account = accountList.findAccountByUsername(accounts.getUsername());
         if(account.getRole().equals("admin")){
             menuButton.setVisible(false);
@@ -71,10 +94,10 @@ public class RePassPageController {
         slide.setTranslateX(-200);
     }
     @FXML
-    public void onConfirmClick(ActionEvent event) throws IOException {
-        String oldPass = passwordOld.getText();
-        String newPass = passwordNew.getText();
-        String confirmPass = passwordConfirm.getText();
+    public void onConfirmClick(){
+        oldPass = passwordOld.getText();
+        newPass = passwordNew.getText();
+        confirmPass = passwordConfirm.getText();
         if(!isContainSpecialCharacter(newPass)) {
             if (account.getPassword().equals(oldPass) && !newPass.equals("")) {
                 if(confirmPass.equals(newPass)){
@@ -115,7 +138,6 @@ public class RePassPageController {
     }
     @FXML
     protected void onBackClick() throws IOException {
-        System.out.println(account.getRole());
         if (account.getRole().equals("user")) {
             FXRouter.goTo("profile-setting", objects);
         } else {
@@ -124,7 +146,7 @@ public class RePassPageController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -135,7 +157,7 @@ public class RePassPageController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -180,13 +202,10 @@ public class RePassPageController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -198,13 +217,13 @@ public class RePassPageController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
     }
     public boolean isContainSpecialCharacter(String cha){
-        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
         for(char c : cha.toCharArray()){
             if (specialChar.contains(String.valueOf(c))) {
                 return true;
@@ -213,7 +232,7 @@ public class RePassPageController {
         return false;
     }
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
