@@ -346,12 +346,6 @@ public class EventsListController {
                 showErrorAlert("Sorry, you have ban from being staff in this event");
             }else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
-                    if(selectedEvent.getTeamStartDate().isAfter(currentDate)){
-                        showErrorAlert("This event will open for apply to staff at "+selectedEvent.getTeamStartDate() + ".");
-                    }else if(selectedEvent.getTeamEndDate().isBefore(currentDate)){
-                        showErrorAlert("Sorry, this event is close to apply to staff.");
-                    }
-                    else {
                         teams = selectedEvent.getTeams();
                         teamFound = null;
                         found = false;
@@ -364,8 +358,14 @@ public class EventsListController {
                                 }
                             }
                         }
-
-                        if (!found) {
+                        if (found){
+                            showInfoPopup("You are have team in this event already \nYour team is " + teamFound);
+                        }
+                        else if(selectedEvent.getTeamStartDate().isAfter(currentDate)){
+                            showErrorAlert("This event will open for apply at "+selectedEvent.getTeamStartDate() + ".");
+                        }else if(selectedEvent.getTeamEndDate().isBefore(currentDate)){
+                            showErrorAlert("Sorry this event is close to apply.");
+                        } else {
                             try {
                                 data = new TeamListFileDatasource("data", "team.csv");
                                 try {
@@ -379,10 +379,7 @@ public class EventsListController {
                             } catch (IOException e) {
                                 throw new RuntimeException(e);
                             }
-                        } else {
-                            showInfoPopup("You are have team in this event already \nYour team is " + teamFound);
                         }
-                    }
                 } else {
                     showErrorAlert("You can't join your own event.");
                 }
