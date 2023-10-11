@@ -60,6 +60,8 @@ public class EditEventController {
     @FXML private HBox hBox;
     @FXML private AnchorPane parent;
     @FXML private ImageView logoImageView;
+    @FXML private DatePicker teamStart;
+    @FXML private DatePicker teamEnd;
     private Object[] objects;
     private Object[] objectsSend;
     private Boolean isLightTheme;
@@ -132,6 +134,8 @@ public class EditEventController {
         eventDatePickerStart.setEditable(false);
         endJoinDate.setEditable(false);
         startJoinDate.setEditable(false);
+        teamStart.setEditable(false);
+        teamEnd.setEditable(false);
 
         bPane.setVisible(false);
         slide.setTranslateX(-200);
@@ -147,6 +151,9 @@ public class EditEventController {
         endJoinDate.setValue(event.getEndJoinDate());
         amountTicketTextField.setText(String.valueOf(event.getTicket()));
         detailTextField.setText(event.getDetail());
+        teamStart.setValue(event.getTeamStartDate());
+        teamEnd.setValue(event.getTeamEndDate());
+
         if(!event.getPicURL().equals("/images/default-event.png")){
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
         }else {
@@ -166,6 +173,8 @@ public class EditEventController {
         String detail = detailTextField.getText().trim();
         LocalDate joinDateStart = startJoinDate.getValue();
         LocalDate joinDateEnd = endJoinDate.getValue();
+        LocalDate startTeamDate = teamStart.getValue();
+        LocalDate endTeamDate = teamEnd.getValue();
 
         if (!eventName.isEmpty() && eventDateStart != null && eventDateEnd != null &&
                 !timeStartEvent.isEmpty() && !timeEndEvent.isEmpty() &&
@@ -180,6 +189,8 @@ public class EditEventController {
             changeDetail(detail);
             changeJoinDateStart(joinDateStart, joinDateEnd);
             changeJoinDateEnd(joinDateStart, joinDateEnd);
+            changeStartTeamDate(startTeamDate, endTeamDate);
+            changeEndTeamDate(startTeamDate, endTeamDate);
 
             if (errorMessage.equals("")) {
                 boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
@@ -362,6 +373,36 @@ public class EditEventController {
             }
         } catch (DateTimeParseException e) {
             errorMessage += "INVALID TIME EVENT:\nPlease use HH:mm format.\n";
+        }
+    }
+
+    private void changeStartTeamDate(LocalDate startTeamDate, LocalDate endTeamDate){
+        if (startTeamDate.isEqual(event.getTeamStartDate())) {
+            return;
+        }
+        try {
+            if (currentDate.isAfter(startTeamDate) || startTeamDate.isAfter(endTeamDate) || startTeamDate.isAfter(teamEnd.getValue())) {
+                errorMessage += "JOIN TEAM START DATE:\nJoin team start date must be after the current date\nand before the end date.\n";
+            }else{
+                event.setTeamStartDate(startTeamDate);
+            }
+        } catch (Exception e) {
+            errorMessage += "JOIN TEAM START DATE:\nInvalid Date.\n";
+        }
+    }
+
+    private void changeEndTeamDate(LocalDate startTeamDate, LocalDate endTeamDate){
+        if (endTeamDate.isEqual(event.getTeamEndDate())){
+            return;
+        }
+        try {
+            if (currentDate.isAfter(endTeamDate) || endTeamDate.isAfter(teamEnd.getValue()) || endTeamDate.isBefore(startTeamDate)) {
+                errorMessage += "JOIN TEAM END DATE:\nJoin team end date must be after the current date,\njoin team start date and before the end date.\n";
+            }else {
+                event.setTeamEndDate(endTeamDate);
+            }
+        } catch (Exception e) {
+            errorMessage += "JOIN TEAM END DATE:\nInvalid Date.\n";
         }
     }
 

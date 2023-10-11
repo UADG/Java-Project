@@ -20,6 +20,8 @@ public class Event {
     private String detail;
     private LocalDate startJoinDate;
     private LocalDate endJoinDate;
+    private LocalDate teamStartDate;
+    private LocalDate teamEndDate;
     private int ticketBuy = 0;
     private String eventManager;
     private String picURL;
@@ -28,7 +30,7 @@ public class Event {
     private TeamList teams;
 
 public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
-             int ticket, String detail, LocalDate startJoinDate, LocalDate endJoinDate,int ticketBuy, String picURL, String eventManager){
+             int ticket, String detail, LocalDate startJoinDate, LocalDate endJoinDate,int ticketBuy, String picURL, String eventManager,LocalDate teamStartDate, LocalDate teamEndDate){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -41,6 +43,8 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         this.ticketBuy = ticketBuy;
         this.eventManager = eventManager;
         this.picURL = picURL;
+        this.teamStartDate = teamStartDate;
+        this.teamEndDate = teamEndDate;
         ActivityHardCode datasource = new ActivityHardCode();
         arr = datasource.readData();
     }
@@ -85,6 +89,11 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public String getPicURL() {
         return picURL;
     }
+    public LocalDate getTeamStartDate(){return teamStartDate;};
+
+    public LocalDate getTeamEndDate() {
+        return teamEndDate;
+    }
 
     public void setEventName(String eventName) {
         this.eventName = eventName;
@@ -118,6 +127,14 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
 
     public void setPicURL(String picURL) {
         this.picURL = picURL;
+    }
+
+    public void setTeamEndDate(LocalDate teamEndDate) {
+        this.teamEndDate = teamEndDate;
+    }
+
+    public void setTeamStartDate(LocalDate teamStartDate) {
+        this.teamStartDate = teamStartDate;
     }
 
     public void ticketBuy() {

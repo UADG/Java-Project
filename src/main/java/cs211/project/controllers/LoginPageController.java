@@ -64,15 +64,12 @@ public class LoginPageController {
                 account.setTime(time);
                 accountList = accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
-                try{
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
                     }else{
                         FXRouter.goTo("events-list", objects);
                     }
-                }catch(IOException e){
-                    showAlert("Program Error");
-                }
+
             } else {
                 invalidLabel.setText("Wrong password.");
                 invalidLabel.setVisible(true);

@@ -54,6 +54,8 @@ public class CreateEventController {
     @FXML private BorderPane bPane;
     @FXML private AnchorPane parent;
     @FXML private ImageView logoImageView;
+    @FXML private DatePicker teamStart;
+    @FXML private DatePicker teamEnd;
     private Boolean isLightTheme;
     private Object[] objects;
     @FXML
@@ -62,6 +64,8 @@ public class CreateEventController {
         dateEnd.setEditable(false);
         startJoinDate.setEditable(false);
         endJoinDate.setEditable(false);
+        teamStart.setEditable(false);
+        teamEnd.setEditable(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         objects = (Object[]) FXRouter.getData();
@@ -86,6 +90,8 @@ public class CreateEventController {
         LocalDate startJoin = startJoinDate.getValue();
         LocalDate endJoin = endJoinDate.getValue();
         String detail = detailLabel.getText();
+        LocalDate startTeamDate = teamStart.getValue();
+        LocalDate endTeamDate = teamEnd.getValue();
 
         Event event = eventList.findEventByEventName(eventName);
         if(event!=null){
@@ -93,7 +99,7 @@ public class CreateEventController {
             clear(nameEvent);
         }else {
             if (eventName.equals("") || startDate == null || endDate == null || startTime.equals("") || endTime.equals("")
-                    || ticketNum.equals("") || startJoin == null || endJoin == null) {
+                    || ticketNum.equals("") || startJoin == null || endJoin == null || startTeamDate == null || endTeamDate == null) {
                 errorText += "Please fill all information.\n";
             }
             if(isContainSpecialCharacter(eventName)){
@@ -154,14 +160,29 @@ public class CreateEventController {
             } catch (Exception e) {
                 errorText += "JOIN EVENT END DATE:\nInvalid Date.\n";
             }
+            try {
+                if (currentDate.isAfter(startTeamDate) || startTeamDate.isAfter(endTeamDate) || startTeamDate.isAfter(endDate)) {
+                    errorText += "JOIN TEAM START DATE:\nJoin team start date must be after the current date\nand before the end date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "JOIN TEAM START DATE:\nInvalid Date.\n";
+            }
+            try {
+                if (currentDate.isAfter(endTeamDate) || endTeamDate.isAfter(endDate) || endTeamDate.isBefore(startTeamDate)) {
+                    errorText += "JOIN TEAM END DATE:\nJoin team end date must be after the current date,\njoin team start date and before the end date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "JOIN TEAM END DATE:\nInvalid Date.\n";
+            }
         }
 
         if(errorText.equals("")) {
             boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
             if (confirmFinish){
+                // here
                 int tickets = Integer.parseInt(ticketNum);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
-                        detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername());
+                        detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername(), startTeamDate, endTeamDate);
                 Datasource<EventList> dataSource = new EventListFileDatasource("data", "event-list.csv");
                 dataSource.writeData(eventList);
 
@@ -190,19 +211,20 @@ public class CreateEventController {
                         e.printStackTrace();
                     }
                 }
-            }try{
-                eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-                eventLists = eventListDatasource.readData();
-                newEvent = eventLists.findEventByEventName(eventName);
-                Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-                AccountList accountList = accountListDatasource.readData();
-                Account account1 = accountList.findAccountByUsername(newEvent.getEventManager());
-                Object[] objects1 = new Object[2];
-                objects1[0] = account1;
-                objects1[1] = isLightTheme;
-                FXRouter.goTo("event-history", objects1);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                try{
+                    eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
+                    eventLists = eventListDatasource.readData();
+                    newEvent = eventLists.findEventByEventName(eventName);
+                    Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+                    AccountList accountList = accountListDatasource.readData();
+                    Account account1 = accountList.findAccountByUsername(newEvent.getEventManager());
+                    Object[] objects1 = new Object[2];
+                    objects1[0] = account1;
+                    objects1[1] = isLightTheme;
+                    FXRouter.goTo("event-history", objects1);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }else {
             showErrorAlert(errorText);

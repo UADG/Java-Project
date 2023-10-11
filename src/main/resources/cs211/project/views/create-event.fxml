@@ -16,14 +16,14 @@
       <Label layoutX="159.0" layoutY="182.0" styleClass="text-field" text="Event Name: " />
       <Label layoutX="170.0" layoutY="217.0" styleClass="text-field" text="Start Date:" />
       <TextField fx:id="nameEvent" layoutX="240.0" layoutY="178.0" prefWidth="123.0" styleClass="search-box" />
-      <Label layoutX="134.0" layoutY="285.0" styleClass="text-field" text="Time Event Start:" />
-      <TextField fx:id="timeStart" layoutX="240.0" layoutY="282.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="428.0" layoutY="285.0" styleClass="text-field" text="Time Event End:" />
-      <TextField fx:id="timeEnd" layoutX="527.0" layoutY="281.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="132.0" layoutY="321.0" styleClass="text-field" text="Time Event Start:" />
+      <TextField fx:id="timeStart" layoutX="241.0" layoutY="316.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
+      <Label layoutX="426.0" layoutY="321.0" styleClass="text-field" text="Time Event End:" />
+      <TextField fx:id="timeEnd" layoutX="528.0" layoutY="316.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
       <Label layoutX="428.0" layoutY="182.0" styleClass="text-field" text="Tickets Amount:" />
       <TextField fx:id="ticket" layoutX="527.0" layoutY="178.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
-      <Label layoutX="175.0" layoutY="331.0" styleClass="text-field" text="Detail:" />
-      <TextField fx:id="detailLabel" alignment="TOP_LEFT" layoutX="221.0" layoutY="331.0" prefHeight="115.0" prefWidth="403.0" styleClass="search-box-default" />
+      <Label layoutX="174.0" layoutY="363.0" styleClass="text-field" text="Detail:" />
+      <TextField fx:id="detailLabel" alignment="TOP_LEFT" layoutX="220.0" layoutY="363.0" prefHeight="115.0" prefWidth="403.0" styleClass="search-box-default" />
       <DatePicker fx:id="dateStart" layoutX="240.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
       <Label layoutX="462.0" layoutY="217.0" styleClass="text-field" text="End Date:" />
       <DatePicker fx:id="dateEnd" layoutX="527.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
@@ -42,6 +42,10 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Label layoutX="108.0" layoutY="287.0" text="Join Team Start Date:" />
+      <Label layoutX="403.0" layoutY="287.0" text="Join Team End Date:" />
+      <DatePicker fx:id="teamStart" layoutX="241.0" layoutY="283.0" prefHeight="24.0" prefWidth="123.0" />
+      <DatePicker fx:id="teamEnd" layoutX="527.0" layoutY="282.0" prefHeight="24.0" prefWidth="123.0" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">
