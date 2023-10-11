@@ -15,8 +15,8 @@ test3,2023-10-20,2023-10-20,13:00,17:00,,,0,create event that have activity and 
 test4,2023-10-20,2023-10-20,14:00,18:00,4,,0,create event that have activity and have team,,null
 test5,2023-10-20,2023-10-20,14:00,19:00,,,0,create event that have activity and have team,,null
 test6,2023-10-20,2023-10-20,14:00,20:00,6,,0,create event that have activity and have team,,null
-แสดงโชว์,2023-10-18,2023-10-18,14:00,16:00,ทีม 1,tj0l,0,test by jim,,null
-แสดงโชว์2,2023-10-18,2023-10-18,13:00,16:00,ทีม 2,tjt1,0,test by jim,,null
+แสดงโชว์,2023-10-18,2023-10-18,14:00,16:00,ทีม 1,tj0l,0,test jimmy,,null
+แสดงโชว์2,2023-10-18,2023-10-18,13:00,16:00,,tjt1,1,test jimmy,,null
 วาดรูป,2023-11-25,2023-11-25,12:00,14:00,ทีมวาดรูป,,0,AIAYE,,null
 แสดงผลงาน,2023-11-26,2023-11-26,12:00,15:00,แสดงผลงาน,,0,AIAYE,,null
 งานเลี้ยง,2023-11-27,2023-11-27,12:00,16:30,เลี้ยงฉลอง,,0,AIAYE,,null

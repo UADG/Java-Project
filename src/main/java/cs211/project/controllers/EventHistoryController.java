@@ -96,11 +96,6 @@ public class EventHistoryController {
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
-        objectsSend = new Object[3];
-        objectsSend[0] = accounts;
-        objectsSend[1] = selectedEvent;
-        objectsSend[2] = isLightTheme;
-
         if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
         } else {
@@ -241,7 +236,7 @@ public class EventHistoryController {
     protected void onEditDetailClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("edit-event", objectsSend);
+                FXRouter.goTo("edit-event", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -254,7 +249,7 @@ public class EventHistoryController {
     protected void onFinishActivityClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("finish-activity", objectsSend);
+                FXRouter.goTo("finish-activity", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -266,7 +261,7 @@ public class EventHistoryController {
     protected void onFixScheduleClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("fix-team-schedule",objectsSend);
+                FXRouter.goTo("fix-team-schedule", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -279,7 +274,7 @@ public class EventHistoryController {
     protected void onBanAllClick() {
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("ban-all", objectsSend);
+                FXRouter.goTo("ban-all", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -300,7 +295,7 @@ public class EventHistoryController {
     protected void onEditActivity(){
         if (selectedEvent != null) {
             try {
-                FXRouter.goTo("create-schedule", objectsSend);
+                FXRouter.goTo("create-schedule", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -396,5 +391,13 @@ public class EventHistoryController {
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+
+    private Object sendObject() {
+        objectsSend = new Object[3];
+        objectsSend[0] = accounts;
+        objectsSend[1] = selectedEvent;
+        objectsSend[2] = isLightTheme;
+        return objectsSend;
     }
 }
