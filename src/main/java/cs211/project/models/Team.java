@@ -67,16 +67,6 @@ public class Team {
         }
     }
 
-    public void deleteStaff(String id){
-        staffs.deleteStaff(id);
-        numberOfStaffLeft++;
-    }
-
-    public void deleteStaff(Staff staff){
-        deleteStaff(staff.getId());
-        numberOfStaffLeft++;
-    }
-
     public void banStaffInTeam(String id){
         Staff exist = staffs.checkStaffInList(id);
         if(exist!=null){
@@ -112,20 +102,12 @@ public class Team {
         return teamName;
     }
 
-    public StaffList getStaffsInTeam(){
-        return staffs;
-    }
-
     public void setFirstComment(String name) {
         firstComment = name;
     }
 
     public StaffList getStaffs(){
         return staffs;
-    }
-
-    public ArrayList<String> getBannedStaff(){
-        return bannedStaff;
     }
 
     public String getEventName() {

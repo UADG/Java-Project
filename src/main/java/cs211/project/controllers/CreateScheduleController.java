@@ -37,11 +37,6 @@ public class CreateScheduleController {
     @FXML DatePicker endDate;
     @FXML private AnchorPane parent;
     @FXML private Label eventNameLabel;
-    @FXML private Label eventDateStart;
-    @FXML private Label eventDateEnd;
-    @FXML private Label eventTimeStart;
-    @FXML private Label eventTimeEnd;
-
     @FXML private TableView<Activity> activityTableView;
     @FXML private AnchorPane slide;
     @FXML private Button menuButton;
@@ -54,8 +49,8 @@ public class CreateScheduleController {
     private Activity selectedActivity;
     private Event event;
     private Datasource<ActivityList> datasource;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
     private Account account;
     private Datasource<TeamList> teamListDatasource;
     private TeamList teams;
@@ -67,6 +62,8 @@ public class CreateScheduleController {
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
         if(isLightTheme){
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
         }else{
@@ -121,8 +118,6 @@ public class CreateScheduleController {
         activityTableView.getColumns().add(endTimeActivityColumn);
 
         activityTableView.getItems().clear();
-
-        // ใส่ข้อมูล Student ทั้งหมดจาก studentList ไปแสดงใน TableView
         for (Activity activity: activityList.getActivities()) {
             activityTableView.getItems().add(activity);
         }
