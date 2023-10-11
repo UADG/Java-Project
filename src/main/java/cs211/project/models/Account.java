@@ -25,6 +25,82 @@ public class Account implements Comparable<Account>{
         allEventUser = new ArrayList<>();
     }
 
+    public String getEventName(String name) {
+        for (String event : allEventUser) {
+            if (event.equals(name)) {
+                return event;
+            }
+        }
+        return null;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public String getPictureURL() {
+        return pictureURL;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public void setPictureURL(String pictureURL) {
+        this.pictureURL = pictureURL;
+    }
+
+    public boolean isEventName(String eventName) {
+        for (String event : this.allEventUser) {
+            if (event.equals(eventName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isId(int id) {
+        return this.id == id;
+    }
+    public boolean isUsername(String username) {
+        return this.username.equals(username);
+    }
+    public boolean isPassword(String password) {
+        return this.password.equals(password);
+    }
+    public boolean isName(String name) {
+        return this.name.equals(name);
+    }
+    public boolean isAdmin(String role) {
+        return "admin".equals(role);
+    }
+    public ArrayList<String> getAllEventUser() {
+        return allEventUser;
+    }
     public void addUserEventName(String name) {
         allEventUser.add(name);
     }
@@ -41,72 +117,6 @@ public class Account implements Comparable<Account>{
                 allEventUser.set(i, newName);
             }
         }
-    }
-
-    public String getEventName(String name) {
-        for (String event : allEventUser) {
-            if (event.equals(name)) {
-                return event;
-            }
-        }
-        return null;
-    }
-
-    public ArrayList<String> getAllEventUser() {
-        return allEventUser;
-    }
-
-    public boolean isEventName(String eventName) {
-        for (String event : this.allEventUser) {
-            if (event.equals(eventName)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public boolean isId(int id) {
-        return this.id == id;
-    }
-
-    public String getRole() { return role; }
-    public String getUsername() {
-        return username;
-    }
-    public String getName() {
-        return name;
-    }
-    public String getPassword() {
-        return password;
-    }
-    public String getTime() {
-        return time;
-    }
-    public String getPictureURL() {
-        return pictureURL;
-    }
-    public int getId(){return id;}
-    public void setPassword(String password) {
-        this.password = password;
-    }
-    public void setTime(String time) {
-        this.time = time;
-    }
-    public void setPictureURL(String pictureURL) {
-        this.pictureURL = pictureURL;
-    }
-
-    public boolean isUsername(String username) {
-        return this.username.equals(username);
-    }
-    public boolean isPassword(String password) {
-        return this.password.equals(password);
-    }
-    public boolean isName(String name) {
-        return this.name.equals(name);
-    }
-    public boolean isAdmin(String role) {
-        return "admin".equals(role);
     }
     @Override
     public String toString() {

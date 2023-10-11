@@ -14,7 +14,7 @@ public class EventList {
     }
     public void addNewEvent(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
                             int ticket, String detail, LocalDate startJoinDate, LocalDate endJoinDate,
-                            int ticketBuy,String picURL, String eventManager) {
+                            int ticketBuy,String picURL, String eventManager, LocalDate teamStartDate, LocalDate teamEndDate) {
         eventName = eventName.trim();
         detail = detail.trim();
         if (!eventName.equals("")) {
@@ -22,7 +22,7 @@ public class EventList {
             if (exist == null) {
                 events.add(new Event(eventName, startDate, endDate, startTime.trim(), endTime.trim(), ticket,
                         detail.trim(), startJoinDate, endJoinDate, ticketBuy,
-                        picURL.trim(),eventManager.trim()));
+                        picURL.trim(),eventManager.trim(), teamStartDate, teamEndDate));
             }
         }
     }

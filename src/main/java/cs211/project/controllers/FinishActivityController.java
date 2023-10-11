@@ -27,29 +27,50 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class FinishActivityController {
-    @FXML public TableView<Activity> activityTableView;
-    @FXML public Label nameLabel;
-    @FXML public Label timeStartLabel;
-    @FXML public Label timeStopLabel;
-    @FXML public Label dateLabel;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
-    private Object[] objectsSend;
-    private Boolean isLightTheme;
-    private Activity selectedActivity;
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label timeStartLabel;
+    @FXML
+    private Label timeStopLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private Datasource<AccountList> accountListDatasource;
     private ActivityListFileDatasource data;
+    private AccountList accountList;
+    private ActivityList list;
     private Account account;
     private Event selectedEvent;
+    private Activity selectedActivity;
+    private Object[] objectsSend;
+    private Object[] objects;
+    private TranslateTransition slideAnimate;
+    private TableColumn<Activity, String> activityNameColumn;
+    private TableColumn<Activity, String> dateActivityColumn;
+    private TableColumn<Activity, LocalTime> startTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> endTimeActivityColumn;
+    private DateTimeFormatter formatter;
+    private Boolean isLightTheme;
+    private String time;
+    private String cssPath;
 
     @FXML
     public void initialize(){
-
         clearInfo();
         updateData();
-        Object[] objects = (Object[]) FXRouter.getData();
+        objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
@@ -62,6 +83,7 @@ public class FinishActivityController {
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
         loadTheme(isLightTheme);
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
 
         showTable(selectedEvent.loadActivityInEvent());
 
@@ -84,20 +106,17 @@ public class FinishActivityController {
     }
 
     public void showTable(ActivityList list){
-        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
+        activityNameColumn = new TableColumn<>("Activity Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn = new TableColumn<>("Date");
         dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-
-        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-
-        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
-
 
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
@@ -109,7 +128,6 @@ public class FinishActivityController {
 
 
         for (Activity activity: list.getActivities()) {
-            System.out.println(activity.getActivityName());
             if(activity.getStatus().equals("0")) activityTableView.getItems().add(activity);
         }
     }
@@ -133,7 +151,7 @@ public class FinishActivityController {
     }
 
     public void finishActivity(){
-        ActivityList list = data.readData();
+        list = data.readData();
         list.findActivityInEvent(selectedActivity.getEventName());
         list.setActivityStatus(selectedActivity.getActivityName(),"1");
         data.writeData(list);
@@ -154,7 +172,7 @@ public class FinishActivityController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -165,7 +183,7 @@ public class FinishActivityController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -210,13 +228,11 @@ public class FinishActivityController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -230,7 +246,7 @@ public class FinishActivityController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

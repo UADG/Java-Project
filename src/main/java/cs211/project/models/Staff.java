@@ -50,10 +50,6 @@ public class Staff{
         bannedEvent.remove(eventName);
     }
 
-    public void setBannedEvent(ArrayList<String> bannedEvent){
-        this.bannedEvent = bannedEvent;
-    }
-
     public Team loadTeam(){
         TeamListFileDatasource dataList = new TeamListFileDatasource("data","team.csv");
         TeamList teamList= dataList.readData();
@@ -68,20 +64,6 @@ public class Staff{
 
         return null;
     }
-
-    public String loadEvent(){
-        loadTeam();
-        ActivityListFileDatasource list = new ActivityListFileDatasource("data", "activity-list.csv");
-        ActivityList activityList = list.readData();
-        for(Activity activity : activityList.getActivities()){
-            if(activity.getTeam().getTeamName().equals(team.getTeamName())){
-                eventName = activity.getEventName();
-                return eventName;
-            }
-        }
-        return null;
-    }
-
     public ArrayList<String> getBannedEvent(){
         return bannedEvent;
     }

@@ -7,15 +7,19 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class EventItemController {
-    @FXML private ImageView eventImageView;
-    @FXML private Label eventItemNameLabel;
+    @FXML
+    private ImageView eventImageView;
+    @FXML
+    private Label eventItemNameLabel;
+    private Image image;
+
     public void setData(Event event) {
         eventItemNameLabel.setText(event.getEventName());
         if(!event.getPicURL().equals("/images/default-event.png")) {
-            Image image = new Image("file:" + event.getPicURL(), true);
+            image = new Image("file:" + event.getPicURL(), true);
             eventImageView.setImage(image);
         } else {
-            Image image = new Image(getClass().getResource("/images/default-event.png").toExternalForm());
+            image = new Image(getClass().getResource("/images/default-event.png").toExternalForm());
             eventImageView.setImage(image);
         }
     }

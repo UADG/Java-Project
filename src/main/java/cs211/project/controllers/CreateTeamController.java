@@ -23,39 +23,65 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class CreateTeamController {
-    @FXML public TableView<Activity> activityTableView;
-    @FXML public Label nameLabel;
-    @FXML public Label timeStartLabel;
-    @FXML public Label timeStopLabel;
-    @FXML public TextField teamNameTextField;
-    @FXML public TextField numberOfTeamMemberTextField;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label timeStartLabel;
+    @FXML
+    private Label timeStopLabel;
+    @FXML
+    private TextField teamNameTextField;
+    @FXML
+    private TextField numberOfTeamMemberTextField;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
     private Object[] objects;
     private Object[] objectsSend;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
     private Account account;
-    public ActivityList list;
-    public String eventName;
-    public Event event;
+    private ActivityList list;
+    private Event event;
+    private Alert alert;
+    private String teamName;
+    private String numberStr;
+    private int number;
+    private TeamList teamList;
     public Activity selectedActivity;
     private Boolean isLightTheme;
+    private Boolean found;
 
-    public void initialize(){
+    public void initialize() {
         clearInfo();
+
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
@@ -64,6 +90,7 @@ public class CreateTeamController {
         event.loadEventInfo();
         list = event.loadActivityInEvent();
         showTable(list);
+
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
@@ -80,19 +107,19 @@ public class CreateTeamController {
         slide.setTranslateX(-200);
     }
 
-    public void clearInfo(){
+    public void clearInfo() {
         nameLabel.setText("");
         timeStopLabel.setText("");
         timeStopLabel.setText("");
     }
 
-    public void showInfo(Activity activity){
+    public void showInfo(Activity activity) {
         nameLabel.setText(activity.getActivityName());
         timeStartLabel.setText(activity.getStartTimeActivity());
         timeStopLabel.setText(activity.getEndTimeActivity());
     }
 
-    public void showTable(ActivityList list){
+    public void showTable(ActivityList list) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
@@ -116,9 +143,8 @@ public class CreateTeamController {
 
         activityTableView.getItems().clear();
 
-
         for (Activity activity: list.getActivities()) {
-            if(activity.getTeamName().equals("")){
+            if (activity.getTeamName().equals("")) {
                 activityTableView.getItems().add(activity);
             }
         }
@@ -126,15 +152,17 @@ public class CreateTeamController {
 
     public void createTeam(){
         if(selectedActivity != null){
-            String teamName = teamNameTextField.getText();
-            String numberStr = numberOfTeamMemberTextField.getText();
+            teamName = teamNameTextField.getText();
+            numberStr = numberOfTeamMemberTextField.getText();
 
-            boolean found = false;
-            TeamList teamList = event.loadTeamInEvent();
-            for(Team team : teamList.getTeams()) if(team.getTeamName().equals(teamName)) found = true;
-            if(!teamName.equals("")&&!numberStr.equals("")){
+            found = false;
+            teamList = event.loadTeamInEvent();
+
+            for (Team team : teamList.getTeams()) if (team.getTeamName().equals(teamName)) found = true;
+
+            if (!teamName.equals("")&&!numberStr.equals("")) {
                 try {
-                    int number = Integer.parseInt(numberStr);
+                    number = Integer.parseInt(numberStr);
                     if (number > 0) {
                         if (!found) {
                             Team team = new Team(teamName, number, event.getEventName());
@@ -150,20 +178,20 @@ public class CreateTeamController {
                     } else {
                         showErrorAlert("Number of people must more than zero");
                     }
-                }catch(NumberFormatException e){
+                } catch(NumberFormatException e) {
                     showErrorAlert("Number of people must be number");
                 }
-            }else{
+            } else {
                 showErrorAlert("Must fill all information before create team");
             }
-        }else{
+        } else {
             showErrorAlert("please select some activity before create team");
         }
 
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -171,7 +199,7 @@ public class CreateTeamController {
     }
 
     @FXML
-    protected void onBackClick(){
+    protected void onBackClick() {
         try {
             FXRouter.goTo("create-schedule", objects);
         } catch (IOException e) {
@@ -180,7 +208,7 @@ public class CreateTeamController {
     }
 
     @FXML
-    protected void onNextClick(){
+    protected void onNextClick() {
         try {
             FXRouter.goTo("event-history", objectsSend);
         } catch (IOException e) {
@@ -189,7 +217,7 @@ public class CreateTeamController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -200,7 +228,7 @@ public class CreateTeamController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -211,45 +239,53 @@ public class CreateTeamController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSend);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSend);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSend);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSend);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSend);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSend);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSend);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSend);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -261,7 +297,7 @@ public class CreateTeamController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

@@ -20,14 +20,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventsListController {
-    private Account account;
-    private AccountList accountList;
-    private AccountList banList;
-    private Account ban;
-
-    private LocalDate currentDate = LocalDate.now();
-    private LocalTime currentTime = LocalTime.now();
-
     @FXML
     private Label eventNameLabel;
     @FXML
@@ -41,33 +33,62 @@ public class EventsListController {
     @FXML
     private TextField searchTextField;
     @FXML
-    ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private AnchorPane parent;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private Button bookTicket;
-    @FXML private Button applyStaff;
-    @FXML private Button applyParticipant;
-    @FXML private ImageView logoImageView;
-    @FXML private GridPane eventGridPane;
-
+    private ImageView imageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private Button bookTicket;
+    @FXML
+    private Button applyStaff;
+    @FXML
+    private Button applyParticipant;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private GridPane eventGridPane;
+    private AnchorPane anchorPane;
     private Datasource<EventList> eventListDatasource;
     private Datasource<ActivityList> datasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banListDatasource;
     private Datasource<TeamList> teamListDatasource;
     private Datasource<StaffList> banStaffListDatasource;
+    private AccountList accountList;
+    private AccountList banList;
     private StaffList banStaffList;
-    private Staff banStaff;
     private EventList eventList;
     private TeamList teamList;
-    private String textSearch = "";
-    private Event selectedEvent;
+    private TeamList teams;
     private ActivityList activityList;
+    private Account account;
+    private Account ban;
+    private Staff banStaff;
+    private Event selectedEvent;
+    private Team teamFound;
+    private TeamListFileDatasource data;
     private Object[] objects;
+    private Object[] objectsSend;
+    private FXMLLoader fxmlLoader;
+    private TranslateTransition slideAnimate;
+    private Alert alert;
+    private EventItemController eventItemController;
+    private DateTimeFormatter formatter;
+    private LocalDate currentDate;
+    private LocalTime currentTime;
+    private String textSearch;
+    private String cssPath;
+    private String time;
+    private String teamName;
     private Boolean isLightTheme;
+    private boolean found;
     private int column;
     private int row;
     @FXML
@@ -81,12 +102,12 @@ public class EventsListController {
         }else{
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
-
         imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
+        textSearch = "";
         clearEventInfo();
 
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
@@ -99,6 +120,8 @@ public class EventsListController {
         banList = banListDatasource.readData();
         teamList = teamListDatasource.readData();
 
+        currentDate = LocalDate.now();
+        currentTime = LocalTime.now();
         ban = banList.findAccountByUsername(account.getUsername());
         banStaffListDatasource = new BanListFileDatasource("data","ban-staff-list.csv");
         banStaffList = banStaffListDatasource.readData();
@@ -111,105 +134,53 @@ public class EventsListController {
         eventGridPane.getChildren().clear();
         column = 0;
         row = 1;
-        try {
-            if (textSearch.equals("")) {
-                for (Event event: eventLists.getEvents()) {
-                    if (event.getEndDate().isAfter(currentDate)) {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
-
-                    EventItemController eventItemController = fxmlLoader.getController();
-                    eventItemController.setData(event);
-
-                    if (column == 2) {
-                        column = 0;
-                        row++;
-                    }
-                        anchorPane.setOnMouseClicked(events -> {
-                            clearEventInfo();
-                            imageView.setVisible(true);
-                            errorLabelBook.setText("");
-                            selectedEvent = event;
-                            showEventInfo(event);
-                        });
-
-                    eventGridPane.add(anchorPane, column++, row);
-                    eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                    eventGridPane.setPrefWidth(460);
-                    eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-                    eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                    eventGridPane.setPrefHeight(460);
-                    eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
-
-                    GridPane.setMargin(anchorPane, new Insets(20));
+        if (textSearch.equals("")) {
+            for (Event event: eventLists.getEvents()) {
+                if (event.getEndDate().isAfter(currentDate)) {
+                    createGrid(event);
                 }else if (event.getEndDate().isEqual(currentDate)) {
-                    FXMLLoader fxmlLoader = new FXMLLoader();
-                    fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
-                    AnchorPane anchorPane = fxmlLoader.load();
-
-                    EventItemController eventItemController = fxmlLoader.getController();
-                    eventItemController.setData(event);
-
-                    if (column == 2) {
-                        column = 0;
-                        row++;
-                    }
-                        anchorPane.setOnMouseClicked(events -> {
-                            clearEventInfo();
-                            imageView.setVisible(true);
-                            errorLabelBook.setText("");
-                            selectedEvent = event;
-                            showEventInfo(event);
-                        });
-
-                    eventGridPane.add(anchorPane, column++, row);
-                    eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                    eventGridPane.setPrefWidth(460);
-                    eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-                    eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                    eventGridPane.setPrefHeight(460);
-                    eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
-
-                    GridPane.setMargin(anchorPane, new Insets(20));
+                    createGrid(event);
                 }
             }
-            }else {
-                for (Event event: eventLists.getSearch()) {
-                        FXMLLoader fxmlLoader = new FXMLLoader();
-                        fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
-                        AnchorPane anchorPane = fxmlLoader.load();
-
-                        EventItemController eventItemController = fxmlLoader.getController();
-                        eventItemController.setData(event);
-
-                        if (column == 2) {
-                            column = 0;
-                            row++;
-                        }
-                    anchorPane.setOnMouseClicked(events -> {
-                        clearEventInfo();
-                        imageView.setVisible(true);
-                        errorLabelBook.setText("");
-                        selectedEvent = event;
-                        showEventInfo(event);
-                    });
-
-                        eventGridPane.add(anchorPane, column++, row);
-                        eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
-                        eventGridPane.setPrefWidth(460);
-                        eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
-
-                        eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
-                        eventGridPane.setPrefHeight(460);
-                        eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
-
-                        GridPane.setMargin(anchorPane, new Insets(20));
-                    }
+        }else {
+            for (Event event: eventLists.getSearch()) {
+                createGrid(event);
             }
-        } catch (IOException e) {
+        }
+    }
+
+    private void createGrid(Event event){
+        try {
+            fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
+            anchorPane = fxmlLoader.load();
+
+            eventItemController = fxmlLoader.getController();
+            eventItemController.setData(event);
+
+            if (column == 2) {
+                column = 0;
+                row++;
+            }
+            anchorPane.setOnMouseClicked(events -> {
+                clearEventInfo();
+                imageView.setVisible(true);
+                errorLabelBook.setText("");
+                selectedEvent = event;
+                showEventInfo(event);
+            });
+
+            eventGridPane.add(anchorPane, column++, row);
+            eventGridPane.setMinWidth(Region.USE_COMPUTED_SIZE);
+            eventGridPane.setPrefWidth(460);
+            eventGridPane.setMaxWidth(Region.USE_PREF_SIZE);
+
+            eventGridPane.setMinHeight(Region.USE_COMPUTED_SIZE);
+            eventGridPane.setPrefHeight(460);
+            eventGridPane.setMaxHeight(Region.USE_PREF_SIZE);
+
+            GridPane.setMargin(anchorPane, new Insets(20));
+        }catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -289,11 +260,11 @@ public class EventsListController {
     protected void onDetailClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects1 = new Object[3];
-                objects1[0] = account;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
-                FXRouter.goTo("event-details", objects1);
+                objectsSend = new Object[3];
+                objectsSend[0] = account;
+                objectsSend[1] = selectedEvent;
+                objectsSend[2] = isLightTheme;
+                FXRouter.goTo("event-details", objectsSend);
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -306,12 +277,11 @@ public class EventsListController {
     protected void onBookTicketsClick() {
         if (selectedEvent != null) {
             selectedEvent.loadTeamInEvent();
-            Team teamFound = null;
-            boolean found = false;
+            teamFound = null;
+            found = false;
             try {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
                     TeamList teams = selectedEvent.getTeams();
-                    System.out.println(selectedEvent.getEventName());
                     for (Team team : teams.getTeams()) {
                         for (Staff staff : team.getStaffs().getStaffList()) {
                             if (staff.getId().equals(Integer.toString(account.getId()))) {
@@ -340,11 +310,12 @@ public class EventsListController {
                     eventListDatasource.writeData(eventList);
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
-                    Object[] objects1 = new Object[3];
-                    objects1[0] = account;
-                    objects1[1] = selectedEvent;
-                    objects1[2] = isLightTheme;
-                    FXRouter.goTo("event-schedule", objects1);
+
+                    objectsSend = new Object[3];
+                    objectsSend[0] = account;
+                    objectsSend[1] = selectedEvent;
+                    objectsSend[2] = isLightTheme;
+                    FXRouter.goTo("event-schedule", objectsSend);
                 }
                 else {
                     errorLabelBook.setText("Sorry, tickets for this event are sold out.");
@@ -371,10 +342,9 @@ public class EventsListController {
                 showErrorAlert("Sorry, you have ban from being staff in this event");
             }else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
-                    TeamList teams = selectedEvent.getTeams();
-                    System.out.println(selectedEvent.getEventName());
-                    Team teamFound = null;
-                    boolean found = false;
+                    teams = selectedEvent.getTeams();
+                    teamFound = null;
+                    found = false;
                     for (Team team : teams.getTeams()) {
                         for (Staff staff : team.getStaffs().getStaffList()) {
                             if (staff.getId().equals(Integer.toString(account.getId()))) {
@@ -387,10 +357,9 @@ public class EventsListController {
 
                     if (!found) {
                         try {
-                            System.out.println(selectedEvent.getEventName());
-                            TeamListFileDatasource data = new TeamListFileDatasource("data", "team.csv");
+                            data = new TeamListFileDatasource("data", "team.csv");
                             try {
-                                String teamName = teams.findLowestStaffTeam().getTeamName();
+                                teamName = teams.findLowestStaffTeam().getTeamName();
                                 data.updateStaffInTeam(selectedEvent.getEventName(), teamName, new Staff(account), "+");
                                 showInfoPopup("You are in " + teamName + " team");
                                 FXRouter.goTo("team-schedule", objects);
@@ -449,7 +418,7 @@ public class EventsListController {
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -457,7 +426,7 @@ public class EventsListController {
     }
 
     private void showInfoPopup(String message) {
-        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Information");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -465,7 +434,7 @@ public class EventsListController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -476,7 +445,7 @@ public class EventsListController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -522,11 +491,11 @@ public class EventsListController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -553,7 +522,7 @@ public class EventsListController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

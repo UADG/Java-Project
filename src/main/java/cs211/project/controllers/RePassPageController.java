@@ -6,8 +6,8 @@ import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.animation.TranslateTransition;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
@@ -25,26 +25,47 @@ import java.time.format.DateTimeFormatter;
 
 public class RePassPageController {
 
-    @FXML private PasswordField passwordOld;
-    @FXML private PasswordField passwordNew;
-    @FXML private Label usernameLabel;
-    @FXML private Label myText;
-    @FXML private Pane myRectangle;
-    @FXML private Label errorLabel;
-    @FXML private Label errorLabel1;
-    @FXML private ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private Button backButton;
-    @FXML private AnchorPane parent;
-    private Object[] objects;
-    private Account accounts;
-    private Boolean isLightTheme;
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
+    @FXML
+    private PasswordField passwordOld;
+    @FXML
+    private PasswordField passwordNew;
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label myText;
+    @FXML
+    private Pane myRectangle;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private Button backButton;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private PasswordField passwordConfirm;
+    private Datasource<AccountList> accountListDataSource;
+    private AccountList accountList;
     private Account account;
+    private Account accounts;
+    private Object[] objects;
+    private Alert alert;
+    private TranslateTransition slideAnimate;
+    private Boolean isLightTheme;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
+    private String specialChar;
+    private String oldPass;
+    private String newPass;
+    private String confirmPass;
     @FXML
     public void initialize(){
         objects = (Object[]) FXRouter.getData();
@@ -52,6 +73,8 @@ public class RePassPageController {
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
         account = accountList.findAccountByUsername(accounts.getUsername());
         if(account.getRole().equals("admin")){
             menuButton.setVisible(false);
@@ -67,64 +90,54 @@ public class RePassPageController {
         usernameLabel.setText(account.getUsername());
         myText.setVisible(false);
         myRectangle.setVisible(false);
-        errorLabel.setVisible(false);
-        errorLabel1.setVisible(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
     }
     @FXML
-    public void onConfirmClick(ActionEvent event) throws IOException {
-        String oldPass = passwordOld.getText();
-        String newPass = passwordNew.getText();
-        if(account.getPassword().equals(oldPass) && !newPass.equals("")){
-            account.setPassword(newPass);
-            accountListDataSource.writeData(accountList);
+    public void onConfirmClick(){
+        oldPass = passwordOld.getText();
+        newPass = passwordNew.getText();
+        confirmPass = passwordConfirm.getText();
+        if(!isContainSpecialCharacter(newPass)) {
+            if (account.getPassword().equals(oldPass) && !newPass.equals("")) {
+                if(confirmPass.equals(newPass)){
+                account.setPassword(newPass);
+                accountListDataSource.writeData(accountList);
+                clearText();
+                myText.setVisible(true);
+                myRectangle.setVisible(true);
+                new java.util.Timer().schedule(
+                        new java.util.TimerTask() {
+                            @Override
+                            public void run() {
+                                myText.setVisible(false);
+                                myRectangle.setVisible(false);
+                            }
+                        },
+                        1000
+                );
+                }else {
+                    showErrorAlert("New password not match with Confirm password.");
+                }
+            } else if (newPass.equals("") || oldPass.equals("") || confirmPass.equals("")) {
+                clearText();
+                showErrorAlert("Incorrect Password");
+            } else {
+                clearText();
+                showErrorAlert("Invalid Password");
+            }
+        }else{
             clearText();
-            myText.setVisible(true);
-            myRectangle.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            myText.setVisible(false);
-                            myRectangle.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
-        }else if(!newPass.equals("")||oldPass.equals("")){
-            clearText();
-            errorLabel.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            errorLabel.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
-        }else {
-            clearText();
-            errorLabel1.setVisible(true);
-            new java.util.Timer().schedule(
-                    new java.util.TimerTask() {
-                        @Override
-                        public void run() {
-                            errorLabel1.setVisible(false);
-                        }
-                    },
-                    1000 // 1 second
-            );
+            showErrorAlert("Password must not contain special character.");
         }
     }
     public void clearText(){
         passwordOld.setText("");
         passwordNew.setText("");
+        passwordConfirm.setText("");
     }
     @FXML
     protected void onBackClick() throws IOException {
-        System.out.println(account.getRole());
         if (account.getRole().equals("user")) {
             FXRouter.goTo("profile-setting", objects);
         } else {
@@ -133,7 +146,7 @@ public class RePassPageController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -144,7 +157,7 @@ public class RePassPageController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -189,13 +202,10 @@ public class RePassPageController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -207,9 +217,25 @@ public class RePassPageController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+    public boolean isContainSpecialCharacter(String cha){
+        specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        for(char c : cha.toCharArray()){
+            if (specialChar.contains(String.valueOf(c))) {
+                return true;
+            }
+        }
+        return false;
+    }
+    private void showErrorAlert(String message) {
+        alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Error");
+        alert.setHeaderText(null);
+        alert.setContentText(message);
+        alert.showAndWait();
     }
 }

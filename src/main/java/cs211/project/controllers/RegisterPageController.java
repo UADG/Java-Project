@@ -17,49 +17,73 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class RegisterPageController {
-    Datasource<AccountList> accountListDatasource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDatasource.readData();
-    @FXML private TextField nameText;
-    @FXML private TextField usernameText;
-    @FXML private TextField passText;
-    @FXML private TextField confirmText;
-    @FXML private AnchorPane parent;
-    private Boolean isLightTheme;
-
     @FXML
-    private void initialize() {
+    private TextField nameText;
+    @FXML
+    private TextField usernameText;
+    @FXML
+    private TextField passText;
+    @FXML
+    private TextField confirmText;
+    @FXML
+    private AnchorPane parent;
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
+    private Account account;
+    private File file;
+    private FileInputStream fileInputStream;
+    private InputStreamReader inputStreamReader;
+    private BufferedReader buffer;
+    private Alert alert;
+    private Boolean isLightTheme;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String username;
+    private String name;
+    private String pass;
+    private String confirmPass;
+    private String line;
+    private String cssPath;
+    private String specialChar;
+    private String[] data;
+    private int id;
+    @FXML
+    public void initialize() {
         isLightTheme = (Boolean) FXRouter.getData();
         loadTheme(isLightTheme);
+
+        accountListDatasource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDatasource.readData();
     }
     public void onBackClick(ActionEvent event) throws IOException {
         FXRouter.goTo("login-page");
     }
     public void onConfirmClick(ActionEvent event) throws IOException {
-        String username = usernameText.getText();
-        String name = nameText.getText();
-        String pass = passText.getText();
-        String confirmPass = confirmText.getText();
-        Account account = accountList.findAccountByUsername(username);
-        int id = 0;
-        File file = new File("data","user-info.csv");
-        FileInputStream fileInputStream = null;
+        username = usernameText.getText();
+        name = nameText.getText();
+        pass = passText.getText();
+        confirmPass = confirmText.getText();
+        account = accountList.findAccountByUsername(username);
+        id = 0;
+        file = new File("data","user-info.csv");
+        fileInputStream = null;
         try {
             fileInputStream = new FileInputStream(file);
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
-        InputStreamReader inputStreamReader = new InputStreamReader(
+        inputStreamReader = new InputStreamReader(
                 fileInputStream,
                 StandardCharsets.UTF_8
         );
-        BufferedReader buffer = new BufferedReader(inputStreamReader);
-        String line = "";
+        buffer = new BufferedReader(inputStreamReader);
+        line = "";
         try {
             while ( (line = buffer.readLine()) != null ){
                 if (line.isEmpty()) continue;
-                String[] data = line.split(",");
+                data = line.split(",");
                 if(id <= Integer.parseInt(data[0]))
-                id = Integer.parseInt(data[0])+1;
+                    id = Integer.parseInt(data[0])+1;
                 }
 
         } catch (FileNotFoundException e) {
@@ -77,11 +101,10 @@ public class RegisterPageController {
             if(!username.equals("")&&!name.equals("")&&!pass.equals("")&&!confirmPass.equals("")){
                 if(!isContainSpecialCharacter(username)||!isContainSpecialCharacter(name)||!isContainSpecialCharacter(pass)) {
                     if (pass.equals(confirmPass)) {
-                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                        String time = LocalDateTime.now().format(formatter);
+                        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                        time = LocalDateTime.now().format(formatter);
                         accountList.addNewAccount(id, username, pass, name, time, "/images/default-profile.png", "user");
-                        Datasource<AccountList> dataSource = new AccountListDatasource("data", "user-info.csv");
-                        dataSource.writeData(accountList);
+                        accountListDatasource.writeData(accountList);
                         FXRouter.goTo("login-page");
                     } else {
                         showErrorAlert("Confirm password wrong. Please try again.");
@@ -97,7 +120,7 @@ public class RegisterPageController {
         }
     }
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -120,14 +143,14 @@ public class RegisterPageController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
     }
 
     public boolean isContainSpecialCharacter(String cha){
-        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
         for(char c : cha.toCharArray()){
             if (specialChar.contains(String.valueOf(c))) {
                 return true;
