@@ -303,6 +303,10 @@ public class EventsListController {
                     showErrorAlert("Sorry, you have ban from this event.");
                 }else if(found){
                     showErrorAlert("\"You are have team in this event already \nYour team is \"" + teamFound);
+                }else if(selectedEvent.getStartJoinDate().isAfter(currentDate)){
+                    showErrorAlert("This event will open for book at "+selectedEvent.getStartJoinDate() + ".");
+                } else if(selectedEvent.getEndJoinDate().isBefore(currentDate)){
+                    showErrorAlert("Sorry this event is close to book.");
                 }else if(selectedEvent.getTicketLeft() > 0) {
                     selectedEvent.ticketBuy();
 
@@ -342,35 +346,42 @@ public class EventsListController {
                 showErrorAlert("Sorry, you have ban from being staff in this event");
             }else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
-                    teams = selectedEvent.getTeams();
-                    teamFound = null;
-                    found = false;
-                    for (Team team : teams.getTeams()) {
-                        for (Staff staff : team.getStaffs().getStaffList()) {
-                            if (staff.getId().equals(Integer.toString(account.getId()))) {
-                                found = true;
-                                teamFound = team;
-                                break;
-                            }
-                        }
+                    if(selectedEvent.getTeamStartDate().isAfter(currentDate)){
+                        showErrorAlert("This event will open for apply to staff at "+selectedEvent.getTeamStartDate() + ".");
+                    }else if(selectedEvent.getTeamEndDate().isBefore(currentDate)){
+                        showErrorAlert("Sorry, this event is close to apply to staff.");
                     }
-
-                    if (!found) {
-                        try {
-                            data = new TeamListFileDatasource("data", "team.csv");
-                            try {
-                                teamName = teams.findLowestStaffTeam().getTeamName();
-                                data.updateStaffInTeam(selectedEvent.getEventName(), teamName, new Staff(account), "+");
-                                showInfoPopup("You are in " + teamName + " team");
-                                FXRouter.goTo("team-schedule", objects);
-                            } catch (NullPointerException e) {
-                                showErrorAlert("Sorry, there are no available seats at the moment.");
+                    else {
+                        teams = selectedEvent.getTeams();
+                        teamFound = null;
+                        found = false;
+                        for (Team team : teams.getTeams()) {
+                            for (Staff staff : team.getStaffs().getStaffList()) {
+                                if (staff.getId().equals(Integer.toString(account.getId()))) {
+                                    found = true;
+                                    teamFound = team;
+                                    break;
+                                }
                             }
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
                         }
-                    } else {
-                        showInfoPopup("You are have team in this event already \nYour team is " + teamFound);
+
+                        if (!found) {
+                            try {
+                                data = new TeamListFileDatasource("data", "team.csv");
+                                try {
+                                    teamName = teams.findLowestStaffTeam().getTeamName();
+                                    data.updateStaffInTeam(selectedEvent.getEventName(), teamName, new Staff(account), "+");
+                                    showInfoPopup("You are in " + teamName + " team");
+                                    FXRouter.goTo("team-schedule", objects);
+                                } catch (NullPointerException e) {
+                                    showErrorAlert("Sorry, there are no available seats at the moment.");
+                                }
+                            } catch (IOException e) {
+                                throw new RuntimeException(e);
+                            }
+                        } else {
+                            showInfoPopup("You are have team in this event already \nYour team is " + teamFound);
+                        }
                     }
                 } else {
                     showErrorAlert("You can't join your own event.");
