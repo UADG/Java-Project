@@ -20,19 +20,19 @@ import java.time.format.DateTimeFormatter;
 
 public class BanAllController {
     @FXML
-    Label constantTeamLabel;
+    private Label constantTeamLabel;
     @FXML
-    ComboBox<Team> chooseTeam;
+    private ComboBox<Team> chooseTeam;
     @FXML
-    Label nameLabel;
+    private Label nameLabel;
     @FXML
-    RadioButton chooseRoleTeam;
+    private RadioButton chooseRoleTeam;
     @FXML
-    RadioButton chooseRoleSingleParticipant;
+    private RadioButton chooseRoleSingleParticipant;
     @FXML
-    ListView<Staff> staffListView;
+    private ListView<Staff> staffListView;
     @FXML
-    ListView<Account> userListView;
+    private ListView<Account> userListView;
     @FXML
     private AnchorPane parent;
     @FXML
@@ -47,12 +47,12 @@ public class BanAllController {
     private DateTimeFormatter formatter;
     private Object[] objects;
     private Object[] objectsSend;
-    private boolean isLightTheme;
+    private Boolean isLightTheme;
     private Team team;
     private Staff selectedStaff;
     private Account selectedUser;
     private TeamList list;
-    private boolean notFirst;
+    private Boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
     private Datasource<AccountList> accountListDatasource;

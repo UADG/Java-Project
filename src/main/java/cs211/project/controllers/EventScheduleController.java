@@ -202,6 +202,7 @@ public class EventScheduleController {
     @FXML
     public void onLogOutButton() throws IOException {
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);

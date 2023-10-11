@@ -31,7 +31,6 @@ import java.time.format.DateTimeParseException;
 import java.util.Optional;
 
 public class CreateEventController {
-
     @FXML
     private TextField nameEvent;
     @FXML
@@ -79,7 +78,7 @@ public class CreateEventController {
     private LocalDate startTeamDate;
     private LocalDate endTeamDate;
     private int tickets;
-    private boolean confirmFinish;
+    private Boolean confirmFinish;
     private DateTimeFormatter formatter;
     private String time;
     private Datasource<AccountList> accountListDatasource;

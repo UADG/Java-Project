@@ -60,7 +60,6 @@ public class CommentTeamController {
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<ActivityList> activityListDatasource;
-    private Datasource<AccountList> dataSource;
     private ActivityList activityList;
     private TeamList commentTeam;
     private String selectedTeam;
