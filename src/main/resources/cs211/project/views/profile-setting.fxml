@@ -13,12 +13,12 @@
 <AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.ProfileSetPageController">
    <children>
       <Pane prefHeight="124.0" prefWidth="800.0" styleClass="progress-bar" />
-      <Label layoutX="333.0" layoutY="235.0" styleClass="text-field" text="Username">
+      <Label layoutX="333.0" layoutY="235.0" styleClass="text-field" text="Username:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Label layoutX="358.0" layoutY="272.0" styleClass="text-field" text="Name">
+      <Label layoutX="358.0" layoutY="272.0" styleClass="text-field" text="Name:">
          <font>
             <Font size="14.0" />
          </font>
@@ -28,7 +28,7 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Button layoutX="411.0" layoutY="305.0" mnemonicParsing="false" onAction="#onChooseButtonClick" styleClass="default-button" text="choose" />
+      <Button layoutX="411.0" layoutY="305.0" mnemonicParsing="false" onAction="#onChooseButtonClick" styleClass="default-button" text="Choose" />
       <Label fx:id="usernameLabel" layoutX="411.0" layoutY="235.0" styleClass="text-field" text="username">
          <font>
             <Font size="13.0" />

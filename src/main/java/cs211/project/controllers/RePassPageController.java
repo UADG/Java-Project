@@ -98,38 +98,38 @@ public class RePassPageController {
         oldPass = passwordOld.getText();
         newPass = passwordNew.getText();
         confirmPass = passwordConfirm.getText();
-        if(!isContainSpecialCharacter(newPass)) {
             if (account.getPassword().equals(oldPass) && !newPass.equals("")) {
-                if(confirmPass.equals(newPass)){
-                account.setPassword(newPass);
-                accountListDataSource.writeData(accountList);
-                clearText();
-                myText.setVisible(true);
-                myRectangle.setVisible(true);
-                new java.util.Timer().schedule(
-                        new java.util.TimerTask() {
-                            @Override
-                            public void run() {
-                                myText.setVisible(false);
-                                myRectangle.setVisible(false);
-                            }
-                        },
-                        1000
-                );
-                }else {
-                    showErrorAlert("New password not match with Confirm password.");
+                if(!isContainSpecialCharacter(newPass)) {
+                    if (confirmPass.equals(newPass)) {
+                        account.setPassword(newPass);
+                        accountListDataSource.writeData(accountList);
+                        clearText();
+                        myText.setVisible(true);
+                        myRectangle.setVisible(true);
+                        new java.util.Timer().schedule(
+                                new java.util.TimerTask() {
+                                    @Override
+                                    public void run() {
+                                        myText.setVisible(false);
+                                        myRectangle.setVisible(false);
+                                    }
+                                },
+                                1000
+                        );
+                    } else {
+                        showErrorAlert("New password not match with Confirm password.");
+                    }
+                }else{
+                    clearText();
+                    showErrorAlert("Password must not contain special character.");
                 }
             } else if (newPass.equals("") || oldPass.equals("") || confirmPass.equals("")) {
                 clearText();
-                showErrorAlert("Incorrect Password");
+                showErrorAlert("Please fill all the information.");
             } else {
                 clearText();
-                showErrorAlert("Invalid Password");
+                showErrorAlert("Incorrect Password");
             }
-        }else{
-            clearText();
-            showErrorAlert("Password must not contain special character.");
-        }
     }
     public void clearText(){
         passwordOld.setText("");

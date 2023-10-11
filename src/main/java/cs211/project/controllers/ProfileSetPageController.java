@@ -120,7 +120,7 @@ public class ProfileSetPageController {
                 account.setPictureURL(destDir + "/" + filename);
                 accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
-                update();
+                objects[0] = account;
                 myText.setVisible(true);
                 myRectangle.setVisible(true);
                 new java.util.Timer().schedule(
