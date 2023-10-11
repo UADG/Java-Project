@@ -91,6 +91,8 @@ public class EventsListController {
     private boolean found;
     private int column;
     private int row;
+    private boolean getBan;
+
     @FXML
     public void initialize() {
         objects = (Object[]) FXRouter.getData();
@@ -108,6 +110,7 @@ public class EventsListController {
         errorLabelBook.setText("");
         errorLabelApplyToParticipants.setText("");
         textSearch = "";
+        getBan = false;
         clearEventInfo();
 
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
@@ -334,6 +337,14 @@ public class EventsListController {
     @FXML
     protected void onApplyToStaffClick() {
         if(selectedEvent != null){
+            if(banStaff != null){
+                for(String eventBanName : banStaff.getBannedEvent()){
+                    if (eventBanName.equals(selectedEvent.getEventName())) {
+                        getBan = true;
+                        break;
+                    }
+                }
+            }
             selectedEvent.loadTeamInEvent();
             if(!selectedEvent.getArrayListActivities().isEmpty() && selectedEvent.getActivities().userIsParticipant(account.getUsername())){
                 showErrorAlert("Sorry, you're participant in this event.");
@@ -341,9 +352,10 @@ public class EventsListController {
             else if(account.isEventName(selectedEvent.getEventName())) {
                 showErrorAlert("You have already booked a ticket for this event.");
             }else if(ban.isEventName(selectedEvent.getEventName())){
-                showErrorAlert("Sorry, you have ban form this event.");
-            }else if(banStaff != null){
+                showErrorAlert("Sorry, you have ban from this event.");
+            }else if(getBan){
                 showErrorAlert("Sorry, you have ban from being staff in this event");
+                getBan = false;
             }else {
                 if (!selectedEvent.getEventManager().equals(account.getUsername())) {
                         teams = selectedEvent.getTeams();
@@ -394,7 +406,7 @@ public class EventsListController {
         if(selectedEvent != null) {
             selectedEvent.loadActivityInEvent();
             if(ban.isEventName(selectedEvent.getEventName())){
-                showErrorAlert("Sorry, you have ban form this event.");
+                showErrorAlert("Sorry, you have ban from this event.");
             }else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
                 if(account.isEventName(selectedEvent.getEventName())) {
                     showErrorAlert("You have already booked a ticket for this event.");
