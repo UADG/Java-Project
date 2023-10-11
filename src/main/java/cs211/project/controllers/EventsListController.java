@@ -310,11 +310,12 @@ public class EventsListController {
                     eventListDatasource.writeData(eventList);
                     account.addUserEventName(selectedEvent.getEventName());
                     accountListDatasource.writeData(accountList);
-                    objectsSend= new Object[3];
+
+                    objectsSend = new Object[3];
                     objectsSend[0] = account;
                     objectsSend[1] = selectedEvent;
                     objectsSend[2] = isLightTheme;
-                    FXRouter.goTo("event-schedule", objects);
+                    FXRouter.goTo("event-schedule", objectsSend);
                 }
                 else {
                     errorLabelBook.setText("Sorry, tickets for this event are sold out.");

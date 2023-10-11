@@ -27,48 +27,85 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventHistoryController {
-    @FXML private Label eventName;
-    @FXML private Label dateStart;
-    @FXML private  Label dateEnd;
-    @FXML private Label timeStart;
-    @FXML private Label timeEnd;
-    @FXML private Label amountTicket;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private ImageView imageView;
-    @FXML private HBox hBox;
-    @FXML ListView<Event> eventListView;
-    @FXML private Button editActivity;
-    @FXML private Button editDetail;
-    @FXML private Button finishActivity;
-    @FXML private Button fixSchedule;
-    @FXML private Button banAll;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private Label eventName;
+    @FXML
+    private Label dateStart;
+    @FXML
+    private  Label dateEnd;
+    @FXML
+    private Label timeStart;
+    @FXML
+    private Label timeEnd;
+    @FXML
+    private Label amountTicket;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private ListView<Event> eventListView;
+    @FXML
+    private Button editActivity;
+    @FXML
+    private Button editDetail;
+    @FXML
+    private Button finishActivity;
+    @FXML
+    private Button fixSchedule;
+    @FXML
+    private Button banAll;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
     private Object[] objects;
+    private Object[] objectsSend;
     private Boolean isLightTheme;
     private Event selectedEvent;
     private Account accounts;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
-    Datasource<EventList> eventListDatasource = new EventListFileDatasource("data","event-list.csv");
-    EventList eventList = eventListDatasource.readData();
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
+    private Datasource<EventList> eventListDatasource;
+    private EventList eventList;
+    private LocalDate currentDate;
+    private LocalTime currentTime;
+    private DateTimeFormatter formatter;
+    private String startDate;
+    private String endDate;
+    private Alert alert;
+    private TranslateTransition slideAnimate;
+    private String time;
+    private String cssPath;
+
     @FXML
     public void initialize() {
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
+        eventListDatasource = new EventListFileDatasource("data","event-list.csv");
+        eventList = eventListDatasource.readData();
 
         objects = (Object[]) FXRouter.getData();
         accounts = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         showList(eventList);
         clearEventInfo();
+
         eventListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Event>() {
             @Override
             public void changed(ObservableValue<? extends Event> observable, Event oldValue, Event newValue) {
@@ -85,9 +122,12 @@ public class EventHistoryController {
         bPane.setVisible(false);
         slide.setTranslateX(-200);
     }
-    private void showEventInfo(Event event){
-        LocalDate currentDate = LocalDate.now();
-        LocalTime currentTime = LocalTime.now();
+    private void showEventInfo(Event event) {
+        currentDate = LocalDate.now();
+        currentTime = LocalTime.now();
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        startDate = event.getStartDate().format(formatter);
+        endDate = event.getEndDate().format(formatter);
 
         if (event.getEndDate().isAfter(currentDate)) {
             editActivity.setVisible(true);
@@ -95,15 +135,14 @@ public class EventHistoryController {
             finishActivity.setVisible(true);
             fixSchedule.setVisible(true);
             banAll.setVisible(true);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String startDate = event.getStartDate().format(formatter);
-            String endDate = event.getEndDate().format(formatter);
+
             eventName.setText(event.getEventName());
             dateStart.setText(startDate);
             dateEnd.setText(endDate);
             timeStart.setText(event.getStartTime());
             timeEnd.setText(event.getEndTime());
             amountTicket.setText(String.format("%d", event.getTicket()));
+
             if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -116,15 +155,14 @@ public class EventHistoryController {
                 finishActivity.setVisible(true);
                 fixSchedule.setVisible(true);
                 banAll.setVisible(true);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String startDate = event.getStartDate().format(formatter);
-                String endDate = event.getEndDate().format(formatter);
+
                 eventName.setText(event.getEventName());
                 dateStart.setText(startDate);
                 dateEnd.setText(endDate);
                 timeStart.setText(event.getStartTime());
                 timeEnd.setText(event.getEndTime());
                 amountTicket.setText(String.format("%d", event.getTicket()));
+
                 if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -136,15 +174,14 @@ public class EventHistoryController {
                 finishActivity.setVisible(false);
                 fixSchedule.setVisible(false);
                 banAll.setVisible(false);
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                String startDate = event.getStartDate().format(formatter);
-                String endDate = event.getEndDate().format(formatter);
+
                 eventName.setText(event.getEventName());
                 dateStart.setText(startDate);
                 dateEnd.setText(endDate);
                 timeStart.setText(event.getStartTime());
                 timeEnd.setText(event.getEndTime());
                 amountTicket.setText(String.format("%d", event.getTicket()));
+
                 if (!event.getPicURL().equals("/images/default-event.png")) {
                     imageView.setImage(new Image("file:" + event.getPicURL(), true));
                 } else {
@@ -157,15 +194,14 @@ public class EventHistoryController {
             finishActivity.setVisible(false);
             fixSchedule.setVisible(false);
             banAll.setVisible(false);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            String startDate = event.getStartDate().format(formatter);
-            String endDate = event.getEndDate().format(formatter);
+
             eventName.setText(event.getEventName());
             dateStart.setText(startDate);
             dateEnd.setText(endDate);
             timeStart.setText(event.getStartTime());
             timeEnd.setText(event.getEndTime());
             amountTicket.setText(String.format("%d", event.getTicket()));
+
             if (!event.getPicURL().equals("/images/default-event.png")) {
                 imageView.setImage(new Image("file:" + event.getPicURL(), true));
             } else {
@@ -173,6 +209,7 @@ public class EventHistoryController {
             }
         }
     }
+
     private void showList(EventList eventList) {
         eventListView.getItems().clear();
         eventListView.getItems().addAll(eventList.getEvents());
@@ -198,12 +235,8 @@ public class EventHistoryController {
     @FXML
     protected void onEditDetailClick() {
         if (selectedEvent != null) {
-            Object[] objects1 = new Object[3];
-                objects1[0] = accounts;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
             try {
-                FXRouter.goTo("edit-event", objects1);
+                FXRouter.goTo("edit-event", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -216,11 +249,7 @@ public class EventHistoryController {
     protected void onFinishActivityClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects1 = new Object[3];
-                objects1[0] = accounts;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
-                FXRouter.goTo("finish-activity", objects1);
+                FXRouter.goTo("finish-activity", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -232,11 +261,7 @@ public class EventHistoryController {
     protected void onFixScheduleClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects1 = new Object[3];
-                objects1[0] = accounts;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
-                FXRouter.goTo("fix-team-schedule",objects1);
+                FXRouter.goTo("fix-team-schedule", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -245,16 +270,11 @@ public class EventHistoryController {
         }
     }
 
-
     @FXML
     protected void onBanAllClick() {
         if (selectedEvent != null) {
             try {
-                Object[] objects1 = new Object[3];
-                objects1[0] = accounts;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
-                FXRouter.goTo("ban-all", objects1);
+                FXRouter.goTo("ban-all", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -264,21 +284,18 @@ public class EventHistoryController {
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
     protected void onEditActivity(){
         if (selectedEvent != null) {
             try {
-                Object[] objects1 = new Object[3];
-                objects1[0] = accounts;
-                objects1[1] = selectedEvent;
-                objects1[2] = isLightTheme;
-                FXRouter.goTo("create-schedule", objects1);
+                FXRouter.goTo("create-schedule", sendObject());
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
@@ -286,9 +303,10 @@ public class EventHistoryController {
             showErrorAlert("Must selected at least 1 event");
         }
     }
+
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -297,9 +315,10 @@ public class EventHistoryController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -310,45 +329,53 @@ public class EventHistoryController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objects);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objects);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objects);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objects);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objects);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objects);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objects);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objects);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         accounts.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -360,9 +387,17 @@ public class EventHistoryController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
+    }
+
+    private Object sendObject() {
+        objectsSend = new Object[3];
+        objectsSend[0] = accounts;
+        objectsSend[1] = selectedEvent;
+        objectsSend[2] = isLightTheme;
+        return objectsSend;
     }
 }
