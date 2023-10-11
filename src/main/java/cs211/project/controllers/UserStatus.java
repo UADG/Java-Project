@@ -6,7 +6,6 @@ import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
 import cs211.project.services.FXRouter;
 import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -39,11 +38,20 @@ public class UserStatus {
     private AnchorPane parent;
     @FXML
     private TableView<Account> accountTableView;
-    private Account account;
-    private Boolean isLightTheme;
-    private Account selectedAccount;
+    private Datasource<AccountList> accountListDatasource;
     private AccountList accountList;
+    private Account account;
+    private Account user;
+    private Account selectedAccount;
     private Object[] objects;
+    private ImageView imageView;
+    private TableColumn<Account, ImageView> imageColumn;
+    private TableColumn<Account, String> IDColumn;
+    private TableColumn<Account, String> nameColumn;
+    private TableColumn<Account, String> usernameColumn;
+    private TableColumn<Account, LocalDateTime> lastOnlineColumn;
+    private Boolean isLightTheme;
+    private String cssPath;
 
     @FXML
     private void initialize() {
@@ -54,7 +62,7 @@ public class UserStatus {
 
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         clearDataInfo();
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         accountList = accountListDatasource.readData();
         accountList.sort();
         showTable(accountList);
@@ -70,7 +78,7 @@ public class UserStatus {
     }
 
     public void showInfo(Account account) {
-        Account user = accountList.findAccountByUsername(account.getUsername());
+        user = accountList.findAccountByUsername(account.getUsername());
         usernameLabel.setText(user.getUsername());
         nameLabel.setText(user.getName());
         timeLabel.setText(user.getTime());
@@ -81,18 +89,19 @@ public class UserStatus {
         }
     }
     private void showTable(AccountList accountList) {
-        TableColumn<Account, ImageView> imageColumn = new TableColumn<>("Profile");
+        imageColumn = new TableColumn<>("Profile");
         imageColumn.setCellValueFactory(param -> new SimpleObjectProperty<>(getImageView(param.getValue().getPictureURL())));
-        TableColumn<Account, String> IDColumn = new TableColumn<>("ID");
+
+        IDColumn = new TableColumn<>("ID");
         IDColumn.setCellValueFactory(new PropertyValueFactory<>("id"));
 
-        TableColumn<Account, String> nameColumn = new TableColumn<>("Name");
+        nameColumn = new TableColumn<>("Name");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
 
-        TableColumn<Account, String> usernameColumn = new TableColumn<>("Username");
+        usernameColumn = new TableColumn<>("Username");
         usernameColumn.setCellValueFactory(new PropertyValueFactory<>("username"));
 
-        TableColumn<Account, LocalDateTime> lastOnlineColumn = new TableColumn<>("Last Online");
+        lastOnlineColumn = new TableColumn<>("Last Online");
         lastOnlineColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
 
         accountTableView.setItems(FXCollections.observableArrayList(accountList.getAccount()));
@@ -112,7 +121,7 @@ public class UserStatus {
         }
     }
     private ImageView getImageView(String pictureURL) {
-        ImageView imageView = new ImageView();
+        imageView = new ImageView();
         if (!pictureURL.equals("/images/default-profile.png")) {
             imageView.setImage(new Image("file:" + pictureURL, true));
         } else {
@@ -152,7 +161,7 @@ public class UserStatus {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

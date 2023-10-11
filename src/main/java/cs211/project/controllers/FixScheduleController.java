@@ -28,37 +28,62 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class FixScheduleController {
-    @FXML Label constantTeamLabel;
-    @FXML Label nameLabel;
-    @FXML Label timeStartLabel;
-    @FXML Label timeStopLabel;
-    @FXML ComboBox chooseTeam;
-    @FXML RadioButton chooseRoleTeam;
-    @FXML RadioButton chooseRoleSingleParticipant;
-    @FXML TableView activityTableView;
-    @FXML ComboBox chooseOperator;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    @FXML
+    private Label constantTeamLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label timeStartLabel;
+    @FXML
+    private Label timeStopLabel;
+    @FXML
+    private ComboBox chooseTeam;
+    @FXML
+    private RadioButton chooseRoleTeam;
+    @FXML
+    private RadioButton chooseRoleSingleParticipant;
+    @FXML
+    private TableView activityTableView;
+    @FXML
+    private ComboBox chooseOperator;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private Datasource<AccountList> accountListDatasource;
+    private Datasource<ActivityList> activityListDatasource;
+    private AccountList accountList;
+    private ActivityList activityList;
     private Account account;
     private Event selectedEvent;
     private Team team;
-    private ActivityList list;
     private Activity selectedActivity;
-    private String operator;
     private Object[] objects;
     private Object[] objectsSend;
+    private TranslateTransition slideAnimate;
+    private TableColumn<Activity, String> activityNameColumn;
+    private TableColumn<Activity, String> dateActivityColumn;
+    private TableColumn<Activity, LocalTime> startTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> endTimeActivityColumn;
+    private DateTimeFormatter formatter;
     private Boolean isLightTheme;
+    private String[] op;
     private String participantName;
+    private String operator;
+    private String cssPath;
+    private String time;
 
     @FXML
     public void initialize(){
-
         clearInfo();
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
 
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
@@ -74,9 +99,9 @@ public class FixScheduleController {
         objectsSend[1] = isLightTheme;
         loadTheme(isLightTheme);
 
-        String[] op = {"add activity","delete activity"};
-        list = selectedEvent.loadActivityInEvent();
-        chooseTeam.getItems().addAll(list.getParticipantInEvent());
+        op = new String[]{"add activity", "delete activity"};
+        activityList = selectedEvent.loadActivityInEvent();
+        chooseTeam.getItems().addAll(activityList.getParticipantInEvent());
         chooseRoleSingleParticipant.setSelected(true);
         chooseOperator.getItems().addAll(op);
         setChooseTeamVisible(false);
@@ -108,7 +133,7 @@ public class FixScheduleController {
         if(chooseRoleSingleParticipant.isSelected()){
             activityTableView.getItems().clear();
             chooseTeam.getItems().clear();
-            chooseTeam.getItems().addAll(list.getParticipantInEvent());
+            chooseTeam.getItems().addAll(activityList.getParticipantInEvent());
             chooseRoleTeam.setSelected(false);
             constantTeamLabel.setText("Parti:");
             clearInfo();
@@ -153,21 +178,17 @@ public class FixScheduleController {
     }
 
     public void showActivity(){
-
-        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Activity Name");
+        activityNameColumn = new TableColumn<>("Activity Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn = new TableColumn<>("Date");
         dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-
-        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-
-        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
-
 
         activityTableView.getColumns().clear();
         activityTableView.getColumns().add(activityNameColumn);
@@ -177,27 +198,26 @@ public class FixScheduleController {
 
         activityTableView.getItems().clear();
 
-
         if(chooseRoleTeam.isSelected()) {
             if (operator.equals("add activity")) {
-                for (Activity activity : list.getActivities()) {
+                for (Activity activity : activityList.getActivities()) {
                     if (activity.getTeamName().equals("")) activityTableView.getItems().add(activity);
                 }
             } else if (operator.equals("delete activity")) {
-                for (Activity activity : list.getActivities()) {
+                for (Activity activity : activityList.getActivities()) {
                     if (activity.getTeamName().equals(team.getTeamName())) activityTableView.getItems().add(activity);
                 }
             }
         }
         else {
             if (operator.equals("add activity")) {
-                for (Activity activity : list.getActivities()) {
+                for (Activity activity : activityList.getActivities()) {
                     if (activity.getParticipantName().equals("")) {
                         activityTableView.getItems().add(activity);
                     }
                 }
             } else if (operator.equals("delete activity")) {
-                for (Activity activity : list.getActivities()) {
+                for (Activity activity : activityList.getActivities()) {
                     if (!activity.getParticipantName().isEmpty()) {
                         activityTableView.getItems().add(activity);
                     }
@@ -214,7 +234,7 @@ public class FixScheduleController {
                 } else if (operator.equals("delete activity")) {
                     selectedActivity.updateTeamInActivity(null);
                 }
-                list = selectedEvent.loadActivityInEvent();
+                activityList = selectedEvent.loadActivityInEvent();
                 showActivity();
             }
         }
@@ -225,9 +245,9 @@ public class FixScheduleController {
                 } else if (operator.equals("delete activity")) {
                     selectedActivity.setParticipantName("");
                 }
-                Datasource<ActivityList> datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-                datasource.writeData(list);
-                list = selectedEvent.loadActivityInEvent();
+                activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                activityListDatasource.writeData(activityList);
+                activityList = selectedEvent.loadActivityInEvent();
                 showActivity();
             }
         }
@@ -274,7 +294,7 @@ public class FixScheduleController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -285,7 +305,7 @@ public class FixScheduleController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -330,13 +350,12 @@ public class FixScheduleController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        accountList = accountListDatasource.readData();
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -349,7 +368,7 @@ public class FixScheduleController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

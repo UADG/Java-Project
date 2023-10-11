@@ -30,24 +30,49 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ProfileSetPageController {
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
+    @FXML
+    private Label usernameLabel;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label myText;
+    @FXML
+    private Pane myRectangle;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private Datasource<AccountList> accountListDataSource;
+    private AccountList accountList;
     private Account account;
-    @FXML Label usernameLabel;
-    @FXML Label nameLabel;
-    @FXML private Label myText;
-    @FXML private Pane myRectangle;
-    @FXML private ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
     private Object[] objects;
+    private FileChooser chooser;
+    private Node source;
+    private File file;
+    private File destDir;
+    private String[] fileSplit;
+    private String filename;
+    private Path target;
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
     private Boolean isLightTheme;
-
     @FXML public void initialize(){
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
+        accountListDataSource.readData();
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -57,6 +82,7 @@ public class ProfileSetPageController {
         }else{
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         usernameLabel.setText(account.getUsername());
         nameLabel.setText(account.getName());
         myText.setVisible(false);
@@ -73,25 +99,28 @@ public class ProfileSetPageController {
 
     @FXML
     private void onChooseButtonClick(ActionEvent event){
-        FileChooser chooser = new FileChooser();
+        chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
-        Node source = (Node) event.getSource();
-        File file = chooser.showOpenDialog(source.getScene().getWindow());
+        source = (Node) event.getSource();
+        file = chooser.showOpenDialog(source.getScene().getWindow());
         if (file != null){
             try {
-                File destDir = new File("images");
+                destDir = new File("images");
                 if (!destDir.exists()) destDir.mkdirs();
-                String[] fileSplit = file.getName().split("\\.");
-                String filename = "account_" + account.getName() + "_image" + "."
+                fileSplit = file.getName().split("\\.");
+                filename = "account_" + account.getName() + "_image" + "."
                         + fileSplit[fileSplit.length - 1];
-                Path target = FileSystems.getDefault().getPath(
+                target = FileSystems.getDefault().getPath(
                         destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
                 );
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
+                account = accountList.findAccountByUsername(account.getUsername());
                 imageView.setImage(new Image(target.toUri().toString()));
                 account.setPictureURL(destDir + "/" + filename);
+                accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
+                update();
                 myText.setVisible(true);
                 myRectangle.setVisible(true);
                 new java.util.Timer().schedule(
@@ -102,21 +131,30 @@ public class ProfileSetPageController {
                                 myRectangle.setVisible(false);
                             }
                         },
-                        1000 // 1 second
+                        1000
                 );
+                update();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
     }
-
+    public void update(){
+        if(!account.getPictureURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
+        accountList = accountListDataSource.readData();
+        account = accountList.findAccountByUsername(account.getUsername());
+    }
     @FXML
     public void rePassButt(ActionEvent event) throws IOException {
         FXRouter.goTo("re-password", objects);
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -127,7 +165,7 @@ public class ProfileSetPageController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -172,13 +210,10 @@ public class ProfileSetPageController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -191,7 +226,7 @@ public class ProfileSetPageController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

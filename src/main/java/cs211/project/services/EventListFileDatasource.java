@@ -70,8 +70,10 @@ public class EventListFileDatasource implements Datasource<EventList>{
                 int ticketBuy = Integer.parseInt(data[9].trim());
                 String picURL = data[10].trim();
                 String eventManager = data[11].trim();
+                LocalDate teamStartDate = LocalDate.parse(data[12],formatter);
+                LocalDate teamEndDate = LocalDate.parse(data[13], formatter);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, ticket,
-                        detail, startJoinDate, endJoinDate, ticketBuy, picURL,eventManager);
+                        detail, startJoinDate, endJoinDate, ticketBuy, picURL,eventManager, teamStartDate, teamEndDate);
             }
 
         } catch (FileNotFoundException e) {
@@ -111,7 +113,8 @@ public class EventListFileDatasource implements Datasource<EventList>{
                         ","+event.getStartTime()+","+event.getEndTime()+","+event.getTicket()
                         +","+event.getDetail()+","+event.getStartJoinDate()
                         +","+event.getEndJoinDate()+","+event.getTicketBuy()
-                        +","+event.getPicURL()+","+event.getEventManager();
+                        +","+event.getPicURL()+","+event.getEventManager()+","+event.getTeamStartDate()
+                        +","+event.getTeamEndDate();
                 buffer.append(line);
                 buffer.append("\n");
             }
