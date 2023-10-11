@@ -60,6 +60,10 @@ public class CreateEventController {
     private AnchorPane parent;
     @FXML
     private ImageView logoImageView;
+    @FXML
+    private DatePicker teamStart;
+    @FXML
+    private DatePicker teamEnd;
     private LocalDate currentDate;
     private String eventName;
     private LocalDate startDate;
@@ -72,6 +76,8 @@ public class CreateEventController {
     private String detail;
     private LocalTime timeEndEvent;
     private LocalTime timeStartEvent;
+    private LocalDate startTeamDate;
+    private LocalDate endTeamDate;
     private int tickets;
     private boolean confirmFinish;
     private DateTimeFormatter formatter;
@@ -118,6 +124,8 @@ public class CreateEventController {
         dateEnd.setEditable(false);
         startJoinDate.setEditable(false);
         endJoinDate.setEditable(false);
+        teamStart.setEditable(false);
+        teamEnd.setEditable(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
 
@@ -145,6 +153,8 @@ public class CreateEventController {
         startJoin = startJoinDate.getValue();
         endJoin = endJoinDate.getValue();
         detail = detailLabel.getText();
+        startTeamDate = teamStart.getValue();
+        endTeamDate = teamEnd.getValue();
 
         event = eventList.findEventByEventName(eventName);
 
@@ -153,7 +163,7 @@ public class CreateEventController {
             clear(nameEvent);
         } else {
             if (eventName.equals("") || startDate == null || endDate == null || startTime.equals("") || endTime.equals("")
-                    || ticketNum.equals("") || startJoin == null || endJoin == null) {
+                    || ticketNum.equals("") || startJoin == null || endJoin == null || startTeamDate == null || endTeamDate == null) {
                 errorText += "Please fill all information.\n";
             }
 
@@ -222,15 +232,28 @@ public class CreateEventController {
                 errorText += "JOIN EVENT END DATE:\nInvalid Date.\n";
             }
 
+            try {
+                if (currentDate.isAfter(startTeamDate) || startTeamDate.isAfter(endTeamDate) || startTeamDate.isAfter(endDate)) {
+                    errorText += "JOIN TEAM START DATE:\nJoin team start date must be after the current date\nand before the end date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "JOIN TEAM START DATE:\nInvalid Date.\n";
+            }
+            try {
+                if (currentDate.isAfter(endTeamDate) || endTeamDate.isAfter(endDate) || endTeamDate.isBefore(startTeamDate)) {
+                    errorText += "JOIN TEAM END DATE:\nJoin team end date must be after the current date,\njoin team start date and before the end date.\n";
+                }
+            } catch (Exception e) {
+                errorText += "JOIN TEAM END DATE:\nInvalid Date.\n";
+            }
         }
 
-        if (errorText.equals("")) {
+        if(errorText.equals("")) {
             confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
-
-            if (confirmFinish) {
+            if (confirmFinish){
                 tickets = Integer.parseInt(ticketNum);
                 eventList.addNewEvent(eventName, startDate, endDate, startTime, endTime, tickets,
-                        detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername());
+                        detail, startJoin, endJoin, 0, "/images/default-event.png", account.getUsername(), startTeamDate, endTeamDate);
 
                 eventListDatasource.writeData(eventList);
                 eventList = eventListDatasource.readData();
