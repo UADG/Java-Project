@@ -13,8 +13,8 @@ test 2,2023-10-10,2023-10-11,08:00,23:00,20,,2023-10-09,2023-10-09,7,images/Even
 test create long event name,2023-10-14,2023-10-15,07:00,18:00,20,,2023-10-09,2023-10-09,4,images/Event_test create long event name_image.gif,create,2023-10-14,2023-10-15
 create event that have activity and have team,2023-10-20,2023-10-20,12:00,23:00,20,,2023-10-09,2023-10-09,4,images/Event_create event that have activity and have team_image.gif,ctt1,2023-10-20,2023-10-20
 create more event,2023-10-14,2023-10-15,12:00,16:00,30,,2023-10-09,2023-10-09,5,images/Event_create more event_image.gif,create,2023-10-14,2023-10-15
-EVENT,2023-10-20,2023-10-21,01:00,09:00,50,,2023-10-11,2023-10-19,4,/images/default-event.png,ai,2023-10-20,2023-10-21
+EVENT,2023-10-20,2023-10-21,01:00,09:00,50,,2023-10-11,2023-10-19,4,images/Event_EVENT_image.jpg,ai,2023-10-20,2023-10-21
 dance party,2023-10-20,2023-10-31,08:00,20:00,20,,2023-10-12,2023-10-19,0,images/Event_dance party_image.jpg,jim,2023-10-12,2023-10-19
 sleeping,2023-10-20,2023-10-23,12:00,18:00,29,,2023-10-11,2023-10-19,0,images/Event_sleeping_image.gif,create,2023-10-11,2023-10-19
-Celebrate,2023-10-13,2023-10-14,15:00,23:00,50,details,2023-10-12,2023-10-13,0,/images/default-event.png,ai,2023-10-12,2023-10-13
-Celebratea,2023-10-12,2023-10-14,15:00,23:00,52,detail,2023-10-12,2023-10-13,0,/images/default-event.png,ai,2023-10-12,2023-10-13
+Celebrate,2023-10-13,2023-10-14,15:00,23:00,60,details,2023-10-12,2023-10-13,0,images/Event_Celebrate_image.jpg,ai,2023-10-12,2023-10-13
+Celebratea,2023-10-12,2023-10-14,15:00,23:00,52,detail,2023-10-12,2023-10-13,0,images/Event_Celebratea_image.jpg,ai,2023-10-12,2023-10-13
