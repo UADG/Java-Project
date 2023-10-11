@@ -242,6 +242,7 @@ public class EditEventController {
                     showInfo(event);
                     onBackClick();
                 }
+
             } else {
                 showErrorAlert(errorMessage);
                 clearErrorMessage();
@@ -272,7 +273,6 @@ public class EditEventController {
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
                 imageView.setImage(new Image(target.toUri().toString()));
                 event.setPicURL(destDir + "/" + filename);
-                eventListDatasource.writeData(eventList);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -91,7 +91,6 @@ public class CreateEventController {
     private ButtonType cancelButton;
     private Optional<ButtonType> result;
     private String errorText;
-    private Event newEvent;
     private Event event;
     private Node source;
     private File file;
@@ -100,13 +99,10 @@ public class CreateEventController {
     private String filename;
     private Path target;
     private String cssPath;
-    private EventList eventLists;
     private FileChooser chooser;
     private TranslateTransition slideAnimate;
     private Boolean isLightTheme;
     private Object[] objects;
-    private Object[] objectsSend;
-    private Account accountSend;
     private String specialChar;
 
     @FXML
@@ -141,7 +137,7 @@ public class CreateEventController {
     }
 
     @FXML
-    protected void onNextClick(ActionEvent events) {
+    protected void onNextClick(ActionEvent events) throws IOException {
         currentDate = LocalDate.now();
         eventName = nameEvent.getText();
         startDate = dateStart.getValue();
@@ -257,7 +253,7 @@ public class CreateEventController {
                 eventListDatasource.writeData(eventList);
                 eventList = eventListDatasource.readData();
 
-                newEvent = eventLists.findEventByEventName(eventName);
+                event = eventList.findEventByEventName(eventName);
 
                 chooser = new FileChooser();
                 chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
@@ -270,38 +266,28 @@ public class CreateEventController {
                         destDir = new File("images");
                         if (!destDir.exists()) destDir.mkdirs();
                         fileSplit = file.getName().split("\\.");
-                        filename = "Event_" + newEvent.getEventName() + "_image" + "."
+                        filename = "Event_" + event.getEventName() + "_image" + "."
                                 + fileSplit[fileSplit.length - 1];
                         target = FileSystems.getDefault().getPath(
                                 destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
                         );
                         Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
-                        newEvent.setPicURL(destDir + "/" + filename);
-                        eventListDatasource.writeData(eventLists);
+                        event.setPicURL(destDir + "/" + filename);
+                        eventListDatasource.writeData(eventList);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
-            }
 
-            try {
+                }
+
                 eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
-                eventLists = eventListDatasource.readData();
-                newEvent = eventLists.findEventByEventName(eventName);
+                eventList = eventListDatasource.readData();
+                event = eventList.findEventByEventName(eventName);
                 accountListDatasource = new AccountListDatasource("data", "user-info.csv");
                 accountList = accountListDatasource.readData();
-                accountSend = accountList.findAccountByUsername(newEvent.getEventManager());
 
-                objectsSend = new Object[2];
-                objectsSend[0] = accountSend;
-                objectsSend[1] = isLightTheme;
-
-                FXRouter.goTo("event-history", objectsSend);
-
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                FXRouter.goTo("event-history", objects);
             }
-
         } else {
             showErrorAlert(errorText);
             errorText = "";

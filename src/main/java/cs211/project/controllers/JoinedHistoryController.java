@@ -18,6 +18,7 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class JoinedHistoryController {
@@ -65,6 +66,7 @@ public class JoinedHistoryController {
     private String time;
     private String cssPath;
     private LocalDate currentDate;
+    private LocalTime currentTime;
     private Boolean isLightTheme;
     private DateTimeFormatter formatter;
 
@@ -83,6 +85,7 @@ public class JoinedHistoryController {
         clearEventInfo();
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
+        currentTime = LocalTime.now();
 
         accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
@@ -132,6 +135,10 @@ public class JoinedHistoryController {
 
             if (currentDate.isBefore(event.getEndDate())) {
                 eventOrganizeListView.getItems().add(eventName);
+            } else if (event.getEndDate().isEqual(currentDate)){
+                if (LocalTime.parse(event.getEndTime()).isAfter(currentTime)) {
+                    eventOrganizeListView.getItems().add(eventName);
+                }
             }
         }
     }
@@ -147,6 +154,10 @@ public class JoinedHistoryController {
 
             if (currentDate.isAfter(event.getEndDate())) {
                 eventFinishListView.getItems().add(eventName);
+            } else if (event.getEndDate().isEqual(currentDate)){
+                if (LocalTime.parse(event.getEndTime()).isBefore(currentTime)) {
+                    eventFinishListView.getItems().add(eventName);
+                }
             }
         }
     }

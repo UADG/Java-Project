@@ -10,11 +10,11 @@ test2,2023-10-13,2023-10-13,13:00,23:00,2,check1,0,testJim,test2,null
 แต่งตัว 14,2023-10-14,2023-10-14,09:00,17:00,team1,jp1,0,best หล่อ,ช่างแต่งหน้า,null
 แต่งตัว 15,2023-10-15,2023-10-15,09:00,17:00,team2,jp3,0,best หล่อ,ช่างแต่งหน้า,null
 test1,2023-10-20,2023-10-20,12:00,15:00,1,tjt1,0,create event that have activity and have team,,null
-test2,2023-10-20,2023-10-20,13:00,16:00,2,,0,create event that have activity and have team,,null
-test3,2023-10-20,2023-10-20,13:00,17:00,,,0,create event that have activity and have team,,null
+test2,2023-10-20,2023-10-20,13:00,16:00,2,testcreate,0,create event that have activity and have team,,null
+test3,2023-10-20,2023-10-20,13:00,17:00,6,,0,create event that have activity and have team,,null
 test4,2023-10-20,2023-10-20,14:00,18:00,4,,0,create event that have activity and have team,,null
 test5,2023-10-20,2023-10-20,14:00,19:00,,,0,create event that have activity and have team,,null
-test6,2023-10-20,2023-10-20,14:00,20:00,6,,0,create event that have activity and have team,,null
+test6,2023-10-20,2023-10-20,14:00,20:00,6,,1,create event that have activity and have team,,null
 แสดงโชว์,2023-10-18,2023-10-18,14:00,16:00,ทีม 1,tj0l,0,test jimmy,,null
 แสดงโชว์2,2023-10-18,2023-10-18,13:00,16:00,,tjt1,1,test jimmy,,null
 วาดรูป,2023-11-25,2023-11-25,12:00,14:00,ทีมวาดรูป,,0,AIAYE,,null
@@ -23,7 +23,8 @@ test6,2023-10-20,2023-10-20,14:00,20:00,6,,0,create event that have activity and
 งานโชว์,2023-10-20,2023-10-20,01:00,08:00,ทีม 1,,0,EVENT,,null
 งานโชว์2,2023-10-21,2023-10-21,01:00,09:00,ทีม 2,,0,EVENT,,null
 ฝึกวาดรูป,2023-10-12,2023-10-12,09:00,11:00,วาดรูป,tjt1,0,1 days,,null
-ฝึกแต่งตัว,2023-10-12,2023-10-12,11:00,13:00,ฝึกแต่งตัว,,0,1 days,,null
+ฝึกแต่งตัว,2023-10-12,2023-10-12,11:00,13:00,ฝึกแต่งตัว,je1,0,1 days,,null
 ออกกำลังกาย,2023-10-12,2023-10-12,13:00,14:00,ออกกำลังกาย,,0,1 days,,null
 พักผ่อน,2023-10-12,2023-10-12,14:00,15:00,พักผ่อน,,0,1 days,,null
 เลี้ยงฉลอง,2023-10-12,2023-10-12,15:00,17:00,เลี้ยงฉลอง,,0,1 days,,null
+นอนหลับ,2023-10-20,2023-10-20,14:00,16:00,team1,,1,sleeping,,null
