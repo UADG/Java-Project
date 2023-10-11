@@ -13,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -54,7 +55,6 @@ public class BanAllController {
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
-    private Datasource<AccountList> dataSource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banUserDatasource;
     private AccountList accountList;
@@ -100,7 +100,8 @@ public class BanAllController {
         setChooseTeamVisible(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
-}
+    }
+
     @FXML
     public void clearInfo() {
         nameLabel.setText("");
@@ -198,7 +199,7 @@ public class BanAllController {
         });
     }
 
-    public void banTarget(){
+    public void banTarget() {
         if (team != null && selectedStaff != null) {
             updateData();
             team.banStaffInTeam(selectedStaff.getId());
@@ -295,8 +296,7 @@ public class BanAllController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 

@@ -29,31 +29,46 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventScheduleController {
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private Label infoActivity;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
     private Account account;
-    @FXML private TableView<Activity> activityTableView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private Label infoActivity;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
     private Object[] objectsSend;
     private Object[] objects;
     private Event selectedEvent;
     private Activity selectedActivity;
     private Boolean isLightTheme;
+    private TranslateTransition slideAnimate;
+    private String cssPath;
+    private DateTimeFormatter formatter;
+    private String time;
 
     @FXML
     public void initialize() {
-        Object[] objects = (Object[]) FXRouter.getData();
+        objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
@@ -63,6 +78,7 @@ public class EventScheduleController {
         infoActivity.setText("");
         bPane.setVisible(false);
         slide.setTranslateX(-200);
+
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
@@ -75,6 +91,7 @@ public class EventScheduleController {
             }
         });
     }
+
     private void showTable(ActivityList activityList) {
         TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
@@ -118,7 +135,7 @@ public class EventScheduleController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -127,9 +144,10 @@ public class EventScheduleController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -140,47 +158,54 @@ public class EventScheduleController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSend);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSend);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSend);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSend);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSend);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSend);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSend);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSend);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
     private void loadTheme(Boolean theme) {
@@ -193,7 +218,7 @@ public class EventScheduleController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

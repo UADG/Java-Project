@@ -22,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -165,7 +166,6 @@ public class CommentTeamController {
             }
 
             commentDatasource.writeData(commentTeam);
-            commentDatasource.readData();
 
             team = commentTeam.checkTeamExist(selectedTeam);
 
@@ -322,8 +322,7 @@ public class CommentTeamController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 

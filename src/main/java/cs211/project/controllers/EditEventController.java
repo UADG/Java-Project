@@ -30,7 +30,6 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Optional;
 
 public class EditEventController {
@@ -54,12 +53,18 @@ public class EditEventController {
     private DatePicker endJoinDate;
     @FXML
     private ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSend;
     private Boolean isLightTheme;
@@ -68,13 +73,12 @@ public class EditEventController {
     private Datasource<AccountList> joinedEventDatasource;
     private Datasource<TeamList> teamListDatasource;
     private Datasource<StaffList> banStaffListDatasource;
-    private  Datasource<AccountList> banUserDatasource;
-    private Datasource<ActivityList> activityListDatasource ;
+    private Datasource<AccountList> banUserDatasource;
+    private Datasource<ActivityList> activityListDatasource;
     private ActivityList activityList ;
     private AccountList banUserList;
     private StaffList banStaffList;
     private TeamList teamList;
-
     private EventList eventList;
     private Event event;
     private LocalDate currentDate;
@@ -83,19 +87,52 @@ public class EditEventController {
     private AccountList accountList;
     private Account account;
     private AccountList accountJoinList;
+    private String eventName;
+    private LocalDate eventDateStart;
+    private LocalDate eventDateEnd;
+    private String timeStartEvent;
+    private String timeEndEvent;
+    private String amountTicket;
+    private String detail;
+    private String thisEvent;
+    private LocalDate joinDateStart;
+    private LocalDate joinDateEnd;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private int newTicketValue;
+    private Boolean confirmFinish;
+    private FileChooser chooser;
+    private Node source;
+    private File file;
+    private File destDir;
+    private String[] fileSplit;
+    private String filename;
+    private Path target;
+    private Alert alert;
+    private ButtonType confirmButton;
+    private ButtonType cancelButton;
+    private Optional<ButtonType> result;
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
+    private String specialChar;
 
     @FXML
     private void initialize() {
         clearErrorMessage();
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         events = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
@@ -111,9 +148,6 @@ public class EditEventController {
         banUserDatasource = new UserEventListFileDatasource("data","ban-user.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
 
-
-
-
         eventList = eventListDatasource.readData();
         accountList = accountListDatasource.readData();
         accountJoinList = joinedEventDatasource.readData();
@@ -121,7 +155,6 @@ public class EditEventController {
         banUserList = banUserDatasource.readData();
         banStaffList = banStaffListDatasource.readData();
         activityList = activityListDatasource.readData();
-
 
         event = eventList.findEventByEventName(events.getEventName());
         account = accountList.findAccountByUsername(events.getEventManager());
@@ -147,9 +180,9 @@ public class EditEventController {
         endJoinDate.setValue(event.getEndJoinDate());
         amountTicketTextField.setText(String.valueOf(event.getTicket()));
         detailTextField.setText(event.getDetail());
-        if(!event.getPicURL().equals("/images/default-event.png")){
+        if (!event.getPicURL().equals("/images/default-event.png")) {
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
-        }else {
+        } else {
             imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -157,15 +190,15 @@ public class EditEventController {
 
     @FXML
     protected void onFinishClick() {
-        String eventName = eventNameTextField.getText().trim();
-        LocalDate eventDateStart = eventDatePickerStart.getValue();
-        LocalDate eventDateEnd = eventDatePickerEnd.getValue();
-        String timeStartEvent = timeStartEventTextField.getText().trim();
-        String timeEndEvent = timeEndEventTextField.getText().trim();
-        String amountTicket = amountTicketTextField.getText().trim();
-        String detail = detailTextField.getText().trim();
-        LocalDate joinDateStart = startJoinDate.getValue();
-        LocalDate joinDateEnd = endJoinDate.getValue();
+        eventName = eventNameTextField.getText().trim();
+        eventDateStart = eventDatePickerStart.getValue();
+        eventDateEnd = eventDatePickerEnd.getValue();
+        timeStartEvent = timeStartEventTextField.getText().trim();
+        timeEndEvent = timeEndEventTextField.getText().trim();
+        amountTicket = amountTicketTextField.getText().trim();
+        detail = detailTextField.getText().trim();
+        joinDateStart = startJoinDate.getValue();
+        joinDateEnd = endJoinDate.getValue();
 
         if (!eventName.isEmpty() && eventDateStart != null && eventDateEnd != null &&
                 !timeStartEvent.isEmpty() && !timeEndEvent.isEmpty() &&
@@ -182,10 +215,9 @@ public class EditEventController {
             changeJoinDateEnd(joinDateStart, joinDateEnd);
 
             if (errorMessage.equals("")) {
-                boolean confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
+                confirmFinish = showConfirmationDialog("Confirm Finish Event", "Are you sure you want to finish the event?");
+
                 if (confirmFinish) {
-                    eventListDatasource.readData();
-                    joinedEventDatasource.readData();
                     eventListDatasource.writeData(eventList);
                     joinedEventDatasource.writeData(accountJoinList);
                     activityListDatasource.writeData(activityList);
@@ -204,21 +236,22 @@ public class EditEventController {
             clearErrorMessage();
         }
     }
+
     @FXML
     public  void onImageView(ActionEvent events){
-        FileChooser chooser = new FileChooser();
+        chooser = new FileChooser();
         chooser.setInitialDirectory(new File(System.getProperty("user.dir")));
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("images PNG JPG GIF", "*.png", "*.jpg", "*.jpeg", "*.gif"));
-        Node source = (Node) events.getSource();
-        File file = chooser.showOpenDialog(source.getScene().getWindow());
+        source = (Node) events.getSource();
+        file = chooser.showOpenDialog(source.getScene().getWindow());
         if (file != null){
             try {
-                File destDir = new File("images");
+                destDir = new File("images");
                 if (!destDir.exists()) destDir.mkdirs();
-                String[] fileSplit = file.getName().split("\\.");
-                String filename = "Event_" + event.getEventName() + "_image" + "."
+                fileSplit = file.getName().split("\\.");
+                filename = "Event_" + event.getEventName() + "_image" + "."
                         + fileSplit[fileSplit.length - 1];
-                Path target = FileSystems.getDefault().getPath(
+                target = FileSystems.getDefault().getPath(
                         destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
                 );
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
@@ -243,7 +276,7 @@ public class EditEventController {
                 errorMessage += "EVENT NAME:\nEvent name must not contain special character.\n";
             }
             if(name.length() >= 3 && !isContainSpecialCharacter(name)){
-                String thisEvent = event.getEventName();
+                thisEvent = event.getEventName();
                 for (Account account1 : accountJoinList.getAccount()) {
                     for (String event1 : account1.getAllEventUser()) {
                         if (event1.equals(thisEvent)) {
@@ -311,6 +344,7 @@ public class EditEventController {
             errorMessage += "DATE END:\nInvalid Date.\n";
         }
     }
+
     private void changeJoinDateStart(LocalDate startJoin, LocalDate endJoin) {
         if (startJoin.isEqual(event.getStartDate())) {
             return;
@@ -347,8 +381,8 @@ public class EditEventController {
         }
 
         try {
-            LocalTime startTime = LocalTime.parse(timeStartEvent, DateTimeFormatter.ofPattern("HH:mm"));
-            LocalTime endTime = LocalTime.parse(timeEndEvent, DateTimeFormatter.ofPattern("HH:mm"));
+            startTime = LocalTime.parse(timeStartEvent, DateTimeFormatter.ofPattern("HH:mm"));
+            endTime = LocalTime.parse(timeEndEvent, DateTimeFormatter.ofPattern("HH:mm"));
 
             if (startTime.isBefore(endTime)) {
                 if (startTime.isBefore(endTime.minusHours(3))) {
@@ -371,7 +405,7 @@ public class EditEventController {
         }
 
         try {
-            int newTicketValue = Integer.parseInt(ticket);
+            newTicketValue = Integer.parseInt(ticket);
 
             if (newTicketValue < event.getTicketLeft()) {
                 errorMessage += "AMOUNT TICKET:\nTicket value cannot be less than the current ticket left\n";
@@ -393,7 +427,7 @@ public class EditEventController {
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -401,17 +435,17 @@ public class EditEventController {
     }
 
     private boolean showConfirmationDialog(String title, String message) {
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle(title);
         alert.setHeaderText(null);
         alert.setContentText(message);
 
-        ButtonType confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
-        ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+        confirmButton = new ButtonType("Confirm", ButtonBar.ButtonData.OK_DONE);
+        cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
         alert.getButtonTypes().setAll(confirmButton, cancelButton);
 
-        Optional<ButtonType> result = alert.showAndWait();
+        result = alert.showAndWait();
         return result.isPresent() && result.get() == confirmButton;
     }
 
@@ -427,9 +461,10 @@ public class EditEventController {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -438,9 +473,10 @@ public class EditEventController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -451,47 +487,56 @@ public class EditEventController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSend);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSend);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSend);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSend);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSend);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSend);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSend);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSend);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -499,15 +544,17 @@ public class EditEventController {
             loadTheme("dark-theme.css");
         }
     }
+
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
     }
+
     public boolean isContainSpecialCharacter(String cha){
-        String specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
+        specialChar = "~`!@#$%^&*()={[}]|\\:;\"'<,>.?/";
         for(char c : cha.toCharArray()){
             if (specialChar.contains(String.valueOf(c))) {
                 return true;
@@ -515,4 +562,5 @@ public class EditEventController {
         }
         return false;
     }
+
 }

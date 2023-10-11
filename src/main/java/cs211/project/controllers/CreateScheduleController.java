@@ -24,65 +24,106 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 
 public class CreateScheduleController {
-    @FXML TextField activityTextField;
-    @FXML TextField infoActivityTextField;
-    @FXML ComboBox chooseHourTimeStart;
-    @FXML ComboBox chooseMinTimeStart;
-    @FXML ComboBox chooseHourTimeStop;
-    @FXML ComboBox chooseMinTimeStop;
-    @FXML DatePicker startDate;
-    @FXML DatePicker endDate;
-    @FXML private AnchorPane parent;
-    @FXML private Label eventNameLabel;
-    @FXML private Label eventDateStart;
-    @FXML private Label eventDateEnd;
-    @FXML private Label eventTimeStart;
-    @FXML private Label eventTimeEnd;
-
-    @FXML private TableView<Activity> activityTableView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private TextField activityTextField;
+    @FXML
+    private TextField infoActivityTextField;
+    @FXML
+    private ComboBox chooseHourTimeStart;
+    @FXML
+    private ComboBox chooseMinTimeStart;
+    @FXML
+    private ComboBox chooseHourTimeStop;
+    @FXML
+    private ComboBox chooseMinTimeStop;
+    @FXML
+    private DatePicker startDate;
+    @FXML
+    private DatePicker endDate;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private Label eventNameLabel;
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private ImageView logoImageView;
+    private Alert alert;
     private Object[] objectsSend;
     private Object[] objects;
     private String eventName;
     private ActivityList activityList;
     private Activity selectedActivity;
     private Event event;
-    private Datasource<ActivityList> datasource;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
+    private Datasource<ActivityList> activityListDatasource;
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
     private Account account;
     private Datasource<TeamList> teamListDatasource;
     private TeamList teams;
     private Boolean isLightTheme;
+    private String activityName;
+    private String hourStartStr;
+    private String minStartStr;
+    private LocalDate selectedStartDate;
+    private LocalDate selectedEndDate;
+    private String hourEndStr;
+    private String minEndStr;
+    private String infoActivity;
+    private int hourStart;
+    private int minStart;
+    private int hourEnd;
+    private int minEnd;
+    private LocalTime startTimeActivity;
+    private LocalTime endTimeActivity;
+    private LocalDateTime startActivityTime;
+    private LocalDateTime endActivityTime;
+    private String cssPath;
 
     @FXML
     public void initialize() {
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
+
         loadTheme(isLightTheme);
-        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+
+        activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
+
         updateSchedule();
+
         teams = teamListDatasource.readData();
+
         eventNameLabel.setText(eventName);
         addComboBox(event);
         showTable(activityList);
+
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
             @Override
             public void changed(ObservableValue observable, Activity oldValue, Activity newValue) {
@@ -122,108 +163,103 @@ public class CreateScheduleController {
 
         activityTableView.getItems().clear();
 
-        // ใส่ข้อมูล Student ทั้งหมดจาก studentList ไปแสดงใน TableView
         for (Activity activity: activityList.getActivities()) {
             activityTableView.getItems().add(activity);
         }
     }
-    private void addComboBox(Event event){
+
+    private void addComboBox(Event event) {
         chooseHourTimeStart.getItems().addAll(event.getArrayHour());
         chooseMinTimeStart.getItems().addAll(event.getArrayMinute());
         chooseHourTimeStop.getItems().addAll(event.getArrayHour());
         chooseMinTimeStop.getItems().addAll(event.getArrayMinute());
     }
 
-    private void updateSchedule(){
-        activityList = datasource.readData();
+    private void updateSchedule() {
+        activityList = activityListDatasource.readData();
         activityList.findActivityInEvent(eventName);
         teamListDatasource = new TeamListFileDatasource("data","team.csv");
     }
 
     @FXML
-    protected void addActivityOnClick(){
+    protected void addActivityOnClick() {
         try {
-            String activityName = activityTextField.getText();
-            String hourStartStr = (String) chooseHourTimeStart.getValue();
-            String minStartStr = (String) chooseMinTimeStart.getValue();
-            LocalDate selectedStartDate =  startDate.getValue();
-            LocalDate selectedEndDate = endDate.getValue();
-            String hourEndStr = (String) chooseHourTimeStop.getValue();
-            String minEndStr = (String) chooseMinTimeStop.getValue();
-            String infoActivity =  infoActivityTextField.getText();
-        if (!activityName.isEmpty() && selectedStartDate != null && selectedEndDate != null&& hourStartStr != null && minStartStr != null && hourEndStr != null && minEndStr != null) {
-            int hourStart = Integer.parseInt(hourStartStr);
-            int minStart = Integer.parseInt(minStartStr);
-            int hourEnd = Integer.parseInt(hourEndStr);
-            int minEnd = Integer.parseInt(minEndStr);
+            activityName = activityTextField.getText();
+            hourStartStr = (String) chooseHourTimeStart.getValue();
+            minStartStr = (String) chooseMinTimeStart.getValue();
+            selectedStartDate =  startDate.getValue();
+            selectedEndDate = endDate.getValue();
+            hourEndStr = (String) chooseHourTimeStop.getValue();
+            minEndStr = (String) chooseMinTimeStop.getValue();
+            infoActivity =  infoActivityTextField.getText();
+            if (!activityName.isEmpty() && selectedStartDate != null && selectedEndDate != null&& hourStartStr != null && minStartStr != null && hourEndStr != null && minEndStr != null) {
+                hourStart = Integer.parseInt(hourStartStr);
+                minStart = Integer.parseInt(minStartStr);
+                hourEnd = Integer.parseInt(hourEndStr);
+                minEnd = Integer.parseInt(minEndStr);
 
-            LocalTime startTimeActivity = LocalTime.of(hourStart, minStart);
-            LocalTime endTimeActivity = LocalTime.of(hourEnd, minEnd);
-            LocalDateTime startActivityTime = LocalDateTime.of(selectedStartDate,startTimeActivity);
-            LocalDateTime endActivityTime = LocalDateTime.of(selectedEndDate,endTimeActivity);
-            if(event.checkTimeActivity(startActivityTime,endActivityTime)){
-                if(activityList.checkActivityName(activityName)) {
-                    if (activityList.checkActivity(startActivityTime,endActivityTime)) {
-                        activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, "", "", "0", eventName, infoActivity, null);
-                        datasource.writeData(activityList);
-                        if (activityList.getActivities().isEmpty()) {
-                            activityList.findActivityInEvent(eventName);
+                startTimeActivity = LocalTime.of(hourStart, minStart);
+                endTimeActivity = LocalTime.of(hourEnd, minEnd);
+                startActivityTime = LocalDateTime.of(selectedStartDate,startTimeActivity);
+                endActivityTime = LocalDateTime.of(selectedEndDate,endTimeActivity);
+                if(event.checkTimeActivity(startActivityTime,endActivityTime)){
+                    if(activityList.checkActivityName(activityName)) {
+                        if (activityList.checkActivity(startActivityTime,endActivityTime)) {
+                            activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, "", "", "0", eventName, infoActivity, null);
+                            activityListDatasource.writeData(activityList);
+                            if (activityList.getActivities().isEmpty()) {
+                                activityList.findActivityInEvent(eventName);
+                            }
+
+                            updateSchedule();
+                            showTable(activityList);
+                            activityTextField.clear();
+                            chooseHourTimeStart.setValue(null);
+                            chooseMinTimeStart.setValue(null);
+                            chooseHourTimeStop.setValue(null);
+                            chooseMinTimeStop.setValue(null);
+                            startDate.setValue(null);
+                            endDate.setValue(null);
+                            infoActivityTextField.clear();
+                        } else {
+                            showErrorAlert("Please select other time");
                         }
-                        updateSchedule();
-                        showTable(activityList);
-                        activityTextField.clear();
-                        chooseHourTimeStart.setValue(null);
-                        chooseMinTimeStart.setValue(null);
-                        chooseHourTimeStop.setValue(null);
-                        chooseMinTimeStop.setValue(null);
-                        startDate.setValue(null);
-                        endDate.setValue(null);
-                        infoActivityTextField.clear();
                     } else {
-                        showErrorAlert("Please select other time");
+                        showErrorAlert("Please select other name");
                     }
+                } else {
+                    showErrorAlert("Please select time in event \n" + event.getStartDate() + "     "+ event.getStartTime() + "\nto\n"+ event.getEndDate() + "     " + event.getEndTime());
                 }
-                else{
-                    showErrorAlert("Please select other name");
-                }
+            } else if (activityName.isEmpty()) {
+                showErrorAlert("Please fill the name");
+            } else {
+                showErrorAlert("Please fill the time");
             }
-            else {
-                showErrorAlert("Please select time in event \n" + event.getStartDate() + "     "+ event.getStartTime() + "\nto\n"+ event.getEndDate() + "     " + event.getEndTime());
-            }
-        }
-        else if(activityName.isEmpty()){
-            showErrorAlert("Please fill the name");
-        }
-        else {
-            showErrorAlert("Please fill the time");
-        }
-        }
-        catch (NumberFormatException e) {
+        } catch (NumberFormatException e) {
             throw new RuntimeException(e);
         }
 
     }
 
     @FXML
-    protected void deleteOnClick(){
-        if(selectedActivity != null){
-            if(!selectedActivity.getTeamName().equals("")){
-                System.out.println(selectedActivity.getTeamName());
+    protected void deleteOnClick() {
+        if (selectedActivity != null) {
+            if (!selectedActivity.getTeamName().equals("")) {
                 teams.deleteTeam(event,selectedActivity.getTeamName());
             }
+
             selectedActivity.deleteActivity();
             teamListDatasource.writeData(teams);
-            datasource.writeData(activityList);
+            activityListDatasource.writeData(activityList);
             updateSchedule();
             showTable(activityList);
-        }
-        else{
+        } else {
             showErrorAlert("Please select activity");
         }
     }
 
     @FXML
-    protected void backOnClick(){
+    protected void backOnClick() {
         try {
             FXRouter.goTo("event-history", objectsSend);
         } catch (IOException e) {
@@ -232,14 +268,15 @@ public class CreateScheduleController {
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
         alert.showAndWait();
     }
+
     @FXML
-    protected void nextOnClick(){
+    protected void nextOnClick() {
         try {
             FXRouter.goTo("create-team", objects);
         } catch (IOException e) {
@@ -249,7 +286,7 @@ public class CreateScheduleController {
 
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -258,9 +295,10 @@ public class CreateScheduleController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -271,45 +309,53 @@ public class CreateScheduleController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSend);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSend);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSend);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSend);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSend);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSend);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSend);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSend);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -322,7 +368,7 @@ public class CreateScheduleController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
