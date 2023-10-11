@@ -30,8 +30,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class ProfileSetPageController {
-    Datasource<AccountList> accountListDataSource = new AccountListDatasource("data","user-info.csv");
-    AccountList accountList = accountListDataSource.readData();
+    Datasource<AccountList> accountListDataSource;
+    AccountList accountList;
     private Account account;
     @FXML Label usernameLabel;
     @FXML Label nameLabel;
@@ -48,6 +48,9 @@ public class ProfileSetPageController {
     private Boolean isLightTheme;
 
     @FXML public void initialize(){
+        accountListDataSource = new AccountListDatasource("data","user-info.csv");
+        accountList = accountListDataSource.readData();
+        accountListDataSource.readData();
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -89,9 +92,12 @@ public class ProfileSetPageController {
                         destDir.getAbsolutePath()+System.getProperty("file.separator")+filename
                 );
                 Files.copy(file.toPath(), target, StandardCopyOption.REPLACE_EXISTING );
+                account = accountList.findAccountByUsername(account.getUsername());
                 imageView.setImage(new Image(target.toUri().toString()));
                 account.setPictureURL(destDir + "/" + filename);
+                accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
+                update();
                 myText.setVisible(true);
                 myRectangle.setVisible(true);
                 new java.util.Timer().schedule(
@@ -102,14 +108,24 @@ public class ProfileSetPageController {
                                 myRectangle.setVisible(false);
                             }
                         },
-                        1000 // 1 second
+                        1000
                 );
+                update();
             } catch (IOException e) {
                 e.printStackTrace();
+                System.out.println(e.getMessage());
             }
         }
     }
-
+    public void update(){
+        if(!account.getPictureURL().equals("/images/default-profile.png")){
+            imageView.setImage(new Image("file:"+account.getPictureURL(), true));
+        }else {
+            imageView.setImage(new Image(getClass().getResource("/images/default-profile.png").toExternalForm()));
+        }
+        accountList = accountListDataSource.readData();
+        account = accountList.findAccountByUsername(account.getUsername());
+    }
     @FXML
     public void rePassButt(ActionEvent event) throws IOException {
         FXRouter.goTo("re-password", objects);

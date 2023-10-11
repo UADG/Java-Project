@@ -13,24 +13,38 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class BanAllController {
-    @FXML Label constantTeamLabel;
-    @FXML ComboBox<Team> chooseTeam;
-    @FXML Label nameLabel;
-    @FXML RadioButton chooseRoleTeam;
-    @FXML RadioButton chooseRoleSingleParticipant;
-    @FXML ListView<Staff> staffListView;
-    @FXML ListView<Account> userListView;
-    @FXML private AnchorPane parent;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private ImageView logoImageView;
+    @FXML
+    Label constantTeamLabel;
+    @FXML
+    ComboBox<Team> chooseTeam;
+    @FXML
+    Label nameLabel;
+    @FXML
+    RadioButton chooseRoleTeam;
+    @FXML
+    RadioButton chooseRoleSingleParticipant;
+    @FXML
+    ListView<Staff> staffListView;
+    @FXML
+    ListView<Account> userListView;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private ImageView logoImageView;
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private Object[] objects;
     private Object[] objectsSend;
     private boolean isLightTheme;
     private Team team;
@@ -40,24 +54,29 @@ public class BanAllController {
     private boolean notFirst;
     private Event selectedEvent;
     private TeamListFileDatasource data;
+    private Datasource<AccountList> dataSource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banUserDatasource;
     private AccountList accountList;
     private AccountList banUserList;
-
     private BanListFileDatasource banPath;
     private Account account;
+    private String cssPath;
+    private String time;
+
     @FXML
-    public void initialize(){
-        Object[] objects = (Object[]) FXRouter.getData();
+    public void initialize() {
+        objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         selectedEvent = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSend = new Object[2];
         objectsSend[0] = account;
         objectsSend[1] = isLightTheme;
@@ -65,46 +84,47 @@ public class BanAllController {
 
         clearInfo();
         updateData();
+
         accountList = accountListDatasource.readData();
         banUserList = banUserDatasource.readData();
+
         list = selectedEvent.loadTeamInEvent();
+
         notFirst = false;
         selectedParticipant();
         chooseRoleSingleParticipant.setSelected(true);
+
         showParticipant();
+
         chooseTeam.getItems().addAll(list.getTeams());
         setChooseTeamVisible(false);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
 }
     @FXML
-    public void clearInfo(){
+    public void clearInfo() {
         nameLabel.setText("");
     }
 
     @FXML
-    public void chooseRole(){
-
-        if(chooseRoleTeam.isSelected()){
+    public void chooseRole() {
+        if (chooseRoleTeam.isSelected()) {
             userListView.setVisible(false);
             staffListView.setVisible(true);
             chooseRoleSingleParticipant.setSelected(false);
             setChooseTeamVisible(true);
-            if(notFirst){
+            if (notFirst) {
                 chooseWhichTeam();
-                System.out.println("1");
             }
-
-
         }
-        if(chooseRoleSingleParticipant.isSelected()){
+
+        if (chooseRoleSingleParticipant.isSelected()) {
             userListView.setVisible(true);
             staffListView.setVisible(false);
             chooseRoleTeam.setSelected(false);
             setChooseTeamVisible(false);
             clearInfo();
             showParticipant();
-            System.out.println("2");
 
         }
     }
@@ -116,35 +136,32 @@ public class BanAllController {
         banUserDatasource = new UserEventListFileDatasource("data", "ban-user.csv");
     }
 
-    public void setChooseTeamVisible(boolean bool){
+    public void setChooseTeamVisible(boolean bool) {
         chooseTeam.setVisible(bool);
         constantTeamLabel.setVisible(bool);
     }
 
-    public void chooseWhichTeam(){
+    public void chooseWhichTeam() {
         team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
         notFirst = true;
         showStaff();
     }
 
-    public void showStaff(){
+    public void showStaff() {
         staffListView.getItems().clear();
         staffListView.getItems().addAll(team.getStaffThatNotBan().getStaffList());
     }
 
-    public void showParticipant(){
+    public void showParticipant() {
         userListView.getItems().clear();
-        for(Account account: accountList.getAccount()){
-            System.out.println(account.getName());
-            if(account.isEventName(selectedEvent.getEventName()))
-            {
+        for(Account account: accountList.getAccount()) {
+            if(account.isEventName(selectedEvent.getEventName())) {
                 userListView.getItems().add(account);
             }
         }
     }
 
     public void selectedTeam(){
-        System.out.println("This is from selectedTeam");
         chooseRoleTeam.setSelected(true);
         chooseRoleSingleParticipant.setSelected(false);
         chooseRole();
@@ -161,17 +178,13 @@ public class BanAllController {
                 }
             }
         });
-
     }
 
     public void selectedParticipant(){
-
-        System.out.println("This is from selectedParticipant");
         chooseRoleSingleParticipant.setSelected(true);
         chooseRoleTeam.setSelected(false);
         chooseRole();
         userListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Account>() {
-
             @Override
             public void changed(ObservableValue<? extends Account> observable, Account oldValue, Account newValue) {
                 if (newValue == null) {
@@ -180,12 +193,11 @@ public class BanAllController {
                 } else {
                     nameLabel.setText(newValue.getName());
                     selectedUser =  newValue;
-                    System.out.println("click ra ja");
-                    System.out.println(selectedUser.getName());
                 }
             }
         });
     }
+
     public void banTarget(){
         if (team != null && selectedStaff != null) {
             updateData();
@@ -206,7 +218,7 @@ public class BanAllController {
 
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -215,9 +227,10 @@ public class BanAllController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -228,34 +241,42 @@ public class BanAllController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSend);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSend);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSend);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSend);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSend);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSend);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSend);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSend);
@@ -271,13 +292,14 @@ public class BanAllController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -285,11 +307,13 @@ public class BanAllController {
             loadTheme("dark-theme.css");
         }
     }
+
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
     }
+
 }

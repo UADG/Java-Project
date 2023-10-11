@@ -22,7 +22,6 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.util.Duration;
-
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -43,15 +42,24 @@ public class CommentTeamController {
     private TextFlow commentTextFlow;
     @FXML
     private Button sendClick;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    private DateTimeFormatter formatter;
+    private TranslateTransition slideAnimate;
+    private String time;
     private Boolean isLightTheme;
     private Datasource<TeamList> commentDatasource;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<ActivityList> activityListDatasource;
+    private Datasource<AccountList> dataSource;
     private ActivityList activityList;
     private TeamList commentTeam;
     private String selectedTeam;
@@ -59,12 +67,18 @@ public class CommentTeamController {
     private AccountList accountList;
     private Team team;
     private Object[] objects;
+    private String[] commentLines;
+    private Text commentTextElement;
+    private String commentText;
+    private int status;
+    private String cssPath;
 
     @FXML
     private void initialize() {
         commentTextField.setEditable(false);
         sendClick.setVisible(false);
         eventLabel.setVisible(false);
+
         commentDatasource = new CommentTeamListDatasource("data", "team-comment.csv");
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
@@ -76,9 +90,10 @@ public class CommentTeamController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-        if(isLightTheme){
+
+        if(isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
 
@@ -88,18 +103,21 @@ public class CommentTeamController {
         chooseTeam.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
             if (!newValue.equals("")) {
                 clearCommentTextFlow();
+
                 commentTextField.setEditable(true);
                 sendClick.setVisible(true);
                 eventLabel.setVisible(true);
                 selectedTeam = newValue;
 
                 team = commentTeam.checkTeamExist(selectedTeam);
+
                 showInfo();
+
                 team.setFirstComment("");
 
-                String[] commentLines = team.getComment().split("\\\\n");
+                commentLines = team.getComment().split("\\\\n");
                 for (String line : commentLines) {
-                    Text commentTextElement = new Text(line + "\n");
+                    commentTextElement = new Text(line + "\n");
                     if (!isLightTheme) {
                         commentTextElement.setStyle("-fx-fill: white;");
                     } else {
@@ -133,7 +151,7 @@ public class CommentTeamController {
 
         team = commentTeam.checkTeamExist(selectedTeam);
 
-        String commentText = commentTextField.getText();
+        commentText = commentTextField.getText();
         if (!commentText.trim().equals("")) {
             if (team.getComment().equals("")) {
                 commentText = account.getName() + "\\n" + commentText;
@@ -152,10 +170,11 @@ public class CommentTeamController {
             team = commentTeam.checkTeamExist(selectedTeam);
 
         }
-        String[] commentLines = team.getComment().split("\\\\n");
+
+        commentLines = team.getComment().split("\\\\n");
 
         for (String line : commentLines) {
-            Text commentTextElement = new Text(line + "\n");
+            commentTextElement = new Text(line + "\n");
             if (!isLightTheme) {
                 commentTextElement.setStyle("-fx-fill: white;");
             } else {
@@ -170,6 +189,7 @@ public class CommentTeamController {
             }
             commentTextFlow.getChildren().add(commentTextElement);
         }
+
         team.setFirstComment(account.getName());
         clearCommentInfo();
 
@@ -194,12 +214,15 @@ public class CommentTeamController {
 
         TableColumn<Activity, String> statusColumn = new TableColumn<>("status");
         statusColumn.setCellValueFactory(cellData -> {
-            int status = Integer.parseInt(cellData.getValue().getStatus());
+
+            status = Integer.parseInt(cellData.getValue().getStatus());
+
             if (status == 1) {
                 return new SimpleStringProperty("Finish");
             } else {
                 return new SimpleStringProperty("Still Organize");
             }
+
         });
 
         activityTableView.getColumns().clear();
@@ -230,7 +253,7 @@ public class CommentTeamController {
 
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -239,9 +262,10 @@ public class CommentTeamController {
         slide.setTranslateX(0);
         bPane.setVisible(true);
     }
+
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -252,47 +276,57 @@ public class CommentTeamController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objects);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objects);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objects);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objects);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objects);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objects);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objects);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objects);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
+        dataSource = new AccountListDatasource("data","user-info.csv");
         dataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
+
     private void loadTheme(Boolean theme) {
         if (theme) {
             loadTheme("st-theme.css");
@@ -300,9 +334,10 @@ public class CommentTeamController {
             loadTheme("dark-theme.css");
         }
     }
+
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
