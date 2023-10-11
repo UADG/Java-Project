@@ -22,47 +22,67 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 public class EventDetailsController {
-    @FXML private AnchorPane parent;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label dateLabel;
+    @FXML
+    private Label timeLabel;
+    @FXML
+    private Label ticketLabel;
+    @FXML
+    private Label descriptionLabel;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private HBox hBox;
+    @FXML
+    private Label bookDateLabel;
+    @FXML
+    private ImageView logoImageView;
     private Event event;
-    private Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-    private AccountList accountList = accountListDatasource.readData();
+    private Datasource<AccountList> accountListDatasource;
+    private AccountList accountList;
     private Account account;
-
-    @FXML Label nameLabel;
-    @FXML Label dateLabel;
-    @FXML Label timeLabel;
-    @FXML Label ticketLabel;
-    @FXML Label descriptionLabel;
-    @FXML ImageView imageView;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private HBox hBox;
-    @FXML private Label bookDateLabel;
-    @FXML private ImageView logoImageView;
     private Object[] objects;
     private Object[] objectsSent;
     private Boolean isLightTheme;
-
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
+    private String cssPath;
 
     public void initialize(){
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDatasource.readData();
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         event = (Event) objects[1];
         isLightTheme = (Boolean) objects[2];
-        if(isLightTheme){
+
+        if (isLightTheme) {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        }else{
+        } else {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
+
         objectsSent = new Object[2];
         objectsSent[0] = account;
         objectsSent[1] = isLightTheme;
         loadTheme(isLightTheme);
 
-        if(!event.getPicURL().equals("/images/default-event.png")){
+        if (!event.getPicURL().equals("/images/default-event.png")) {
             imageView.setImage(new Image("file:"+event.getPicURL(), true));
-        }else {
+        } else {
             imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         }
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
@@ -75,6 +95,7 @@ public class EventDetailsController {
         bPane.setVisible(false);
         slide.setTranslateX(-200);
     }
+
     @FXML
     protected void onBackClick() {
         try {
@@ -83,9 +104,10 @@ public class EventDetailsController {
             throw new RuntimeException(e);
         }
     }
+
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -96,7 +118,7 @@ public class EventDetailsController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -107,45 +129,53 @@ public class EventDetailsController {
             bPane.setVisible(false);
         });
     }
+
     @FXML
     public void onHomeClick() throws IOException {
         FXRouter.goTo("events-list", objectsSent);
     }
+
     @FXML
     public void onProfileClick() throws IOException {
         FXRouter.goTo("profile-setting", objectsSent);
     }
+
     @FXML
     public void onCreateEvent() throws IOException {
         FXRouter.goTo("create-event", objectsSent);
     }
+
     @FXML
     public void onJoinHistory() throws IOException {
         FXRouter.goTo("joined-history", objectsSent);
     }
+
     @FXML
     public void onEventHis() throws IOException {
         FXRouter.goTo("event-history", objectsSent);
     }
+
     @FXML
     public void onPartiSchedule() throws IOException {
         FXRouter.goTo("participant-schedule", objectsSent);
     }
+
     @FXML
     public void onTeamSchedule() throws IOException {
         FXRouter.goTo("team-schedule", objectsSent);
     }
+
     @FXML
     public void onComment() throws IOException {
         FXRouter.goTo("comment-activity", objectsSent);
     }
+
     @FXML
     public void onLogOutButton() throws IOException {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -156,9 +186,10 @@ public class EventDetailsController {
             loadTheme("dark-theme.css");
         }
     }
+
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
