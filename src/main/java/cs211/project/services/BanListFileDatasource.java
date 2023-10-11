@@ -1,15 +1,10 @@
 package cs211.project.services;
 
-import cs211.project.models.Event;
 import cs211.project.models.Staff;
-import cs211.project.models.Team;
 import cs211.project.models.collections.StaffList;
-import cs211.project.models.collections.TeamList;
-import javafx.fxml.FXML;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 
 public class BanListFileDatasource implements Datasource<StaffList>{
     private String directoryName;
@@ -65,7 +60,6 @@ public class BanListFileDatasource implements Datasource<StaffList>{
                 Staff staff = new Staff(data[0],"notnullja");
                 for(int i = 1;i< data.length;i++){
                     staff.addEventThatGetBanned(data[i]);
-                    System.out.println(staff.getBannedEvent().get(0));
                 }
                 list.addStaff(staff);
             }

@@ -25,6 +25,7 @@ public class Activity {
     private LocalDateTime startLocalDateTime;
     private LocalDateTime endLocalDateTime;
     private ActivityListFileDatasource activityListFileDatasource;
+
     public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName,String infoActivity,String infoTeam) {
         this.activityName = activityName;
         this.startDate = startDate;
@@ -111,14 +112,17 @@ public class Activity {
         }
         return true;
     }
+
     public boolean userIsParticipant(String participantName){
         return this.participantName.equals(participantName);
     }
+
     public void updateTeamInActivity(Team team){
         this.team = team;
         activityListFileDatasource = new ActivityListFileDatasource("data","activity-list.csv");
         activityListFileDatasource.updateTeamInActivity(activityName,team);
     }
+
     public void deleteActivity(){
         this.activityName = "";
     }

@@ -36,14 +36,6 @@ public class StaffList {
         }
     }
 
-    public void deleteStaff(String id){
-        for(Staff staff : staffs){
-            if(staff.getId().equals(id)){
-                staffs.remove(staff);
-            }
-        }
-    }
-
     public Staff checkStaffInList(String id){
         for(Staff staff: staffs){
             if(staff.isId(id)){

@@ -20,7 +20,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         checkFileIsExisted();
     }
 
-    // ตรวจสอบว่ามีไฟล์ให้อ่านหรือไม่ ถ้าไม่มีให้สร้างไฟล์เปล่า
     private void checkFileIsExisted() {
         File file = new File(directoryName);
         if (!file.exists()) {
@@ -43,7 +42,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
-        // เตรียม object ที่ใช้ในการอ่านไฟล์
         FileInputStream fileInputStream = null;
 
         try {
@@ -60,15 +58,11 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
 
         String line = "";
         try {
-            // ใช้ while loop เพื่ออ่านข้อมูลรอบละบรรทัด
             while ( (line = buffer.readLine()) != null ){
-                // ถ้าเป็นบรรทัดว่าง ให้ข้าม
                 if (line.isEmpty()) continue;
 
-                // แยกสตริงด้วย ,
                 String[] data = line.split(",");
 
-                // อ่านข้อมูลตาม index แล้วจัดการประเภทของข้อมูลให้เหมาะสม
                 String activityName = data[0].trim();
                 LocalDate startDate = LocalDate.parse(data[1].trim());
                 LocalDate endDate = LocalDate.parse(data[2].trim());
@@ -80,7 +74,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String eventName = data[8].trim();
                 String infoActivity = data[9].trim();
                 String infoTeam = data[10].trim();
-                // เพิ่มข้อมูลลงใน list
                 activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam);
             }
         } catch (IOException e) {
@@ -95,7 +88,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
-        // เตรียม object ที่ใช้ในการเขียนไฟล์
         FileOutputStream fileOutputStream = null;
 
         try {
@@ -111,7 +103,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         BufferedWriter buffer = new BufferedWriter(outputStreamWriter);
 
         try {
-            // สร้าง csv ของ Student และเขียนลงในไฟล์ทีละบรรทัด
             for (Activity activity : data.getAllActivities()) {
                 if(!activity.getActivityName().equals("")) {
                     String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName() + "," + activity.getInfoActivity() + "," + activity.getInfoTeam();
@@ -137,7 +128,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         String filePath = directoryName + File.separator + fileName;
         File file = new File(filePath);
 
-        // เตรียม object ที่ใช้ในการอ่านไฟล์
         FileInputStream fileInputStream = null;
 
         try {
@@ -154,7 +144,6 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
 
         String line = "";
         try {
-            // ใช้ while loop เพื่ออ่านข้อมูลรอบละบรรทัด
             while ( (line = buffer.readLine()) != null ){
                 if (line.equals("")) continue;
                 String[] data = line.split(",");

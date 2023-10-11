@@ -122,10 +122,12 @@ public class Account implements Comparable<Account>{
             }
         }
     }
+
     @Override
     public String toString() {
         return  "ID: " + id + "\n" + "Username: "+ username;
     }
+
     @Override
     public int compareTo(Account o) {
         pattern = "yyyy-MM-dd' 'HH:mm";

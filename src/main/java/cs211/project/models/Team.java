@@ -16,7 +16,6 @@ public class Team {
     private StaffList staffs;
     private ArrayList<String> bannedStaff;
     private Event event;
-    private String eventName;
     private String comment;
     private String firstComment;
     private StaffList left;
@@ -55,11 +54,6 @@ public class Team {
 
     public void addStaffInTeam(Staff staff){
         staffs.addStaff(staff);
-        numberOfStaffLeft--;
-    }
-
-    public void addStaffInTeam(String id, String name){
-        staffs.addStaff(id, name);
         numberOfStaffLeft--;
     }
 
@@ -112,10 +106,6 @@ public class Team {
 
     public StaffList getStaffs(){
         return staffs;
-    }
-
-    public String getEventName() {
-        return eventName;
     }
 
     public int getNumberOfStaff(){return numberOfStaff;}
