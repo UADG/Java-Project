@@ -102,10 +102,6 @@ public class EventsListController {
         }else{
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
-        fxmlLoader = new FXMLLoader();
-        slideAnimate = new TranslateTransition();
-        currentDate = LocalDate.now();
-        currentTime = LocalTime.now();
         imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
@@ -124,6 +120,8 @@ public class EventsListController {
         banList = banListDatasource.readData();
         teamList = teamListDatasource.readData();
 
+        currentDate = LocalDate.now();
+        currentTime = LocalTime.now();
         ban = banList.findAccountByUsername(account.getUsername());
         banStaffListDatasource = new BanListFileDatasource("data","ban-staff-list.csv");
         banStaffList = banStaffListDatasource.readData();
@@ -150,8 +148,10 @@ public class EventsListController {
             }
         }
     }
+
     private void createGrid(Event event){
         try {
+            fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(getClass().getResource("/cs211/project/views/event-item.fxml"));
             anchorPane = fxmlLoader.load();
 
@@ -433,6 +433,7 @@ public class EventsListController {
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -443,6 +444,7 @@ public class EventsListController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
