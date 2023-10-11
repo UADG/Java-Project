@@ -28,7 +28,7 @@ public class BanAllController {
     @FXML
     private RadioButton chooseRoleTeam;
     @FXML
-    private RadioButton chooseRoleSingleParticipant;
+    private RadioButton chooseRoleUserJoin;
     @FXML
     private ListView<Staff> staffListView;
     @FXML
@@ -57,6 +57,8 @@ public class BanAllController {
     private TeamListFileDatasource data;
     private Datasource<AccountList> accountListDatasource;
     private Datasource<AccountList> banUserDatasource;
+    private Datasource<EventList> eventListDatasource;
+    private EventList eventList;
     private AccountList accountList;
     private AccountList banUserList;
     private BanListFileDatasource banPath;
@@ -91,10 +93,10 @@ public class BanAllController {
         list = selectedEvent.loadTeamInEvent();
 
         notFirst = false;
-        selectedParticipant();
-        chooseRoleSingleParticipant.setSelected(true);
+        setSelectedUser();
+        chooseRoleUserJoin.setSelected(true);
 
-        showParticipant();
+        showUserJoin();
 
         chooseTeam.getItems().addAll(list.getTeams());
         setChooseTeamVisible(false);
@@ -112,20 +114,20 @@ public class BanAllController {
         if (chooseRoleTeam.isSelected()) {
             userListView.setVisible(false);
             staffListView.setVisible(true);
-            chooseRoleSingleParticipant.setSelected(false);
+            chooseRoleUserJoin.setSelected(false);
             setChooseTeamVisible(true);
             if (notFirst) {
                 chooseWhichTeam();
             }
         }
 
-        if (chooseRoleSingleParticipant.isSelected()) {
+        if (chooseRoleUserJoin.isSelected()) {
             userListView.setVisible(true);
             staffListView.setVisible(false);
             chooseRoleTeam.setSelected(false);
             setChooseTeamVisible(false);
             clearInfo();
-            showParticipant();
+            showUserJoin();
 
         }
     }
@@ -135,6 +137,7 @@ public class BanAllController {
         banPath = new BanListFileDatasource("data", "ban-staff-list.csv");
         accountListDatasource = new UserEventListFileDatasource("data", "user-joined-event.csv");
         banUserDatasource = new UserEventListFileDatasource("data", "ban-user.csv");
+        eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
     }
 
     public void setChooseTeamVisible(boolean bool) {
@@ -153,7 +156,7 @@ public class BanAllController {
         staffListView.getItems().addAll(team.getStaffThatNotBan().getStaffList());
     }
 
-    public void showParticipant() {
+    public void showUserJoin() {
         userListView.getItems().clear();
         for(Account account: accountList.getAccount()) {
             if(account.isEventName(selectedEvent.getEventName())) {
@@ -164,7 +167,7 @@ public class BanAllController {
 
     public void selectedTeam(){
         chooseRoleTeam.setSelected(true);
-        chooseRoleSingleParticipant.setSelected(false);
+        chooseRoleUserJoin.setSelected(false);
         chooseRole();
 
         staffListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Staff>() {
@@ -181,8 +184,8 @@ public class BanAllController {
         });
     }
 
-    public void selectedParticipant(){
-        chooseRoleSingleParticipant.setSelected(true);
+    public void setSelectedUser(){
+        chooseRoleUserJoin.setSelected(true);
         chooseRoleTeam.setSelected(false);
         chooseRole();
         userListView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Account>() {
@@ -209,11 +212,15 @@ public class BanAllController {
             showStaff();
         } else if (selectedUser != null) {
             updateData();
+            eventList = eventListDatasource.readData();
+            selectedEvent = eventList.findEventByEventName(selectedEvent.getEventName());
             selectedUser.deleteUserEventName(selectedEvent.getEventName());
             banUserList.addUserEvent(selectedUser.getId(),selectedEvent.getEventName());
+            selectedEvent.addTicket();
+            eventListDatasource.writeData(eventList);
             banUserDatasource.writeData(banUserList);
             accountListDatasource.writeData(accountList);
-            showParticipant();
+            showUserJoin();
         }
     }
 

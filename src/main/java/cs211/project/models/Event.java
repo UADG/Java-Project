@@ -183,6 +183,9 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     public TeamList getTeams() {
         return teams;
     }
+    public void addTicket() {
+        ticket += 1;
+    }
 
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);

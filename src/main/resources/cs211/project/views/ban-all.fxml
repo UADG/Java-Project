@@ -27,7 +27,7 @@
          </font>
       </Label>
       <RadioButton fx:id="chooseRoleTeam" layoutX="531.0" layoutY="167.0" mnemonicParsing="false" onAction="#selectedTeam" styleClass="text-field" text="Event organizer team" />
-      <RadioButton fx:id="chooseRoleSingleParticipant" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#selectedParticipant" styleClass="text-field" text="User join" />
+      <RadioButton fx:id="chooseRoleUserJoin" layoutX="531.0" layoutY="142.0" mnemonicParsing="false" onAction="#setSelectedUser" styleClass="text-field" text="User join" />
       <Label fx:id="constantTeamLabel" layoutX="474.0" layoutY="205.0" styleClass="text-field" text="team :">
          <font>
             <Font size="14.0" />
