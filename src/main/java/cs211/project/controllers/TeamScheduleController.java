@@ -2,16 +2,12 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Activity;
-import cs211.project.models.Event;
 import cs211.project.models.Team;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
-import cs211.project.models.collections.EventList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -27,22 +23,40 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class TeamScheduleController {
-    @FXML private ComboBox teamComboBox;
-    @FXML private AnchorPane parent;
-
-    @FXML private TableView<Activity> activityTableView;
-
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private ImageView logoImageView;
+    @FXML
+    private ComboBox teamComboBox;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private ImageView logoImageView;
+    private Datasource<ActivityList> activityListDatasource;
+    private Datasource<AccountList> accountListDatasource;
+    private ActivityList activityList;
+    private AccountList accountList;
     private Object[] objects;
     private Account account;
-    private ActivityList activityList;
     private Team team;
+    private TableColumn<Activity, String> activityNameColumn;
+    private TableColumn<Activity, String> dateActivityColumn;
+    private TableColumn<Activity, LocalTime> startTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> endTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> teamColumn;
+    private TableColumn<Activity, String> statusColumn;
+    private TranslateTransition slideAnimate;
+    private DateTimeFormatter formatter;
+    private String time;
     private String eventName;
-    private  Datasource<ActivityList> datasource;
+    private String cssPath;
     private Boolean isLightTheme;
+    private int status;
 
     @FXML
     public void initialize(){
@@ -50,8 +64,8 @@ public class TeamScheduleController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
-        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        activityList = datasource.readData();
+        activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        activityList = activityListDatasource.readData();
         if(isLightTheme){
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
         }else{
@@ -63,24 +77,24 @@ public class TeamScheduleController {
         slide.setTranslateX(-200);
     }
     private void showTable(ActivityList activityList) {
-        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
+        activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn = new TableColumn<>("Date");
         dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
-        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
 
-        TableColumn<Activity, LocalTime> teamColumn = new TableColumn<>("team");
+        teamColumn = new TableColumn<>("team");
         teamColumn.setCellValueFactory(new PropertyValueFactory<>("teamName"));
 
-        TableColumn<Activity, String> statusColumn = new TableColumn<>("status");
+        statusColumn = new TableColumn<>("status");
         statusColumn.setCellValueFactory(cellData -> {
-            int status = Integer.parseInt(cellData.getValue().getStatus());
+            status = Integer.parseInt(cellData.getValue().getStatus());
             if (status == 1) {
                 return new SimpleStringProperty("Finish");
             } else {
@@ -113,12 +127,12 @@ public class TeamScheduleController {
         showTable(activityList);
     }
     private void updateSchedule(){
-        activityList = datasource.readData();
+        activityList = activityListDatasource.readData();
         activityList.findActivityInEvent(eventName);
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -129,7 +143,7 @@ public class TeamScheduleController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -174,13 +188,12 @@ public class TeamScheduleController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -194,7 +207,7 @@ public class TeamScheduleController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

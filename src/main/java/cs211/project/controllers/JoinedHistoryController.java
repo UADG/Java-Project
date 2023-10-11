@@ -46,17 +46,27 @@ public class JoinedHistoryController {
     private Button cancelEvent;
     @FXML
     private AnchorPane parent;
-    @FXML private ImageView logoImageView;
-    private Object[] objects;
-    private Object[] objectsSend;
+    @FXML
+    private ImageView logoImageView;
     private Datasource<EventList> eventListDatasource;
-    private Datasource<AccountList> datasource;
-    private Account account;
+    private Datasource<AccountList> accountListDatasource;
     private AccountList accountList;
     private EventList eventList;
+    private Account account;
+    private Account user;
+    private Event event;
+    private Object[] objects;
+    private Object[] objectsSend;
+    private Alert confirmationDialog;
+    private Alert alert;
+    private TranslateTransition slideAnimate;
     private String selectedEvent;
+    private String username;
+    private String time;
+    private String cssPath;
     private LocalDate currentDate;
     private Boolean isLightTheme;
+    private DateTimeFormatter formatter;
 
     @FXML
     public void initialize() {
@@ -74,10 +84,10 @@ public class JoinedHistoryController {
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         currentDate = LocalDate.now();
 
-        datasource = new UserEventListFileDatasource("data","user-joined-event.csv");
+        accountListDatasource = new UserEventListFileDatasource("data","user-joined-event.csv");
         eventListDatasource = new EventListFileDatasource("data", "event-list.csv");
 
-        accountList = datasource.readData();
+        accountList = accountListDatasource.readData();
         eventList = eventListDatasource.readData();
 
         showOrganizeList(account);
@@ -114,11 +124,11 @@ public class JoinedHistoryController {
     private void showOrganizeList(Account account) {
         eventOrganizeListView.getItems().clear();
 
-        String username = account.getUsername();
-        Account user = accountList.findAccountByUsername(username);
+        username = account.getUsername();
+        user = accountList.findAccountByUsername(username);
 
         for (String eventName : user.getAllEventUser()) {
-            Event event = eventList.findEventByEventName(eventName);
+            event = eventList.findEventByEventName(eventName);
 
             if (currentDate.isBefore(event.getEndDate())) {
                 eventOrganizeListView.getItems().add(eventName);
@@ -129,11 +139,11 @@ public class JoinedHistoryController {
     private void showFinishList(Account account) {
         eventFinishListView.getItems().clear();
 
-        String username = account.getUsername();
-        Account user = accountList.findAccountByUsername(username);
+        username = account.getUsername();
+        user = accountList.findAccountByUsername(username);
 
         for (String eventName : user.getAllEventUser()) {
-            Event event = eventList.findEventByEventName(eventName);
+            event = eventList.findEventByEventName(eventName);
 
             if (currentDate.isAfter(event.getEndDate())) {
                 eventFinishListView.getItems().add(eventName);
@@ -189,9 +199,9 @@ public class JoinedHistoryController {
     public void onCancelEventClick() {
         if (selectedEvent != null) {
             account = accountList.findAccountByUsername(account.getUsername());
-            Event event = eventList.findEventByEventName(selectedEvent);
+            event = eventList.findEventByEventName(selectedEvent);
 
-            Alert confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
+            confirmationDialog = new Alert(Alert.AlertType.CONFIRMATION);
             confirmationDialog.setTitle("Confirmation");
             confirmationDialog.setHeaderText("Delete Event");
             confirmationDialog.setContentText("Are you sure you want to delete this event: " + selectedEvent + "?");
@@ -202,8 +212,8 @@ public class JoinedHistoryController {
                     event.ticketCancel();
                     eventListDatasource.readData();
                     eventListDatasource.writeData(eventList);
-                    datasource.readData();
-                    datasource.writeData(accountList);
+                    accountListDatasource.readData();
+                    accountListDatasource.writeData(accountList);
                     updateEventInfo();
                 }
             });
@@ -227,7 +237,7 @@ public class JoinedHistoryController {
     }
 
     private void showErrorAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -236,7 +246,7 @@ public class JoinedHistoryController {
 
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -247,7 +257,7 @@ public class JoinedHistoryController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -292,13 +302,11 @@ public class JoinedHistoryController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -311,7 +319,7 @@ public class JoinedHistoryController {
     }
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

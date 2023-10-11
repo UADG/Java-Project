@@ -23,19 +23,38 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class ParticipantScheduleController {
-    @FXML private TableView<Activity> activityTableView;
-    @FXML private ComboBox chooseEvent;
-    @FXML private AnchorPane slide;
-    @FXML private Button menuButton;
-    @FXML private BorderPane bPane;
-    @FXML private AnchorPane parent;
-    @FXML private ImageView logoImageView;
-    @FXML private Label infoActivity;
+    @FXML
+    private TableView<Activity> activityTableView;
+    @FXML
+    private ComboBox chooseEvent;
+    @FXML
+    private AnchorPane slide;
+    @FXML
+    private Button menuButton;
+    @FXML
+    private BorderPane bPane;
+    @FXML
+    private AnchorPane parent;
+    @FXML
+    private ImageView logoImageView;
+    @FXML
+    private Label infoActivity;
+    private Datasource<ActivityList> activityListDatasource;
+    private Datasource<AccountList> accountListDatasource;
+    private ActivityList activityList;
+    private AccountList accountList;
     private Account account;
     private Object[] objects;
-    private ActivityList activityList;
-    private Datasource<ActivityList> datasource;
+    private TranslateTransition slideAnimate;
+    private TableColumn<Activity, String> activityNameColumn;
+    private TableColumn<Activity, String> dateActivityColumn;
+    private TableColumn<Activity, LocalTime> startTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> endTimeActivityColumn;
+    private TableColumn<Activity, LocalTime> participantColumn;
     private String eventName;
+    private String time;
+    private String cssPath;
+    private DateTimeFormatter formatter;
     private Boolean isLightTheme;
 
     @FXML
@@ -50,11 +69,11 @@ public class ParticipantScheduleController {
         }else{
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
-        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        activityList = datasource.readData();
+
+        activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        activityList = activityListDatasource.readData();
         for(Activity activity:activityList.getAllActivities()){
             if(activity.userIsParticipant(account.getUsername())){
-                System.out.println(activity.getEventName());
                 chooseEvent.getItems().add(activity.getEventName());
             }
         }
@@ -72,19 +91,19 @@ public class ParticipantScheduleController {
         });
     }
     private void showTable(ActivityList activityList) {
-        TableColumn<Activity, String> activityNameColumn = new TableColumn<>("Name");
+        activityNameColumn = new TableColumn<>("Name");
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
-        TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
+        dateActivityColumn = new TableColumn<>("Date");
         dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
 
-        TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
+        startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));
 
-        TableColumn<Activity, LocalTime> endTimeActivityColumn = new TableColumn<>("End-Time");
+        endTimeActivityColumn = new TableColumn<>("End-Time");
         endTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("endTimeActivity"));
 
-        TableColumn<Activity, LocalTime> participantColumn = new TableColumn<>("Participant");
+        participantColumn = new TableColumn<>("Participant");
         participantColumn.setCellValueFactory(new PropertyValueFactory<>("participantName"));
 
         activityTableView.getColumns().clear();
@@ -109,12 +128,12 @@ public class ParticipantScheduleController {
         showTable(activityList);
     }
     private void updateSchedule(){
-        activityList = datasource.readData();
+        activityList = activityListDatasource.readData();
         activityList.findActivityInEvent(eventName);
     }
     @FXML
     public void OnMenuBarClick() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(0);
@@ -125,7 +144,7 @@ public class ParticipantScheduleController {
     }
     @FXML
     public void closeMenuBar() throws IOException {
-        TranslateTransition slideAnimate = new TranslateTransition();
+        slideAnimate = new TranslateTransition();
         slideAnimate.setDuration(Duration.seconds(0.5));
         slideAnimate.setNode(slide);
         slideAnimate.setToX(-200);
@@ -170,13 +189,11 @@ public class ParticipantScheduleController {
     }
     @FXML
     public void onLogOutButton() throws IOException {
-        Datasource<AccountList> accountListDatasource = new AccountListDatasource("data", "user-info.csv");
-        AccountList accountList = accountListDatasource.readData();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        String time = LocalDateTime.now().format(formatter);
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-        dataSource.writeData(accountList);
+        accountList = accountListDatasource.readData();
+        accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }
 
@@ -190,7 +207,7 @@ public class ParticipantScheduleController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }

@@ -4,7 +4,6 @@ import cs211.project.models.Account;
 import cs211.project.models.collections.AccountList;
 import cs211.project.services.AccountListDatasource;
 import cs211.project.services.Datasource;
-import javafx.event.ActionEvent;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -17,28 +16,42 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 public class LoginPageController {
-    @FXML private TextField usernameText;
-    @FXML private PasswordField passwordText;
-    @FXML private Label invalidLabel;
-    @FXML private ImageView imageView;
-    @FXML private AnchorPane parent;
-    private boolean isLightTheme = true;
+    @FXML
+    private TextField usernameText;
+    @FXML
+    private PasswordField passwordText;
+    @FXML
+    private Label invalidLabel;
+    @FXML
+    private ImageView imageView;
+    @FXML
+    private AnchorPane parent;
+    private Datasource<AccountList> accountListDataSource;
     private AccountList accountList;
+    private Account account;
     private Object[] objects;
+    private Alert alert;
+    private DateTimeFormatter formatter;
+    private boolean isLightTheme;
+    private String cssPath;
+    private String time;
+    private String username;
+    private String password;
     @FXML
     public void initialize() {
+        isLightTheme = true;
         imageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
 
         invalidLabel.setVisible(false);
-        Datasource<AccountList> accountListDataSource = new AccountListDatasource("data", "user-info.csv");
-        this.accountList = accountListDataSource.readData();
+        accountListDataSource = new AccountListDatasource("data", "user-info.csv");
+        accountList = accountListDataSource.readData();
         loadTheme(isLightTheme);
     }
     @FXML
     public void loginButt() throws IOException {
-        String username = usernameText.getText().trim();
-        String password = passwordText.getText().trim();
-        Account account = accountList.findAccountByUsername(username);
+        username = usernameText.getText().trim();
+        password = passwordText.getText().trim();
+        account = accountList.findAccountByUsername(username);
         objects = new Object[2];
         objects[0] = account;
         objects[1] = isLightTheme;
@@ -46,11 +59,11 @@ public class LoginPageController {
         clearData();
         if(account != null || !usernameText.getText().equals("") || !passwordText.getText().equals("")){
             if (account.isPassword(password)) {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-                String time = LocalDateTime.now().format(formatter);
+                formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+                time = LocalDateTime.now().format(formatter);
                 account.setTime(time);
-                Datasource<AccountList> dataSource = new AccountListDatasource("data","user-info.csv");
-                dataSource.writeData(accountList);
+                accountList = accountListDataSource.readData();
+                accountListDataSource.writeData(accountList);
                 try{
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
@@ -69,7 +82,7 @@ public class LoginPageController {
                             public void run() {
                                 invalidLabel.setVisible(false);
                             }},
-                        1000 // 1 sec
+                        1000
                     );
             }
         }else{
@@ -81,12 +94,12 @@ public class LoginPageController {
                         invalidLabel.setVisible(false);
                     }
                 },
-                1000 // 1 sec
+                1000
         );
         }
     }
     @FXML
-    public void registerLink(ActionEvent event) throws IOException {
+    public void registerLink() throws IOException {
         FXRouter.goTo("register-page", isLightTheme);
     }
     public void clearData(){
@@ -94,7 +107,7 @@ public class LoginPageController {
         passwordText.setText("");
     }
     private void showAlert(String message) {
-        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
@@ -127,7 +140,7 @@ public class LoginPageController {
 
     private void loadTheme(String themeName) {
         if (parent != null) {
-            String cssPath = "/cs211/project/views/" + themeName;
+            cssPath = "/cs211/project/views/" + themeName;
             parent.getStylesheets().clear();
             parent.getStylesheets().add(getClass().getResource(cssPath).toExternalForm());
         }
