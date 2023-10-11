@@ -110,7 +110,7 @@ public class FinishActivityController {
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
         dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
         startTimeActivityColumn = new TableColumn<>("Start-Time");
         startTimeActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startTimeActivity"));

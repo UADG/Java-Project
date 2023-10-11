@@ -51,7 +51,7 @@ public class Activity {
 
     public String getEndDate(){return endDate.format(dateFormatter);}
 
-    public String getDate(){return startDate.format(dateFormatter)+endDate.format(dateFormatter);}
+    public String getDate(){return startDate.format(dateFormatter)+ "      " +endDate.format(dateFormatter);}
 
     public String getStartTimeActivity() {
         return startTimeActivity.format(timeFormatter);

@@ -124,7 +124,7 @@ public class Account implements Comparable<Account>{
     }
     @Override
     public String toString() {
-        return "ID: " + id + " Username: " + username + " Last Online: " + time;
+        return  "ID: " + id + "\n" + "Username: "+ username;
     }
     @Override
     public int compareTo(Account o) {
