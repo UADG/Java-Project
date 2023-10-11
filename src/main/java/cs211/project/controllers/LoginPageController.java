@@ -30,7 +30,6 @@ public class LoginPageController {
     private AccountList accountList;
     private Account account;
     private Object[] objects;
-    private Alert alert;
     private DateTimeFormatter formatter;
     private boolean isLightTheme;
     private String cssPath;
@@ -62,7 +61,6 @@ public class LoginPageController {
                 formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                 time = LocalDateTime.now().format(formatter);
                 account.setTime(time);
-                accountList = accountListDataSource.readData();
                 accountListDataSource.writeData(accountList);
                     if(account.getRole().equals("admin")){
                         FXRouter.goTo("user-status", objects);
@@ -102,13 +100,6 @@ public class LoginPageController {
     public void clearData(){
         usernameText.setText("");
         passwordText.setText("");
-    }
-    private void showAlert(String message) {
-        alert = new Alert(Alert.AlertType.ERROR);
-        alert.setTitle("Error");
-        alert.setHeaderText(null);
-        alert.setContentText(message);
-        alert.showAndWait();
     }
     @FXML
     protected void onChangeTheme() {

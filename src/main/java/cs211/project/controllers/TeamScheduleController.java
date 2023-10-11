@@ -64,7 +64,9 @@ public class TeamScheduleController {
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        accountList = accountListDatasource.readData();
         activityList = activityListDatasource.readData();
         if(isLightTheme){
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
@@ -192,7 +194,6 @@ public class TeamScheduleController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        accountList = accountListDatasource.readData();
         accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }

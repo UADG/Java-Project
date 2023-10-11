@@ -213,7 +213,6 @@ public class ProfileSetPageController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        accountList = accountListDataSource.readData();
         accountListDataSource.writeData(accountList);
         FXRouter.goTo("login-page");
     }

@@ -305,7 +305,6 @@ public class JoinedHistoryController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        accountList = accountListDatasource.readData();
         accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }

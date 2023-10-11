@@ -70,7 +70,9 @@ public class ParticipantScheduleController {
             logoImageView.setImage(new Image(getClass().getResource("/images/logo-dark-theme.png").toExternalForm()));
         }
 
+        accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        accountList = accountListDatasource.readData();
         activityList = activityListDatasource.readData();
         for(Activity activity:activityList.getAllActivities()){
             if(activity.userIsParticipant(account.getUsername())){
@@ -192,7 +194,6 @@ public class ParticipantScheduleController {
         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         time = LocalDateTime.now().format(formatter);
         account.setTime(time);
-        accountList = accountListDatasource.readData();
         accountListDatasource.writeData(accountList);
         FXRouter.goTo("login-page");
     }

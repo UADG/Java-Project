@@ -104,7 +104,6 @@ public class RegisterPageController {
                         formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
                         time = LocalDateTime.now().format(formatter);
                         accountList.addNewAccount(id, username, pass, name, time, "/images/default-profile.png", "user");
-                        accountList = accountListDatasource.readData();
                         accountListDatasource.writeData(accountList);
                         FXRouter.goTo("login-page");
                     } else {
