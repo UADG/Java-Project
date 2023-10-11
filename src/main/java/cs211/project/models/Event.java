@@ -24,10 +24,8 @@ public class Event {
     private int ticketBuy;
     private String eventManager;
     private String picURL;
-    private ArrayList<ArrayList<String >> arr ;
     private ActivityList activities;
     private TeamList teams;
-    private ActivityHardCode datasource;
     private ArrayList<String> arrayStartTimeActivity;
     private TeamListFileDatasource data;
     private TeamList list;
@@ -58,8 +56,6 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         this.picURL = picURL;
         this.teamStartDate = teamStartDate;
         this.teamEndDate = teamEndDate;
-        datasource = new ActivityHardCode();
-        arr = datasource.readData();
     }
 
     public Event(String eventName){
@@ -176,9 +172,6 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         return arrayMinute;
     }
 
-    public ArrayList<ArrayList<String >> getActivity(){
-        return arr;
-    }
     public ArrayList<Activity> getArrayListActivities(){
         return activities.getActivities();
     }
