@@ -22,7 +22,10 @@
     -fx-font-size: 13;
     -fx-text-fill: white;
 }
-
+.alert{
+    -fx-font-family: "Tiro Devanagari Hindi";
+    -fx-font-size: 13;
+}
 #invalidLabel, #errorLabel, #errorLabel1, #errorLabelApplyToParticipants, #errorLabelBook{
     -fx-font-family: "Tiro Devanagari Hindi";
     -fx-font-size: 11;
