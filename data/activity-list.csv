@@ -1,33 +1,30 @@
-test,2023-10-12,2023-10-12,13:00,23:00,Team2,testjoin,1,testJim,test1,null
-test2,2023-10-13,2023-10-13,13:00,23:00,2,check1,0,testJim,test2,null
-ทำความสะอาด,2023-10-12,2023-10-12,12:00,23:00,TeamB,jp1,0,testJim,ทำความสะอาด,null
-ทำความสะอาด2,2023-10-13,2023-10-13,12:00,23:00,TeamA,jp3,0,testJim,ทำความสะอาดวันที่ 13,null
-เตรียมน้ำ,2023-10-09,2023-10-09,09:00,16:00,team1,testjoin,0,JimZaKungEvent,,null
-แจกน้ำ,2023-10-10,2023-10-10,12:00,18:00,team แจกน้ำ,testjoin,0,test team,แจกจ่ายน้ำให้พนักงาน,null
-ดูแลความปลอดภัย,2023-10-10,2023-10-10,13:00,19:00,ความปลอดภัย,check1,0,test team,ดูแลความปลอดภัย,null
-เครื่องแต่งกาย,2023-10-10,2023-10-10,13:00,20:00,,jt2,0,test team,ดูแลความปลอดภัย,null
-แต่งตัว,2023-10-13,2023-10-13,09:00,17:00,,jt2,1,best หล่อ,ช่างแต่งหน้า,null
-แต่งตัว 14,2023-10-14,2023-10-14,09:00,17:00,team1,jp1,0,best หล่อ,ช่างแต่งหน้า,null
-แต่งตัว 15,2023-10-15,2023-10-15,09:00,17:00,team2,jp3,0,best หล่อ,ช่างแต่งหน้า,null
-test1,2023-10-20,2023-10-20,12:00,15:00,1,tjt1,0,create event that have activity and have team,,null
-test2,2023-10-20,2023-10-20,13:00,16:00,2,testcreate,0,create event that have activity and have team,,null
-test3,2023-10-20,2023-10-20,13:00,17:00,6,,0,create event that have activity and have team,,null
-test4,2023-10-20,2023-10-20,14:00,18:00,4,,0,create event that have activity and have team,,null
-test5,2023-10-20,2023-10-20,14:00,19:00,,,0,create event that have activity and have team,,null
-test6,2023-10-20,2023-10-20,14:00,20:00,6,,1,create event that have activity and have team,,null
-แสดงโชว์,2023-10-18,2023-10-18,14:00,16:00,ทีม 1,tj0l,1,test jimmy,,null
-แสดงโชว์2,2023-10-18,2023-10-18,13:00,16:00,ทีม 1,,1,test jimmy,,null
-วาดรูป,2023-11-25,2023-11-25,12:00,14:00,ทีมวาดรูป,,0,AIAYE,,null
-แสดงผลงาน,2023-11-26,2023-11-26,12:00,15:00,แสดงผลงาน,,0,AIAYE,,null
-งานเลี้ยง,2023-11-27,2023-11-27,12:00,16:30,เลี้ยงฉลอง,,0,AIAYE,,null
-งานโชว์,2023-10-20,2023-10-20,01:00,08:00,ทีม 1,,0,EVENT,,null
-งานโชว์2,2023-10-21,2023-10-21,01:00,09:00,ทีม 2,,0,EVENT,,null
-ฝึกวาดรูป,2023-10-12,2023-10-12,09:00,11:00,วาดรูป,tjt1,0,1 days,,null
-ฝึกแต่งตัว,2023-10-12,2023-10-12,11:00,13:00,ฝึกแต่งตัว,je1,0,1 days,,null
-ออกกำลังกาย,2023-10-12,2023-10-12,13:00,14:00,ออกกำลังกาย,,0,1 days,,null
-พักผ่อน,2023-10-12,2023-10-12,14:00,15:00,พักผ่อน,,0,1 days,,null
-เลี้ยงฉลอง,2023-10-12,2023-10-12,15:00,17:00,เลี้ยงฉลอง,,0,1 days,,null
-นอนหลับ,2023-10-20,2023-10-20,14:00,16:00,team1,,1,sleeping,,null
-พักผ่อน,2023-10-18,2023-10-18,12:00,13:00,,,0,test jimmy,,null
-ประกวด,2023-10-19,2023-10-19,13:00,15:00,,,0,test jimmy,,null
-ถ้วยรางวัล,2023-10-19,2023-10-19,15:00,16:00,,,0,test jimmy,,null
+Rapper1,2023-10-29,2023-10-29,18:30,20:30,ทีมดูแลRapper,,0,Rolling round THAILAND,this is first rapper,null
+Rapper2,2023-10-29,2023-10-29,20:35,23:00,ทีมดูแลRapper,,0,Rolling round THAILAND,this is second rapper,null
+Rapper3,2023-10-30,2023-10-30,18:30,23:00,ทีมดูแลRapper,,0,Rolling round THAILAND,This is Rapper3 and his band.,null
+Rapper4,2023-10-31,2023-10-31,18:30,20:30,ทีมดูแลRapper,,0,Rolling round THAILAND,this is forth rapper,null
+Rapper5,2023-10-31,2023-10-31,20:30,23:00,ทีมดูแลRapper,,0,Rolling round THAILAND,this is the last rapper,null
+ช่วงที่1,2023-10-15,2023-10-15,10:00,11:00,ทีมช่างแต่งหน้า,,0,PopFest,เล่นเพลงที่1ถึงเพลงที่5,null
+ช่วงที่2,2023-10-15,2023-10-15,11:01,11:59,ทีมช่างแต่งหน้า,,0,PopFest,เล่นกับคนดูคุยกับคนดูและแจกของรางวัล,null
+พักเบรค,2023-10-15,2023-10-15,12:00,12:59,ทีมช่างแต่งหน้า,,0,PopFest,ช่วงพักของคนดูและนักดนตรี,null
+ช่วงที่4,2023-10-15,2023-10-15,13:00,14:00,ทีมช่างแต่งหน้า,,0,PopFest,เล่นเพลงที่6ถีงเพลงที่10,null
+ช่วงสุดท้าย,2023-10-15,2023-10-15,14:01,15:00,ทีมช่างแต่งหน้า,,0,PopFest,เล่นเพลงอำลาและเล่นกับคนดู,null
+part1,2023-11-05,2023-11-05,17:00,19:00,service,,0,JohnMayerShow,play music and entertainig,null
+part2,2023-11-05,2023-11-05,19:01,21:00,service,,0,JohnMayerShow,play unrelease song,null
+part3,2023-11-06,2023-11-06,17:00,19:00,service,,0,JohnMayerShow,play music and entertaining,null
+secretpart,2023-11-06,2023-11-06,19:01,20:00,service,,0,JohnMayerShow,Noone know XD,null
+part4,2023-11-06,2023-11-06,20:01,21:00,service,,0,JohnMayerShow,play byebye song,null
+บทนำ,2023-11-29,2023-11-29,10:00,13:00,ทีมดูแลอีเวนต์,,0,ปูพงษ์สิทธิ์พบเพื่อน,พูดคุยกับคนดูแลร้องเพลงฮิตเพลงแรก,null
+บท1,2023-11-29,2023-11-29,13:01,15:00,ทีมดูแลอีเวนต์,,0,ปูพงษ์สิทธิ์พบเพื่อน,เล่นเพลงฮิต 8 เพลง,null
+บทนำ2,2023-11-30,2023-11-30,10:00,13:00,ทีมดูแลอีเวนต์,,0,ปูพงษ์สิทธิ์พบเพื่อน,เล่นคุยกับคนดูและเล่นเพลงฮิตแรก,null
+บทที่2,2023-11-30,2023-11-30,13:00,14:30,ทีมดูแลอีเวนต์,,0,ปูพงษ์สิทธิ์พบเพื่อน,เล่นเพลงฮิต 5 เพลง,null
+บทส่งท้าย,2023-11-30,2023-11-30,14:31,15:00,ทีมดูแลอีเวนต์,,0,ปูพงษ์สิทธิ์พบเพื่อน,เล่นเพลงส่งท้ายอำลาคนดู,null
+talkaboutme,2023-11-01,2023-11-01,00:00,00:30,small band,,0,JimJImOpenHat,this part gonna be part that talk about me,null
+round1,2023-11-01,2023-11-01,00:31,01:00,small band,,0,JimJImOpenHat,round 1 (play my song + play popular song),null
+round2,2023-11-01,2023-11-01,01:00,02:00,small band,,0,JimJImOpenHat,round 2 (play my song + play popular song),null
+round3,2023-11-01,2023-11-01,02:01,03:00,small band,,0,JimJImOpenHat,round 3 (play my song + play popular song),null
+round4,2023-11-01,2023-11-01,03:01,04:00,small band,,0,JimJImOpenHat,round 4 (play my song + play popular song),null
+introduce plus opening song,2023-10-17,2023-10-17,08:00,11:00,music band,,0,MyFirstPerfrom,introduce myself and play my most popular song,null
+sad song,2023-10-17,2023-10-17,11:01,15:00,music band,,0,MyFirstPerfrom,play all my sad song,null
+hype song,2023-10-18,2023-10-18,08:00,11:00,music band,,0,MyFirstPerfrom,play all my hiphip song,null
+classic song,2023-10-18,2023-10-18,11:01,12:00,music band,,0,MyFirstPerfrom,I have a few classic song so I want to play it XD,null
+happy song,2023-10-18,2023-10-18,12:01,15:00,music band,,0,MyFirstPerfrom,this is last part. I want to end my first perfrom with happy mood,null
