@@ -222,6 +222,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
     }
 
     public TeamList loadTeamInEvent() {
+        loadActivityInEvent();
         data = new TeamListFileDatasource("data", "team.csv");
         list = data.readData();
         nameTeamInEvent = new ArrayList<>();

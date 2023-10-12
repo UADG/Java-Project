@@ -98,3 +98,19 @@
     -fx-background-radius: 20;
     -fx-background-color: #c2cdea;
 }
+.scroll-pane{
+    -fx-background-color: transparent;
+}
+
+.text-area{
+    -fx-font-family: "Gurmukhi Sangam MN";
+    -fx-font-size: 13;
+    -fx-text-fill: #000000;
+    -fx-focus-traversable: true;
+    -fx-background-color: transparent;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+}
+.text-area:focused {
+    -fx-border-color: transparent;
+}

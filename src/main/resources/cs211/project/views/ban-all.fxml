@@ -15,7 +15,7 @@
 <AnchorPane fx:id="parent" prefHeight="600.0" prefWidth="800.0" styleClass="web-view" stylesheets="@dark-theme.css" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="cs211.project.controllers.BanAllController">
    <children>
       <Button layoutX="77.0" layoutY="18.0" mnemonicParsing="false" onAction="#backOnClick" prefHeight="26.0" prefWidth="48.0" styleClass="default-button" text="Back" />
-      <Label fx:id="headLabel" layoutX="55.0" layoutY="63.0" styleClass="text-field" text="List of participants">
+      <Label fx:id="headLabel" layoutX="55.0" layoutY="63.0" styleClass="text-field" text="List of Accounts">
          <font>
             <Font size="20.0" />
          </font>
@@ -42,16 +42,6 @@
       <Label fx:id="nameLabel" layoutX="528.0" layoutY="252.0" styleClass="text-field" text="Name">
          <font>
             <Font size="14.0" />
-         </font>
-      </Label>
-      <Label fx:id="constantNameLabelSingleParticipant" layoutX="373.0" layoutY="215.0" styleClass="text-field" text="ชื่อ :" visible="false">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-      <Label fx:id="nameLabelSigleParticipant" layoutX="414.0" layoutY="215.0" prefHeight="27.0" prefWidth="234.0" styleClass="text-field" text="Name" visible="false">
-         <font>
-            <Font size="18.0" />
          </font>
       </Label>
       <Button fx:id="ban" layoutX="528.0" layoutY="334.0" mnemonicParsing="false" onAction="#banTarget" prefHeight="50.0" prefWidth="124.0" styleClass="default-button" text="Ban">

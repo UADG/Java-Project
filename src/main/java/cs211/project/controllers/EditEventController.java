@@ -46,7 +46,7 @@ public class EditEventController {
     @FXML
     private TextField amountTicketTextField;
     @FXML
-    private TextField detailTextField;
+    private TextArea detailTextArea;
     @FXML
     private DatePicker startJoinDate;
     @FXML
@@ -173,6 +173,7 @@ public class EditEventController {
         startJoinDate.setEditable(false);
         teamStart.setEditable(false);
         teamEnd.setEditable(false);
+        detailTextArea.setWrapText(true);
 
         bPane.setVisible(false);
         slide.setTranslateX(-200);
@@ -187,7 +188,7 @@ public class EditEventController {
         startJoinDate.setValue(event.getStartJoinDate());
         endJoinDate.setValue(event.getEndJoinDate());
         amountTicketTextField.setText(String.valueOf(event.getTicket()));
-        detailTextField.setText(event.getDetail());
+        detailTextArea.setText(event.getDetail());
         teamStart.setValue(event.getTeamStartDate());
         teamEnd.setValue(event.getTeamEndDate());
 
@@ -207,7 +208,7 @@ public class EditEventController {
         timeStartEvent = timeStartEventTextField.getText().trim();
         timeEndEvent = timeEndEventTextField.getText().trim();
         amountTicket = amountTicketTextField.getText().trim();
-        detail = detailTextField.getText().trim();
+        detail = detailTextArea.getText().trim();
         joinDateStart = startJoinDate.getValue();
         joinDateEnd = endJoinDate.getValue();
         startTeamDate = teamStart.getValue();

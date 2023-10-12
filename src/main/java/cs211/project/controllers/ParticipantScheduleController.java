@@ -39,6 +39,8 @@ public class ParticipantScheduleController {
     private ImageView logoImageView;
     @FXML
     private Label infoActivity;
+    @FXML
+    private ScrollPane infoScroll;
     private Datasource<ActivityList> activityListDatasource;
     private Datasource<AccountList> accountListDatasource;
     private ActivityList activityList;
@@ -79,6 +81,9 @@ public class ParticipantScheduleController {
                 chooseEvent.getItems().add(activity.getEventName());
             }
         }
+        infoActivity.setPrefWidth(698);
+        infoActivity.setWrapText(true);
+        infoActivity.setText("");
         bPane.setVisible(false);
         slide.setTranslateX(-200);
         activityTableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<Activity>() {
@@ -88,6 +93,7 @@ public class ParticipantScheduleController {
                     infoActivity.setText("");
                 } else {
                     infoActivity.setText(newValue.getInfoActivity());
+                    infoScroll.setContent(infoActivity);
                 }
             }
         });

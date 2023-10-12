@@ -12,10 +12,7 @@ import javafx.animation.TranslateTransition;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -43,6 +40,8 @@ public class EventScheduleController {
     private AnchorPane parent;
     @FXML
     private ImageView logoImageView;
+    @FXML
+    private ScrollPane infoScroll;
     private Datasource<AccountList> accountListDatasource;
     private AccountList accountList;
     private Account account;
@@ -75,6 +74,8 @@ public class EventScheduleController {
         loadTheme(isLightTheme);
 
         showTable(selectedEvent.loadActivityInEvent());
+        infoActivity.setPrefWidth(680);
+        infoActivity.setWrapText(true);
         infoActivity.setText("");
         bPane.setVisible(false);
         slide.setTranslateX(-200);
@@ -87,6 +88,7 @@ public class EventScheduleController {
                 } else {
                     selectedActivity = newValue;
                     infoActivity.setText(selectedActivity.getInfoActivity());
+                    infoScroll.setContent(infoActivity);
                 }
             }
         });

@@ -2,6 +2,7 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.image.ImageView?>
@@ -31,12 +32,20 @@
          </font>
       </Label>
       <Button layoutX="72.0" layoutY="18.0" mnemonicParsing="false" onAction="#onBackClick" styleClass="default-button" text="Back" />
-      <Label layoutX="33.0" layoutY="478.0" styleClass="text-field" text="activity info :">
-         <font>
-            <Font name="System Bold" size="13.0" />
-         </font>
-      </Label>
-      <Label fx:id="infoActivity" layoutX="109.0" layoutY="479.0" styleClass="text-field" text="activity info ">
+      <ScrollPane fx:id="infoScroll" layoutX="50.0" layoutY="497.0" prefHeight="74.0" prefWidth="700.0">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="67.0" prefWidth="680.0">
+               <children>
+                  <Label fx:id="infoActivity" layoutX="5.0" layoutY="5.0" styleClass="text-field" text="activity info ">
+                     <font>
+                        <Font name="System Bold" size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </content>
+      </ScrollPane>
+      <Label layoutX="33.0" layoutY="478.0" styleClass="text-field" text="Activity Info :">
          <font>
             <Font name="System Bold" size="13.0" />
          </font>
