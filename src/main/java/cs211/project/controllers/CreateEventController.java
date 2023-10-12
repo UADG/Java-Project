@@ -194,10 +194,10 @@ public class CreateEventController {
 
                 if (timeStartEvent.isBefore(timeEndEvent)) {
                     if (!timeStartEvent.isBefore(timeEndEvent.minusHours(3))) {
-                        errorText += "TIME EVENT:\nStart date must be at least 4 hours before the end date.\n";
+                        errorText += "TIME EVENT:\nStart time must be at least 4 hours before the end date.\n";
                     }
                 } else {
-                    errorText += "TIME EVENT:\nEnd date must be after the Start Date.\n";
+                    errorText += "TIME EVENT:\nEnd time must be after the Start Date.\n";
                 }
             } catch (DateTimeParseException e) {
                 errorText += "INVALID TIME EVENT:\nPlease use HH:mm format.\n";

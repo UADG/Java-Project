@@ -25,8 +25,8 @@ public class AboutUsController {
     public void initialize() {
         isLightTheme = (Boolean) FXRouter.getData();
         loadTheme(isLightTheme);
-        bestImage.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
-        winImage.setImage(new Image(getClass().getResource("/images/logo-light-theme.png").toExternalForm()));
+        bestImage.setImage(new Image(getClass().getResource("/images/best-image.jpg").toExternalForm()));
+        winImage.setImage(new Image(getClass().getResource("/images/win-image.jpg").toExternalForm()));
         aiImage.setImage(new Image(getClass().getResource("/images/ai-image.jpg").toExternalForm()));
         jimImage.setImage(new Image(getClass().getResource("/images/jim-image.jpg").toExternalForm()));
     }
