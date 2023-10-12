@@ -1,4 +1,4 @@
-module cs211.project.cs211661project {
+module cs211.project {
     requires javafx.controls;
     requires javafx.fxml;
 
