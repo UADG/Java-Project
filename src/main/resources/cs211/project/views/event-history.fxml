@@ -32,10 +32,10 @@
       <Label fx:id="amountTicket" layoutX="502.0" layoutY="395.0" styleClass="text-field" text="AmountTicketsLabel" />
       <Button fx:id="editActivity" layoutX="118.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditActivity" styleClass="default-button" text="Edit Schedule" />
       <Button fx:id="editDetail" layoutX="228.0" layoutY="473.0" mnemonicParsing="false" onAction="#onEditDetailClick" styleClass="default-button" text="Edit Detail" />
-      <Button fx:id="finishActivity" layoutX="320.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" styleClass="default-button" text="Finish Activity" />
-      <Button fx:id="fixSchedule" layoutX="428.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" styleClass="default-button" text="Add/Delete Team" />
-      <Button fx:id="banAll" layoutX="558.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" styleClass="default-button" text="Ban Participnat" />
-      <Label fx:id="headLabel" layoutX="352.0" layoutY="85.0" styleClass="text-field" text="Event History">
+      <Button fx:id="finishActivity" layoutX="324.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFinishActivityClick" styleClass="default-button" text="Finish Activity" />
+      <Button fx:id="fixSchedule" layoutX="448.0" layoutY="473.0" mnemonicParsing="false" onAction="#onFixScheduleClick" styleClass="default-button" text="Add/Delete" />
+      <Button fx:id="banAll" layoutX="559.0" layoutY="473.0" mnemonicParsing="false" onAction="#onBanAllClick" prefHeight="24.0" prefWidth="81.0" styleClass="default-button" text="Ban" />
+      <Label fx:id="headLabel" layoutX="353.0" layoutY="85.0" styleClass="text-field" text="Event History">
          <font>
             <Font name="System Bold" size="20.0" />
          </font>
