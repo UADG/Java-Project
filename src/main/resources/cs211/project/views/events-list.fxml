@@ -59,8 +59,6 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
-      <Label fx:id="errorLabelBook" layoutX="27.0" layoutY="451.0" styleClass="text-field-error" text="errorLabel" textFill="#f20000" />
-      <Label fx:id="errorLabelApplyToParticipants" layoutX="133.0" layoutY="451.0" prefHeight="18.0" prefWidth="151.0" styleClass="text-field-error" text="errorLabel" textFill="#f20000" />
       <Button fx:id="menuButton" mnemonicParsing="false" onAction="#OnMenuBarClick" styleClass="default-button" text="Menu" textFill="WHITE" translateX="14.0" translateY="18.0">
          <font>
             <Font name="System Bold" size="12.0" />

@@ -27,10 +27,6 @@ public class EventsListController {
     @FXML
     private Label teamLeftLabel;
     @FXML
-    private Label errorLabelBook;
-    @FXML
-    private Label errorLabelApplyToParticipants;
-    @FXML
     private TextField searchTextField;
     @FXML
     private ImageView imageView;
@@ -107,8 +103,7 @@ public class EventsListController {
         imageView.setImage(new Image(getClass().getResource("/images/default-event.png").toExternalForm()));
         hBox.setAlignment(javafx.geometry.Pos.CENTER);
         bPane.setVisible(false);
-        errorLabelBook.setText("");
-        errorLabelApplyToParticipants.setText("");
+
         textSearch = "";
         getBan = false;
         clearEventInfo();
@@ -168,7 +163,6 @@ public class EventsListController {
             anchorPane.setOnMouseClicked(events -> {
                 clearEventInfo();
                 imageView.setVisible(true);
-                errorLabelBook.setText("");
                 selectedEvent = event;
                 showEventInfo(event);
             });
@@ -325,7 +319,7 @@ public class EventsListController {
                     FXRouter.goTo("event-schedule", objectsSend);
                 }
                 else {
-                    errorLabelBook.setText("Sorry, tickets for this event are sold out.");
+                    showErrorAlert("Sorry, tickets for this event are sold out.");
                 }
             } catch (IOException e) {
                 throw new RuntimeException(e);
@@ -402,36 +396,59 @@ public class EventsListController {
 
     }
     @FXML
-    protected void onApplyToParticipantClick() throws IOException {
+    protected void onApplyToParticipantClick() {
         if(selectedEvent != null) {
-            selectedEvent.loadActivityInEvent();
-            if(ban.isEventName(selectedEvent.getEventName())){
-                showErrorAlert("Sorry, you have ban from this event.");
-            }else if(!selectedEvent.getEventManager().equals(account.getUsername())) {
-                if(account.isEventName(selectedEvent.getEventName())) {
-                    showErrorAlert("You have already booked a ticket for this event.");
-                }else if (!selectedEvent.getArrayListActivities().isEmpty()) {
-                    datasource = new ActivityListFileDatasource("data", "activity-list.csv");
-                    activityList = datasource.readData();
-                    activityList.findActivityInEvent(selectedEvent.getEventName());
-                    if (!activityList.userIsParticipant(account.getUsername())) {
-                        if (selectedEvent.checkParticipantIsFull()) {
-                            activityList.addParticipant(account.getUsername());
-                            datasource.writeData(activityList);
-                            FXRouter.goTo("participant-schedule", objects);
+            selectedEvent.loadTeamInEvent();
+            teamFound = null;
+            found = false;
+            try {
+                if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+                    TeamList teams = selectedEvent.getTeams();
+                    for (Team team : teams.getTeams()) {
+                        for (Staff staff : team.getStaffs().getStaffList()) {
+                            if (staff.getId().equals(Integer.toString(account.getId()))) {
+                                found = true;
+                                teamFound = team;
+                                break;
+                            }
+                        }
+                    }
+                }
+                selectedEvent.loadActivityInEvent();
+                if (ban.isEventName(selectedEvent.getEventName())) {
+                    showInfoPopup("Sorry, you have ban from this event.");
+                }else if(found){
+                    showErrorAlert("\"You are have team in this event already \nYour team is \"" + teamFound);
+                } else if (!selectedEvent.getEventManager().equals(account.getUsername())) {
+                    if (account.isEventName(selectedEvent.getEventName())) {
+                        showErrorAlert("You have already booked a ticket for this event.");
+                    } else if (!selectedEvent.getArrayListActivities().isEmpty()) {
+                        datasource = new ActivityListFileDatasource("data", "activity-list.csv");
+                        activityList = datasource.readData();
+                        activityList.findActivityInEvent(selectedEvent.getEventName());
+                        if (!activityList.userIsParticipant(account.getUsername())) {
+                            if (selectedEvent.checkParticipantIsFull()) {
+                                activityList.addParticipant(account.getUsername());
+                                datasource.writeData(activityList);
+                                FXRouter.goTo("participant-schedule", objects);
+                            } else {
+                                showErrorAlert("Sorry, participant in full.");
+                            }
                         } else {
-                            showErrorAlert("Sorry, participant in full.");
+                            showErrorAlert("Sorry, you're participant in this event.");
                         }
                     } else {
-                        showErrorAlert("Sorry, you're participant in this event.");
+                        showErrorAlert("Sorry, this event not ready for apply to participant.");
                     }
                 } else {
-                    showErrorAlert("Sorry, this event not ready for apply to participant.");
+                    showErrorAlert("You can't join your own event.");
                 }
-            } else {
-                showErrorAlert("You can't join your own event.");
+            }
+            catch (IOException e) {
+                throw new RuntimeException(e);
             }
         }
+
         else {
             showErrorAlert("Please select event");
         }
@@ -442,6 +459,11 @@ public class EventsListController {
         alert.setTitle("Error");
         alert.setHeaderText(null);
         alert.setContentText(message);
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/cs211/project/views/st-theme.css").toExternalForm()
+        );
+        dialogPane.getStyleClass().add("custom-alert");;
         alert.showAndWait();
     }
 
