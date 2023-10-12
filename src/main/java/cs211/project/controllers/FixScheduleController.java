@@ -29,7 +29,7 @@ import java.time.format.DateTimeFormatter;
 
 public class FixScheduleController {
     @FXML
-    private Label constantTeamLabel;
+    private Label constantTeamOrParticipantLabel;
     @FXML
     private Label nameLabel;
     @FXML
@@ -37,7 +37,7 @@ public class FixScheduleController {
     @FXML
     private Label timeStopLabel;
     @FXML
-    private ComboBox chooseTeam;
+    private ComboBox chooseTeamOrParticipant;
     @FXML
     private RadioButton chooseRoleTeam;
     @FXML
@@ -101,7 +101,7 @@ public class FixScheduleController {
 
         op = new String[]{"add activity", "delete activity"};
         activityList = selectedEvent.loadActivityInEvent();
-        chooseTeam.getItems().addAll(activityList.getParticipantInEvent());
+        chooseTeamOrParticipant.getItems().addAll(activityList.getParticipantInEvent());
         chooseRoleSingleParticipant.setSelected(true);
         chooseOperator.getItems().addAll(op);
         setChooseTeamVisible(false);
@@ -121,21 +121,21 @@ public class FixScheduleController {
 
         if(chooseRoleTeam.isSelected()){
             activityTableView.getItems().clear();
-            chooseTeam.getItems().clear();
-            chooseTeam.getItems().addAll(selectedEvent.loadTeamInEvent().getTeams());
+            chooseTeamOrParticipant.getItems().clear();
+            chooseTeamOrParticipant.getItems().addAll(selectedEvent.loadTeamInEvent().getTeams());
             chooseRoleSingleParticipant.setSelected(false);
             setChooseTeamVisible(true);
-            constantTeamLabel.setText("Team:");
-            chooseWhichTeam();
+            constantTeamOrParticipantLabel.setText("Team:");
+            chooseWhichTeamOrParticipant();
 
 
         }
         if(chooseRoleSingleParticipant.isSelected()){
             activityTableView.getItems().clear();
-            chooseTeam.getItems().clear();
-            chooseTeam.getItems().addAll(activityList.getParticipantInEvent());
+            chooseTeamOrParticipant.getItems().clear();
+            chooseTeamOrParticipant.getItems().addAll(activityList.getParticipantInEvent());
             chooseRoleTeam.setSelected(false);
-            constantTeamLabel.setText("Parti:");
+            constantTeamOrParticipantLabel.setText("Name:");
             clearInfo();
             if(chooseOperator.getValue() != null) {
                 chooseWhichOperator();
@@ -144,28 +144,28 @@ public class FixScheduleController {
         }
     }
     public void setChooseTeamVisible(boolean bool){
-        chooseTeam.setVisible(bool);
-        constantTeamLabel.setVisible(bool);
+        chooseTeamOrParticipant.setVisible(bool);
+        constantTeamOrParticipantLabel.setVisible(bool);
     }
 
-    public void chooseWhichTeam(){
+    public void chooseWhichTeamOrParticipant(){
         if(chooseRoleTeam.isSelected()){
             if (team == null && operator == null) {
-                team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
-            } else if(chooseTeam.getValue() != null){
-                team = (Team) chooseTeam.getSelectionModel().getSelectedItem();
+                team = (Team) chooseTeamOrParticipant.getSelectionModel().getSelectedItem();
+            } else if(chooseTeamOrParticipant.getValue() != null){
+                team = (Team) chooseTeamOrParticipant.getSelectionModel().getSelectedItem();
                 if (operator != null) showActivity();
             }
         }
         else if (chooseRoleSingleParticipant.isSelected()){
-            participantName = (String) chooseTeam.getSelectionModel().getSelectedItem();
+            participantName = (String) chooseTeamOrParticipant.getSelectionModel().getSelectedItem();
         }
     }
 
     public void chooseWhichOperator(){
         operator = (String) chooseOperator.getSelectionModel().getSelectedItem();
         if(chooseRoleTeam.isSelected()){
-            if(team != null && chooseTeam.getValue() != null) showActivity();
+            if(team != null && chooseTeamOrParticipant.getValue() != null) showActivity();
         } else if (chooseRoleSingleParticipant.isSelected()) {
             if(operator.equals("delete activity")){
                 setChooseTeamVisible(false);

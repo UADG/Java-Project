@@ -226,16 +226,9 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         list = data.readData();
         nameTeamInEvent = new ArrayList<>();
         teams = new TeamList();
-        loadActivityInEvent();
-        for(Activity activity:activities.getActivities()){
-            nameTeamInEvent.add(activity.getTeamName());
-        }
-
-        for(String name: nameTeamInEvent){
-            for(Team team : list.getTeams()){
-                if(team.getTeamName().equals(name) && team.getEvent().getEventName().equals(eventName)){
-                    teams.addTeam(team);
-                }
+        for(Team team : list.getTeams()){
+            if(team.getEvent().getEventName().equals(eventName)){
+                teams.addTeam(team);
             }
         }
 
