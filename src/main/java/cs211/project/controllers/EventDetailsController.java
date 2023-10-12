@@ -10,6 +10,7 @@ import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
@@ -48,6 +49,8 @@ public class EventDetailsController {
     private Label bookDateLabel;
     @FXML
     private ImageView logoImageView;
+    @FXML
+    private ScrollPane descriptionScroll;
     private Event event;
     private Datasource<AccountList> accountListDatasource;
     private AccountList accountList;
@@ -91,7 +94,10 @@ public class EventDetailsController {
         bookDateLabel.setText(event.getStartJoinDate() + " - " + event.getEndJoinDate());
         timeLabel.setText(event.getStartTime() + " - " + event.getEndTime());
         ticketLabel.setText(event.getTicketLeft() + "/" + event.getTicket());
+        descriptionLabel.setPrefWidth(667);
+        descriptionLabel.setWrapText(true);
         descriptionLabel.setText(event.getDetail());
+        descriptionScroll.setContent(descriptionLabel);
         bPane.setVisible(false);
         slide.setTranslateX(-200);
     }

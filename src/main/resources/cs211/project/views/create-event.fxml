@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -23,7 +24,6 @@
       <Label layoutX="428.0" layoutY="182.0" styleClass="text-field" text="Tickets Amount:" />
       <TextField fx:id="ticket" layoutX="527.0" layoutY="178.0" prefHeight="26.0" prefWidth="70.0" styleClass="search-box" />
       <Label layoutX="174.0" layoutY="363.0" styleClass="text-field" text="Detail:" />
-      <TextField fx:id="detailLabel" alignment="TOP_LEFT" layoutX="220.0" layoutY="363.0" prefHeight="115.0" prefWidth="403.0" styleClass="search-box-default" />
       <DatePicker fx:id="dateStart" layoutX="240.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
       <Label layoutX="462.0" layoutY="217.0" styleClass="text-field" text="End Date:" />
       <DatePicker fx:id="dateEnd" layoutX="527.0" layoutY="212.0" prefHeight="26.0" prefWidth="123.0" />
@@ -46,6 +46,7 @@
       <Label layoutX="403.0" layoutY="287.0" text="Join Team End Date:" />
       <DatePicker fx:id="teamStart" layoutX="241.0" layoutY="283.0" prefHeight="24.0" prefWidth="123.0" />
       <DatePicker fx:id="teamEnd" layoutX="527.0" layoutY="282.0" prefHeight="24.0" prefWidth="123.0" />
+      <TextArea fx:id="detailTextArea" layoutX="220.0" layoutY="363.0" prefHeight="150.0" prefWidth="398.0" />
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">

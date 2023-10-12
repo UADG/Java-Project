@@ -44,7 +44,7 @@ public class CreateEventController {
     @FXML
     private TextField ticket;
     @FXML
-    private TextField detailLabel;
+    private TextArea detailTextArea;
     @FXML
     private DatePicker startJoinDate;
     @FXML
@@ -124,6 +124,8 @@ public class CreateEventController {
         bPane.setVisible(false);
         slide.setTranslateX(-200);
 
+        detailTextArea.setWrapText(true);
+
         objects = (Object[]) FXRouter.getData();
         account = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
@@ -147,7 +149,7 @@ public class CreateEventController {
         ticketNum = ticket.getText();
         startJoin = startJoinDate.getValue();
         endJoin = endJoinDate.getValue();
-        detail = detailLabel.getText();
+        detail = detailTextArea.getText();
         startTeamDate = teamStart.getValue();
         endTeamDate = teamEnd.getValue();
 
