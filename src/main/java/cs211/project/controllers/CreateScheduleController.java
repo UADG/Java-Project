@@ -46,6 +46,11 @@ public class CreateScheduleController {
     private AnchorPane parent;
     @FXML
     private Label eventNameLabel;
+    @FXML private Label eventStartDate;
+    @FXML private Label eventEndDate;
+    @FXML private Label eventStartTime;
+    @FXML private Label eventEndTime;
+
     @FXML
     private TableView<Activity> activityTableView;
     @FXML
@@ -115,7 +120,10 @@ public class CreateScheduleController {
 
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
         eventName = event.getEventName();
-
+        eventStartDate.setText(String.valueOf(event.getStartDate()));
+        eventEndDate.setText(String.valueOf(event.getEndDate()));
+        eventStartTime.setText(event.getStartTime());
+        eventEndTime.setText(event.getEndTime());
         updateSchedule();
 
         teams = teamListDatasource.readData();
@@ -205,7 +213,10 @@ public class CreateScheduleController {
                 if(event.checkTimeActivity(startActivityTime,endActivityTime)){
                     if(activityList.checkActivityName(activityName)) {
                         if (activityList.checkActivity(startActivityTime,endActivityTime)) {
-                            activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, "", "", "0", eventName, infoActivity, null);
+                            if(infoActivity == ""){
+                                infoActivity = null;
+                            }
+                            activityList.addActivity(activityName, selectedStartDate, selectedEndDate, startTimeActivity, endTimeActivity, "", "", "0", eventName, infoActivity);
                             activityListDatasource.writeData(activityList);
                             if (activityList.getActivities().isEmpty()) {
                                 activityList.findActivityInEvent(eventName);

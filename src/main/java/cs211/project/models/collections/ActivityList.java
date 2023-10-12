@@ -16,11 +16,11 @@ public class ActivityList {
         allActivities = new ArrayList<>();
         activities = new ArrayList<>();
     }
-    public void addActivity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName, String participantName, String status, String eventName, String infoActivity,String infoTeam){
+    public void addActivity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName, String participantName, String status, String eventName, String infoActivity){
         activityName = activityName.trim();
-        allActivities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam));
+        allActivities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity));
         if(!activities.isEmpty()){
-            activities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam));
+            activities.add(new Activity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity));
         }
     }
 

@@ -67,8 +67,8 @@
          </columnResizePolicy>
       </TableView>
       <DatePicker fx:id="startDate" layoutX="566.0" layoutY="189.0" prefHeight="26.0" prefWidth="178.0" />
-      <DatePicker fx:id="endDate" layoutX="567.0" layoutY="258.0" prefHeight="26.0" prefWidth="178.0" />
-      <Label fx:id="eventNameLabel" layoutX="197.0" layoutY="61.0" styleClass="text-field" text="event name">
+      <DatePicker fx:id="endDate" layoutX="566.0" layoutY="258.0" prefHeight="26.0" prefWidth="178.0" />
+      <Label fx:id="eventNameLabel" layoutX="160.0" layoutY="61.0" styleClass="text-field" text="event name">
          <font>
             <Font size="20.0" />
          </font>
@@ -80,6 +80,36 @@
             <Font name="System Bold" size="12.0" />
          </font>
       </Button>
+      <Label fx:id="eventStartDate" layoutX="83.0" layoutY="90.0" styleClass="text-field" text="event start date">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventEndDate" layoutX="259.0" layoutY="90.0" styleClass="text-field" text="event end date">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventStartTime" layoutX="83.0" layoutY="113.0" styleClass="text-field" text="event start time">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="eventEndTime" layoutX="258.0" layoutY="113.0" styleClass="text-field" text="event end time">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="17.0" layoutY="90.0" styleClass="text-field" text="start time:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+      <Label layoutX="198.0" layoutY="90.0" styleClass="text-field" text="end time:">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
       <BorderPane fx:id="bPane" prefHeight="600.0" prefWidth="800.0">
          <left>
             <AnchorPane fx:id="slide" prefHeight="200.0" prefWidth="200.0" styleClass="tab-pane" BorderPane.alignment="CENTER">

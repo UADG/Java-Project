@@ -92,7 +92,12 @@ public class ParticipantScheduleController {
                 if (newValue == null) {
                     infoActivity.setText("");
                 } else {
-                    infoActivity.setText(newValue.getInfoActivity());
+                    if(newValue.getInfoActivity() != null) {
+                        infoActivity.setText(newValue.getInfoActivity());
+                    }
+                    else {
+                        infoActivity.setText("");
+                    }
                     infoScroll.setContent(infoActivity);
                 }
             }

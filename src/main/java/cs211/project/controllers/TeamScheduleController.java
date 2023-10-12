@@ -5,6 +5,8 @@ import cs211.project.models.Activity;
 import cs211.project.models.Team;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.EventList;
+import cs211.project.models.collections.TeamList;
 import cs211.project.services.*;
 import javafx.animation.TranslateTransition;
 import javafx.beans.property.SimpleStringProperty;
@@ -39,8 +41,10 @@ public class TeamScheduleController {
     private ImageView logoImageView;
     private Datasource<ActivityList> activityListDatasource;
     private Datasource<AccountList> accountListDatasource;
+    private Datasource<TeamList> teamListDatasource;
     private ActivityList activityList;
     private AccountList accountList;
+    private TeamList teamList;
     private Object[] objects;
     private Account account;
     private Team team;
@@ -66,6 +70,7 @@ public class TeamScheduleController {
         loadTheme(isLightTheme);
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
+        teamListDatasource = new TeamListFileDatasource("data", "team.csv");
         accountList = accountListDatasource.readData();
         activityList = activityListDatasource.readData();
         if(isLightTheme){
@@ -108,6 +113,7 @@ public class TeamScheduleController {
         activityTableView.getColumns().add(dateActivityColumn);
         activityTableView.getColumns().add(startTimeActivityColumn);
         activityTableView.getColumns().add(endTimeActivityColumn);
+        activityTableView.getColumns().add(teamColumn);
         activityTableView.getColumns().add(statusColumn);
         activityTableView.getItems().clear();
 

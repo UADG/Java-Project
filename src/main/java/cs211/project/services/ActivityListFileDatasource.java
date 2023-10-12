@@ -73,8 +73,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
                 String status = data[7].trim();
                 String eventName = data[8].trim();
                 String infoActivity = data[9].trim();
-                String infoTeam = data[10].trim();
-                activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity, infoTeam);
+                activities.addActivity(activityName, startDate, endDate, startTimeActivity, endTimeActivity, teamName, participantName, status, eventName, infoActivity);
             }
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -105,7 +104,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
         try {
             for (Activity activity : data.getAllActivities()) {
                 if(!activity.getActivityName().equals("")) {
-                    String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName() + "," + activity.getInfoActivity() + "," + activity.getInfoTeam();
+                    String line = activity.getActivityName() + "," + activity.getStartDate()+","+activity.getEndDate() + "," + activity.getStartTimeActivity() + "," + activity.getEndTimeActivity() + "," + activity.getTeamName() + "," + activity.getParticipantName() + "," + activity.getStatus() + "," + activity.getEventName() + "," + activity.getInfoActivity();
                     buffer.append(line);
                     buffer.append("\n");
                 }

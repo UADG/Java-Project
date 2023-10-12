@@ -87,7 +87,12 @@ public class EventScheduleController {
                     selectedActivity = null;
                 } else {
                     selectedActivity = newValue;
-                    infoActivity.setText(selectedActivity.getInfoActivity());
+                    if(!selectedActivity.getInfoActivity().equals("null")) {
+                        infoActivity.setText(selectedActivity.getInfoActivity());
+                    }
+                    else {
+                        infoActivity.setText("");
+                    }
                     infoScroll.setContent(infoActivity);
                 }
             }

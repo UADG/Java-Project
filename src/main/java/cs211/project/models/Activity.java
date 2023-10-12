@@ -19,14 +19,13 @@ public class Activity {
     private String eventName;
     private Team team;
     private String infoActivity;
-    private String infoTeam;
     private DateTimeFormatter dateFormatter;
     private DateTimeFormatter timeFormatter;
     private LocalDateTime startLocalDateTime;
     private LocalDateTime endLocalDateTime;
     private ActivityListFileDatasource activityListFileDatasource;
 
-    public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName,String infoActivity,String infoTeam) {
+    public Activity(String activityName, LocalDate startDate, LocalDate endDate, LocalTime startTimeActivity, LocalTime endTimeActivity, String teamName,String participantName, String status, String eventName,String infoActivity) {
         this.activityName = activityName;
         this.startDate = startDate;
         this.endDate = endDate;
@@ -37,7 +36,6 @@ public class Activity {
         this.status = status;
         this.eventName = eventName;
         this.infoActivity = infoActivity;
-        this.infoTeam = infoTeam;
         dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
         startLocalDateTime = LocalDateTime.of(startDate,startTimeActivity);
@@ -81,8 +79,6 @@ public class Activity {
     public Team getTeam(){return team;}
 
     public String getInfoActivity(){return infoActivity;}
-
-    public String getInfoTeam(){return infoTeam;}
 
     public void setActivityStatus(String status){
         this.status = status;

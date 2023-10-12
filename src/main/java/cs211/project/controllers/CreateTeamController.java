@@ -124,7 +124,7 @@ public class CreateTeamController {
         activityNameColumn.setCellValueFactory(new PropertyValueFactory<>("activityName"));
 
         TableColumn<Activity, String> dateActivityColumn = new TableColumn<>("Date");
-        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateActivityColumn.setCellValueFactory(new PropertyValueFactory<>("startDate"));
 
 
         TableColumn<Activity, LocalTime> startTimeActivityColumn = new TableColumn<>("Start-Time");
