@@ -151,6 +151,20 @@ public class Team {
         return teamComboBox;
     }
 
+    public String getNameTeamInEvent(int id, String eventName){
+        teamData = new TeamListFileDatasource("data", "team.csv");
+        teamlist = teamData.readData();
+        for(Team team:teamlist.getTeams()){
+            if(team.getEvent().getEventName().equals(eventName)) {
+                for (Staff staff : team.getStaffs().getStaffList()) {
+                    if (staff.isId(Integer.toString(id))) {
+                        return team.getTeamName();
+                    }
+                }
+            }
+        }
+        return null;
+    }
     public ArrayList<String> getListTeam(int id){
         teamData = new TeamListFileDatasource("data", "team.csv");
         teamlist = teamData.readData();

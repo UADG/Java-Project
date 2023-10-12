@@ -2,6 +2,7 @@ package cs211.project.controllers;
 
 import cs211.project.models.Account;
 import cs211.project.models.Activity;
+import cs211.project.models.Staff;
 import cs211.project.models.Team;
 import cs211.project.models.collections.AccountList;
 import cs211.project.models.collections.ActivityList;
@@ -39,12 +40,14 @@ public class TeamScheduleController {
     private BorderPane bPane;
     @FXML
     private ImageView logoImageView;
+    @FXML
+    private Label teamNameLabel;
+    @FXML
+    private Label constantTeamName;
     private Datasource<ActivityList> activityListDatasource;
     private Datasource<AccountList> accountListDatasource;
-    private Datasource<TeamList> teamListDatasource;
     private ActivityList activityList;
     private AccountList accountList;
-    private TeamList teamList;
     private Object[] objects;
     private Account account;
     private Team team;
@@ -70,7 +73,6 @@ public class TeamScheduleController {
         loadTheme(isLightTheme);
         accountListDatasource = new AccountListDatasource("data", "user-info.csv");
         activityListDatasource = new ActivityListFileDatasource("data", "activity-list.csv");
-        teamListDatasource = new TeamListFileDatasource("data", "team.csv");
         accountList = accountListDatasource.readData();
         activityList = activityListDatasource.readData();
         if(isLightTheme){
@@ -82,6 +84,8 @@ public class TeamScheduleController {
         teamComboBox.getItems().addAll(team.getUserInTeam(account.getId()));
         bPane.setVisible(false);
         slide.setTranslateX(-200);
+        constantTeamName.setVisible(false);
+        teamNameLabel.setText("");
     }
     private void showTable(ActivityList activityList) {
         activityNameColumn = new TableColumn<>("Name");
@@ -133,6 +137,8 @@ public class TeamScheduleController {
         eventName = (String) teamComboBox.getValue();
         updateSchedule();
         showTable(activityList);
+        teamNameLabel.setText(team.getNameTeamInEvent(account.getId(), eventName));
+        constantTeamName.setVisible(true);
     }
     private void updateSchedule(){
         activityList = activityListDatasource.readData();
