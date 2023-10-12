@@ -9,7 +9,6 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -21,15 +20,13 @@ import javafx.scene.layout.HBox;
 import java.io.IOException;
 import java.time.LocalDateTime;
 
-public class UserStatus {
+public class UserStatusController {
     @FXML
     private Label usernameLabel;
     @FXML
     private Label nameLabel;
     @FXML
     private Label timeLabel;
-    @FXML
-    private ListView<Account> accountListView;
     @FXML
     private ImageView imageUserView;
     @FXML
@@ -40,7 +37,6 @@ public class UserStatus {
     private TableView<Account> accountTableView;
     private Datasource<AccountList> accountListDatasource;
     private AccountList accountList;
-    private Account account;
     private Account user;
     private Account selectedAccount;
     private Object[] objects;
@@ -56,7 +52,7 @@ public class UserStatus {
     @FXML
     private void initialize() {
         objects = (Object[]) FXRouter.getData();
-        account = (Account) objects[0];
+        user = (Account) objects[0];
         isLightTheme = (Boolean) objects[1];
         loadTheme(isLightTheme);
 
