@@ -109,7 +109,7 @@ public class CreateTeamController {
 
     public void clearInfo() {
         nameLabel.setText("");
-        timeStopLabel.setText("");
+        timeStartLabel.setText("");
         timeStopLabel.setText("");
     }
 

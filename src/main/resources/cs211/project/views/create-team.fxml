@@ -52,7 +52,7 @@
          </font>
       </Label>
       <TextField fx:id="numberOfTeamMemberTextField" layoutX="572.0" layoutY="285.0" prefHeight="20.0" prefWidth="102.0" styleClass="search-box" />
-      <Button layoutX="448.0" layoutY="322.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="25.0" prefWidth="90.0" styleClass="default-button" text="Create team" />
+      <Button layoutX="448.0" layoutY="322.0" mnemonicParsing="false" onAction="#createTeam" prefHeight="25.0" prefWidth="123.0" styleClass="default-button" text="Create team" />
       <Label layoutX="451.0" layoutY="217.0" text="Time Stop :">
          <font>
             <Font size="14.0" />

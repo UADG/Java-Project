@@ -179,7 +179,7 @@ public class ActivityListFileDatasource implements Datasource<ActivityList>{
             bufferedWriter.write("");
             for(int i = 0;i<allInfo.size();i++){
                 String[] newLine = allInfo.get(i);
-                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7]+","+newLine[8]+","+newLine[9]+","+newLine[10];
+                String writeLine = newLine[0]+","+newLine[1]+","+newLine[2]+","+newLine[3]+","+newLine[4]+","+newLine[5]+","+newLine[6]+","+newLine[7]+","+newLine[8]+","+newLine[9];
                 bufferedWriter.append(writeLine);
                 bufferedWriter.append("\n");
             }
