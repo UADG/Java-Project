@@ -30,6 +30,7 @@ public class LoginPageController {
     private AccountList accountList;
     private Account account;
     private Object[] objects;
+    private Alert alert;
     private DateTimeFormatter formatter;
     private boolean isLightTheme;
     private String cssPath;
@@ -116,6 +117,20 @@ public class LoginPageController {
     @FXML
     private void onAboutUsClick()throws IOException{
         FXRouter.goTo("about-us", isLightTheme);
+    }
+    @FXML
+    private void onTipsClick(){
+        alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Tips");
+        alert.setHeaderText(null);
+        alert.setContentText("1) ห้ามใช้ , (comma) ในการกรอกข้อมูลตัวอักษรในโปรแกรมโดยเด็ดขาด\n" +
+                "2) ใช้รูปภาพนามสกุลไฟล์ .jpg, .jpeg, .png, .gif เท่านั้นในการตั้งรูปภาพ");
+        DialogPane dialogPane = alert.getDialogPane();
+        dialogPane.getStylesheets().add(
+                getClass().getResource("/cs211/project/views/st-theme.css").toExternalForm()
+        );
+        dialogPane.getStyleClass().add("custom-alert");;
+        alert.showAndWait();
     }
 
     private void loadTheme(Boolean theme) {

@@ -36,6 +36,7 @@
             <ImageView fx:id="imageView" fitHeight="208.0" fitWidth="208.0" layoutX="9.0" layoutY="196.0" pickOnBounds="true" preserveRatio="true" />
          </children>
       </Pane>
-      <Button layoutX="615.0" layoutY="10.0" mnemonicParsing="false" onAction="#onAboutUsClick" styleClass="default-button" text="About Us" />
+      <Button layoutX="642.0" layoutY="10.0" mnemonicParsing="false" onAction="#onTipsClick" styleClass="default-button" text="Tips" />
+      <Button layoutX="235.0" layoutY="9.0" mnemonicParsing="false" onAction="#onAboutUsClick" styleClass="default-button" text="About Us" />
    </children>
 </AnchorPane>
