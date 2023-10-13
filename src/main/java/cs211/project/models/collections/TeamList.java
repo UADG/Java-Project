@@ -2,27 +2,22 @@ package cs211.project.models.collections;
 
 import java.util.ArrayList;
 import cs211.project.models.*;
-import cs211.project.services.DummyTeam01;
-import cs211.project.services.TeamListHardCode;
 
 public class TeamList {
     private ArrayList<Team> teams;
+    private int numberOfStaffLeft;
+    private String name;
+    private Team exist;
+    private boolean first;
+    private Team lowest;
+    private int min;
+    private int result;
     public TeamList(){
         teams = new ArrayList<>();
     }
 
-    public void addTeam(String name, int num){
-        name = name.trim();
-        if(!name.equals("")){
-            Team exist = checkTeamExist(name);
-            if(exist == null){
-                teams.add(new Team(name, num));
-            }
-        }
-    }
-
     public void addTeam(Team team){
-        String name = team.getTeamName().trim();
+        name = team.getTeamName().trim();
         if(!name.equals("")){
             Team exist = checkTeamExist(name);
             if(exist == null){
@@ -30,7 +25,14 @@ public class TeamList {
             }
         }
     }
-
+    public void deleteTeam(Event event, String teamName){
+        for(Team team: teams){
+            if(team.getTeamName().contains(teamName) && team.getEvent().getEventName().contains(event.getEventName())){
+                teams.remove(team);
+                break;
+            }
+        }
+    }
 
     public Team checkTeamExist(String name){
         for(Team team : teams){
@@ -39,6 +41,57 @@ public class TeamList {
             }
         }
         return null;
+    }
+
+    public Team findLowestStaffTeam(){
+        first = true;
+        lowest = null;
+        min = 0;
+        result = 0;
+
+        if(teams.isEmpty()) return null;
+        else{
+            for(Team team : teams){
+                if(team.getNumberOfStaffLeft() > 0){
+                    if(first){
+                        min = team.getNumberOfStaff()-team.getNumberOfStaffLeft();
+                        first = false;
+                    }
+                    result = team.getNumberOfStaff()-team.getNumberOfStaffLeft();
+
+                    if(result<=min){
+                        min = result;
+                        lowest = team;
+                    }
+                }
+            }
+
+
+            return lowest;
+        }
+    }
+
+    public void addCommentInTeam(String teamName, String comment) {
+        teamName = teamName.trim();
+        comment = comment.trim();
+        if (!teamName.equals("") && !comment.equals("")) {
+            exist = checkTeamExist(teamName);
+            if (exist != null) {
+                exist.addComment(comment);
+            }
+        }
+
+    }
+
+    public int allNumberOfStaffLeft(String eventName) {
+        numberOfStaffLeft = 0;
+        eventName = eventName.trim();
+        for(Team team : teams) {
+            if (team.getEvent().getEventName().equals(eventName)) {
+                numberOfStaffLeft += team.getNumberOfStaffLeft();
+            }
+        }
+        return numberOfStaffLeft;
     }
 
     public ArrayList<Team> getTeams(){

@@ -1,4 +1,4 @@
-module cs211.project.cs211661project {
+module cs211.project {
     requires javafx.controls;
     requires javafx.fxml;
 
@@ -7,4 +7,5 @@ module cs211.project.cs211661project {
     exports cs211.project.cs211661project;
     exports cs211.project.controllers;
     opens cs211.project.controllers to javafx.fxml;
+    exports cs211.project.models;
 }

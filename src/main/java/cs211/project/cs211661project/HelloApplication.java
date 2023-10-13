@@ -13,11 +13,12 @@ public class HelloApplication extends Application {
 
         FXRouter.bind(this, stage, "CS211 661 Project");
         FXRouter.goTo("login-page");
+        stage.setResizable(false);
     }
 
     private static void configRoute() {
         String viewPath = "cs211/project/views/";
-        FXRouter.when("hello", viewPath + "hello-view.fxml");
+        FXRouter.setAnimationType("fade",200.00);
         FXRouter.when("login-page", viewPath + "login-page.fxml");
         FXRouter.when("profile-setting", viewPath + "profile-setting.fxml");
         FXRouter.when("re-password", viewPath + "re-password.fxml");
@@ -32,13 +33,13 @@ public class HelloApplication extends Application {
         FXRouter.when("comment-activity", viewPath+"comment-activity.fxml");
         FXRouter.when("create-team", viewPath+"create-team.fxml");
         FXRouter.when("create-schedule", viewPath+"create-schedule.fxml");
-        FXRouter.when("fix-team-schedule", viewPath+"fix-team-schedule.fxml");
+        FXRouter.when("fix-team-schedule", viewPath+"fix-schedule.fxml");
         FXRouter.when("create-event", viewPath+"create-event.fxml");
         FXRouter.when("edit-event", viewPath+"edit-event.fxml");
         FXRouter.when("event-history", viewPath+"event-history.fxml");
         FXRouter.when("finish-activity", viewPath+"finish-activity.fxml");
-        FXRouter.when("home-page", viewPath+"home-page.fxml");
         FXRouter.when("user-status", viewPath+"user-status.fxml");
+        FXRouter.when("about-us", viewPath+"about-us.fxml");
     }
 
 

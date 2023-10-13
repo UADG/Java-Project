@@ -1,53 +1,75 @@
 package cs211.project.models;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
-import cs211.project.services.ActivityHardCode;
+
+import cs211.project.models.collections.ActivityList;
+import cs211.project.models.collections.TeamList;
+import cs211.project.services.*;
 
 public class Event {
     private String eventName;
-    private String startDate ;
-    private String endDate;
+    private LocalDate startDate ;
+    private LocalDate endDate;
     private String startTime;
     private String endTime;
     private int ticket;
-    private int participantNum;
     private String detail;
-    private String timeTeam;
-    private String timeParticipant;
+    private LocalDate startJoinDate;
+    private LocalDate endJoinDate;
+    private LocalDate teamStartDate;
+    private LocalDate teamEndDate;
     private int ticketBuy;
-    private int participantJoin;
+    private String eventManager;
+    private String picURL;
+    private ActivityList activities;
+    private TeamList teams;
     private ArrayList<String> arrayStartTimeActivity;
-    private ArrayList<String> arrayEndTimeActivity;
-    private ArrayList<String> arrayDateActivity;
+    private TeamListFileDatasource data;
+    private TeamList list;
+    private ArrayList<String> nameTeamInEvent;
+    private ArrayList<String> arrayMinute;
+    private EventListFileDatasource eventListFileDatasource;
+    private LocalTime startLocalTime;
+    private LocalDate localDate;
+    private LocalTime endLocalTime;
+    private LocalDateTime end;
+    private ActivityListFileDatasource activityListFileDatasource;
+    private LocalDateTime startLocalDateTime;
+    private LocalDateTime endLocalDateTime;
 
-
-    private ArrayList<ArrayList<String >> arr ;
-
-    public Event(String eventName, String startDate, String endDate, String startTime, String endTime,
-                 int ticket, int participantNum, String detail, String timeTeam, String timeParticipant){
+public Event(String eventName, LocalDate startDate, LocalDate endDate, String startTime, String endTime,
+             int ticket, String detail, LocalDate startJoinDate, LocalDate endJoinDate,int ticketBuy, String picURL, String eventManager,LocalDate teamStartDate, LocalDate teamEndDate){
         this.eventName = eventName;
         this.startDate = startDate;
         this.endDate = endDate;
         this.startTime =startTime;
         this.endTime = endTime;
         this.ticket = ticket;
-        this.participantNum = participantNum;
         this.detail = detail;
-        this.timeTeam = timeTeam;
-        this.timeParticipant = timeParticipant;
-        ticketBuy = 0;
-        participantJoin = 0;
-        ActivityHardCode datasource = new ActivityHardCode();
-        arr = datasource.readData();
+        this.startJoinDate = startJoinDate;
+        this.endJoinDate = endJoinDate;
+        this.ticketBuy = ticketBuy;
+        this.eventManager = eventManager;
+        this.picURL = picURL;
+        this.teamStartDate = teamStartDate;
+        this.teamEndDate = teamEndDate;
     }
 
-    public String getEventName(){
+    public Event(String eventName){
+        this.eventName = eventName;
+        loadEventInfo();
+    }
+
+    public String getEventName() {
         return eventName;
     }
-    public String getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
-    public String getEndDate() {
+    public LocalDate getEndDate() {
         return endDate;
     }
     public String getStartTime() {
@@ -59,25 +81,34 @@ public class Event {
     public int getTicket() {
         return ticket;
     }
-    public int getParticipantNum() {
-        return participantNum;
-    }
     public String getDetail() {
         return detail;
     }
-    public String getTimeTeam() {
-        return timeTeam;
+    public LocalDate getStartJoinDate(){
+        return startJoinDate;
     }
-    public String getTimeParticipant() {
-        return timeParticipant;
+    public LocalDate getEndJoinDate(){
+        return endJoinDate;
     }
+    public int getTicketBuy() {
+        return ticketBuy;
+    }
+    public String getEventManager(){return eventManager;}
+    public String getPicURL() {
+        return picURL;
+    }
+    public LocalDate getTeamStartDate(){return teamStartDate;};
+    public LocalDate getTeamEndDate() {
+        return teamEndDate;
+    }
+
     public void setEventName(String eventName) {
         this.eventName = eventName;
     }
-    public void setStartDate(String startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
-    public void setEndDate(String endDate) {
+    public void setEndDate(LocalDate endDate) {
         this.endDate = endDate;
     }
     public void setStartTime(String startTime) {
@@ -89,48 +120,154 @@ public class Event {
     public void setTicket(int ticket) {
         this.ticket = ticket;
     }
-    public void setParticipantNum(int participantNum) {
-        this.participantNum = participantNum;
-    }
     public void setDetail(String detail) {
         this.detail = detail;
     }
-    public void setTimeTeam(String timeTeam) {
-        this.timeTeam = timeTeam;
+
+    public void setStartJoinDate(LocalDate startJoinDate) {
+        this.startJoinDate = startJoinDate;
     }
-    public void setTimeParticipant(String timeParticipant) {
-        this.timeParticipant = timeParticipant;
+
+    public void setEndJoinDate(LocalDate endJoinDate) {
+        this.endJoinDate = endJoinDate;
     }
-    public void ticketBuy(){ticketBuy += 1;
+
+    public void setPicURL(String picURL) {
+        this.picURL = picURL;
     }
-    public int getTicketLeft(){return ticket - ticketBuy;}
-    public int getParticipantLeft(){return participantNum-participantJoin;}
-    public void participantJoin(){participantJoin += 1;}
-    public ArrayList<String> getArrayStartTimeActivity(){
-        for(int i = Integer.parseInt(startTime); i < Integer.parseInt(endTime); i++){
+
+    public void setTeamEndDate(LocalDate teamEndDate) {
+        this.teamEndDate = teamEndDate;
+    }
+
+    public void setTeamStartDate(LocalDate teamStartDate) {
+        this.teamStartDate = teamStartDate;
+    }
+
+    public void ticketBuy() {
+        ticketBuy += 1;
+    }
+
+    public void ticketCancel(){
+        ticketBuy -= 1;
+    }
+
+    public int getTicketLeft() {
+        return ticket - ticketBuy;
+    }
+
+    public ArrayList<String> getArrayHour() {
+        arrayStartTimeActivity = new ArrayList<>();
+        for (int i = 0; i < 24; i++) {
             arrayStartTimeActivity.add(String.valueOf(i));
         }
         return arrayStartTimeActivity;
     }
-    public ArrayList<String> getArrayEndTimeActivity(){
-        for(int i = Integer.parseInt(endTime); i < Integer.parseInt(endTime); i++){
-            arrayEndTimeActivity.add(String.valueOf(i));
+
+    public ArrayList<String> getArrayMinute() {
+        arrayMinute = new ArrayList<>();
+        for(int i = 0; i < 60; i++){
+            arrayMinute.add(String.valueOf(i));
         }
-        return arrayEndTimeActivity;
+        
+        return arrayMinute;
     }
-    public ArrayList<String> getArrayDate(){
-        for(int i = Integer.parseInt(startDate); i < Integer.parseInt(endDate); i++){
-            arrayDateActivity.add(String.valueOf(i));
-        }
-        return arrayDateActivity;
+
+    public ArrayList<Activity> getArrayListActivities(){
+        return activities.getActivities();
     }
-    public ArrayList<ArrayList<String >> getActivity(){
-        return arr;
+
+    public ActivityList getActivities(){
+        return activities;
     }
-    @Override
-    public String toString(){
-        return "Name: " + eventName;}
+
+    public TeamList getTeams() {
+        return teams;
+    }
+    public void addTicket() {
+        ticket += 1;
+    }
+
     public boolean isEvent(String eventName) {
         return this.eventName.equals(eventName);
+    }
+    public boolean isEventManager(String username) {
+        return this.eventManager.equals(username);
+    }
+
+    public Event loadEventInfo() {
+        eventListFileDatasource = new EventListFileDatasource("data", "event-list.csv");
+        for(Event event : eventListFileDatasource.readData().getEvents()){
+            if(event.getEventName().equals(eventName)){
+                this.eventName = event.getEventName();
+                this.startDate = event.getStartDate();
+                this.endDate = event.getEndDate();
+                this.startTime = event.getStartTime();
+                this.endTime = event.getEndTime();
+                this.ticket = event.getTicket();
+                this.detail = event.getDetail();
+                this.startJoinDate = event.getStartJoinDate();
+                this.endJoinDate = event.getEndJoinDate();
+                ticketBuy = event.getTicketLeft();
+            }
+        }
+        return this;
+    }
+
+    public ActivityList loadActivityInEvent() {
+        activityListFileDatasource = new ActivityListFileDatasource("data","activity-list.csv");
+        activities = activityListFileDatasource.readData();
+        activities.findActivityInEvent(eventName);
+
+        return activities;
+    }
+
+    public TeamList loadTeamInEvent() {
+        loadActivityInEvent();
+        data = new TeamListFileDatasource("data", "team.csv");
+        list = data.readData();
+        nameTeamInEvent = new ArrayList<>();
+        teams = new TeamList();
+        for(Team team : list.getTeams()){
+            if(team.getEvent().getEventName().equals(eventName)){
+                teams.addTeam(team);
+            }
+        }
+
+        return  teams;
+    }
+    public Boolean checkParticipantIsFull(){
+        loadActivityInEvent();
+        for(Activity activity: activities.getActivities()){
+            if(activity.getParticipantName().equals("")){
+                return true;
+            }
+        }
+        return false;
+    }
+    public Boolean checkTimeActivity(LocalDateTime startActivityTime, LocalDateTime endActivityTime) {
+        startLocalTime = LocalTime.parse(startTime);
+        localDate = startDate;
+        endLocalTime = LocalTime.parse(endTime);
+        end = LocalDateTime.of(endDate, endLocalTime);
+
+        while (!localDate.isAfter(endDate)) {
+            startLocalDateTime = LocalDateTime.of(localDate, startLocalTime);
+            if(startLocalDateTime.getHour() > end.getHour()){
+                endLocalDateTime = LocalDateTime.of(LocalDate.from(startLocalDateTime).plusDays(1), endLocalTime);
+            }
+            else{
+                endLocalDateTime = LocalDateTime.of(LocalDate.from(startLocalDateTime), endLocalTime);
+            }
+            if (!startLocalDateTime.isAfter(startActivityTime) && endLocalDateTime.isAfter(startActivityTime) && startLocalDateTime.isBefore(endActivityTime) && !endLocalDateTime.isBefore(endActivityTime)) {
+                return true;
+            }
+            localDate = localDate.plusDays(1);
+        }
+        return false;
+    }
+    @Override
+    public String toString() {
+        return eventName;
     }
 }
