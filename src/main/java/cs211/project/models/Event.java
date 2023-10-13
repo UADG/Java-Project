@@ -169,6 +169,7 @@ public Event(String eventName, LocalDate startDate, LocalDate endDate, String st
         for(int i = 0; i < 60; i++){
             arrayMinute.add(String.valueOf(i));
         }
+        
         return arrayMinute;
     }
 
